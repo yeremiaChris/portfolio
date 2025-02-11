@@ -53,7 +53,7 @@ export const MainBanner = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="scroll-m-20 text-2xl md:text-4xl bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-extrabold tracking-tight lg:text-5xl"
+              className="scroll-m-20 text-xl md:text-2xl bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-extrabold tracking-tight lg:text-3xl"
             >
               Software Engineer
             </motion.h2>
@@ -61,7 +61,7 @@ export const MainBanner = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="mt-5 text-neutral-500 text-sm md:text-base"
+              className="mt-5  text-sm md:text-base"
             >
               Passionate Front-End Developer with 3+ years of expertise in
               JavaScript/TypeScript, specializing

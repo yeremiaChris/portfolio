@@ -138,7 +138,7 @@ export const Header = () => {
         </motion.div>
 
         <nav role="navigation" aria-label="Main navigation">
-          <ul className="hidden md:flex text-sm gap-10 text-neutral-400 font-semibold">
+          <ul className="hidden md:flex text-sm gap-10 bg-neutral-900 px-5 py-3 rounded-lg text-neutral-400 font-semibold">
             {menuItems.map((item) => (
               <li key={item.label}>
                 <Link

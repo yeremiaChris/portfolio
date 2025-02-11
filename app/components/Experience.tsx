@@ -111,7 +111,7 @@ export const Experience = () => {
       description:
         "PT Selalu Siap Solusi (KiriminAja) is a logistics technology company specializing in shipping service aggregation. Based in Yogyakarta, KiriminAja provides efficient and effective delivery solutions for businesses, including regular, instant, cargo, and bulk shipments. With mobile and web platforms, KiriminAja simplifies logistics management, helping businesses optimize their shipping processes.",
       responsibilities: [
-        "Led development of multiple web applications using React.js and Next.js, ensuring high performance and maintainability",
+        "Led development of multiple web applications using VueJS and NuxtJS, ensuring high performance and maintainability",
         "Implemented pixel-perfect UI components from Figma designs while maintaining responsive design principles",
         "Integrated RESTful APIs and third-party services to create seamless user experiences",
         "Collaborated effectively in an agile team environment, participating in code reviews and technical discussions",
@@ -130,7 +130,7 @@ export const Experience = () => {
       description:
         "PT Idekreatif Menusa Teknologi (iCreativeLabs) is a digital transformation company that bridges business vision with innovative technology. With over 13 years of experience, we have completed 150+ projects for 70+ clients, delivering impactful IT solutions. Committed to excellence, innovation, and customer satisfaction, we help businesses grow through cutting-edge digital strategies.",
       responsibilities: [
-        "Led development of multiple web applications using React.js and Next.js, ensuring high performance and maintainability",
+        "Led development of multiple web applications using React.js, VueJs, Next.js, NuxtJs, React Native, ensuring high performance and maintainability",
         "Implemented pixel-perfect UI components from Figma designs while maintaining responsive design principles",
         "Integrated RESTful APIs and third-party services to create seamless user experiences",
         "Collaborated effectively in an agile team environment, participating in code reviews and technical discussions",

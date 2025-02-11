@@ -6,7 +6,6 @@ import { About } from "./components/About";
 import { Experience } from "./components/Experience";
 import { Projects } from "./components/Projects";
 import { Shape } from "./components/icon/Shape";
-import { Star } from "./components/icon/Star";
 
 export const metadata = {
   title: "Yeremia Chris Saragi | Frontend Web Developer",
@@ -41,7 +40,7 @@ export default function Home() {
         <div className="absolute text-neutral-900 bottom-0 right-0">
           <Shape />
         </div>
-        <Star />
+
         <Header />
         <MainBanner />
       </div>

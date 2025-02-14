@@ -74,7 +74,7 @@ export const About = () => {
     <motion.section
       {...defaultMotionProps}
       id="about"
-      className="max-w-5xl mb-20 mt-20 self-center space-y-5 px-5 mx-auto text-white scroll-mt-28"
+      className="max-w-6xl mb-20 mt-20 self-center space-y-5 px-5 mx-auto text-white scroll-mt-28"
     >
       <motion.div
         {...defaultMotionProps}
@@ -97,14 +97,14 @@ export const About = () => {
         className="mb-4"
       >
         <h2 className="text-xl font-bold">Yeremia Chris Saragi</h2>
-        <p className="text-neutral-400 text-sm bg-gradient-to-r from-neutral-400 via-green-400 to-neutral-400 text-transparent bg-clip-text bg-300% animate-shine">
+        <p className="text-neutral-400 text-sm bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-medium">
           Frontend Web Developer at PrimaKu
         </p>
       </motion.div>
       <motion.p
         {...defaultMotionProps}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="text-neutral-400 text-sm"
+        className="text-white text-sm"
       >
         Hello! You can call me Yeremia. I am a Software Engineer who works with
         the React ecosystem, specializing in building modern and responsive web

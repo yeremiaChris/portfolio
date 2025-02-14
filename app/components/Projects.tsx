@@ -61,7 +61,7 @@ const ProjectItem = ({
         <>
           <motion.div {...contentAnimationProps} className="space-y-5">
             <h2 className="text-2xl font-bold">{title}</h2>
-            <p className="text-sm text-neutral-400">{description}</p>
+            <p className="text-sm text-white">{description}</p>
             <p className="text-neutral-400 text-sm">Tools: {tools}</p>
             <Button asChild>
               <Link href={link} target="_blank">
@@ -102,7 +102,7 @@ const ProjectItem = ({
           </motion.div>
           <motion.div {...contentAnimationProps} className="space-y-5">
             <h2 className="text-2xl font-bold">{title}</h2>
-            <p className="text-sm text-neutral-400">{description}</p>
+            <p className="text-sm text-white">{description}</p>
             <p className="text-neutral-400 text-sm">Tool: {tools}</p>
             <Button asChild>
               <Link href={link} target="_blank">
@@ -159,7 +159,7 @@ export const Projects = () => {
   return (
     <section
       id="projects"
-      className="text-white mt-10 max-w-5xl mx-auto px-5 pb-10 scroll-mt-24"
+      className="text-white mt-10 max-w-6xl mx-auto px-5 pb-10 scroll-mt-24"
     >
       <motion.div
         {...defaultMotionProps}

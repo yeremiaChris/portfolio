@@ -58,10 +58,10 @@ const ExperienceItem = ({
         <span>-</span>
         <span>{location}</span>
       </div>
-      <p className="mt-2 text-neutral-400 text-sm">{description}</p>
+      <p className="mt-2 text-white text-sm">{description}</p>
 
       <div className="mt-5 space-y-3 [&>ul]:list-disc [&>ul]:list-outside [&>ul]:space-y-1.5 [&>ul]:pl-3">
-        <ul className="space-y-3 text-neutral-400 text-sm">
+        <ul className="space-y-3 text-white text-sm">
           {responsibilities.map((responsibility, index) => (
             <motion.li
               key={index}
@@ -142,7 +142,7 @@ export const Experience = () => {
   return (
     <section
       id="experience"
-      className="text-white max-w-5xl mx-auto px-5 pb-10 scroll-mt-24"
+      className="text-white max-w-6xl mx-auto px-5 pb-10 scroll-mt-24"
     >
       <motion.div
         {...defaultMotionProps}

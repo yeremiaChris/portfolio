@@ -9,7 +9,12 @@ import {
 } from "@radix-ui/react-tooltip";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { EMAIL_URL, GITHUB_URL, LINKEDIN_URL } from "../constant/constant";
+import {
+  EMAIL_URL,
+  GITHUB_URL,
+  LINKEDIN_URL,
+  RESUME_URL,
+} from "../constant/constant";
 export const MainBanner = () => {
   return (
     <div className="px-5 relative md:mt-5">
@@ -123,7 +128,7 @@ export const MainBanner = () => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href={EMAIL_URL}>
+                  <Link href={EMAIL_URL} target="_blank">
                     <Mail
                       className="hover:text-green-400 cursor-pointer duration-300"
                       size={18}
@@ -139,16 +144,18 @@ export const MainBanner = () => {
             </TooltipProvider>
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger>
-                  <FileUser
-                    className="hover:text-green-400 cursor-pointer duration-300"
-                    size={18}
-                  />
-                  <TooltipContent>
-                    <p className="border border-neutral-700 rounded-full mb-2 px-1.5">
-                      Resume
-                    </p>
-                  </TooltipContent>
+                <TooltipTrigger asChild>
+                  <Link href={RESUME_URL} target="_blank">
+                    <FileUser
+                      className="hover:text-green-400 cursor-pointer duration-300"
+                      size={18}
+                    />
+                    <TooltipContent>
+                      <p className="border border-neutral-700 rounded-full mb-2 px-1.5">
+                        Resume
+                      </p>
+                    </TooltipContent>
+                  </Link>
                 </TooltipTrigger>
               </Tooltip>
             </TooltipProvider>

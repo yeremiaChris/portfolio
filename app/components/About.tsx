@@ -106,23 +106,24 @@ export const About = () => {
         transition={{ duration: 0.8, delay: 0.6 }}
         className="text-white text-sm"
       >
-        Hello! You can call me Yeremia. I am a Software Engineer who works with
-        the React ecosystem, specializing in building modern and responsive web
-        applications.
-        <br />
-        <br />
-        I was born in 2000 in Kabanjahe, Sumatera Utara, Indonesia. When the
-        pandemic hit in 2020, my university was closed for a few weeks, and I
-        started to learn web development, especially front-end development, out
-        of boredom.
-        <br />
-        <br />
-        As part of my learning journey, I&apos;ve been working on various
-        projects to apply and strengthen my knowledge. I am passionate about
-        building web applications and continuously learning new technologies.
-        <br />
-        <br />
-        As a software engineer, here are my current favorite tech stack:
+        Hello! You can call me Yeremia. I am a Software Engineer specializing in
+        the React ecosystem, focusing on building modern and responsive web
+        applications. I was born in 2000 in Kabanjahe, Sumatera Utara,
+        Indonesia. When the pandemic hit in 2020, my university closed for a few
+        weeks, and out of boredom, I started learning web development, beginning
+        with the basics like HTML, CSS, JavaScript, and Bootstrap, following the
+        roadmap from roadmap.sh. <br /> <br /> After laying the foundation, I
+        dove into backend development, learning Python with Flask and Django. I
+        also explored Laravel. However, by 2021, I noticed the rise of
+        JavaScript frameworks, especially React and Vue, with abundant job
+        opportunities in that space. I shifted my focus to mastering React and
+        Next.js, including React Native, as well as Vue.js and Nuxt.js. <br />
+        <br /> Through this journey, I was able to secure my first job as a
+        frontend engineer. As part of my learning journey, I&apos;ve been
+        working on various projects to apply and strengthen my knowledge. I am
+        passionate about building web applications and continuously learning new
+        technologies. As a software engineer, here are my current favorite tech
+        stack:
       </motion.p>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">

@@ -15,6 +15,7 @@ html {
 body {
   font-family: "Fira Sans", serif;
   font-family: "Rethink Sans", serif;
+  /* @apply bg-gradient-to-l from-neutral-950 to-[#0a0e13]; */
 }
 
 @layer base {

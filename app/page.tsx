@@ -37,6 +37,7 @@ export default function Home() {
   return (
     <>
       <div className="h-screen flex flex-col justify-center relative">
+        <div className="absolute inset-0" />
         <Header />
         <div className="absolute md:hidden text-neutral-900 bottom-0 right-0">
           <Shape />
@@ -46,8 +47,10 @@ export default function Home() {
           aria-label="Introduction"
           className="max-w-6xl flex items-center justify-between w-full mx-auto text-white"
         >
-          <MainBanner />
-          <div className="text-neutral-900 -ml-48 hidden md:block">
+          <div className="relative z-20">
+            <MainBanner />
+          </div>
+          <div className="text-neutral-900 -ml-48 relative hidden md:block">
             <Shape />
           </div>
         </section>

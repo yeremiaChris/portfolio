@@ -18,28 +18,34 @@ import {
 export const MainBanner = () => {
   return (
     <div className="px-5 relative md:mt-5">
-      <motion.p
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-green-400 tracking-widest"
+        className="text-green-400 flex group tracking-widest"
       >
-        <span className="inline-flex">
-          {"Hi, my name is".split("").map((char, index) => (
-            <motion.span
-              key={index}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                duration: 0.1,
-                delay: index * 0.1,
-              }}
-            >
-              {char === " " ? "\u00A0" : char}
-            </motion.span>
-          ))}
-        </span>
-      </motion.p>
+        <div className="flex items-center gap-3 bg-gradient-to-r from-purple-950 to-[15%] pr-16 to-transparent rounded-l-full pl-5 py-4">
+          <div className="relative">
+            <div className="w-3 h-3 bg-green-700 rounded-full" />
+            <div className="absolute inset-0 group-hover:-inset-0.5 bg-green-200 blur rounded-full transition-all duration-300" />
+          </div>
+          <div>
+            {"Hi, my name is".split("").map((char, index) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: 0.1,
+                  delay: index * 0.1,
+                }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </div>
+        </div>
+      </motion.div>
 
       <div className="mt-5 flex flex-col md:flex-row">
         <div className="space-y-5">
@@ -81,7 +87,7 @@ export const MainBanner = () => {
                 Experience <Contact className="text-neutral-500" />
               </Link>
             </Button>
-            <Button asChild className="md:p-6 rounded-lg">
+            <Button asChild className="md:p-6 rounded-lg ">
               <Link href="#about">More About Me</Link>
             </Button>
           </motion.div>

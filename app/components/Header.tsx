@@ -18,7 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Logo } from "./icon/Logo";
+// import { Logo } from "./icon/Logo";
 
 const menuItems = [
   { href: "/", label: "Home", isActive: true },

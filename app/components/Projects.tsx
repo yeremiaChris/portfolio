@@ -1,9 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+import { Calendar, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const defaultMotionProps = {
   initial: { opacity: 0, y: 20 },
@@ -35,6 +44,8 @@ interface ProjectItemProps {
   link: string;
 }
 
+// depricated
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ProjectItem = ({
   title,
   description,
@@ -116,6 +127,52 @@ const ProjectItem = ({
   );
 };
 
+const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
+  return (
+    <Card className="bg-transparent rounded-2xl p-0 text-white border-none overflow-hidden">
+      <CardHeader className="p-3 rounded-2xl bg-neutral-900">
+        <Link
+          href={props.link}
+          className="relative hover:scale-110 transition-all duration-300 h-44 overflow-hidden"
+        >
+          <Image
+            src={props.imageSrc}
+            fill
+            alt={props.imageAlt}
+            className="rounded-lg transition-all duration-300 brightness-90 group-hover:brightness-110 group-hover:contrast-110 group-hover:scale-105"
+          />
+        </Link>
+      </CardHeader>
+
+      <CardContent className="px-0 mt-3 space-y-2 pb-3">
+        <CardTitle className="text-lg space-x-3">
+          <span>{props.title}</span>
+          <Badge className="text-white" variant="outline">
+            #work
+          </Badge>
+        </CardTitle>
+        <CardDescription
+          title={props.description}
+          className="text-white line-clamp-3"
+        >
+          {props.description}
+        </CardDescription>
+      </CardContent>
+
+      <CardFooter className="px-0 pb-3 mt-1 items-center flex justify-between">
+        <div className="flex items-center gap-3">
+          <Calendar width={15} />
+          #2025
+        </div>
+        <Button asChild>
+          <Link href={props.link} target="_blank">
+            Open Site <ExternalLink />
+          </Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+};
 export const Projects = () => {
   const projects: ProjectItemProps[] = [
     {
@@ -175,9 +232,9 @@ export const Projects = () => {
         </p>
       </motion.div>
 
-      <div className="space-y-14">
+      <div className="grid md:grid-cols-3 gap-4">
         {projects.map((project, index) => (
-          <ProjectItem key={project.title} {...project} index={index} />
+          <ProjectItemV2 key={project.title} {...project} index={index} />
         ))}
       </div>
     </section>

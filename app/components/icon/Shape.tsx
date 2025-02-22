@@ -224,7 +224,7 @@ export const Shape = () => {
       </svg>
       <div className="absolute pt-3 right-0 z-10 inset-0 flex items-center justify-center">
         <div className=" group">
-          <div className="space-y-6 p-4 rounded-full group-hover:scale-75 transition-all duration-1000 group-hover:rotate-[405deg]">
+          <div className="space-y-6 p-4 rounded-full group-hover:scale-110 transition-all duration-1000">
             <div className="gap-3 flex items-center justify-center">
               <svg
                 width="32"

@@ -18,17 +18,18 @@ import {
 export const MainBanner = () => {
   return (
     <div className="px-5 relative md:mt-5">
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="text-green-400 flex group tracking-widest"
       >
-        <div className="flex items-center gap-3 bg-gradient-to-r from-purple-950 to-[15%] pr-16 to-transparent rounded-l-full pl-5 py-4">
+        <div className="flex items-center gap-3">
           <div className="relative">
             <div className="w-3 h-3 bg-green-700 rounded-full" />
             <div className="absolute inset-0 group-hover:-inset-0.5 bg-green-200 blur rounded-full transition-all duration-300" />
           </div>
+
           <div>
             {"Hi, my name is".split("").map((char, index) => (
               <motion.span
@@ -45,7 +46,11 @@ export const MainBanner = () => {
             ))}
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
+      <Button className="flex items-center gap-3">
+        <span>💅</span>
+        <span>Frontend Web Developer</span>
+      </Button>
 
       <div className="mt-5 flex flex-col md:flex-row">
         <div className="space-y-5">
@@ -55,26 +60,26 @@ export const MainBanner = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="scroll-m-20 text-neutral-200 text-4xl md:text-5xl font-extrabold tracking-tight lg:text-6xl"
           >
-            Yeremia Chris Saragi
+            Hi, I&apos;m Yeremia
           </motion.h1>
-          <motion.h2
+          {/* <motion.h2
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             className="scroll-m-20 text-xl md:text-2xl bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-extrabold tracking-tight lg:text-3xl"
           >
             Software Engineer
-          </motion.h2>
+          </motion.h2> */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
             className="mt-5  text-sm md:text-base"
           >
-            Passionate Front-End Developer with 3+ years of expertise in
-            JavaScript/TypeScript, specializing in Next.js & Nuxt.js. Committed
-            to crafting exceptional digital experiences and driven to deliver
-            impactful solutions as part of your team.
+            Software engineer with proven expertise in developing user-focused
+            applications from concept to deployment, enhancing performance and
+            scalability, executing tech stack upgrades, and maintaining high
+            standards of code quality.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

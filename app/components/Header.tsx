@@ -90,17 +90,6 @@ export const Header = () => {
         className="max-w-6xl w-full py-5 md:py-3 px-5 text-white mx-auto flex  items-center justify-between"
       >
         <div className="rounded-full group relative">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{
-              type: "spring",
-              stiffness: 260,
-              damping: 20,
-            }}
-            aria-label="Logo"
-            className="bg-white absolute inset-0 blur group-hover:-inset-0.5 transition-all duration-300"
-          />
           <Link href="/" className="relative">
             <motion.div
               initial={{ scale: 0 }}
@@ -113,7 +102,8 @@ export const Header = () => {
               aria-label="Logo"
               className="bg-neutral-700 p-1 font-bold cursor-pointer text-2xl w-8 h-8 flex items-center justify-center rounded-full text-center hover:bg-neutral-600 hover:scale-110 transition-all duration-300 select-none"
             >
-              <Logo />
+              {/* <Logo /> */}
+              Yeremia
             </motion.div>
           </Link>
         </div>

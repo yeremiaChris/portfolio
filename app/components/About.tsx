@@ -129,15 +129,16 @@ export const About = () => {
             style={{
               aspectRatio: "1/1",
             }}
-            className="relative h-full w-full md:w-auto max-h-[300px] rounded-3xl transform rotate-3 "
+            className="relative h-full w-full md:w-auto max-h-[350px] rounded-3xl transform rotate-3 "
           >
             <div className="absolute w-20 h-20 bg-green-500 -right-1 -top-1 rounded-tr-3xl" />
             <div className="absolute w-20 h-20 bg-green-500 -left-1 -bottom-1 rounded-bl-3xl" />
+
             <Image
               src="/yeremia.jpg"
               alt="yeremia"
               fill
-              className="rounded-3xl"
+              className="w-[300px] rounded-3xl"
             />
           </div>
         </div>

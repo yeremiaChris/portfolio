@@ -100,10 +100,9 @@ export const Header = () => {
                 damping: 20,
               }}
               aria-label="Logo"
-              className="bg-neutral-700 p-1 font-bold cursor-pointer text-2xl w-8 h-8 flex items-center justify-center rounded-full text-center hover:bg-neutral-600 hover:scale-110 transition-all duration-300 select-none"
+              className="bg-neutral-700 text-4xl font-bold cursor-pointer w-5 h-5 flex items-center justify-center rounded-full text-center hover:bg-neutral-600 hover:scale-110 transition-all duration-300 select-none"
             >
-              {/* <Logo /> */}
-              Yeremia
+              {/* <Logo /> */}Y
             </motion.div>
           </Link>
         </div>

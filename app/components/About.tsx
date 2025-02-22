@@ -124,21 +124,16 @@ export const About = () => {
           </motion.p>
         </div>
 
-        <div className="flex items-center justify-center">
-          <div
-            style={{
-              aspectRatio: "1/1",
-            }}
-            className="relative h-full w-full md:w-auto max-h-[350px] rounded-3xl transform rotate-3 "
-          >
+        <div className="md:px-28">
+          <div className="rotate-3 hover:scale-110 transition-all duration-300 relative aspect-1-1 md:aspect-none">
             <div className="absolute w-20 h-20 bg-green-500 -right-1 -top-1 rounded-tr-3xl" />
             <div className="absolute w-20 h-20 bg-green-500 -left-1 -bottom-1 rounded-bl-3xl" />
 
             <Image
-              src="/yeremia.jpg"
+              src="/yeremia-1.JPG"
               alt="yeremia"
               fill
-              className="w-[300px] rounded-3xl"
+              className="rounded-3xl"
             />
           </div>
         </div>

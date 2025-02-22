@@ -84,3 +84,12 @@ body {
     scroll-behavior: smooth;
   }
 }
+
+@layer components {
+  .aspect-1-1 {
+    aspect-ratio: 1/1 !important;
+  }
+  .aspect-none {
+    aspect-ratio: initial;
+  }
+}

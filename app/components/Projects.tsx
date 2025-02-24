@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Calendar, ExternalLink } from "lucide-react";
+import { Calendar, ExternalLink, Home } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -216,13 +216,19 @@ export const Projects = () => {
   return (
     <section
       id="projects"
-      className="text-white mt-10 max-w-6xl mx-auto px-5 pb-10 scroll-mt-24"
+      className="text-white relative mt-20 max-w-6xl mx-auto px-5 pb-10 scroll-mt-24"
     >
       <motion.div
         {...defaultMotionProps}
         transition={{ duration: 0.8, delay: 0.2 }}
         className="mb-8 space-y-2"
       >
+        <Button size="sm" asChild>
+          <Link href="/">
+            <Home />
+            Home
+          </Link>
+        </Button>
         <h2 className="md:text-5xl text-3xl font-bold">
           Proje<span className="text-green-400">cts</span>
         </h2>

@@ -18,71 +18,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePathname } from "next/navigation";
 // import { Logo } from "./icon/Logo";
 
 const menuItems = [
   { href: "/", label: "Home", isActive: true },
-  { href: "#about", label: "About" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
+  { href: "/about", label: "About" },
+  { href: "/experience", label: "Experience" },
+  { href: "/projects", label: "Projects" },
 ];
 
-const VIEWPORT_OFFSET = 130;
-
-const updateURL = (hash: string) => {
-  window.history.replaceState({}, "", hash);
-};
-
-const isElementInViewport = (element: HTMLElement) => {
-  const rect = element.getBoundingClientRect();
-  return rect.top <= VIEWPORT_OFFSET && rect.bottom >= VIEWPORT_OFFSET;
-};
-
 export const Header = () => {
-  const [activeHash, setActiveHash] = React.useState<string>("/");
-
-  React.useEffect(() => {
-    const updateActiveHash = (hash: string) => {
-      if (activeHash !== hash) {
-        setActiveHash(hash);
-        updateURL(hash);
-      }
-    };
-
-    const handleHashChange = () => {
-      setActiveHash(window.location.hash || "/");
-    };
-
-    const handleScroll = () => {
-      const sections = menuItems
-        .map((item) => item.href)
-        .filter((href) => href.startsWith("#"))
-        .map((href) => document.getElementById(href.slice(1)))
-        .filter((element): element is HTMLElement => element !== null);
-
-      const currentSection = sections.find(isElementInViewport);
-
-      if (currentSection) {
-        updateActiveHash(`#${currentSection.id}`);
-      } else if (window.scrollY === 0) {
-        updateActiveHash("/");
-      }
-    };
-
-    setActiveHash(window.location.hash || "/");
-    handleScroll();
-
-    window.addEventListener("hashchange", handleHashChange);
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [activeHash]);
-
   const [open, setOpen] = React.useState(false);
-
+  const pathname = usePathname();
   return (
     <div className="fixed z-50 top-0 right-0 left-0 bg-neutral-950">
       <header
@@ -114,7 +62,7 @@ export const Header = () => {
                 <Link
                   href={item.href}
                   className={`${
-                    activeHash === item.href ? "text-green-400" : ""
+                    pathname === item.href ? "text-green-400" : ""
                   } hover:text-green-400 duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-green-400 after:transition-all after:duration-300 hover:after:w-full`}
                   aria-label={`Go to ${item.label} section`}
                 >
@@ -138,19 +86,19 @@ export const Header = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer" asChild>
-                  <Link href="#about">
+                  <Link href="/about">
                     <AlignHorizontalDistributeCenter />
                     About
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer">
-                  <Link href="#experience">
+                  <Link href="/experience">
                     <ChartAreaIcon />
                     Experiences
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer">
-                  <Link href="#projects">
+                  <Link href="/projects">
                     <Projector />
                     Projects
                   </Link>

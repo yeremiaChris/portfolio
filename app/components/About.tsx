@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 // import {
 //   Tooltip,
 //   TooltipContent,
@@ -6,7 +7,9 @@
 //   TooltipTrigger,
 // } from "@radix-ui/react-tooltip";
 import { motion } from "framer-motion";
+import { Home, Mail } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 // import Link from "next/link";
 
 const defaultMotionProps = {
@@ -75,24 +78,31 @@ export const About = () => {
     <motion.section
       {...defaultMotionProps}
       id="about"
-      className="max-w-6xl mb-20 mt-20 self-center space-y-5 px-5 mx-auto text-white scroll-mt-28"
+      className="max-w-6xl mt-20 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
     >
-      <motion.div
-        {...defaultMotionProps}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="mb-20 space-y-2"
-      >
-        <h2 className="md:text-5xl text-3xl text-center font-bold">
-          My <span className="text-green-400">Story</span>
-        </h2>
-        <p className="text-center text-sm bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-medium">
-          Crafting digital experiences with passion and purpose
-        </p>
-      </motion.div>
-
-      <div className="grid gap-8 justify-start md:grid-cols-2">
-        <div>
+      <div className="grid w-full gap-12 justify-center items-center md:grid-cols-3">
+        <div className="md:col-span-2">
           <motion.div
+            {...defaultMotionProps}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mb-10 space-y-2"
+          >
+            <Button size="sm" asChild>
+              <Link href="/">
+                <Home />
+                Home
+              </Link>
+            </Button>
+            <h2 className="md:text-5xl text-3xl font-bold">
+              I&apos;m Yeremia Chris Saragi
+              {/* My <span className="text-green-400">Story</span> */}
+            </h2>
+            <p className="text-sm bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-medium">
+              Crafting digital experiences with passion and purpose
+            </p>
+          </motion.div>
+
+          {/* <motion.div
             {...defaultMotionProps}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -103,29 +113,80 @@ export const About = () => {
             <p className="text-neutral-400 text-sm bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-medium">
               Frontend Web Developer at PrimaKu
             </p>
-          </motion.div>
+          </motion.div> */}
 
           <motion.p
             {...defaultMotionProps}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-white text-sm"
           >
-            Hi! I&apos;m Yeremia, a Software Engineer specializing in the React
-            ecosystem. I build modern, responsive web applications using React,
-            Next.js, and React Native. I was born in 2000 in Kabanjahe, Sumatera
-            Utara, Indonesia. <br /> <br /> I started learning web development
-            in 2020 when my university closed during the pandemic. I began with
-            HTML, CSS, JavaScript, and Bootstrap, then explored backend
-            development with Python (Flask, Django) and Laravel. <br /> <br />
+            Software Engineer specializing in the React ecosystem. I build
+            modern, responsive web applications using React, Next.js and also
+            VueJs or NuxtJs. I was born in 2000 in Kabanjahe, Sumatera Utara,
+            Indonesia. <br /> <br /> I started learning web development in 2020
+            when my university closed during the pandemic. I began with HTML,
+            CSS, JavaScript, and Bootstrap, then explored backend development
+            with Python (Flask, Django) and Laravel. <br /> <br />
             In 2021, I shifted my focus to frontend frameworks like React,
             Next.js, Vue.js, and Nuxt.js. This journey led to my first job as a
             frontend engineer. I love building web applications and continuously
             learning new technologies.
           </motion.p>
+
+          <motion.div
+            {...defaultMotionProps}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-2 mt-10"
+          >
+            <h2 className="md:text-5xl mb-4 text-3xl font-bold">
+              Want to work together?
+              {/* My <span className="text-green-400">Story</span> */}
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-green-400 flex group tracking-widest"
+          >
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="w-3 h-3 bg-green-700 rounded-full" />
+                <div className="absolute inset-0 group-hover:-inset-0.5 bg-green-200 blur rounded-full transition-all duration-300" />
+              </div>
+
+              <div>
+                {"Available for hire".split("").map((char, index) => (
+                  <motion.span
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.1,
+                      delay: index * 0.1,
+                    }}
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          <Button className="mt-4" asChild>
+            <Link href="mailto:yeremia997@gmail.com">
+              <Mail /> Send me an email
+            </Link>
+          </Button>
+
+          <p className="text-sm mt-3">
+            Or copy this email manually: yeremia997@gmail.com
+          </p>
         </div>
 
-        <div className="md:px-28">
-          <div className="rotate-3 hover:scale-110 transition-all duration-300 relative aspect-1-1 md:aspect-none">
+        <div className="px-5">
+          <div className="transition-all duration-300 relative aspect-1-1">
             <div className="absolute w-20 h-20 bg-green-500 -right-1 -top-1 rounded-tr-3xl" />
             <div className="absolute w-20 h-20 bg-green-500 -left-1 -bottom-1 rounded-bl-3xl" />
 

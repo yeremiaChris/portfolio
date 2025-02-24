@@ -2,10 +2,10 @@ import { Header } from "./components/Header";
 
 import { MainBanner } from "./components/MainBanner";
 import { EmailSeparator } from "./components/EmailSeparator";
-import { About } from "./components/About";
-import { Experience } from "./components/Experience";
-import { Projects } from "./components/Projects";
-import { Shape } from "./components/icon/Shape";
+// import { About } from "./components/About";
+// import { Experience } from "./components/Experience";
+// import { Projects } from "./components/Projects";
+// import { Shape } from "./components/icon/Shape";
 
 export const metadata = {
   title: "Yeremia Chris Saragi | Frontend Web Developer",
@@ -37,11 +37,10 @@ export default function Home() {
   return (
     <>
       <div className="h-screen flex flex-col justify-center relative">
-        <div className="absolute inset-0" />
         <Header />
-        <div className="absolute md:hidden text-neutral-900 bottom-0 right-0">
+        {/* <div className="absolute md:hidden text-neutral-900 bottom-0 right-0">
           <Shape />
-        </div>
+        </div> */}
         <section
           id="banner"
           aria-label="Introduction"
@@ -50,19 +49,19 @@ export default function Home() {
           <div className="relative z-20">
             <MainBanner />
           </div>
-          <div className="text-neutral-900 -ml-48 relative hidden md:block">
+          {/* <div className="text-neutral-900 -ml-48 relative hidden md:block">
             <Shape />
-          </div>
+          </div> */}
         </section>
       </div>
 
       <EmailSeparator />
 
-      <About />
+      {/* <About />
 
       <Experience />
 
-      <Projects />
+      <Projects /> */}
     </>
   );
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SprinkleSvg from "./assets/svg/sprinkle.svg";
+import { Footer } from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="fixed flex justify-center items-center inset-0">
+          <SprinkleSvg />
+        </div>
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

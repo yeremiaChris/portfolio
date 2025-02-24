@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Home } from "lucide-react";
 
 interface ExperienceItemProps {
   date: string;
@@ -142,13 +144,19 @@ export const Experience = () => {
   return (
     <section
       id="experience"
-      className="text-white max-w-6xl mx-auto px-5 pb-10 scroll-mt-24"
+      className="text-white relative max-w-6xl mx-auto px-5 pb-10 mt-20 mb-10"
     >
       <motion.div
         {...defaultMotionProps}
         transition={{ duration: 0.8, delay: 0.2 }}
         className="mb-8  space-y-2"
       >
+        <Button size="sm" asChild>
+          <Link href="/">
+            <Home />
+            Home
+          </Link>
+        </Button>
         <h2 className="md:text-5xl text-3xl font-bold">
           Experi<span className="text-green-400">ence</span>
         </h2>

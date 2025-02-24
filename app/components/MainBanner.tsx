@@ -88,12 +88,12 @@ export const MainBanner = () => {
             className="flex gap-2 items-center"
           >
             <Button asChild className="md:p-6 rounded-lg">
-              <Link href="#experience">
+              <Link href="/experience">
                 Experience <Contact className="text-neutral-500" />
               </Link>
             </Button>
             <Button asChild className="md:p-6 rounded-lg ">
-              <Link href="#about">More About Me</Link>
+              <Link href="/about">More About Me</Link>
             </Button>
           </motion.div>
           <motion.div

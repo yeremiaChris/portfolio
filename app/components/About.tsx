@@ -139,6 +139,78 @@ export const About = () => {
             className="space-y-2 mt-10"
           >
             <h2 className="md:text-5xl mb-4 text-3xl font-bold">
+              My Daily Uses
+              {/* My <span className="text-green-400">Story</span> */}
+            </h2>
+          </motion.div>
+
+          <motion.ul
+            {...defaultMotionProps}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-2 list-disc list-outside px-7 mt-9"
+          >
+            <li>
+              <strong>Text Editor:</strong> I utilize{" "}
+              <Link
+                className="border-b italic"
+                href="https://code.visualstudio.com/"
+              >
+                Visual Studio Code (VSCode)
+              </Link>{" "}
+              as my primary text editor, leveraging its robust features and
+              versatility to enhance my workflow. I use
+            </li>
+            <li>
+              <strong>Terminal:</strong> I rely on{" "}
+              <Link
+                className="border-b italic"
+                href="https://help.gnome.org/users/gnome-terminal/stable/"
+              >
+                GNOME Terminal
+              </Link>
+              , the default terminal application on my Ubuntu laptop, for
+              efficient command-line operations.
+            </li>
+            <li>
+              <strong>Web Browser:</strong> I currently use the latest version
+              of{" "}
+              <Link
+                className="border-b italic"
+                href="https://www.mozilla.org/en-US/firefox/new/"
+              >
+                Mozilla Firefox
+              </Link>{" "}
+              as my primary browser, appreciating its speed, lightweight design,
+              and performance.
+            </li>
+            <li>
+              <strong>Laptop:</strong> I work on an{" "}
+              <Link
+                className="border-b italic"
+                href="https://www.tokopedia.com/kusumakomputer/hp-240-g8-notebook-pc-laptop-14-i3-1115g4-win-11-256gb-ssd-4gb?extParam=ivf%3Dfalse%26keyword%3Dhp+240+g8+notebook+pc%26search_id%3D20250224175814FDF26D69866B04210SOO%26src%3Dsearch"
+              >
+                HP 240 G8 Notebook PC
+              </Link>{" "}
+              , which serves as my reliable and capable computing device.
+            </li>
+            <li>
+              <strong>Keyboard:</strong> I use the{" "}
+              <Link
+                className="border-b italic"
+                href="https://www.tokopedia.com/goodgamingshop/keychron-k8-tkl-80-l-missing-ayout-non-backlight-hot-swappable-aluminum-frame-red-sw-9fb80?extParam=ivf%3Dfalse%26keyword%3Dkeychron+k8%26search_id%3D202502241751318413E2FD12D2E920ES20%26src%3Dsearch"
+              >
+                Keychron K8 Tenkeyless (TKL) 80% keyboard
+              </Link>{" "}
+              , valued for its ergonomic design and responsive performance.
+            </li>
+          </motion.ul>
+
+          <motion.div
+            {...defaultMotionProps}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-2 mt-10"
+          >
+            <h2 className="md:text-5xl mb-4 text-3xl font-bold">
               Want to work together?
               {/* My <span className="text-green-400">Story</span> */}
             </h2>

@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 const defaultMotionProps = {
   initial: { opacity: 0, y: 20 },
@@ -42,6 +43,7 @@ interface ProjectItemProps {
   imageSrc: string;
   imageAlt: string;
   link: string;
+  badge: string;
 }
 
 // depricated
@@ -139,7 +141,10 @@ const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
             src={props.imageSrc}
             fill
             alt={props.imageAlt}
-            className="rounded-lg transition-all duration-300 brightness-90 group-hover:brightness-110 group-hover:contrast-110 group-hover:scale-105"
+            className={cn(
+              "rounded-lg transition-all duration-300 brightness-90 group-hover:brightness-110 group-hover:contrast-110 group-hover:scale-105",
+              props?.title?.toLowerCase() === "cdic" && "object-contain"
+            )}
           />
         </Link>
       </CardHeader>
@@ -148,7 +153,7 @@ const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
         <CardTitle className="text-lg space-x-3">
           <span>{props.title}</span>
           <Badge className="text-white" variant="outline">
-            #work
+            #{props.badge}
           </Badge>
         </CardTitle>
         <CardDescription
@@ -164,55 +169,89 @@ const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
           <Calendar width={15} />
           #2025
         </div>
-        <Button asChild>
-          <Link href={props.link} target="_blank">
-            Open Site <ExternalLink />
+        {props.link ? (
+          <Button asChild>
+            <Link href={props.link} target="_blank">
+              Open Site <ExternalLink />
+            </Link>
+          </Button>
+        ) : (
+          <Link
+            className="border-b"
+            href="https://play.google.com/store/apps/details?id=com.primaku.app&hl=id"
+            target="_blank"
+          >
+            Webview
           </Link>
-        </Button>
+        )}
       </CardFooter>
     </Card>
   );
 };
-export const Projects = () => {
-  const projects: ProjectItemProps[] = [
-    {
-      title: "Parenthood Institute",
-      description:
-        "Parenthood Institute is an annual program by PrimaKu designed to support parents in their child's growth and development. It offers free classes (Regular Class) and exclusive paid classes (SuperClass) with trusted doctors. In addition to learning, participants can also win exciting prizes such as cash, vouchers, and children's product hampers by collecting points!",
-      tools: "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot",
-      imageSrc: "/projects/parenthood.jpg",
-      imageAlt: "parenthood",
-      link: "https://www.primaku.com/parenthood-institute",
-    },
-    {
-      title: "PrimaCare",
-      description:
-        "PrimaCare.ai is a comprehensive clinic management application from PrimaKu, designed to streamline medical records and administrative processes. It integrates seamlessly with SatuSehat, ensuring compliance with Indonesian healthcare regulations. With a web-based platform, PrimaCare eliminates maintenance costs and offers regular updates. Ideal for clinics and independent practices, it provides user-friendly access for doctors, front-office staff, and management, supporting patient data migration and training.",
-      tools: "NextJs, NextUi, Typescript, React Hook Form, Valibot",
-      imageSrc: "/projects/primacare.jpg",
-      imageAlt: "primacare",
-      link: "https://www.primacare.ai",
-    },
-    {
-      title: "KiriminAja",
-      description:
-        "KiriminAja is a shipping aggregator platform that helps businesses manage logistics more easily and cost-effectively. The KiriminAja app supports regular, instant, cargo, and bulk shipments, along with additional services such as fulfillment and warehousing. Available on mobile apps and a web dashboard, KiriminAja has been trusted by over 200,000 users.",
-      tools: "NuxtJs, Typescript, Swiper, GrapesJs, Firebase",
-      imageSrc: "/projects/kiriminaja.jpg",
-      imageAlt: "kiriminaja",
-      link: "https://app.kiriminaja.com",
-    },
-    {
-      title: "Flou Cloud",
-      description:
-        "Flou Cloud's landing page showcases its locally-owned cloud services, offering high-performance and secure solutions for businesses. The page is fully customizable with a CMS, allowing complete control over content, including new pages and custom menus.",
-      tools: "NuxtJs, TailwindCss",
-      imageSrc: "/projects/floucloud.jpg",
-      imageAlt: "floucloud",
-      link: "https://www.floucloud.id",
-    },
-  ];
+const projects: ProjectItemProps[] = [
+  {
+    title: "Parenthood Institute",
+    description:
+      "Parenthood Institute is an annual program by PrimaKu designed to support parents in their child's growth and development. It offers free classes (Regular Class) and exclusive paid classes (SuperClass) with trusted doctors. In addition to learning, participants can also win exciting prizes such as cash, vouchers, and children's product hampers by collecting points!",
+    tools: "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot",
+    imageSrc: "/projects/parenthood.jpg",
+    imageAlt: "parenthood",
+    link: "https://www.primaku.com/parenthood-institute",
+    badge: "work",
+  },
+  {
+    title: "PrimaCare",
+    description:
+      "PrimaCare.ai is a comprehensive clinic management application from PrimaKu, designed to streamline medical records and administrative processes. It integrates seamlessly with SatuSehat, ensuring compliance with Indonesian healthcare regulations. With a web-based platform, PrimaCare eliminates maintenance costs and offers regular updates. Ideal for clinics and independent practices, it provides user-friendly access for doctors, front-office staff, and management, supporting patient data migration and training.",
+    tools: "NextJs, NextUi, Typescript, React Hook Form, Valibot",
+    imageSrc: "/projects/primacare.jpg",
+    imageAlt: "primacare",
+    link: "https://www.primacare.ai",
+    badge: "work",
+  },
+  {
+    title: "KiriminAja",
+    description:
+      "KiriminAja is a shipping aggregator platform that helps businesses manage logistics more easily and cost-effectively. The KiriminAja app supports regular, instant, cargo, and bulk shipments, along with additional services such as fulfillment and warehousing. Available on mobile apps and a web dashboard, KiriminAja has been trusted by over 200,000 users.",
+    tools: "NuxtJs, Typescript, Swiper, GrapesJs, Firebase",
+    imageSrc: "/projects/kiriminaja.jpg",
+    imageAlt: "kiriminaja",
+    link: "https://app.kiriminaja.com",
+    badge: "work",
+  },
+  {
+    title: "Flou Cloud",
+    description:
+      "Flou Cloud's landing page showcases its locally-owned cloud services, offering high-performance and secure solutions for businesses. The page is fully customizable with a CMS, allowing complete control over content, including new pages and custom menus.",
+    tools: "NuxtJs, TailwindCss",
+    imageSrc: "/projects/floucloud.jpg",
+    imageAlt: "floucloud",
+    link: "https://www.floucloud.id",
+    badge: "work",
+  },
+  {
+    title: "Dashboard Purity",
+    description:
+      "I developed this site using Nuxt.js and Tailwind CSS. It features a variety of aesthetically pleasing user interfaces for dashboard utilities, including charts and summaries. The dashboard UI is meticulously sliced from design to code, ensuring pixel-perfect implementation and a seamless user experience.",
+    tools: "NuxtJs, TailwindCss",
+    imageSrc: "/projects/dashboard-purity.png",
+    imageAlt: "dashboard-purity",
+    link: "https://slicing-ui-purity.netlify.app/",
+    badge: "personal",
+  },
+  {
+    title: "CDIC",
+    description:
+      "With CDIC, managing your child's health is easier than ever. The webview app lets you track diabetes using the Accu Check feature, connecting your device to keep a detailed health diary. Simplify pediatric care with CDIC today.",
+    tools: "NuxtJs, TailwindCss",
+    imageSrc: "/projects/cdic.jpg",
+    imageAlt: "dashboard-purity",
+    link: "",
+    badge: "work",
+  },
+];
 
+export const Projects = () => {
   return (
     <section
       id="projects"

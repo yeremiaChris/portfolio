@@ -80,7 +80,7 @@ export const About = () => {
       id="about"
       className="max-w-6xl mt-20 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
     >
-      <div className="grid w-full gap-12 justify-center items-center md:grid-cols-3">
+      <div className="grid w-full gap-12 justify-center md:grid-cols-3">
         <div className="md:col-span-2">
           <motion.div
             {...defaultMotionProps}
@@ -257,7 +257,7 @@ export const About = () => {
           </p>
         </div>
 
-        <div className="px-5">
+        <div className="px-5 md:mt-20">
           <div className="transition-all duration-300 relative aspect-1-1">
             <div className="absolute w-20 h-20 bg-green-500 -right-1 -top-1 rounded-tr-3xl" />
             <div className="absolute w-20 h-20 bg-green-500 -left-1 -bottom-1 rounded-bl-3xl" />

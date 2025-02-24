@@ -1,7 +1,7 @@
 import { Experience } from "../components/Experience";
 import { Header } from "../components/Header";
 
-const page = () => {
+export default function ExperiencePage() {
   return (
     <>
       <Header />
@@ -9,6 +9,4 @@ const page = () => {
       <Experience />
     </>
   );
-};
-
-export default page;
+}

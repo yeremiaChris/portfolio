@@ -1,7 +1,7 @@
 import { Header } from "../components/Header";
 import { Projects } from "../components/Projects";
 
-const page = () => {
+export default function ProjectsPage() {
   return (
     <>
       <Header />
@@ -9,6 +9,4 @@ const page = () => {
       <Projects />
     </>
   );
-};
-
-export default page;
+}

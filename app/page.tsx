@@ -54,9 +54,7 @@ export default function Home() {
           </div> */}
         </section>
       </div>
-
       <EmailSeparator />
-
       {/* <About />
 
       <Experience />

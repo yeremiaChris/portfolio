@@ -7,7 +7,6 @@ import {
   Projector,
 } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import React from "react";
 
 import {
@@ -39,19 +38,12 @@ export const Header = () => {
       >
         <div className="rounded-full group relative">
           <Link href="/" className="relative">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-              }}
+            <div
               aria-label="Logo"
               className="bg-neutral-700 text-4xl font-bold cursor-pointer w-5 h-5 flex items-center justify-center rounded-full text-center hover:bg-neutral-600 hover:scale-110 transition-all duration-300 select-none"
             >
               {/* <Logo /> */}Y
-            </motion.div>
+            </div>
           </Link>
         </div>
 

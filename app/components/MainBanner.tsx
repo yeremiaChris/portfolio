@@ -58,7 +58,7 @@ export const MainBanner = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="scroll-m-20 text-neutral-200 text-4xl md:text-5xl font-extrabold tracking-tight lg:text-6xl"
+            className="text-neutral-200 text-4xl md:text-5xl font-extrabold tracking-tight lg:text-6xl"
           >
             Hi, I&apos;m Yeremia
           </motion.h1>

@@ -284,7 +284,7 @@ export const Projects = () => {
   return (
     <section
       id="projects"
-      className="text-white relative mt-20 max-w-6xl mx-auto px-5 pb-10 scroll-mt-24"
+      className="text-white relative mt-20 max-w-6xl mx-auto px-5 pb-10"
     >
       <motion.div
         {...defaultMotionProps}

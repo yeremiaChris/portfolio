@@ -44,6 +44,7 @@ interface ProjectItemProps {
   imageAlt: string;
   link: string;
   badge: string;
+  year: number;
 }
 
 // depricated
@@ -166,8 +167,7 @@ const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
 
       <CardFooter className="px-0 pb-3 mt-1 items-center flex justify-between">
         <div className="flex items-center gap-3">
-          <Calendar width={15} />
-          #2025
+          <Calendar width={15} />#{props.year}
         </div>
         {props.link ? (
           <Button asChild>
@@ -198,6 +198,7 @@ const projects: ProjectItemProps[] = [
     imageAlt: "parenthood",
     link: "https://www.primaku.com/parenthood-institute",
     badge: "work",
+    year: 2025,
   },
   {
     title: "PrimaCare",
@@ -208,6 +209,18 @@ const projects: ProjectItemProps[] = [
     imageAlt: "primacare",
     link: "https://www.primacare.ai",
     badge: "work",
+    year: 2024,
+  },
+  {
+    title: "BuildingBots AI (Agigtech)",
+    description:
+      "This is the official landing page for BuildingBots.AI, a software agency dedicated to delivering tailored AI solutions that transform businesses. The page showcases the company’s mission, vision, and values, highlighting their expertise in providing cutting-edge AI technologies and innovative digital services.",
+    tools: "NuxtJs, Supabase, TailwindCss, NuxtUI",
+    imageSrc: "/projects/buildingbots.png",
+    imageAlt: "building bots",
+    link: "https://buildingbots.ai",
+    badge: "work",
+    year: 2024,
   },
   {
     title: "KiriminAja",
@@ -218,26 +231,7 @@ const projects: ProjectItemProps[] = [
     imageAlt: "kiriminaja",
     link: "https://app.kiriminaja.com",
     badge: "work",
-  },
-  {
-    title: "Flou Cloud",
-    description:
-      "Flou Cloud's landing page showcases its locally-owned cloud services, offering high-performance and secure solutions for businesses. The page is fully customizable with a CMS, allowing complete control over content, including new pages and custom menus.",
-    tools: "NuxtJs, TailwindCss",
-    imageSrc: "/projects/floucloud.jpg",
-    imageAlt: "floucloud",
-    link: "https://www.floucloud.id",
-    badge: "work",
-  },
-  {
-    title: "Dashboard Purity",
-    description:
-      "I developed this site using Nuxt.js and Tailwind CSS. It features a variety of aesthetically pleasing user interfaces for dashboard utilities, including charts and summaries. The dashboard UI is meticulously sliced from design to code, ensuring pixel-perfect implementation and a seamless user experience.",
-    tools: "NuxtJs, TailwindCss",
-    imageSrc: "/projects/dashboard-purity.png",
-    imageAlt: "dashboard-purity",
-    link: "https://slicing-ui-purity.netlify.app/",
-    badge: "personal",
+    year: 2023,
   },
   {
     title: "CDIC",
@@ -248,6 +242,41 @@ const projects: ProjectItemProps[] = [
     imageAlt: "dashboard-purity",
     link: "",
     badge: "work",
+    year: 2023,
+  },
+  {
+    title: "Flou Cloud",
+    description:
+      "Flou Cloud's landing page showcases its locally-owned cloud services, offering high-performance and secure solutions for businesses. The page is fully customizable with a CMS, allowing complete control over content, including new pages and custom menus.",
+    tools: "NuxtJs, TailwindCss",
+    imageSrc: "/projects/floucloud.jpg",
+    imageAlt: "floucloud",
+    link: "https://www.floucloud.id",
+    badge: "work",
+    year: 2023,
+  },
+  {
+    title: "Telkom Infra",
+    description:
+      "Telkom Infra's landing page highlights its role as a leading telecommunications infrastructure service provider in the region. As a subsidiary of PT Telekomunikasi Indonesia (Telkom), it offers infrastructure-managed services and a full range of outsourcing solutions to optimize daily operations, enhance customer experience, and improve cost efficiency. The page features a user-friendly CMS for full customization, including editable content, new pages, and custom menus, showcasing sections like company vision, mission, values (Amanah, Kompeten, Harmonis, Loyal, Adaptif, Kolaboratif), milestones, and contact details.",
+    tools: "NuxtJs, TailwindCss",
+    imageSrc: "/projects/telkom-infra.png",
+    imageAlt: "telkom-infra",
+    link: "https://telkominfra.co.id",
+    badge: "work",
+    year: 2022,
+  },
+
+  {
+    title: "Dashboard Purity",
+    description:
+      "I developed this site using Nuxt.js and Tailwind CSS. It features a variety of aesthetically pleasing user interfaces for dashboard utilities, including charts and summaries. The dashboard UI is meticulously sliced from design to code, ensuring pixel-perfect implementation and a seamless user experience.",
+    tools: "NuxtJs, TailwindCss",
+    imageSrc: "/projects/dashboard-purity.png",
+    imageAlt: "dashboard-purity",
+    link: "https://slicing-ui-purity.netlify.app/",
+    badge: "personal",
+    year: 2022,
   },
 ];
 

@@ -18,13 +18,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { usePathname } from "next/navigation";
-// import { Logo } from "./icon/Logo";
 
 const menuItems = [
   { href: "/", label: "Home", isActive: true },
   { href: "/about", label: "About" },
   { href: "/experience", label: "Experience" },
   { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export const Header = () => {
@@ -42,7 +42,7 @@ export const Header = () => {
               aria-label="Logo"
               className="bg-neutral-700 text-4xl font-bold cursor-pointer w-5 h-5 flex items-center justify-center rounded-full text-center hover:bg-neutral-600 hover:scale-110 transition-all duration-300 select-none"
             >
-              {/* <Logo /> */}Y
+              Y
             </div>
           </Link>
         </div>

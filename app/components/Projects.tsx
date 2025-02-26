@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Calendar, ExternalLink, Home } from "lucide-react";
+import { Calendar, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -14,13 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-
-const defaultMotionProps = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.8 },
-};
+import { Title } from "./ui/Title";
 
 const contentAnimationProps = {
   initial: { opacity: 0, x: -20 },
@@ -157,10 +151,7 @@ const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
             #{props.badge}
           </Badge>
         </CardTitle>
-        <CardDescription
-          title={props.description}
-          className="text-white line-clamp-3"
-        >
+        <CardDescription title={props.description} className="text-white">
           {props.description}
         </CardDescription>
       </CardContent>
@@ -192,7 +183,7 @@ const projects: ProjectItemProps[] = [
   {
     title: "Parenthood Institute",
     description:
-      "Parenthood Institute is an annual program by PrimaKu designed to support parents in their child's growth and development. It offers free classes (Regular Class) and exclusive paid classes (SuperClass) with trusted doctors. In addition to learning, participants can also win exciting prizes such as cash, vouchers, and children's product hampers by collecting points!",
+      "An annual program by PrimaKu that supports parents with free and paid classes from trusted doctors, plus opportunities to win prizes like cash, vouchers, and children's product hampers through point collection.",
     tools: "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot",
     imageSrc: "/projects/parenthood.jpg",
     imageAlt: "parenthood",
@@ -203,7 +194,7 @@ const projects: ProjectItemProps[] = [
   {
     title: "PrimaCare",
     description:
-      "PrimaCare.ai is a comprehensive clinic management application from PrimaKu, designed to streamline medical records and administrative processes. It integrates seamlessly with SatuSehat, ensuring compliance with Indonesian healthcare regulations. With a web-based platform, PrimaCare eliminates maintenance costs and offers regular updates. Ideal for clinics and independent practices, it provides user-friendly access for doctors, front-office staff, and management, supporting patient data migration and training.",
+      "PrimaCare.ai is a web-based clinic management app from PrimaKu that simplifies medical records, integrates with SatuSehat for compliance, and provides easy access for doctors and staff with no maintenance costs and regular updates.",
     tools: "NextJs, NextUi, Typescript, React Hook Form, Valibot",
     imageSrc: "/projects/primacare.jpg",
     imageAlt: "primacare",
@@ -214,7 +205,7 @@ const projects: ProjectItemProps[] = [
   {
     title: "BuildingBots AI (Agigtech)",
     description:
-      "This is the official landing page for BuildingBots.AI, a software agency dedicated to delivering tailored AI solutions that transform businesses. The page showcases the company’s mission, vision, and values, highlighting their expertise in providing cutting-edge AI technologies and innovative digital services.",
+      "This is the official landing page for BuildingBots.AI, a software agency offering tailored AI solutions to transform businesses, showcasing their mission, vision, values, and expertise in cutting-edge AI technologies and digital services.",
     tools: "NuxtJs, Supabase, TailwindCss, NuxtUI",
     imageSrc: "/projects/buildingbots.png",
     imageAlt: "building bots",
@@ -225,7 +216,7 @@ const projects: ProjectItemProps[] = [
   {
     title: "KiriminAja",
     description:
-      "KiriminAja is a shipping aggregator platform that helps businesses manage logistics more easily and cost-effectively. The KiriminAja app supports regular, instant, cargo, and bulk shipments, along with additional services such as fulfillment and warehousing. Available on mobile apps and a web dashboard, KiriminAja has been trusted by over 200,000 users.",
+      "KiriminAja is a shipping aggregator platform that simplifies logistics for businesses, offering regular, instant, cargo, and bulk shipments, plus fulfillment and warehousing, trusted by over 200,000 users with mobile and web access.",
     tools: "NuxtJs, Typescript, Swiper, GrapesJs, Firebase",
     imageSrc: "/projects/kiriminaja.jpg",
     imageAlt: "kiriminaja",
@@ -236,7 +227,7 @@ const projects: ProjectItemProps[] = [
   {
     title: "CDIC",
     description:
-      "With CDIC, managing your child's health is easier than ever. The webview app lets you track diabetes using the Accu Check feature, connecting your device to keep a detailed health diary. Simplify pediatric care with CDIC today.",
+      "CDIC makes managing your child's health easy, with a webview app that tracks diabetes using Accu Check, connecting your device for a detailed health diary. Simplify pediatric care today.",
     tools: "NuxtJs, TailwindCss",
     imageSrc: "/projects/cdic.jpg",
     imageAlt: "dashboard-purity",
@@ -247,7 +238,7 @@ const projects: ProjectItemProps[] = [
   {
     title: "Flou Cloud",
     description:
-      "Flou Cloud's landing page showcases its locally-owned cloud services, offering high-performance and secure solutions for businesses. The page is fully customizable with a CMS, allowing complete control over content, including new pages and custom menus.",
+      "Flou Cloud's landing page highlights its locally-owned, high-performance, and secure cloud services for businesses, with a customizable CMS for full control over content, pages, and menus.",
     tools: "NuxtJs, TailwindCss",
     imageSrc: "/projects/floucloud.jpg",
     imageAlt: "floucloud",
@@ -258,7 +249,7 @@ const projects: ProjectItemProps[] = [
   {
     title: "Telkom Infra",
     description:
-      "Telkom Infra's landing page highlights its role as a leading telecommunications infrastructure service provider in the region. As a subsidiary of PT Telekomunikasi Indonesia (Telkom), it offers infrastructure-managed services and a full range of outsourcing solutions to optimize daily operations, enhance customer experience, and improve cost efficiency. The page features a user-friendly CMS for full customization, including editable content, new pages, and custom menus, showcasing sections like company vision, mission, values (Amanah, Kompeten, Harmonis, Loyal, Adaptif, Kolaboratif), milestones, and contact details.",
+      "Telkom Infra, a top Telkom subsidiary, provides telecom infrastructure services and outsourcing solutions to improve operations and customer experience, with a customizable CMS landing page showcasing its vision, values, and contact info.",
     tools: "NuxtJs, TailwindCss",
     imageSrc: "/projects/telkom-infra.png",
     imageAlt: "telkom-infra",
@@ -270,7 +261,7 @@ const projects: ProjectItemProps[] = [
   {
     title: "Dashboard Purity",
     description:
-      "I developed this site using Nuxt.js and Tailwind CSS. It features a variety of aesthetically pleasing user interfaces for dashboard utilities, including charts and summaries. The dashboard UI is meticulously sliced from design to code, ensuring pixel-perfect implementation and a seamless user experience.",
+      "A site built with Nuxt.js and Tailwind CSS, featuring a stylish, pixel-perfect dashboard UI with charts and summaries for a seamless user experience.",
     tools: "NuxtJs, TailwindCss",
     imageSrc: "/projects/dashboard-purity.png",
     imageAlt: "dashboard-purity",
@@ -286,25 +277,10 @@ export const Projects = () => {
       id="projects"
       className="text-white relative mt-20 max-w-6xl mx-auto px-5 pb-10"
     >
-      <motion.div
-        {...defaultMotionProps}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="mb-8 space-y-2"
-      >
-        <Button size="sm" asChild>
-          <Link href="/">
-            <Home />
-            Home
-          </Link>
-        </Button>
-        <h2 className="md:text-5xl text-3xl font-bold">
-          Proje<span className="text-green-400">cts</span>
-        </h2>
-
-        <p className="text-sm bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-medium">
-          Showcasing my featured projects and work
-        </p>
-      </motion.div>
+      <Title
+        title="Projects"
+        description="Showcasing my featured projects and work"
+      />
 
       <div className="grid md:grid-cols-3 gap-4">
         {projects.map((project, index) => (

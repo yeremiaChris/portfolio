@@ -1,8 +1,7 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Home } from "lucide-react";
+import { Title } from "./ui/Title";
 
 interface ExperienceItemProps {
   date: string;
@@ -15,13 +14,6 @@ interface ExperienceItemProps {
   description: string;
   responsibilities: string[];
 }
-
-const defaultMotionProps = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.8 },
-};
 
 const ExperienceItem = ({
   date,
@@ -146,25 +138,10 @@ export const Experience = () => {
       id="experience"
       className="text-white relative max-w-6xl mx-auto px-5 pb-10 mt-20 mb-10"
     >
-      <motion.div
-        {...defaultMotionProps}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="mb-8  space-y-2"
-      >
-        <Button size="sm" asChild>
-          <Link href="/">
-            <Home />
-            Home
-          </Link>
-        </Button>
-        <h2 className="md:text-5xl text-3xl font-bold">
-          Experi<span className="text-green-400">ence</span>
-        </h2>
-
-        <p className="text-sm bg-gradient-to-r from-neutral-700 via-neutral-500 to-neutral-700 text-transparent bg-clip-text bg-300% animate-shine font-medium">
-          Showcasing my professional journey
-        </p>
-      </motion.div>
+      <Title
+        title="Experience"
+        description="    Showcasing my professional journey"
+      />
 
       <div className="space-y-14">
         {experiences.map((experience) => (

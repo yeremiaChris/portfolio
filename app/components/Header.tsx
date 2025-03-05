@@ -24,7 +24,7 @@ const menuItems = [
   { href: "/about", label: "About" },
   { href: "/experience", label: "Experience" },
   { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
+  { href: "/notes", label: "Notes" },
 ];
 
 export const Header = () => {

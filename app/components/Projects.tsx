@@ -154,6 +154,14 @@ const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
         <CardDescription title={props.description} className="text-white">
           {props.description}
         </CardDescription>
+        <div className="flex items-center gap-x-3 gap-y-2 flex-wrap pt-3">
+          <span className="text-sm font-bold">Tools:</span>
+          {props.tools.split(",").map((item) => (
+            <Badge title={item} key={item}>
+              {item}
+            </Badge>
+          ))}
+        </div>
       </CardContent>
 
       <CardFooter className="px-0 pb-3 mt-1 items-center flex justify-between">
@@ -181,10 +189,23 @@ const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
 };
 const projects: ProjectItemProps[] = [
   {
+    title: "PrimaKu Landing Page (Revamp)",
+    description:
+      "The revamped PrimaKu landing page features smooth animations and sections highlighting PrimaKu’s parenting tools, ecosystem, and impact, designed for an engaging user experience.",
+    tools:
+      "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot, Framer Motion, Moengage Tracker",
+    imageSrc: "/projects/primaku.png",
+    imageAlt: "primaku-wevb",
+    link: "https://www.primaku.com",
+    badge: "work",
+    year: 2025,
+  },
+  {
     title: "Parenthood Institute",
     description:
       "An annual program by PrimaKu that supports parents with free and paid classes from trusted doctors, plus opportunities to win prizes like cash, vouchers, and children's product hampers through point collection.",
-    tools: "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot",
+    tools:
+      "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot, Moengage Tracker",
     imageSrc: "/projects/parenthood.jpg",
     imageAlt: "parenthood",
     link: "https://www.primaku.com/parenthood-institute",
@@ -206,7 +227,8 @@ const projects: ProjectItemProps[] = [
     title: "BuildingBots AI (Agigtech)",
     description:
       "This is the official landing page for BuildingBots.AI, a software agency offering tailored AI solutions to transform businesses, showcasing their mission, vision, values, and expertise in cutting-edge AI technologies and digital services.",
-    tools: "NuxtJs, Supabase, TailwindCss, NuxtUI",
+    tools:
+      "NuxtJs, Supabase, TailwindCss, NuxtUI, Typescript, Vee Validate, Valibot",
     imageSrc: "/projects/buildingbots.png",
     imageAlt: "building bots",
     link: "https://buildingbots.ai",
@@ -239,7 +261,7 @@ const projects: ProjectItemProps[] = [
     title: "Flou Cloud",
     description:
       "Flou Cloud's landing page highlights its locally-owned, high-performance, and secure cloud services for businesses, with a customizable CMS for full control over content, pages, and menus.",
-    tools: "NuxtJs, TailwindCss",
+    tools: "NuxtJs, TailwindCss, Swiper",
     imageSrc: "/projects/floucloud.jpg",
     imageAlt: "floucloud",
     link: "https://www.floucloud.id",
@@ -250,7 +272,7 @@ const projects: ProjectItemProps[] = [
     title: "Telkom Infra",
     description:
       "Telkom Infra, a top Telkom subsidiary, provides telecom infrastructure services and outsourcing solutions to improve operations and customer experience, with a customizable CMS landing page showcasing its vision, values, and contact info.",
-    tools: "NuxtJs, TailwindCss",
+    tools: "NuxtJs, TailwindCss, Swiper",
     imageSrc: "/projects/telkom-infra.png",
     imageAlt: "telkom-infra",
     link: "https://telkominfra.co.id",
@@ -262,7 +284,7 @@ const projects: ProjectItemProps[] = [
     title: "Dashboard Purity",
     description:
       "A site built with Nuxt.js and Tailwind CSS, featuring a stylish, pixel-perfect dashboard UI with charts and summaries for a seamless user experience.",
-    tools: "NuxtJs, TailwindCss",
+    tools: "NuxtJs, TailwindCss, Swiper",
     imageSrc: "/projects/dashboard-purity.png",
     imageAlt: "dashboard-purity",
     link: "https://slicing-ui-purity.netlify.app/",

@@ -193,7 +193,7 @@ const projects: ProjectItemProps[] = [
     description:
       "The revamped PrimaKu landing page features smooth animations and sections highlighting PrimaKu’s parenting tools, ecosystem, and impact, designed for an engaging user experience.",
     tools:
-      "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot, Framer Motion, Moengage Tracker",
+      "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot, TanStack Query, Axios, Framer Motion, Moengage Tracker",
     imageSrc: "/projects/primaku.png",
     imageAlt: "primaku-wevb",
     link: "https://www.primaku.com",
@@ -205,7 +205,7 @@ const projects: ProjectItemProps[] = [
     description:
       "An annual program by PrimaKu that supports parents with free and paid classes from trusted doctors, plus opportunities to win prizes like cash, vouchers, and children's product hampers through point collection.",
     tools:
-      "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot, Moengage Tracker",
+      "NextJs, NextUi, Typescript, Swiper, React Hook Form, TanStack Query, Axios, Valibot, Moengage Tracker",
     imageSrc: "/projects/parenthood.jpg",
     imageAlt: "parenthood",
     link: "https://www.primaku.com/parenthood-institute",
@@ -216,7 +216,8 @@ const projects: ProjectItemProps[] = [
     title: "PrimaCare",
     description:
       "PrimaCare.ai is a web-based clinic management app from PrimaKu that simplifies medical records, integrates with SatuSehat for compliance, and provides easy access for doctors and staff with no maintenance costs and regular updates.",
-    tools: "NextJs, NextUi, Typescript, React Hook Form, Valibot",
+    tools:
+      "NextJs, NextUi, Typescript, React Hook Form, TanStack Query, Axios, Valibot",
     imageSrc: "/projects/primacare.jpg",
     imageAlt: "primacare",
     link: "https://www.primacare.ai",
@@ -228,7 +229,7 @@ const projects: ProjectItemProps[] = [
     description:
       "This is the official landing page for BuildingBots.AI, a software agency offering tailored AI solutions to transform businesses, showcasing their mission, vision, values, and expertise in cutting-edge AI technologies and digital services.",
     tools:
-      "NuxtJs, Supabase, TailwindCss, NuxtUI, Typescript, Vee Validate, Valibot",
+      "NuxtJs, Supabase, TailwindCss, NuxtUI, Typescript, Vee Validate, Axios, Valibot",
     imageSrc: "/projects/buildingbots.png",
     imageAlt: "building bots",
     link: "https://buildingbots.ai",
@@ -250,7 +251,7 @@ const projects: ProjectItemProps[] = [
     title: "CDIC",
     description:
       "CDIC makes managing your child's health easy, with a webview app that tracks diabetes using Accu Check, connecting your device for a detailed health diary. Simplify pediatric care today.",
-    tools: "NuxtJs, TailwindCss",
+    tools: "NuxtJs, TailwindCss, Axios, Swiper",
     imageSrc: "/projects/cdic.jpg",
     imageAlt: "dashboard-purity",
     link: "",
@@ -261,7 +262,7 @@ const projects: ProjectItemProps[] = [
     title: "Flou Cloud",
     description:
       "Flou Cloud's landing page highlights its locally-owned, high-performance, and secure cloud services for businesses, with a customizable CMS for full control over content, pages, and menus.",
-    tools: "NuxtJs, TailwindCss, Swiper",
+    tools: "NuxtJs, TailwindCss, Swiper, Axios",
     imageSrc: "/projects/floucloud.jpg",
     imageAlt: "floucloud",
     link: "https://www.floucloud.id",
@@ -272,7 +273,7 @@ const projects: ProjectItemProps[] = [
     title: "Telkom Infra",
     description:
       "Telkom Infra, a top Telkom subsidiary, provides telecom infrastructure services and outsourcing solutions to improve operations and customer experience, with a customizable CMS landing page showcasing its vision, values, and contact info.",
-    tools: "NuxtJs, TailwindCss, Swiper",
+    tools: "NuxtJs, TailwindCss, Swiper, Axios",
     imageSrc: "/projects/telkom-infra.png",
     imageAlt: "telkom-infra",
     link: "https://telkominfra.co.id",

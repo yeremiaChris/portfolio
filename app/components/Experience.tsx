@@ -90,7 +90,6 @@ export const Experience = () => {
         "Implemented pixel-perfect UI components from Figma designs while maintaining responsive design principles",
         "Integrated RESTful APIs and third-party services to create seamless user experiences",
         "Collaborated effectively in an agile team environment, participating in code reviews and technical discussions",
-        "Conducted thorough code reviews to maintain code quality standards and mentor junior developers",
         "Actively participated in agile ceremonies including sprint planning, daily standups, and retrospectives using both Scrum and Kanban methodologies",
       ],
     },
@@ -109,7 +108,6 @@ export const Experience = () => {
         "Implemented pixel-perfect UI components from Figma designs while maintaining responsive design principles",
         "Integrated RESTful APIs and third-party services to create seamless user experiences",
         "Collaborated effectively in an agile team environment, participating in code reviews and technical discussions",
-        "Conducted thorough code reviews to maintain code quality standards and mentor junior developers",
         "Actively participated in agile ceremonies including sprint planning, daily standups, and retrospectives using both Scrum and Kanban methodologies",
       ],
     },
@@ -128,7 +126,6 @@ export const Experience = () => {
         "Implemented pixel-perfect UI components from Figma designs while maintaining responsive design principles",
         "Integrated RESTful APIs and third-party services to create seamless user experiences",
         "Collaborated effectively in an agile team environment, participating in code reviews and technical discussions",
-        "Conducted thorough code reviews to maintain code quality standards and mentor junior developers",
       ],
     },
   ];

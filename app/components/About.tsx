@@ -92,14 +92,13 @@ export const About = () => {
             </li>
             <li>
               <strong>Terminal:</strong> I rely on{" "}
-              <Link
-                className="border-b italic"
-                href="https://help.gnome.org/users/gnome-terminal/stable/"
-              >
-                GNOME Terminal
+              <Link className="border-b italic" href="https://iterm2.com/">
+                ITerm2
               </Link>
-              , the default terminal application on my Ubuntu laptop, for
-              efficient command-line operations.
+              , iTerm2 is a replacement for Terminal and the successor to iTerm.
+              It works on Macs with macOS 10.14 or newer. iTerm2 brings the
+              terminal into the modern age with features you never knew you
+              always wanted.
             </li>
             <li>
               <strong>Web Browser:</strong> I currently use the latest version
@@ -117,9 +116,9 @@ export const About = () => {
               <strong>Laptop:</strong> I work on an{" "}
               <Link
                 className="border-b italic"
-                href="https://www.tokopedia.com/kusumakomputer/hp-240-g8-notebook-pc-laptop-14-i3-1115g4-win-11-256gb-ssd-4gb?extParam=ivf%3Dfalse%26keyword%3Dhp+240+g8+notebook+pc%26search_id%3D20250224175814FDF26D69866B04210SOO%26src%3Dsearch"
+                href="https://ibox.co.id/product/macbook-air-m3-13-6-inci-2024-s8100027788?utm_source=googlesearch&utm_medium=paid&utm_campaign=ibox-ads-sem-trf-iboxing-week-macbook-air-m3-mar25&gad_source=1&gclid=Cj0KCQjwy46_BhDOARIsAIvmcwMEyzMEwnQVfLMYIweFcp-al8hRVGNtOsJwZRum1OGd6dFLQsY8obIaAn2AEALw_wcB"
               >
-                HP 240 G8 Notebook PC
+                MacBook Air M3 16/512
               </Link>{" "}
               , which serves as my reliable and capable computing device.
             </li>

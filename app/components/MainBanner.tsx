@@ -1,6 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Contact, FileUser, Github, Linkedin, Mail } from "lucide-react";
+import {
+  Briefcase,
+  Contact,
+  FileUser,
+  Github,
+  Linkedin,
+  Mail,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -18,9 +25,11 @@ import {
 export const MainBanner = () => {
   return (
     <div className="px-5 relative md:mt-5">
-      <Button className="flex items-center gap-3">
+      <Button className="flex text-xl py-6 px-5 items-center gap-3">
         <span>💅</span>
-        <span>Frontend Web Developer</span>
+        <span className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-shine">
+          Software Engineer
+        </span>
       </Button>
 
       <div className="mt-5 flex flex-col md:flex-row">
@@ -38,7 +47,7 @@ export const MainBanner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="mt-5  text-sm md:text-base"
+            className="mt-5 text-gray-300 text-sm md:text-lg"
           >
             Software engineer with proven expertise in developing user-focused
             applications from concept to deployment, enhancing performance and
@@ -51,13 +60,17 @@ export const MainBanner = () => {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="flex gap-2 items-center"
           >
-            <Button asChild className="md:p-6 rounded-lg">
-              <Link href="/experience">
-                Experience <Contact className="text-neutral-500" />
+            <Button asChild className="p-4 rounded-lg text-lg" size="lg">
+              <Link href="/experience" className="gap-3.5">
+                <Briefcase className="text-neutral-500" size={20} />
+                Experience
               </Link>
             </Button>
-            <Button asChild className="md:p-6 rounded-lg ">
-              <Link href="/about">More About Me</Link>
+            <Button asChild className="p-4 rounded-lg text-lg" size="lg">
+              <Link href="/about" className="gap-3.5">
+                <Contact className="text-neutral-500" />
+                More About Me
+              </Link>
             </Button>
           </motion.div>
           <motion.div

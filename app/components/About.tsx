@@ -8,10 +8,13 @@ import Link from "next/link";
 import { Title } from "./ui/Title";
 
 const defaultMotionProps = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 15 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.8 },
+  viewport: { once: true, margin: "-50px" },
+  transition: {
+    duration: 0.6,
+    ease: "easeOut",
+  },
 };
 
 export const About = () => {
@@ -29,7 +32,10 @@ export const About = () => {
         <div className="md:col-span-2">
           <motion.div
             {...defaultMotionProps}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.1,
+            }}
             className="mb-10 space-y-2"
           >
             <Button size="sm" asChild>
@@ -48,7 +54,10 @@ export const About = () => {
 
           <motion.p
             {...defaultMotionProps}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.2,
+            }}
             className="text-white text-sm"
           >
             Software Engineer specializing in the React ecosystem. I build
@@ -66,7 +75,10 @@ export const About = () => {
 
           <motion.div
             {...defaultMotionProps}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.1,
+            }}
             className="space-y-2 mt-10"
           >
             <h2 className="md:text-5xl mb-4 text-3xl font-bold">
@@ -76,7 +88,10 @@ export const About = () => {
 
           <motion.ul
             {...defaultMotionProps}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.2,
+            }}
             className="space-y-2 list-disc list-outside px-7 mt-9"
           >
             <li>
@@ -136,7 +151,10 @@ export const About = () => {
 
           <motion.div
             {...defaultMotionProps}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.1,
+            }}
             className="space-y-2 mt-10"
           >
             <h2 className="md:text-5xl mb-4 text-3xl font-bold">
@@ -145,9 +163,12 @@ export const About = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{
+              duration: 0.4,
+              ease: "easeOut",
+            }}
             className="text-green-400 flex group tracking-widest"
           >
             <div className="flex items-center gap-3">
@@ -163,8 +184,8 @@ export const About = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{
-                      duration: 0.1,
-                      delay: index * 0.1,
+                      duration: 0.2,
+                      delay: index * 0.02,
                     }}
                   >
                     {char === " " ? "\u00A0" : char}

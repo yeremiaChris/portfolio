@@ -31,31 +31,20 @@ export const Header = () => {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
   return (
-    <div className="fixed z-50 top-0 right-0 left-0 bg-neutral-950">
+    <div className="fixed z-50 top-8 right-0 left-0">
       <header
         role="banner"
-        className="max-w-6xl w-full py-5 md:py-3 px-5 text-white mx-auto flex  items-center justify-between"
+        className="max-w-6xl w-full text-white mx-auto flex px-3 md:px-0 items-center justify-end md:justify-center"
       >
-        <div className="rounded-full group relative">
-          <Link href="/" className="relative">
-            <div
-              aria-label="Logo"
-              className="bg-neutral-700 text-4xl font-bold cursor-pointer w-5 h-5 flex items-center justify-center rounded-full text-center hover:bg-neutral-600 hover:scale-110 transition-all duration-300 select-none"
-            >
-              Y
-            </div>
-          </Link>
-        </div>
-
         <nav role="navigation" aria-label="Main navigation">
-          <ul className="hidden md:flex text-sm gap-10 bg-neutral-900 px-5 py-3 rounded-lg text-neutral-400 font-semibold">
+          <ul className="hidden md:flex gap-8 py-3 px-6 bg-neutral-900 rounded-lg text-neutral-400 font-normal">
             {menuItems.map((item) => (
               <li key={item.label}>
                 <Link
                   href={item.href}
                   className={`${
                     pathname === item.href ? "text-green-400" : ""
-                  } hover:text-green-400 duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-green-400 after:transition-all after:duration-300 hover:after:w-full`}
+                  } font-normal text-base hover:text-green-400 duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-green-400 after:transition-all after:duration-300`}
                   aria-label={`Go to ${item.label} section`}
                 >
                   {item.label}

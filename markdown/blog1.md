@@ -29,23 +29,60 @@ pnpm add @tanstack/react-query
 
 ### 2. Set Up QueryClientProvider:
 
-Wrap your application in the `QueryClientProvider` to provide TanStack Query's client to the component tree. This is typically done in your root application file:
+For Next.js 15, we need to create a Provider component first, then use it to wrap our application. Here's how to implement it:
+
+First, create a new provider component in `components/providers/query-provider.tsx`:
 
 ```tsx
-import React from "react";
-import ReactDOM from "react-dom";
+"use client";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import App from "./App";
 
-const queryClient = new QueryClient();
+interface QueryProviderProps {
+  children: ReactNode;
+}
 
-ReactDOM.render(
-  <QueryClientProvider client={queryClient}>
-    <App />
-  </QueryClientProvider>,
-  document.getElementById("root")
-);
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+export default function QueryProvider({ children }: QueryProviderProps) {
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+}
 ```
+
+Then, use this provider in your root layout file (`app/layout.tsx`):
+
+```tsx
+import QueryProvider from "@/components/providers/query-provider";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <QueryProvider>{children}</QueryProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+This approach ensures that:
+
+1. The QueryClient is properly initialized on the client side (using 'use client' directive)
+2. The client instance persists across renders using useState
+3. The provider is available throughout your application
+4. It follows Next.js 15's app router conventions
 
 ## Using useQuery to Fetch Data
 
@@ -53,41 +90,88 @@ Now that TanStack Query is set up, let's dive into using the `useQuery` hook to 
 
 ### Example: Fetching Data from a REST API
 
-Let's assume you want to fetch a list of users from an API. Here's how you can do it with `useQuery`:
+Here's a practical example of using `useQuery` to fetch and manage data:
 
 ```tsx
-import React from "react";
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 
-const fetchUsers = async () => {
-  const response = await fetch("https://jsonplaceholder.typicode.com/users");
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  // ... other user properties
+}
+
+interface UserResponse {
+  data: User[];
+  total: number;
+  // ... other response properties
+}
+
+async function getData<T>({
+  path,
+  params,
+}: {
+  path: string;
+  params: URLSearchParams;
+}): Promise<T> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}${path}?${params.toString()}`
+  );
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
   return response.json();
-};
+}
 
-const UsersList = () => {
-  const { data, error, isLoading } = useQuery(["users"], fetchUsers);
+export default function UserList({ params }: { params: URLSearchParams }) {
+  const { data, isPending, error } = useQuery<UserResponse>({
+    queryKey: ["users", Object.fromEntries(params.entries())],
+    queryFn: () =>
+      getData<UserResponse>({
+        path: "/users",
+        params,
+      }),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: 1,
+  });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error instanceof Error)
-    return <div>An error occurred: {error.message}</div>;
+  if (isPending) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data) return null;
 
   return (
     <div>
-      <h1>Users List</h1>
-      <ul>
-        {data.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
+      {data.data.map((user) => (
+        <div key={user.id}>
+          <h3>{user.name}</h3>
+          <p>{user.email}</p>
+        </div>
+      ))}
     </div>
   );
-};
-
-export default UsersList;
+}
 ```
+
+Key features of this implementation:
+
+1. **Type Safety**: We define interfaces for our data structure
+2. **Error Handling**: Proper error states and loading states
+3. **Reusable Data Fetching**: A generic `getData` function that can be used across different queries
+4. **Query Configuration**:
+   - `staleTime`: Controls how long data is considered fresh
+   - `retry`: Number of retry attempts on failure
+   - `queryKey`: Unique identifier for caching and invalidation
+5. **Client Component**: Uses "use client" directive for Next.js client components
+
+This pattern can be adapted for any API endpoint by:
+
+- Updating the interfaces to match your data structure
+- Modifying the path in the query function
+- Adjusting the query key to match your caching needs
+- Customizing the stale time and retry settings
 
 ### Explanation of the Code
 

@@ -69,7 +69,7 @@ export const MainBanner = () => {
             <Button asChild className="p-4 rounded-lg text-lg" size="lg">
               <Link href="/about" className="gap-3.5">
                 <Contact className="text-neutral-500" />
-                More About Me
+                More about me
               </Link>
             </Button>
           </motion.div>

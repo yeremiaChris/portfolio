@@ -1,6 +1,4 @@
-import { Header } from "./components/Header";
-import { MainBanner } from "./components/MainBanner";
-import { EmailSeparator } from "./components/EmailSeparator";
+import Banner from "./components/home/Home";
 export const metadata = {
   title: "Yeremia Chris Saragi | Frontend Web Developer",
   description:
@@ -30,20 +28,7 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <div className="h-screen flex flex-col justify-center relative">
-        <Header />
-
-        <section
-          id="banner"
-          aria-label="Introduction"
-          className="max-w-6xl flex items-center justify-between w-full mx-auto text-white"
-        >
-          <div className="relative z-20">
-            <MainBanner />
-          </div>
-        </section>
-      </div>
-      <EmailSeparator />
+      <Banner />
     </>
   );
 }

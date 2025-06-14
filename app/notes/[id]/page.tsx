@@ -1,3 +1,4 @@
+"use client";
 import Blog1 from "@/markdown/blog1.mdx";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

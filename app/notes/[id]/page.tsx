@@ -1,8 +1,6 @@
-"use client";
-import Blog1 from "@/markdown/blog1.mdx";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import Content from "./components/Content";
 
 const Page = () => {
   return (
@@ -34,9 +32,7 @@ const Page = () => {
       <p className="text-xs text-neutral-400">
         Estimated reading time: 3 minutes
       </p>
-      <div className="space-y-4 w-full">
-        <Blog1 />
-      </div>
+      <Content />
     </article>
   );
 };

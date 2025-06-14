@@ -23,7 +23,7 @@ export const Blog = () => {
     <motion.section
       {...defaultMotionProps}
       id="about"
-      className="max-w-4xl mt-20 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
+      className="max-w-4xl mt-20 mb-44 relative self-center space-y-5 px-5 mx-auto text-white"
     >
       <Title title="Notes" description="My study references" />
 

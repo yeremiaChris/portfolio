@@ -60,13 +60,21 @@ export const MainBanner = () => {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="flex gap-2 items-center"
           >
-            <Button asChild className="p-4 rounded-lg text-lg" size="lg">
+            <Button
+              asChild
+              className="p-4 rounded-lg text-sm md:text-lg"
+              size="lg"
+            >
               <Link href="/experience" className="gap-3.5">
                 <Briefcase className="text-neutral-500" size={20} />
                 Experience
               </Link>
             </Button>
-            <Button asChild className="p-4 rounded-lg text-lg" size="lg">
+            <Button
+              asChild
+              className="p-4 rounded-lg text-sm md:text-lg"
+              size="lg"
+            >
               <Link href="/about" className="gap-3.5">
                 <Contact className="text-neutral-500" />
                 More about me

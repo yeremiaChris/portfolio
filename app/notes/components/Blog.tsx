@@ -7,16 +7,17 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, Timer } from "lucide-react";
+import { Calendar, Timer, Database } from "lucide-react"; // Using Database icon as a placeholder for TanStack
 import Link from "next/link";
-import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+
 const defaultMotionProps = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
   transition: { duration: 0.8 },
 };
+
 export const Blog = () => {
   return (
     <motion.section
@@ -35,24 +36,27 @@ export const Blog = () => {
 
 const NoteCard = () => {
   return (
-    <Link href={`/notes/20-system-design-basics`}>
+    <Link href={`/notes/1`}>
       <Card className="bg-transparent text-white border-0 rounded-none pb-0">
         <CardContent className="p-0">
           <div className="items-center justify-between flex gap">
             <div className="space-y-3 ">
-              <Badge>#design</Badge>
-              <CardTitle className="text-xl">20 System Design Basics</CardTitle>
+              <Badge>#react</Badge>
+              <CardTitle className="text-xl">
+                TanStack Query: Simplifying Data Fetching in React
+              </CardTitle>
               <CardDescription className="text-neutral-200">
-                A straightforward breakdown of 20 essential system design
-                concepts, jotted down from my learning journey—perfect for
-                beginners and anyone looking to refresh the fundamentals.
+                Explore how TanStack Query, formerly known as React Query,
+                simplifies data fetching, caching, and synchronization in React
+                applications. Learn to use the useQuery hook for efficient data
+                management.
               </CardDescription>
               <div className="flex gap-5">
-                <div className="flex items-center  text-neutral-400 gap-1">
+                <div className="flex items-center text-neutral-400 gap-1">
                   <Calendar width={12} />
-                  <span className="text-xs"> Nov 16, 2019 </span>
+                  <span className="text-xs"> Sep 02, 2021 </span>
                 </div>
-                <div className="flex items-center  text-neutral-400 gap-1">
+                <div className="flex items-center text-neutral-400 gap-1">
                   <Timer width={14} />
                   <span className="text-xs"> 10 min read </span>
                 </div>
@@ -60,13 +64,8 @@ const NoteCard = () => {
             </div>
 
             <div>
-              <div className="relative w-[200px] h-[110px] rounded overflow-hidden">
-                <Image
-                  src="/blog/system-design-basic.jpeg"
-                  alt="20-system-design"
-                  fill
-                  className="object-cover"
-                />
+              <div className="relative w-[200px] h-[110px] rounded overflow-hidden flex items-center justify-center bg-gray-800">
+                <Database size={48} className="text-white" />
               </div>
             </div>
           </div>

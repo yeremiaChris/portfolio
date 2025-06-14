@@ -17,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <div className="text-white h-[200px] fixed right-0 left-0 top-0 bg-gradient-to-b from-gray-800 to-transparent" />
         <Header />
         {children}
         <EmailSeparator />

@@ -4,6 +4,7 @@ import {
   AlignVerticalJustifyEnd,
   ChartAreaIcon,
   Home,
+  Notebook,
   Projector,
 } from "lucide-react";
 import Link from "next/link";
@@ -24,7 +25,7 @@ const menuItems = [
   { href: "/about", label: "About" },
   { href: "/experience", label: "Experience" },
   { href: "/projects", label: "Projects" },
-  // { href: "/notes", label: "Notes" },
+  { href: "/notes", label: "Notes" },
 ];
 
 export const Header = () => {
@@ -43,8 +44,11 @@ export const Header = () => {
                 <Link
                   href={item.href}
                   className={`${
-                    pathname === item.href ? "text-green-400" : ""
-                  } font-normal text-base hover:text-green-400 duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-green-400 after:transition-all after:duration-300`}
+                    pathname === item.href ||
+                    (item.href === "/notes" && pathname.startsWith("/notes/"))
+                      ? "text-green-400"
+                      : ""
+                  } font-normal text-sm hover:text-green-400 duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-green-400 after:transition-all after:duration-300`}
                   aria-label={`Go to ${item.label} section`}
                 >
                   {item.label}
@@ -82,6 +86,12 @@ export const Header = () => {
                   <Link href="/projects">
                     <Projector />
                     Projects
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link href="/notes">
+                    <Notebook />
+                    Notes
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>

@@ -1,18 +1,25 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
+import remarkHtml from "remark-html";
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   experimental: {
-    turbo: {
-      rules: {
-        "*.svg": {
-          loaders: ["@svgr/webpack"],
-          as: "*.js",
-        },
-      },
-    },
+    mdxRs: true,
   },
   webpack(config) {
+    config.module.rules.push({
+      test: /\.mdx?$/,
+      use: [
+        {
+          loader: "@mdx-js/loader",
+          options: {
+            providerImportSource: "@mdx-js/react",
+          },
+        },
+      ],
+    });
+
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
@@ -23,8 +30,11 @@ const nextConfig: NextConfig = {
 };
 
 const withMDX = createMDX({
-  // Add markdown plugins here, as desired
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [remarkHtml],
+    providerImportSource: "@mdx-js/react",
+  },
 });
 
-// Merge MDX config with Next.js config
 export default withMDX(nextConfig);

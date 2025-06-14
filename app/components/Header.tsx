@@ -59,7 +59,7 @@ export const Header = () => {
 
           <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
-              <AlignVerticalJustifyEnd className="text-neutral-500 md:hidden cursor-pointer" />
+              <AlignVerticalJustifyEnd className="text-neutral-500 !z-50 relative md:hidden cursor-pointer" />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="!right-0 !left-0" align="end">
               <DropdownMenuLabel className="w-full">Actions</DropdownMenuLabel>

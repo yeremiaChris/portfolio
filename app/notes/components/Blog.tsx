@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, Timer, Database } from "lucide-react"; // Using Database icon as a placeholder for TanStack
+import { Calendar, Timer } from "lucide-react"; // Using Database icon as a placeholder for TanStack
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 
@@ -23,7 +23,7 @@ export const Blog = () => {
     <motion.section
       {...defaultMotionProps}
       id="about"
-      className="max-w-6xl mt-20 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
+      className="max-w-4xl mt-20 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
     >
       <Title title="Notes" description="My study references" />
 
@@ -39,8 +39,8 @@ const NoteCard = () => {
     <Link href={`/notes/1`}>
       <Card className="bg-transparent text-white border-0 rounded-none pb-0">
         <CardContent className="p-0">
-          <div className="items-center justify-between flex gap">
-            <div className="space-y-3 ">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+            <div className="space-y-3">
               <Badge>#react</Badge>
               <CardTitle className="text-xl">
                 TanStack Query: Simplifying Data Fetching in React
@@ -60,12 +60,6 @@ const NoteCard = () => {
                   <Timer width={14} />
                   <span className="text-xs"> 10 min read </span>
                 </div>
-              </div>
-            </div>
-
-            <div>
-              <div className="relative w-[200px] h-[110px] rounded overflow-hidden flex items-center justify-center bg-gray-800">
-                <Database size={48} className="text-white" />
               </div>
             </div>
           </div>

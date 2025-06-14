@@ -30,11 +30,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     pre: ({ children }) => {
       const code = children?.props?.children || "";
       return (
-        <div className="relative group">
+        <div className="relative w-full group">
           <pre
-            className="text-white p-4 rounded-lg overflow-x-auto my-4 shadow-lg"
+            className="text-white p-4 rounded-lg overflow-x-auto my-4 shadow-lg break-words"
             style={{
               backgroundColor: "#1e1e1e",
+              wordWrap: "break-word",
+              whiteSpace: "pre-wrap",
             }}
           >
             {children}
@@ -47,14 +49,16 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       // For inline code
       if (!className) {
         return (
-          <code className="bg-gray-700 text-white px-1.5 py-0.5 rounded text-sm">
+          <code className="bg-gray-700 text-white px-1.5 py-0.5 rounded text-sm break-words">
             {children}
           </code>
         );
       }
       // For code blocks
       return (
-        <code className={`block ${className} text-sm leading-relaxed`}>
+        <code
+          className={`block ${className} text-sm leading-relaxed break-words`}
+        >
           {children}
         </code>
       );

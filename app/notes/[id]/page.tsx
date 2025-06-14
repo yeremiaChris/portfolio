@@ -10,22 +10,22 @@ const Page = () => {
       <Badge variant="outline" className="text-white">
         Next.js
       </Badge>
-      <h1 className="text-4xl font-bold">
+      <h1 className="text-4xl font-bold sm:text-3xl xs:text-2xl">
         Getting Started with TanStack Query: Fetching Data with useQuery
       </h1>
-      <p className="text-neutral-400">
+      <p className="text-neutral-400 text-lg sm:text-base xs:text-sm">
         Learn how to simplify data fetching in React applications using TanStack
         Query&apos;s useQuery hook. In this blog, we will walk you through the
         basics of setting up TanStack Query and how to use useQuery to fetch
         data from APIs with ease.
       </p>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row items-center gap-2">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <div>
-          <p className="text-md">Yeremia Chris Saragi</p>
+        <div className="text-center sm:text-left">
+          <p className="text-md sm:text-sm">Yeremia Chris Saragi</p>
           <p className="text-xs text-neutral-400">
             June 14, 2025 — Last updated June 14, 2025
           </p>
@@ -34,7 +34,7 @@ const Page = () => {
       <p className="text-xs text-neutral-400">
         Estimated reading time: 3 minutes
       </p>
-      <div className="space-y-4">
+      <div className="space-y-4 w-full">
         <Blog1 />
       </div>
     </article>

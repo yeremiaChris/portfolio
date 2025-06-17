@@ -8,11 +8,11 @@ import Link from "next/link";
 import { Title } from "./ui/Title";
 
 const defaultMotionProps = {
-  initial: { opacity: 0, y: 15 },
+  initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-50px" },
   transition: {
-    duration: 0.6,
+    duration: 0.5,
     ease: [0.4, 0, 0.2, 1],
   },
 } as const;
@@ -22,7 +22,7 @@ export const About = () => {
     <motion.section
       {...defaultMotionProps}
       id="about"
-      className="max-w-6xl mt-20 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
+      className="max-w-6xl pt-20 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
     >
       <Title
         title="About"
@@ -34,7 +34,7 @@ export const About = () => {
             {...defaultMotionProps}
             transition={{
               duration: 0.5,
-              delay: 0.1,
+              delay: 0.3,
             }}
             className="mb-10 space-y-2"
           >
@@ -56,7 +56,7 @@ export const About = () => {
             {...defaultMotionProps}
             transition={{
               duration: 0.5,
-              delay: 0.2,
+              delay: 0.4,
             }}
             className="text-white text-sm"
           >
@@ -77,7 +77,7 @@ export const About = () => {
             {...defaultMotionProps}
             transition={{
               duration: 0.5,
-              delay: 0.1,
+              delay: 0.5,
             }}
             className="space-y-2 mt-10"
           >
@@ -90,7 +90,7 @@ export const About = () => {
             {...defaultMotionProps}
             transition={{
               duration: 0.5,
-              delay: 0.2,
+              delay: 0.6,
             }}
             className="space-y-2 list-disc list-outside px-7 mt-9"
           >
@@ -153,7 +153,7 @@ export const About = () => {
             {...defaultMotionProps}
             transition={{
               duration: 0.5,
-              delay: 0.1,
+              delay: 0.7,
             }}
             className="space-y-2 mt-10"
           >
@@ -163,11 +163,12 @@ export const About = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{
-              duration: 0.4,
-              ease: "easeOut",
+              duration: 0.5,
+              delay: 0.8,
             }}
             className="text-green-400 flex group tracking-widest"
           >
@@ -182,10 +183,11 @@ export const About = () => {
                   <motion.span
                     key={index}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
                     transition={{
                       duration: 0.2,
-                      delay: index * 0.02,
+                      delay: 0.9 + index * 0.02,
                     }}
                   >
                     {char === " " ? "\u00A0" : char}
@@ -195,30 +197,74 @@ export const About = () => {
             </div>
           </motion.div>
 
-          <Button className="mt-4" asChild>
-            <Link href="mailto:yeremia997@gmail.com">
-              <Mail /> Send me an email
-            </Link>
-          </Button>
+          <motion.div
+            {...defaultMotionProps}
+            transition={{
+              duration: 0.5,
+              delay: 1.0,
+            }}
+          >
+            <Button className="mt-4" asChild>
+              <Link href="mailto:yeremia997@gmail.com">
+                <Mail /> Send me an email
+              </Link>
+            </Button>
 
-          <p className="text-sm mt-3">
-            Or copy this email manually: yeremia997@gmail.com
-          </p>
+            <p className="text-sm mt-3">
+              Or copy this email manually: yeremia997@gmail.com
+            </p>
+          </motion.div>
         </div>
 
-        <div className="px-5 md:sticky md:top-20 md:mt-14 transition-all duration-300">
-          <div className="transition-all duration-300 relative aspect-1-1">
-            <div className="absolute w-20 h-20 bg-green-500 -right-1 -top-1 rounded-tr-3xl" />
-            <div className="absolute w-20 h-20 bg-green-500 -left-1 -bottom-1 rounded-bl-3xl" />
+        <motion.div
+          transition={{
+            duration: 0.8,
+            delay: 0.3,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+          className="px-5 md:sticky md:top-20 md:mt-14 transition-all duration-300"
+        >
+          <div className="relative group">
+            {/* Modern gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-blue-500/20 to-purple-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
 
-            <Image
-              src="/yeremia-1.JPG"
-              alt="yeremia"
-              fill
-              className="rounded-3xl"
-            />
+            {/* Glowing border effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-green-400/30 via-blue-400/30 to-purple-400/30 rounded-3xl p-[2px]">
+              <div className="bg-black/90 backdrop-blur-sm rounded-3xl h-full w-full" />
+            </div>
+
+            {/* Main image container */}
+            <div className="relative aspect-square rounded-3xl overflow-hidden">
+              {/* Decorative elements */}
+              <div className="absolute top-4 right-4 w-3 h-3 bg-green-400 rounded-full animate-pulse z-10" />
+              <div className="absolute bottom-4 left-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse z-10" />
+
+              {/* Image with modern styling */}
+              <Image
+                src="/yeremia-1.JPG"
+                alt="Yeremia Chris Saragi"
+                fill
+                className="object-cover rounded-3xl group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, 400px"
+              />
+
+              {/* Overlay gradient for depth */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent rounded-3xl" />
+
+              {/* Status indicator */}
+              <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-xs text-white/80 font-medium">
+                  Available
+                </span>
+              </div>
+            </div>
+
+            {/* Floating elements */}
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-green-400 to-blue-500 rounded-lg rotate-12 opacity-80 group-hover:rotate-0 transition-transform duration-300" />
+            <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg -rotate-12 opacity-80 group-hover:rotate-0 transition-transform duration-300" />
           </div>
-        </div>
+        </motion.div>
       </div>
     </motion.section>
   );

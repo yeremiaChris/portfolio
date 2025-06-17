@@ -29,6 +29,8 @@ export default function Home() {
   return (
     <>
       <Banner />
+
+      <section className="text-white px-5 max-w-6xl mx-auto">mystacks</section>
     </>
   );
 }

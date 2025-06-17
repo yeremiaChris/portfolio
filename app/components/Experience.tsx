@@ -3,6 +3,16 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Title } from "./ui/Title";
 
+const defaultMotionProps = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-50px" },
+  transition: {
+    duration: 0.6,
+    ease: [0.4, 0, 0.2, 1],
+  },
+} as const;
+
 interface ExperienceItemProps {
   date: string;
   title: string;
@@ -22,22 +32,32 @@ const ExperienceItem = ({
   location,
   description,
   responsibilities,
-}: ExperienceItemProps) => (
-  <div className="flex flex-col md:grid md:grid-cols-4 gap-5 md:gap-10">
+  index,
+}: ExperienceItemProps & { index: number }) => (
+  <motion.div
+    {...defaultMotionProps}
+    transition={{
+      duration: 0.6,
+      delay: 0.3 + index * 0.2, // Staggered animation for each experience
+    }}
+    className="flex flex-col md:grid md:grid-cols-4 gap-5 md:gap-10"
+  >
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0.4 }}
+      {...defaultMotionProps}
+      transition={{
+        duration: 0.6,
+        delay: 0.4 + index * 0.2,
+      }}
       className="md:col-span-1"
     >
       <h2 className="text-neutral-500 uppercase text-sm font-medium">{date}</h2>
     </motion.div>
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0.4 }}
+      {...defaultMotionProps}
+      transition={{
+        duration: 0.6,
+        delay: 0.5 + index * 0.2,
+      }}
       className="col-span-3"
     >
       <h2 className="text-lg font-bold">{title}</h2>
@@ -45,24 +65,26 @@ const ExperienceItem = ({
         <Link
           href={company.url}
           target="_blank"
-          className="text-blue-400 underline"
+          className="text-blue-400 underline hover:text-blue-300 transition-colors duration-200"
         >
           {company.name}
         </Link>
         <span>-</span>
         <span>{location}</span>
       </div>
-      <p className="mt-2 text-white text-sm">{description}</p>
+      <p className="mt-2 text-white text-sm leading-relaxed">{description}</p>
 
       <div className="mt-5 space-y-3 [&>ul]:list-disc [&>ul]:list-outside [&>ul]:space-y-1.5 [&>ul]:pl-3">
         <ul className="space-y-3 text-white text-sm">
-          {responsibilities.map((responsibility, index) => (
+          {responsibilities.map((responsibility, respIndex) => (
             <motion.li
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
+              key={respIndex}
+              {...defaultMotionProps}
+              transition={{
+                duration: 0.5,
+                delay: 0.6 + index * 0.2 + respIndex * 0.1, // Staggered within each experience
+              }}
+              className="leading-relaxed"
             >
               {responsibility}
             </motion.li>
@@ -70,7 +92,7 @@ const ExperienceItem = ({
         </ul>
       </div>
     </motion.div>
-  </div>
+  </motion.div>
 );
 
 export const Experience = () => {
@@ -131,20 +153,32 @@ export const Experience = () => {
   ];
 
   return (
-    <section
+    <motion.section
+      {...defaultMotionProps}
       id="experience"
-      className="text-white relative max-w-6xl mx-auto px-5 pb-10 mt-20 mb-10"
+      className="text-white relative max-w-6xl mx-auto px-5 pb-10 pt-20 mb-10"
     >
       <Title
         title="Experience"
-        description="    Showcasing my professional journey"
+        description="Showcasing my professional journey"
       />
 
-      <div className="space-y-14">
-        {experiences.map((experience) => (
-          <ExperienceItem key={experience.company.name} {...experience} />
+      <motion.div
+        {...defaultMotionProps}
+        transition={{
+          duration: 0.6,
+          delay: 0.3, // Start after title animation
+        }}
+        className="space-y-14"
+      >
+        {experiences.map((experience, index) => (
+          <ExperienceItem
+            key={experience.company.name}
+            {...experience}
+            index={index}
+          />
         ))}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };

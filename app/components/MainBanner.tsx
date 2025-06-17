@@ -25,7 +25,7 @@ import {
 export const MainBanner = () => {
   return (
     <div className="px-5 relative md:mt-5">
-      <Button className="flex text-xl py-6 px-5 items-center gap-3">
+      <Button className="p-4 rounded-lg text-sm md:text-lg" size="lg">
         <span>💅</span>
         <span className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-shine">
           Software Engineer

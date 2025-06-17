@@ -1,5 +1,4 @@
 "use client";
-import { motion } from "framer-motion";
 import { Title } from "../../components/ui/Title";
 import {
   Card,
@@ -10,22 +9,6 @@ import {
 import { Calendar, Timer } from "lucide-react"; // Using Database icon as a placeholder for TanStack
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-
-const defaultMotionProps = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.8 },
-};
-
-interface NoteCardProps {
-  href: string;
-  badge: string;
-  title: string;
-  description: string;
-  date: string;
-  readTime: string;
-}
 
 export const Blog = () => {
   const noteCardContent = {
@@ -39,18 +22,26 @@ export const Blog = () => {
   };
 
   return (
-    <motion.section
-      {...defaultMotionProps}
+    <section
       id="about"
-      className="max-w-4xl mt-20 pb-44 relative self-center space-y-5 px-5 mx-auto text-white"
+      className="max-w-4xl pt-20 pb-10 space-y-5 relative self-center px-5 mx-auto text-white"
     >
       <Title title="Notes" description="My study references" />
       <div className="grid gap-5">
         <NoteCard {...noteCardContent} />
       </div>
-    </motion.section>
+    </section>
   );
 };
+
+interface NoteCardProps {
+  href: string;
+  badge: string;
+  title: string;
+  description: string;
+  date: string;
+  readTime: string;
+}
 
 const NoteCard = ({
   href,

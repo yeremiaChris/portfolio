@@ -16,19 +16,15 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Title } from "./ui/Title";
 
-const contentAnimationProps = {
-  initial: { opacity: 0, x: -20 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.6, delay: 0.4 },
-};
-
-const imageAnimationProps = {
-  initial: { opacity: 0, x: 20 },
-  whileInView: { opacity: 1, x: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.6, delay: 0.4 },
-};
+const defaultMotionProps = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-50px" },
+  transition: {
+    duration: 0.6,
+    ease: [0.4, 0, 0.2, 1],
+  },
+} as const;
 
 interface ProjectItemProps {
   title: string;
@@ -58,7 +54,11 @@ const ProjectItem = ({
     <div className="grid grid-cols-1 border border-dashed rounded-xl p-5 border-neutral-700 justify-center md:grid-cols-2 gap-10">
       {/* Mobile Image (always shows on top for mobile) */}
       <motion.div
-        {...imageAnimationProps}
+        {...defaultMotionProps}
+        transition={{
+          duration: 0.6,
+          delay: 0.4 + (index ?? 0) * 0.1,
+        }}
         className="relative rounded-lg border border-neutral-900 border-dashed overflow-hidden w-full h-72 md:hidden"
       >
         <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
@@ -67,7 +67,14 @@ const ProjectItem = ({
       {/* Desktop Layout - Conditionally order content and image */}
       {isEven ? (
         <>
-          <motion.div {...contentAnimationProps} className="space-y-5">
+          <motion.div
+            {...defaultMotionProps}
+            transition={{
+              duration: 0.6,
+              delay: 0.4 + (index ?? 0) * 0.1,
+            }}
+            className="space-y-5"
+          >
             <h2 className="text-2xl font-bold">{title}</h2>
             <p className="text-sm text-white">{description}</p>
             <p className="text-neutral-400 text-sm">Tools: {tools}</p>
@@ -78,7 +85,11 @@ const ProjectItem = ({
             </Button>
           </motion.div>
           <motion.div
-            {...imageAnimationProps}
+            {...defaultMotionProps}
+            transition={{
+              duration: 0.6,
+              delay: 0.4 + (index ?? 0) * 0.1,
+            }}
             style={{
               aspectRatio: "2.8 / 1",
             }}
@@ -95,7 +106,11 @@ const ProjectItem = ({
       ) : (
         <>
           <motion.div
-            {...imageAnimationProps}
+            {...defaultMotionProps}
+            transition={{
+              duration: 0.6,
+              delay: 0.4 + (index ?? 0) * 0.1,
+            }}
             style={{
               aspectRatio: "2.8 / 1",
             }}
@@ -108,7 +123,14 @@ const ProjectItem = ({
               className="transition-all duration-300 brightness-90 group-hover:brightness-110 group-hover:contrast-110 group-hover:scale-105"
             />
           </motion.div>
-          <motion.div {...contentAnimationProps} className="space-y-5">
+          <motion.div
+            {...defaultMotionProps}
+            transition={{
+              duration: 0.6,
+              delay: 0.4 + (index ?? 0) * 0.1,
+            }}
+            className="space-y-5"
+          >
             <h2 className="text-2xl font-bold">{title}</h2>
             <p className="text-sm text-white">{description}</p>
             <p className="text-neutral-400 text-sm">Tool: {tools}</p>
@@ -126,72 +148,81 @@ const ProjectItem = ({
 
 const ProjectItemV2 = (props: ProjectItemProps & { index?: number }) => {
   return (
-    <Card className="bg-transparent rounded-2xl p-0 text-white border-none overflow-hidden">
-      <CardHeader className="p-3 rounded-2xl bg-neutral-900">
-        <Link
-          href={props.link}
-          className="relative hover:scale-110 transition-all duration-300 h-44 overflow-hidden"
-        >
-          <Image
-            src={props.imageSrc}
-            fill
-            alt={props.imageAlt}
-            className={cn(
-              "rounded-lg transition-all duration-300 brightness-90 group-hover:brightness-110 group-hover:contrast-110 group-hover:scale-105",
-              props?.title?.toLowerCase() === "cdic" && "object-contain"
-            )}
-          />
-        </Link>
-      </CardHeader>
-
-      <CardContent className="px-0 mt-3 space-y-2 pb-3">
-        <CardTitle className="text-lg space-x-3">
-          <span>{props.title}</span>
-          <Badge className="text-white" variant="outline">
-            #{props.badge}
-          </Badge>
-        </CardTitle>
-        <CardDescription title={props.description} className="text-white">
-          {props.description}
-        </CardDescription>
-        <div className="flex items-center gap-x-3 gap-y-2 flex-wrap pt-3">
-          <span className="text-sm font-bold">Tools:</span>
-          {props.tools.split(",").map((item) => (
-            <Badge title={item} key={item}>
-              {item}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-
-      <CardFooter className="px-0 pb-3 mt-1 items-center flex justify-between">
-        <div className="flex items-center gap-3">
-          <Calendar width={15} />#{props.year}
-        </div>
-        {props.link ? (
-          <Button asChild>
-            <Link href={props.link} target="_blank">
-              Open Site <ExternalLink />
-            </Link>
-          </Button>
-        ) : (
+    <motion.div
+      {...defaultMotionProps}
+      transition={{
+        duration: 0.6,
+        delay: 0.4 + (props.index ?? 0) * 0.1,
+      }}
+    >
+      <Card className="bg-transparent rounded-2xl p-0 text-white border-none overflow-hidden group hover:scale-[1.02] transition-all duration-300">
+        <CardHeader className="p-3 rounded-2xl bg-neutral-900">
           <Link
-            className="border-b"
-            href="https://play.google.com/store/apps/details?id=com.primaku.app&hl=id"
-            target="_blank"
+            href={props.link}
+            className="relative hover:scale-105 transition-all duration-300 h-44 overflow-hidden rounded-lg"
           >
-            Webview
+            <Image
+              src={props.imageSrc}
+              fill
+              alt={props.imageAlt}
+              className={cn(
+                "rounded-lg transition-all duration-300 brightness-90 group-hover:brightness-110 group-hover:contrast-110 group-hover:scale-105",
+                props?.title?.toLowerCase() === "cdic" && "object-contain"
+              )}
+            />
           </Link>
-        )}
-      </CardFooter>
-    </Card>
+        </CardHeader>
+
+        <CardContent className="px-0 mt-3 space-y-2 pb-3">
+          <CardTitle className="text-lg space-x-3">
+            <span>{props.title}</span>
+            <Badge className="text-white" variant="outline">
+              #{props.badge}
+            </Badge>
+          </CardTitle>
+          <CardDescription title={props.description} className="text-white">
+            {props.description}
+          </CardDescription>
+          <div className="flex items-center gap-x-3 gap-y-2 flex-wrap pt-3">
+            <span className="text-sm font-bold">Tools:</span>
+            {props.tools.split(",").map((item) => (
+              <Badge title={item} key={item}>
+                {item}
+              </Badge>
+            ))}
+          </div>
+        </CardContent>
+
+        <CardFooter className="px-0 pb-3 mt-1 items-center flex justify-between">
+          <div className="flex items-center gap-3">
+            <Calendar width={15} />#{props.year}
+          </div>
+          {props.link ? (
+            <Button asChild>
+              <Link href={props.link} target="_blank">
+                Open Site <ExternalLink />
+              </Link>
+            </Button>
+          ) : (
+            <Link
+              className="border-b"
+              href="https://play.google.com/store/apps/details?id=com.primaku.app&hl=id"
+              target="_blank"
+            >
+              Webview
+            </Link>
+          )}
+        </CardFooter>
+      </Card>
+    </motion.div>
   );
 };
+
 const projects: ProjectItemProps[] = [
   {
     title: "PrimaKu Landing Page (Revamp)",
     description:
-      "The revamped PrimaKu landing page features smooth animations and sections highlighting PrimaKu’s parenting tools, ecosystem, and impact, designed for an engaging user experience.",
+      "The revamped PrimaKu landing page features smooth animations and sections highlighting PrimaKu's parenting tools, ecosystem, and impact, designed for an engaging user experience.",
     tools:
       "NextJs, NextUi, Typescript, Swiper, React Hook Form, Valibot, TanStack Query, Axios, Framer Motion, Moengage Tracker",
     imageSrc: "/projects/primaku.png",
@@ -296,20 +327,28 @@ const projects: ProjectItemProps[] = [
 
 export const Projects = () => {
   return (
-    <section
+    <motion.section
+      {...defaultMotionProps}
       id="projects"
-      className="text-white relative mt-20 max-w-6xl mx-auto px-5 pb-10"
+      className="text-white relative pt-20 max-w-6xl mx-auto px-5 pb-10"
     >
       <Title
         title="Projects"
         description="Showcasing my featured projects and work"
       />
 
-      <div className="grid md:grid-cols-3 gap-4">
+      <motion.div
+        {...defaultMotionProps}
+        transition={{
+          duration: 0.6,
+          delay: 0.3, // Start after title animation
+        }}
+        className="grid md:grid-cols-3 gap-4"
+      >
         {projects.map((project, index) => (
           <ProjectItemV2 key={project.title} {...project} index={index} />
         ))}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };

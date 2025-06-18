@@ -1,4 +1,5 @@
 import Banner from "./components/home/Home";
+import { TechStack } from "./components/home/TechStack";
 export const metadata = {
   title: "Yeremia Chris Saragi | Frontend Web Developer",
   description:
@@ -30,7 +31,21 @@ export default function Home() {
     <>
       <Banner />
 
-      <section className="text-white px-5 max-w-6xl mx-auto">mystacks</section>
+      <section className="text-white mb-32 px-5 max-w-6xl mx-auto space-y-14">
+        <h2 className="text-3xl md:text-4xl font-bold">
+          <span className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
+            With Cutting-Edge Tech Stack
+          </span>
+          <span> 🚀</span>
+        </h2>
+        {/* <p className="text-gray-300 font-normal text-center text-sm md:text-lg">
+          As a software engineer, I leverage these modern development
+          technologies to build innovative, scalable applications. My tech stack
+          includes industry-standard tools for creating exceptional digital
+          experiences, ensuring high-quality, maintainable code.
+        </p> */}
+        <TechStack />
+      </section>
     </>
   );
 }

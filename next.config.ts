@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
   experimental: {
     mdxRs: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatar.vercel.sh",
+      },
+    ],
+  },
 };
 
 const withMDX = createMDX({

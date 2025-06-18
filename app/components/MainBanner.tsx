@@ -33,7 +33,7 @@ export const MainBanner = () => {
       </Button>
 
       <div className="mt-5 flex flex-col md:flex-row">
-        <div className="space-y-5">
+        <div className="space-y-7">
           <motion.h1
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -47,7 +47,7 @@ export const MainBanner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="mt-5 text-gray-300 text-sm md:text-lg"
+            className="mt-5 text-gray-300 font-normal text-sm md:text-lg"
           >
             Software engineer with proven expertise in developing user-focused
             applications from concept to deployment, enhancing performance and

@@ -32,18 +32,14 @@ export default function Home() {
       <Banner />
 
       <section className="text-white mb-32 px-5 max-w-6xl mx-auto space-y-14">
-        <h2 className="text-3xl md:text-4xl font-bold">
-          <span className="bg-gradient-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
-            With Cutting-Edge Tech Stack
-          </span>
-          <span> 🚀</span>
-        </h2>
-        {/* <p className="text-gray-300 font-normal text-center text-sm md:text-lg">
-          As a software engineer, I leverage these modern development
-          technologies to build innovative, scalable applications. My tech stack
-          includes industry-standard tools for creating exceptional digital
-          experiences, ensuring high-quality, maintainable code.
-        </p> */}
+        <div className="space-y-5">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl">
+            <span className="text-neutral-200 text-3xl md:text-4xl font-extrabold tracking-tight lg:text-5xl">
+              With Cutting-Edge Tech Stack
+            </span>
+            <span> 🚀</span>
+          </h2>
+        </div>
         <TechStack />
       </section>
     </>

@@ -38,16 +38,6 @@ const techStack = [
     category: "Backend",
   },
   {
-    name: "Python",
-    icon: "🐍",
-    category: "Language",
-  },
-  {
-    name: "Laravel",
-    icon: "🔴",
-    category: "Backend",
-  },
-  {
     name: "Framer Motion",
     icon: "✨",
     category: "Animation",
@@ -61,6 +51,46 @@ const techStack = [
     name: "Firebase",
     icon: "🟠",
     category: "Backend",
+  },
+  {
+    name: "NestJS",
+    icon: "🛡️",
+    category: "Backend",
+  },
+  {
+    name: "Remix",
+    icon: "🎭",
+    category: "Framework",
+  },
+  {
+    name: "Astro",
+    icon: "🌌",
+    category: "Framework",
+  },
+  {
+    name: "JavaScript",
+    icon: "🟨",
+    category: "Language",
+  },
+  {
+    name: "HTML",
+    icon: "📄",
+    category: "Markup",
+  },
+  {
+    name: "Git",
+    icon: "🔧",
+    category: "Version Control",
+  },
+  {
+    name: "Jira",
+    icon: "📋",
+    category: "Project Management",
+  },
+  {
+    name: "Notion",
+    icon: "🗒️",
+    category: "Productivity",
   },
 ];
 

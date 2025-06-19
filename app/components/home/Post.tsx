@@ -31,16 +31,13 @@ const Post = () => {
       >
         <h2 className="text-3xl md:text-4xl lg:text-5xl ">
           <motion.span
-            className="text-neutral-200 text-3xl relative md:text-4xl font-extrabold tracking-tight lg:text-5xl"
+            className="text-neutral-200 relative text-3xl font-extrabold tracking-tight lg:text-4xl"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Latest{" "}
-            <span className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-shine">
-              Posts & Insights
-            </span>
+            Latest Posts & Insights
             <svg
               width="75"
               height="62"

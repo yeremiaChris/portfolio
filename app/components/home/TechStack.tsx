@@ -197,26 +197,26 @@ export function TechStack() {
         transition={{ duration: 1, delay: 0.3 }}
       >
         <Marquee pauseOnHover className="[--duration:30s]">
-          {firstRow.map((tech, index) => (
+          {firstRow.map((tech) => (
             <motion.div
               key={tech.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5 }}
             >
               <TechCard {...tech} />
             </motion.div>
           ))}
         </Marquee>
         <Marquee reverse pauseOnHover className="[--duration:30s]">
-          {secondRow.map((tech, index) => (
+          {secondRow.map((tech) => (
             <motion.div
               key={tech.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5 }}
             >
               <TechCard {...tech} />
             </motion.div>

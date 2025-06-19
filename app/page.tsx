@@ -1,5 +1,6 @@
 import Banner from "./components/home/Home";
 import { TechStack } from "./components/home/TechStack";
+import Post from "./components/home/Post";
 export const metadata = {
   title: "Yeremia Chris Saragi | Frontend Web Developer",
   description:
@@ -31,17 +32,9 @@ export default function Home() {
     <>
       <Banner />
 
-      <section className="text-white mb-32 px-5 max-w-6xl mx-auto space-y-14">
-        <div className="space-y-5">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl">
-            <span className="text-neutral-200 text-3xl md:text-4xl font-extrabold tracking-tight lg:text-5xl">
-              With Cutting-Edge Tech Stack
-            </span>
-            <span> 🚀</span>
-          </h2>
-        </div>
-        <TechStack />
-      </section>
+      <TechStack />
+
+      <Post />
     </>
   );
 }

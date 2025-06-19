@@ -43,7 +43,7 @@ interface NoteCardProps {
   readTime: string;
 }
 
-const NoteCard = ({
+export const NoteCard = ({
   href,
   badge,
   title,

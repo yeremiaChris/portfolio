@@ -10,7 +10,7 @@ const Page = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-3xl mt-32 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
+      className="max-w-3xl pt-32 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
     >
       <Badge variant="outline" className="text-white">
         Next.js

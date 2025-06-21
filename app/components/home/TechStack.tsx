@@ -151,7 +151,7 @@ const TechCard = ({
 
 export function TechStack() {
   return (
-    <section className="text-white mb-32 px-5 max-w-6xl mx-auto space-y-14">
+    <section className="text-white px-5 max-w-6xl mx-auto space-y-20 pb-40">
       <motion.div
         className="space-y-5"
         initial={{ opacity: 0, y: 30 }}
@@ -159,9 +159,9 @@ export function TechStack() {
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <h2 className="text-3xl md:text-4xl lg:text-5xl">
+        <h2 className="text-3xl text-center md:text-4xl lg:text-5xl">
           <motion.span
-            className="text-neutral-200 text-3xl font-extrabold tracking-tight lg:text-4xl"
+            className="text-neutral-200 bg-gradient-to-r from-transparent via-green-900 to-transparent text-3xl font-extrabold tracking-tight lg:text-4xl"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -184,6 +184,11 @@ export function TechStack() {
             🚀
           </motion.span>
         </h2>
+
+        <p className="text-center text-neutral-400">
+          I&apos;m proficient in a wide range of technologies, from frontend
+          frameworks to backend services.
+        </p>
       </motion.div>
 
       <motion.div

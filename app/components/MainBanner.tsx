@@ -41,9 +41,9 @@ export const MainBanner = () => {
             className="text-neutral-200 text-4xl md:text-5xl font-extrabold tracking-tight lg:text-6xl"
           >
             Hi, I&apos;m{" "}
-            <span className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-shine">
-              Yeremia
-            </span>
+            {/* <span className="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-shine"> */}
+            Yeremia
+            {/* </span> */}
           </motion.h1>
 
           <motion.p

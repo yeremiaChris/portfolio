@@ -16,7 +16,7 @@ const Post = () => {
 
   return (
     <motion.section
-      className="text-white mb-32 px-5 max-w-6xl mx-auto space-y-14"
+      className="text-white px-5 max-w-6xl mx-auto space-y-20 pb-40"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -29,9 +29,9 @@ const Post = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <h2 className="text-3xl md:text-4xl lg:text-5xl ">
+        <h2 className="text-3xl mb-16 md:text-4xl lg:text-5xl ">
           <motion.span
-            className="text-neutral-200 relative text-3xl font-extrabold tracking-tight lg:text-4xl"
+            className="text-neutral-200 bg-gradient-to-r relative from-transparent via-green-900 to-transparent text-3xl font-extrabold tracking-tight lg:text-4xl"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -44,7 +44,7 @@ const Post = () => {
               viewBox="0 0 75 62"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="absolute -bottom-8 -right-24 hidden sm:block"
+              className="absolute -bottom-10 -right-24 hidden sm:block"
             >
               <path
                 d="M1 1C6.24431 1.21626 11.5365 2.05428 16.6516 3.13955C28.7596 5.70848 41.2898 9.45859 51.3287 17.0631C61.1747 24.5214 66.3737 34.4703 69.1034 46.2597C70.3557 51.6681 70.3959 56.1136 70.6176 61.434"

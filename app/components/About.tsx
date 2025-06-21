@@ -224,7 +224,7 @@ export const About = () => {
           }}
           className="px-5 md:sticky md:top-20 md:mt-14 transition-all duration-300"
         >
-          <div className="relative group">
+          <div className="relative p-1.5 group">
             {/* Modern gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-blue-500/20 to-purple-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
 

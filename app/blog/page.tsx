@@ -19,7 +19,7 @@ export default function Blog() {
       id="about"
       className="max-w-6xl pt-20 pb-40 space-y-5 relative self-center px-5 mx-auto text-white"
     >
-      <Title title="Notes" description="My study references" />
+      <Title title="Blog" description="My study references" />
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}

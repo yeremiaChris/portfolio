@@ -91,7 +91,7 @@ export const Header = () => {
                 <DropdownMenuItem asChild className="cursor-pointer">
                   <Link href="/blog">
                     <Notebook />
-                    Notes
+                    Blog
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>

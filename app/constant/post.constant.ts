@@ -1,4 +1,4 @@
-import { NoteCardProps } from "@/app/blog/page";
+import { NoteCardProps } from "@/app/blog/backend-fundamentals/NoteCard";
 export const POSTS: NoteCardProps[] = [
   {
     href: "/blog/getting-started-with-tanstack-query",

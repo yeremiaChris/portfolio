@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { POSTS } from "@/app/constant/post.constant";
-import { NoteCard } from "@/app/blog/page";
+import { NoteCard } from "@/app/blog/backend-fundamentals/NoteCard";
 
 const Post = () => {
   return (

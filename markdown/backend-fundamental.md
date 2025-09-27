@@ -195,3 +195,9 @@ To build a backend, you'll need to choose a "stack"—a combination of technolog
 ## Conclusion & Career Path 🗺️
 
 The backend is the invisible yet indispensable heart of any modern application. While it may seem complex, the fundamentals boil down to a clear pattern: receive a request, process it, interact with a database, and send back a response.
+
+---
+
+## References 📚
+
+- [Backend Development Fundamentals - YouTube Playlist](https://www.youtube.com/watch?v=V3ZPPPKEipA&list=PLQnljOFTspQUNnO4p00ua_C5mKTfldiYT) - Comprehensive video series covering backend development concepts and best practices

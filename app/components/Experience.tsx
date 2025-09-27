@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { Title } from "./ui/Title";
 
 const defaultMotionProps = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 10 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-50px" },
+  viewport: { once: true, margin: "-100px" },
   transition: {
-    duration: 0.6,
-    ease: [0.4, 0, 0.2, 1],
+    duration: 0.4,
+    ease: "easeOut",
   },
 } as const;
 
@@ -37,29 +37,15 @@ const ExperienceItem = ({
   <motion.div
     {...defaultMotionProps}
     transition={{
-      duration: 0.6,
-      delay: 0.3 + index * 0.2, // Staggered animation for each experience
+      duration: 0.4,
+      delay: index * 0.1, // Simple staggered delay
     }}
     className="flex flex-col md:grid md:grid-cols-4 gap-5 md:gap-10"
   >
-    <motion.div
-      {...defaultMotionProps}
-      transition={{
-        duration: 0.6,
-        delay: 0.4 + index * 0.2,
-      }}
-      className="md:col-span-1"
-    >
+    <div className="md:col-span-1">
       <h2 className="text-neutral-500 uppercase text-sm font-medium">{date}</h2>
-    </motion.div>
-    <motion.div
-      {...defaultMotionProps}
-      transition={{
-        duration: 0.6,
-        delay: 0.5 + index * 0.2,
-      }}
-      className="col-span-3"
-    >
+    </div>
+    <div className="col-span-3">
       <h2 className="text-lg font-bold">{title}</h2>
       <div className="flex gap-1 items-start text-neutral-500">
         <Link
@@ -77,21 +63,13 @@ const ExperienceItem = ({
       <div className="mt-5 space-y-3 [&>ul]:list-disc [&>ul]:list-outside [&>ul]:space-y-1.5 [&>ul]:pl-3">
         <ul className="space-y-3 text-white text-sm">
           {responsibilities.map((responsibility, respIndex) => (
-            <motion.li
-              key={respIndex}
-              {...defaultMotionProps}
-              transition={{
-                duration: 0.5,
-                delay: 0.6 + index * 0.2 + respIndex * 0.1, // Staggered within each experience
-              }}
-              className="leading-relaxed"
-            >
+            <li key={respIndex} className="leading-relaxed">
               {responsibility}
-            </motion.li>
+            </li>
           ))}
         </ul>
       </div>
-    </motion.div>
+    </div>
   </motion.div>
 );
 
@@ -166,8 +144,8 @@ export const Experience = () => {
       <motion.div
         {...defaultMotionProps}
         transition={{
-          duration: 0.6,
-          delay: 0.3, // Start after title animation
+          duration: 0.4,
+          delay: 0.1, // Simple delay after title
         }}
         className="space-y-14"
       >

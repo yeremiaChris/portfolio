@@ -13,7 +13,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { POSTS } from "@/app/constant/post.constant";
 
-export const Blog = () => {
+export default function Blog() {
   return (
     <section
       id="about"
@@ -33,7 +33,7 @@ export const Blog = () => {
       </motion.div>
     </section>
   );
-};
+}
 
 export interface NoteCardProps {
   href: string;

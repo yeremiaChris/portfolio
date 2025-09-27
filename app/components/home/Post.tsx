@@ -1,8 +1,8 @@
 "use client";
-import { NoteCard } from "@/app/notes/components/Blog";
 import React from "react";
 import { motion } from "framer-motion";
 import { POSTS } from "@/app/constant/post.constant";
+import { NoteCard } from "@/app/blog/page";
 
 const Post = () => {
   return (

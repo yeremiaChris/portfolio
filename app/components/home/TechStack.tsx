@@ -2,96 +2,114 @@
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/magicui/marquee";
 import { motion } from "framer-motion";
+import {
+  Atom,
+  Globe,
+  Code2,
+  Palette,
+  Layers,
+  Server,
+  Zap,
+  Database,
+  Flame,
+  Shield,
+  Star,
+  Code,
+  FileText,
+  GitBranch,
+  ClipboardList,
+  StickyNote,
+} from "lucide-react";
 
 const techStack = [
   {
     name: "React",
-    icon: "⚛️",
+    icon: Atom,
     category: "Frontend",
   },
   {
     name: "Next.js",
-    icon: "▲",
+    icon: Globe,
     category: "Framework",
   },
   {
     name: "TypeScript",
-    icon: "📘",
+    icon: Code2,
     category: "Language",
   },
   {
     name: "Tailwind CSS",
-    icon: "🎨",
+    icon: Palette,
     category: "Styling",
   },
   {
     name: "Vue.js",
-    icon: "💚",
+    icon: Layers,
     category: "Frontend",
   },
   {
     name: "Nuxt.js",
-    icon: "🟢",
+    icon: Globe,
     category: "Framework",
   },
   {
     name: "Node.js",
-    icon: "🟩",
+    icon: Server,
     category: "Backend",
   },
   {
     name: "Framer Motion",
-    icon: "✨",
+    icon: Zap,
     category: "Animation",
   },
   {
     name: "Supabase",
-    icon: "🟢",
+    icon: Database,
     category: "Database",
   },
   {
     name: "Firebase",
-    icon: "🟠",
+    icon: Flame,
     category: "Backend",
   },
   {
     name: "NestJS",
-    icon: "🛡️",
+    icon: Shield,
     category: "Backend",
   },
   {
     name: "Remix",
-    icon: "🎭",
+    icon: Star,
     category: "Framework",
   },
   {
     name: "Astro",
-    icon: "🌌",
+    icon: Star,
     category: "Framework",
   },
   {
     name: "JavaScript",
-    icon: "🟨",
+    icon: Code,
     category: "Language",
   },
   {
     name: "HTML",
-    icon: "📄",
+    icon: FileText,
     category: "Markup",
   },
   {
     name: "Git",
-    icon: "🔧",
+    icon: GitBranch,
     category: "Version Control",
   },
   {
     name: "Jira",
-    icon: "📋",
+    icon: ClipboardList,
     category: "Project Management",
   },
   {
     name: "Notion",
-    icon: "🗒️",
+    icon: StickyNote,
     category: "Productivity",
   },
 ];
@@ -100,11 +118,11 @@ const firstRow = techStack.slice(0, techStack.length / 2);
 const secondRow = techStack.slice(techStack.length / 2);
 
 const TechCard = ({
-  icon,
+  icon: IconComponent,
   name,
   category,
 }: {
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
   name: string;
   category: string;
 }) => {
@@ -136,7 +154,7 @@ const TechCard = ({
             transition: { duration: 0.3, ease: "easeOut" },
           }}
         >
-          {icon}
+          <IconComponent className="w-8 h-8" />
         </motion.div>
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium dark:text-white">

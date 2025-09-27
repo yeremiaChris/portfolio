@@ -2,7 +2,7 @@
 import { Title } from "@/app/components/ui/Title";
 import { POSTS } from "@/app/constant/post.constant";
 import { motion } from "framer-motion";
-import { NoteCard } from "./backend-fundamentals/NoteCard";
+import { NoteCard } from "./components/NoteCard";
 export default function Blog() {
   return (
     <section

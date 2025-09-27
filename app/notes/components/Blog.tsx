@@ -1,5 +1,5 @@
 "use client";
-import { Title } from "../../components/ui/Title";
+import { Title } from "@/app/components/ui/Title";
 import {
   Card,
   CardContent,
@@ -11,38 +11,38 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { POSTS } from "@/app/constant/post.constant";
 
 export const Blog = () => {
-  const noteCardContent = {
-    href: "/notes/1",
-    badge: "#react",
-    title: "TanStack Query: Simplifying Data Fetching in React",
-    description:
-      "Explore how TanStack Query, formerly known as React Query, simplifies data fetching, caching, and synchronization in React applications. Learn to use the useQuery hook for efficient data management.",
-    date: "Sep 02, 2021",
-    readTime: "3 min read",
-  };
-
   return (
     <section
       id="about"
       className="max-w-6xl pt-20 pb-40 space-y-5 relative self-center px-5 mx-auto text-white"
     >
       <Title title="Notes" description="My study references" />
-      <div className="grid gap-5">
-        <NoteCard {...noteCardContent} />
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="space-x-3"
+      >
+        {POSTS.map((post) => (
+          <NoteCard key={post.title} {...post} />
+        ))}
+      </motion.div>
     </section>
   );
 };
 
-interface NoteCardProps {
+export interface NoteCardProps {
   href: string;
   badge: string;
   title: string;
   description: string;
   date: string;
   readTime: string;
+  image: string;
 }
 
 export const NoteCard = ({
@@ -52,6 +52,7 @@ export const NoteCard = ({
   description,
   date,
   readTime,
+  image,
 }: NoteCardProps) => {
   return (
     <Link href={href}>
@@ -116,8 +117,8 @@ export const NoteCard = ({
                 }}
               >
                 <Image
-                  src="/blog/tanstack.png"
-                  alt="tanstack"
+                  src={image}
+                  alt={title}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />

@@ -2,18 +2,9 @@
 import { NoteCard } from "@/app/notes/components/Blog";
 import React from "react";
 import { motion } from "framer-motion";
+import { POSTS } from "@/app/constant/post.constant";
 
 const Post = () => {
-  const noteCardContent = {
-    href: "/notes/1",
-    badge: "#react",
-    title: "TanStack Query: Simplifying Data Fetching in React",
-    description:
-      "Explore how TanStack Query, formerly known as React Query, simplifies data fetching, caching, and synchronization in React applications. Learn to use the useQuery hook for efficient data management.",
-    date: "Sep 02, 2021",
-    readTime: "3 min read",
-  };
-
   return (
     <motion.section
       className="text-white px-5 max-w-6xl mx-auto space-y-20 pb-40"
@@ -67,8 +58,11 @@ const Post = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
+          className="space-x-3"
         >
-          <NoteCard {...noteCardContent} />
+          {POSTS.map((post) => (
+            <NoteCard key={post.title} {...post} />
+          ))}
         </motion.div>
       </motion.div>
     </motion.section>

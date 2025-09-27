@@ -7,6 +7,7 @@ import {
   Github,
   Linkedin,
   Mail,
+  PhoneCall,
 } from "lucide-react";
 import {
   Tooltip,
@@ -90,6 +91,23 @@ export const MainBanner = () => {
             transition={{ duration: 0.5, delay: 1 }}
             className="flex gap-5 items-center text-neutral-600"
           >
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link href={`https://wa.me/6281212126215`} target="_blank">
+                    <PhoneCall
+                      className="hover:text-green-400 cursor-pointer duration-300"
+                      size={18}
+                    />
+                    <TooltipContent>
+                      <p className="border border-neutral-700 rounded-full mb-2 px-1.5">
+                        Whatsapp
+                      </p>
+                    </TooltipContent>
+                  </Link>
+                </TooltipTrigger>
+              </Tooltip>
+            </TooltipProvider>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

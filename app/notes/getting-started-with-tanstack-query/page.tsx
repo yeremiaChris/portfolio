@@ -1,8 +1,8 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import Content from "./components/Content";
 import { motion } from "framer-motion";
+import Blog1 from "@/markdown/getting-started-with-tanstack-query.md";
 
 const Page = () => {
   return (
@@ -10,7 +10,7 @@ const Page = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-3xl pt-32 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
+      className="max-w-6xl pt-32 mb-10 relative self-center space-y-5 px-5 mx-auto text-white"
     >
       <Badge variant="outline" className="text-white">
         Next.js
@@ -64,7 +64,9 @@ const Page = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 1 }}
       >
-        <Content />
+        <div className="space-y-4 w-full">
+          <Blog1 />
+        </div>
       </motion.div>
     </motion.article>
   );

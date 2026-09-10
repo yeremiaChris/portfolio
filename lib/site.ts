@@ -16,7 +16,7 @@ export const site = {
     resume:
       "https://docs.google.com/document/d/1PFzw-wlXXIgONKRkJ2YQd1k50uR1P7aIsAr-qPqU4qE/edit?usp=sharing",
     about: "/about",
-    experience: "/#experience",
+    experience: "/experience",
   },
   stats: [
     {

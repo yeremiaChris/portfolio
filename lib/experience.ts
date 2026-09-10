@@ -46,7 +46,7 @@ export const experienceIntro = {
   title: "Engineering Experience",
   description:
     "Production track record across AI-native hospital systems, pediatric health platforms, high-throughput logistics, and digital product agencies.",
-  tenureBadge: "Career Timeline // 4+ Years Tenor",
+  tenureBadge: "Career Timeline // 5+ Years Tenor",
 } as const;
 
 export const experienceMetricToneClass: Record<ExperienceMetricTone, string> = {
@@ -71,7 +71,7 @@ export const experienceRoleBarClass: Record<ExperienceRoleTone, string> = {
 export const experienceMetrics: ExperienceMetric[] = [
   {
     label: "Tenor Duration",
-    value: "4+ Years",
+    value: "5+ Years",
     detail: "Continuous Shipping",
     tone: "primary",
     icon: "clock",

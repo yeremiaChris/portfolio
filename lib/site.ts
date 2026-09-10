@@ -21,7 +21,7 @@ export const site = {
   stats: [
     {
       label: "Experience",
-      value: "4+ Years",
+      value: "5+ Years",
       detail: "Full-stack & systems",
       icon: "award" as const,
     },

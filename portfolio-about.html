@@ -1,0 +1,1469 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#c4e7ff",
+              background: "#10141a",
+              "on-primary-container": "#00422b",
+              "surface-container-highest": "#31353c",
+              "surface-container-high": "#262a31",
+              "on-surface-variant": "#bbcabf",
+              "tertiary-container": "#19aee8",
+              error: "#ffb4ab",
+              "primary-fixed-dim": "#4edea3",
+              "surface-bright": "#353940",
+              "surface-tint": "#4edea3",
+              primary: "#4edea3",
+              "secondary-container": "#03b5d3",
+              "surface-container-low": "#181c22",
+              "on-primary": "#003824",
+              "tertiary-fixed-dim": "#7bd0ff",
+              "error-container": "#93000a",
+              tertiary: "#7bd0ff",
+              "surface-container-lowest": "#0a0e14",
+              "on-secondary": "#003640",
+              "on-primary-fixed-variant": "#005236",
+              "on-surface": "#dfe2eb",
+              "surface-container": "#1c2026",
+              "on-primary-fixed": "#002113",
+              "on-tertiary-container": "#003e55",
+              surface: "#10141a",
+              "surface-variant": "#31353c",
+              "on-tertiary-fixed": "#001e2c",
+              "on-secondary-fixed": "#001f26",
+              "surface-dim": "#10141a",
+              "secondary-fixed": "#acedff",
+              "primary-container": "#10b981",
+              "on-secondary-container": "#00424e",
+              "inverse-on-surface": "#2d3137",
+              "on-tertiary": "#00354a",
+              "on-secondary-fixed-variant": "#004e5c",
+              "outline-variant": "#3c4a42",
+              "on-background": "#dfe2eb",
+              "primary-fixed": "#6ffbbe",
+              "on-error-container": "#ffdad6",
+              secondary: "#4cd7f6",
+              "on-error": "#690005",
+              "inverse-primary": "#006c49",
+              "on-tertiary-fixed-variant": "#004c69",
+              outline: "#86948a",
+              "secondary-fixed-dim": "#4cd7f6",
+              "inverse-surface": "#dfe2eb",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "gutter-mobile": "1rem",
+              "space-4xl": "6rem",
+              "gutter-desktop": "2rem",
+              "space-lg": "1.5rem",
+              "space-2xl": "3rem",
+              "gutter-tablet": "1.5rem",
+              "space-xs": "0.5rem",
+              "space-sm": "0.75rem",
+              "space-xxs": "0.25rem",
+              "space-xl": "2rem",
+              "container-max": "76rem",
+              "space-3xl": "4rem",
+              "space-md": "1rem",
+            },
+            fontFamily: {
+              "code-inline": ["JetBrains Mono"],
+              "body-md": ["Geist"],
+              "body-sm": ["Geist"],
+              "headline-md": ["Space Grotesk"],
+              "code-block": ["JetBrains Mono"],
+              "headline-lg-mobile": ["Space Grotesk"],
+              "body-lg": ["Geist"],
+              "label-pill": ["JetBrains Mono"],
+              "headline-lg": ["Space Grotesk"],
+              "display-hero": ["Space Grotesk"],
+              "headline-sm": ["Space Grotesk"],
+              "display-hero-mobile": ["Space Grotesk"],
+              "label-telemetry": ["JetBrains Mono"],
+            },
+            fontSize: {
+              "code-inline": [
+                "13px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "500",
+                },
+              ],
+              "body-md": [
+                "15px",
+                { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "body-sm": [
+                "13px",
+                { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "code-block": [
+                "14px",
+                { lineHeight: "22px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-lg-mobile": [
+                "28px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-lg": [
+                "18px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "400",
+                },
+              ],
+              "label-pill": [
+                "11px",
+                {
+                  lineHeight: "14px",
+                  letterSpacing: "0.06em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg": [
+                "36px",
+                {
+                  lineHeight: "44px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero": [
+                "64px",
+                {
+                  lineHeight: "72px",
+                  letterSpacing: "-0.04em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero-mobile": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-telemetry": [
+                "10px",
+                {
+                  lineHeight: "12px",
+                  letterSpacing: "0.08em",
+                  fontWeight: "500",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary"
+  >
+    <header
+      class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)]"
+    >
+      <div
+        class="h-16 max-w-container-max mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm shrink-0">
+          <a
+            class="flex items-center gap-space-xs group"
+            data-path="overview"
+            href="#"
+            ><span
+              class="flex items-center justify-center w-8 h-8 rounded-xl bg-surface-container-high text-primary font-code-inline text-code-inline font-semibold group-hover:bg-primary group-hover:text-on-primary transition-all duration-200"
+              >YC</span
+            >
+            <div class="flex flex-col">
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface"
+                >yeremia<span class="text-primary">.dev</span></span
+              ><span
+                class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-wider hidden sm:inline"
+                >Systems Architect</span
+              >
+            </div></a
+          >
+        </div>
+        <nav
+          class="hidden xl:flex items-center gap-space-xs"
+          data-active-classes="bg-surface-container text-primary font-medium rounded-lg"
+        >
+          <a
+            aria-current="page"
+            class="px-space-sm py-space-xxs transition-colors bg-surface-container text-primary font-medium rounded-lg"
+            data-path="overview"
+            href="#"
+            >Overview</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="experience"
+            href="#"
+            >Experience</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="ai-sandbox"
+            href="#"
+            >AI Sandbox</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="projects-and-metrics"
+            href="#"
+            >Projects &amp; Metrics</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="tech-stack"
+            href="#"
+            >Tech Stack</a
+          >
+        </nav>
+        <div class="flex items-center gap-space-xs shrink-0">
+          <a
+            class="hidden sm:inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-surface-container text-secondary font-label-pill text-label-pill hover:bg-surface-container-high hover:text-secondary-fixed transition-colors"
+            data-path="ask-ai"
+            href="#"
+            ><span
+              class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"
+            ></span
+            >Ask AI</a
+          ><a
+            class="hidden md:inline-flex items-center px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            href="https://yeremia.dev/cv.pdf"
+            rel="noopener noreferrer"
+            target="_blank"
+            >CV</a
+          ><a
+            class="inline-flex items-center justify-center px-space-md py-space-xxs rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-semibold hover:bg-primary hover:text-on-primary transition-all duration-200 shadow-[0_0_20px_rgba(16,185,129,0.25)]"
+            data-path="contact"
+            href="#"
+            >Get in Touch</a
+          >
+          <div
+            class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 ml-space-xxs"
+          >
+            <span class="material-symbols-outlined text-on-primary text-[18px]"
+              >person</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-16 bg-background">
+      <div class="flex flex-col w-full">
+        <!-- Top Ambient Specular Gradient -->
+        <div class="relative w-full overflow-hidden">
+          <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-[54rem] h-[22rem] bg-gradient-to-b from-primary/10 via-secondary/5 to-transparent blur-3xl pointer-events-none -z-10"
+          ></div>
+          <!-- Section 1: Top Header & Telemetry Breadcrumb -->
+          <section
+            class="max-w-container-max mx-auto w-full px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop pt-space-xl pb-space-2xl"
+          >
+            <div class="flex flex-col gap-space-lg">
+              <!-- Breadcrumb & Telemetry Header Bar -->
+              <div
+                class="flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded-xl shadow-sm"
+              >
+                <div
+                  class="flex items-center gap-space-xs font-code-inline text-code-inline text-on-surface-variant truncate"
+                >
+                  <span class="text-primary font-semibold"
+                    >sys://root/index</span
+                  >
+                  <span class="text-outline">/</span>
+                  <span class="text-on-surface font-medium"
+                    >engineer_manifesto.md</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs">
+                  <span
+                    class="w-2 h-2 rounded-full bg-primary animate-pulse"
+                  ></span>
+                  <span
+                    class="font-label-pill text-label-pill tracking-widest text-primary uppercase bg-surface-container-high px-space-xs py-space-xxs rounded-full"
+                  >
+                    IDENTITY // SYSTEM PHILOSOPHY
+                  </span>
+                </div>
+              </div>
+              <!-- Main Title & Hook -->
+              <div
+                class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-xl"
+              >
+                <div class="flex flex-col gap-space-sm max-w-3xl">
+                  <div
+                    class="flex items-center gap-space-xs text-secondary font-label-telemetry uppercase tracking-widest"
+                  >
+                    <span class="material-symbols-outlined text-[16px]"
+                      >terminal</span
+                    >
+                    <span>Kernel Dossier :: Spec 2025.1</span>
+                  </div>
+                  <h1
+                    class="font-headline-lg text-headline-lg text-on-surface tracking-tight"
+                  >
+                    About Yeremia Chris Saragi
+                  </h1>
+                  <p class="font-body-lg text-body-lg text-on-surface-variant">
+                    Crafting resilient digital architectures, high-concurrency
+                    web engines, and ergonomic human-centered interfaces with
+                    obsessive attention to runtime performance.
+                  </p>
+                </div>
+                <!-- Quick Action Group -->
+                <div
+                  class="flex flex-wrap sm:flex-nowrap items-center gap-space-sm shrink-0"
+                >
+                  <a
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-semibold hover:bg-primary hover:text-on-primary transition-all duration-200 shadow-[0_0_24px_rgba(16,185,129,0.28)]"
+                    href="https://yeremia.dev/cv.pdf"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >download</span
+                    >
+                    <span>Official Resume (PDF)</span>
+                  </a>
+                  <a
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm font-medium hover:bg-surface-container-high hover:text-secondary transition-colors"
+                    href="https://wa.me/6281212126215"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >forum</span
+                    >
+                    <span>Schedule Architecture Chat</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section 2: Story & Profile Dossier (The System Evolution) -->
+          <section
+            class="max-w-container-max mx-auto w-full px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop py-space-xl"
+          >
+            <div
+              class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start"
+            >
+              <!-- Profile Identity Card (Column 1-5) -->
+              <div class="lg:col-span-5 flex flex-col gap-space-md">
+                <div
+                  class="bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden flex flex-col gap-space-lg"
+                >
+                  <!-- Neon Ambient Glow Corner -->
+                  <div
+                    class="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"
+                  ></div>
+                  <!-- Profile Header -->
+                  <div class="flex items-center justify-between pb-space-sm">
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"
+                      ></span>
+                      <span
+                        class="font-label-pill text-label-pill text-primary uppercase"
+                        >OPERATIONAL // ACTIVE</span
+                      >
+                    </div>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >NODE_ID: YCS-2000</span
+                    >
+                  </div>
+                  <!-- Avatar & Real Imagery -->
+                  <div
+                    class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-lowest flex items-center justify-center"
+                  >
+                    <img
+                      class="w-full h-full object-cover"
+                      data-alt="Cinematic studio portrait of Yeremia Chris Saragi, a sharp Indonesian senior software engineer in his twenties, minimal dark cyberpunk office lighting, faint neon cyan and emerald screen reflections against deep slate backdrop, clean modern tech aesthetic, highly focused gaze."
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuClbfpwHqOM2kHQhQTHOKlqj7GGHoCUEEL-cUicEPEZ5etpNZMOAGgJVPpwUJwjXtAkxGqC8f0PqpX7b1xKDjeyo2vzJ_6nodqvBGpbKNlbGfCBYeNKdqFB0zXWnAKKOis9rvNuepHn--o6Ah-ZL9erEHC6LkNjVd13W-z1bGur9Qu6SQQj1HK3miD_i6Lv8ULfe2vWDS9nIlkC8QpN1ySx2MJcdvLJhm-L7CK_5Qv0RENrkECqS_wdBA"
+                    />
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent"
+                    ></div>
+                    <div
+                      class="absolute bottom-3 left-3 right-3 flex items-center justify-between"
+                    >
+                      <div
+                        class="flex items-center gap-space-xxs px-space-xs py-space-xxs rounded bg-surface-container-highest/80 backdrop-blur-md"
+                      >
+                        <span
+                          class="material-symbols-outlined text-primary text-[14px]"
+                          >location_on</span
+                        >
+                        <span
+                          class="font-label-pill text-label-pill text-on-surface"
+                          >Indonesia // Remote Worldwide</span
+                        >
+                      </div>
+                      <div
+                        class="px-space-xs py-space-xxs rounded bg-surface-container-highest/80 backdrop-blur-md"
+                      >
+                        <span
+                          class="font-code-inline text-code-inline text-secondary"
+                          >24 y.o.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Bio Metrics Stack -->
+                  <div class="flex flex-col gap-space-xs">
+                    <div
+                      class="flex items-center justify-between py-space-xxs bg-surface-container px-space-sm rounded"
+                    >
+                      <span
+                        class="font-body-sm text-body-sm text-on-surface-variant"
+                        >Core Specialization</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface font-medium"
+                        >Distributed Frontends &amp; Micro-UIs</span
+                      >
+                    </div>
+                    <div
+                      class="flex items-center justify-between py-space-xxs bg-surface-container px-space-sm rounded"
+                    >
+                      <span
+                        class="font-body-sm text-body-sm text-on-surface-variant"
+                        >Healthcare Impact</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-primary font-medium"
+                        >1M+ Pediatric Records (PrimaKu)</span
+                      >
+                    </div>
+                    <div
+                      class="flex items-center justify-between py-space-xxs bg-surface-container px-space-sm rounded"
+                    >
+                      <span
+                        class="font-body-sm text-body-sm text-on-surface-variant"
+                        >Logistics Engine</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-secondary font-medium"
+                        >Multi-Carrier Aggregator (KiriminAja)</span
+                      >
+                    </div>
+                    <div
+                      class="flex items-center justify-between py-space-xxs bg-surface-container px-space-sm rounded"
+                    >
+                      <span
+                        class="font-body-sm text-body-sm text-on-surface-variant"
+                        >Target Domain</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface font-medium"
+                        >Senior / Staff / Lead Roles</span
+                      >
+                    </div>
+                  </div>
+                  <!-- Role Intent Banner -->
+                  <div
+                    class="p-space-sm rounded-lg bg-surface-container-high flex items-start gap-space-xs"
+                  >
+                    <span
+                      class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5"
+                      >verified</span
+                    >
+                    <p class="font-body-sm text-body-sm text-on-surface">
+                      Ready for senior frontend execution, high-cadence
+                      architecture design sprints, or dedicated enterprise
+                      consulting.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- Evolutionary Trajectory Timeline (Column 6-12) -->
+              <div class="lg:col-span-7 flex flex-col gap-space-lg">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="material-symbols-outlined text-secondary text-[20px]"
+                      >account_tree</span
+                    >
+                    <h2
+                      class="font-headline-md text-headline-md text-on-surface tracking-tight"
+                    >
+                      The System Evolution
+                    </h2>
+                  </div>
+                  <span
+                    class="font-code-inline text-code-inline text-on-surface-variant"
+                    >sys.log(2000..2025)</span
+                  >
+                </div>
+                <!-- Chrono Nodes -->
+                <div class="flex flex-col gap-space-md">
+                  <!-- Era 0: Genesis -->
+                  <div
+                    class="p-space-lg bg-surface-container-low rounded-xl relative overflow-hidden transition-all hover:bg-surface-container"
+                  >
+                    <div
+                      class="flex flex-wrap items-center justify-between gap-space-xs pb-space-xs"
+                    >
+                      <div class="flex items-center gap-space-xs">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-secondary"
+                        ></span>
+                        <span
+                          class="font-label-pill text-label-pill text-secondary uppercase"
+                          >ORIGIN PROTOCOL</span
+                        >
+                      </div>
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                        >2000 // KABANJAHE, SUMATRA UTARA</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface mb-space-xxs"
+                    >
+                      Foundational Curiosity &amp; Logic
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                    >
+                      Raised in the highlands of Kabanjahe, North Sumatra. Early
+                      affinity for systems thinking, discrete mathematics, and
+                      structured logic laid the groundwork for an engineering
+                      career focused on clarity and operational robustness.
+                    </p>
+                  </div>
+                  <!-- Era 1: The 2020 Paradigm Shift -->
+                  <div
+                    class="p-space-lg bg-surface-container-low rounded-xl relative overflow-hidden transition-all hover:bg-surface-container"
+                  >
+                    <div
+                      class="flex flex-wrap items-center justify-between gap-space-xs pb-space-xs"
+                    >
+                      <div class="flex items-center gap-space-xs">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-tertiary"
+                        ></span>
+                        <span
+                          class="font-label-pill text-label-pill text-tertiary uppercase"
+                          >AUTONOMOUS EXPANSION</span
+                        >
+                      </div>
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                        >2020 // GLOBAL PANDEMIC PIVOT</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface mb-space-xxs"
+                    >
+                      Self-Taught Engineering Disciplines
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                    >
+                      Turned pandemic isolation into an intensive computational
+                      apprenticeship. Deconstructed raw web standards
+                      (HTML5/CSS3/ES6+), then engineered full-stack backends
+                      utilizing Python (<span
+                        class="font-code-inline text-primary"
+                        >Django</span
+                      >,
+                      <span class="font-code-inline text-primary">Flask</span>)
+                      and PHP (<span class="font-code-inline text-primary"
+                        >Laravel</span
+                      >). This server-side foundation cemented an intuitive
+                      grasp of HTTP lifecycle mechanics, cache policies, and
+                      relational data normalization.
+                    </p>
+                  </div>
+                  <!-- Era 2: Reactive Modernism -->
+                  <div
+                    class="p-space-lg bg-surface-container-low rounded-xl relative overflow-hidden transition-all hover:bg-surface-container"
+                  >
+                    <div
+                      class="flex flex-wrap items-center justify-between gap-space-xs pb-space-xs"
+                    >
+                      <div class="flex items-center gap-space-xs">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-secondary-container"
+                        ></span>
+                        <span
+                          class="font-label-pill text-label-pill text-secondary uppercase"
+                          >INDUSTRY IMMERSION</span
+                        >
+                      </div>
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                        >2021 — 2023 // SCALE SPRINT</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface mb-space-xxs"
+                    >
+                      Reactive Client Architecture &amp; Team Delivery
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                    >
+                      Specialized in the React/Next.js and Vue/Nuxt ecosystems.
+                      Joined
+                      <span class="text-on-surface font-medium"
+                        >iCreativeLabs</span
+                      >
+                      and afterwards
+                      <span class="text-on-surface font-medium"
+                        >KiriminAja</span
+                      >
+                      to engineer merchant self-service dashboards,
+                      transactional tracking views, and unified design token
+                      repositories across geographically dispersed
+                      cross-functional squads.
+                    </p>
+                  </div>
+                  <!-- Era 3: High-Concurrency Healthtech & Systems -->
+                  <div
+                    class="p-space-lg bg-surface-container-high rounded-xl relative overflow-hidden shadow-lg"
+                  >
+                    <div
+                      class="flex flex-wrap items-center justify-between gap-space-xs pb-space-xs"
+                    >
+                      <div class="flex items-center gap-space-xs">
+                        <span
+                          class="w-2 h-2 rounded-full bg-primary animate-ping"
+                        ></span>
+                        <span
+                          class="font-label-pill text-label-pill text-primary uppercase"
+                          >PRODUCTION REIGN</span
+                        >
+                      </div>
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-primary"
+                        >2023 — PRESENT // SENIOR TENURE</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface mb-space-xxs"
+                    >
+                      Mission-Critical Pediatric Systems (PrimaKu) &amp;
+                      Logistics Aggregation
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                    >
+                      Driving core frontend infrastructure at PrimaKu (official
+                      Indonesian Pediatric Society partner), safeguarding
+                      patient health monitoring, growth chart telemetry, and
+                      clinician appointment engines. Simultaneously optimizing
+                      checkout and multi-carrier booking pipelines at KiriminAja
+                      for sub-second responses under flash transaction loads.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section 3: Core Engineering Values & System Philosophy -->
+          <section
+            class="max-w-container-max mx-auto w-full px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop py-space-3xl"
+          >
+            <div class="flex flex-col gap-space-xl">
+              <!-- Section Title & Meta -->
+              <div
+                class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm"
+              >
+                <div class="flex flex-col gap-space-xxs">
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-widest"
+                    >PHILOSOPHY // STRICT STANDARDS</span
+                  >
+                  <h2
+                    class="font-headline-lg text-headline-lg text-on-surface tracking-tight"
+                  >
+                    Core Engineering Values
+                  </h2>
+                </div>
+                <span
+                  class="font-code-inline text-code-inline text-on-surface-variant"
+                  >4 INVARIANTS OBSERVED IN PRODUCTION</span
+                >
+              </div>
+              <!-- 4 Column Core Values Bento Cards -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+                <!-- Value 01 -->
+                <div
+                  class="p-space-xl bg-surface-container-low rounded-xl flex flex-col justify-between gap-space-lg group hover:bg-surface-container transition-all"
+                >
+                  <div class="flex items-start justify-between">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors"
+                    >
+                      <span class="material-symbols-outlined text-[22px]"
+                        >speed</span
+                      >
+                    </div>
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface-variant/40 font-bold"
+                      >01</span
+                    >
+                  </div>
+                  <div class="flex flex-col gap-space-xs">
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="font-label-pill text-label-pill text-primary uppercase"
+                        >LATENCY SENSITIVITY</span
+                      >
+                      <span
+                        class="text-outline-variant font-code-inline text-code-inline"
+                        >•</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant"
+                        >INP &lt; 100ms</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                    >
+                      Runtime Empathy &amp; Core Web Vitals
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                    >
+                      Zero unnecessary re-renders, sub-100ms INP, and steady
+                      60fps gesture response are non-negotiable fundamentals for
+                      user trust. I obsessively eliminate layout thrashing,
+                      virtualize unbounded datasets, and partition script
+                      evaluation loops.
+                    </p>
+                  </div>
+                </div>
+                <!-- Value 02 -->
+                <div
+                  class="p-space-xl bg-surface-container-low rounded-xl flex flex-col justify-between gap-space-lg group hover:bg-surface-container transition-all"
+                >
+                  <div class="flex items-start justify-between">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-on-secondary transition-colors"
+                    >
+                      <span class="material-symbols-outlined text-[22px]"
+                        >verified_user</span
+                      >
+                    </div>
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface-variant/40 font-bold"
+                      >02</span
+                    >
+                  </div>
+                  <div class="flex flex-col gap-space-xs">
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="font-label-pill text-label-pill text-secondary uppercase"
+                        >ZERO AMBIGUITY</span
+                      >
+                      <span
+                        class="text-outline-variant font-code-inline text-code-inline"
+                        >•</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant"
+                        >ZOD // VALIBOT</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                    >
+                      Strict Schema Contracts
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                    >
+                      End-to-end type safety spanning backend RPC contracts down
+                      to client form assertions. Runtime schema validation
+                      guarantees unparseable payload drops before they mutate
+                      global state or generate cryptic runtime errors.
+                    </p>
+                  </div>
+                </div>
+                <!-- Value 03 -->
+                <div
+                  class="p-space-xl bg-surface-container-low rounded-xl flex flex-col justify-between gap-space-lg group hover:bg-surface-container transition-all"
+                >
+                  <div class="flex items-start justify-between">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-tertiary group-hover:bg-tertiary group-hover:text-on-tertiary transition-colors"
+                    >
+                      <span class="material-symbols-outlined text-[22px]"
+                        >auto_awesome_motion</span
+                      >
+                    </div>
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface-variant/40 font-bold"
+                      >03</span
+                    >
+                  </div>
+                  <div class="flex flex-col gap-space-xs">
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="font-label-pill text-label-pill text-tertiary uppercase"
+                        >SYSTEMIC CONTINUITY</span
+                      >
+                      <span
+                        class="text-outline-variant font-code-inline text-code-inline"
+                        >•</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant"
+                        >DESIGN TOKENS</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                    >
+                      Design System Scalability
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                    >
+                      Atoms to organisms mapped to strict semantic tokens so
+                      engineers and design systems teams operate within an
+                      identical declarative vocabulary. Eliminates redundant
+                      style drift while allowing instant system-wide theme
+                      overhauls.
+                    </p>
+                  </div>
+                </div>
+                <!-- Value 04 -->
+                <div
+                  class="p-space-xl bg-surface-container-low rounded-xl flex flex-col justify-between gap-space-lg group hover:bg-surface-container transition-all"
+                >
+                  <div class="flex items-start justify-between">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors"
+                    >
+                      <span class="material-symbols-outlined text-[22px]"
+                        >groups</span
+                      >
+                    </div>
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface-variant/40 font-bold"
+                      >04</span
+                    >
+                  </div>
+                  <div class="flex flex-col gap-space-xs">
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="font-label-pill text-label-pill text-primary uppercase"
+                        >HUMAN MULTIPLIER</span
+                      >
+                      <span
+                        class="text-outline-variant font-code-inline text-code-inline"
+                        >•</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant"
+                        >RFC &amp; CI/CD</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                    >
+                      Pragmatic Team Velocity
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                    >
+                      Clear documentation, proactive RFCs, automated linting
+                      guardrails, and constructive code reviews that unblock
+                      peers. The best architectures are the ones that make every
+                      contributor faster and more confident.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section 4: Battle-Tested Workstation & Daily Tooling -->
+          <section
+            class="max-w-container-max mx-auto w-full px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop py-space-xl"
+          >
+            <div
+              class="flex flex-col gap-space-xl bg-surface-container-low p-space-lg md:p-space-xl rounded-xl"
+            >
+              <!-- Header -->
+              <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pb-space-sm"
+              >
+                <div class="flex items-center gap-space-sm">
+                  <div class="w-3 h-3 rounded-full bg-secondary"></div>
+                  <h2
+                    class="font-headline-md text-headline-md text-on-surface tracking-tight"
+                  >
+                    Workstation &amp; Daily Arsenal
+                  </h2>
+                </div>
+                <span
+                  class="font-code-inline text-code-inline text-on-surface-variant"
+                  >HARDWARE_MANIFEST // KERNEL-CONFIG</span
+                >
+              </div>
+              <!-- Arsenal Bento Grid -->
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"
+              >
+                <!-- Item 1: Compute -->
+                <div
+                  class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-sm"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-secondary uppercase tracking-wider"
+                      >PRIMARY COMPUTE</span
+                    >
+                    <span
+                      class="material-symbols-outlined text-[18px] text-on-surface-variant"
+                      >laptop_mac</span
+                    >
+                  </div>
+                  <div class="flex flex-col">
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                      >Apple MacBook Air M3</span
+                    >
+                    <span class="font-code-inline text-code-inline text-primary"
+                      >16GB Unified RAM // 512GB NVMe</span
+                    >
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Ultra-efficient silent powerhouse tuned for parallel
+                    Turborepo compile cycles, local Docker multi-containers, and
+                    seamless client benchmarking.
+                  </p>
+                </div>
+                <!-- Item 2: Mechanical Interface -->
+                <div
+                  class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-sm"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-wider"
+                      >TACTILE INPUT</span
+                    >
+                    <span
+                      class="material-symbols-outlined text-[18px] text-on-surface-variant"
+                      >keyboard</span
+                    >
+                  </div>
+                  <div class="flex flex-col">
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                      >Keychron K8 TKL</span
+                    >
+                    <span
+                      class="font-code-inline text-code-inline text-secondary"
+                      >Hot-swappable // Tactile Switches</span
+                    >
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Tenkeyless mechanical board with tuned tactile response for
+                    sustained, fatigue-free 80+ WPM typing cadence throughout
+                    deep engineering sessions.
+                  </p>
+                </div>
+                <!-- Item 3: IDE -->
+                <div
+                  class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-sm"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-tertiary uppercase tracking-wider"
+                      >CODE ENGINE</span
+                    >
+                    <span
+                      class="material-symbols-outlined text-[18px] text-on-surface-variant"
+                      >code</span
+                    >
+                  </div>
+                  <div class="flex flex-col">
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                      >Visual Studio Code</span
+                    >
+                    <span class="font-code-inline text-code-inline text-primary"
+                      >Vim Mode // ESLint // Strict Prettier</span
+                    >
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Minimalist dark palette, zero visual clutter, strict schema
+                    telemetry, inline TypeScript errors, and muscle-memory modal
+                    navigation.
+                  </p>
+                </div>
+                <!-- Item 4: Terminal -->
+                <div
+                  class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-sm"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-secondary uppercase tracking-wider"
+                      >SHELL ENVIRONMENT</span
+                    >
+                    <span
+                      class="material-symbols-outlined text-[18px] text-on-surface-variant"
+                      >terminal</span
+                    >
+                  </div>
+                  <div class="flex flex-col">
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                      >iTerm2 + Zsh + Starship</span
+                    >
+                    <span
+                      class="font-code-inline text-code-inline text-secondary"
+                      >Git Worktrees // Ripgrep // Fzf</span
+                    >
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Instant prompt feedback with async Git statuses, fuzzy
+                    search pipelines, and microservice container inspection
+                    aliases.
+                  </p>
+                </div>
+                <!-- Item 5: Browsers & Testing -->
+                <div
+                  class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-sm"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-wider"
+                      >LAYOUT INSPECTOR</span
+                    >
+                    <span
+                      class="material-symbols-outlined text-[18px] text-on-surface-variant"
+                      >tab</span
+                    >
+                  </div>
+                  <div class="flex flex-col">
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                      >Firefox Dev &amp; Chromium</span
+                    >
+                    <span class="font-code-inline text-code-inline text-primary"
+                      >Subgrid Quarantine // Performance Tracer</span
+                    >
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Engineered cross-engine layout verification, CPU throttling
+                    simulation, paint flashed debugging, and sub-millisecond
+                    flame graph analysis.
+                  </p>
+                </div>
+                <!-- Item 6: Daily Flow Summary -->
+                <div
+                  class="bg-surface-container p-space-md rounded-lg flex flex-col justify-between gap-space-sm"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-wider"
+                      >DISCIPLINE</span
+                    >
+                    <span
+                      class="material-symbols-outlined text-[18px] text-secondary"
+                      >check_circle</span
+                    >
+                  </div>
+                  <div class="flex flex-col">
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface"
+                      >Zero-Lag Ergonomics</span
+                    >
+                    <span
+                      class="font-code-inline text-code-inline text-on-surface-variant"
+                      >Frictionless Workflow</span
+                    >
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Every tool in this stack is curated to eliminate latency
+                    between an engineering thought and its testable deployment.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section 5: Soft Skills & Team Leadership Traits -->
+          <section
+            class="max-w-container-max mx-auto w-full px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop py-space-2xl"
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+              <!-- Trait 1 -->
+              <div
+                class="p-space-lg bg-surface-container-low rounded-xl flex flex-col gap-space-md"
+              >
+                <div class="flex items-center gap-space-xs text-primary">
+                  <span class="material-symbols-outlined text-[24px]"
+                    >forum</span
+                  >
+                  <span class="font-label-pill text-label-pill uppercase"
+                    >COMMUNICATION COHESION</span
+                  >
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                  Cross-Functional Sync &amp; Mentorship
+                </h3>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                >
+                  Translating high-level company goals into asynchronous RFC
+                  proposals, guiding sprint planning, and pairing with junior
+                  developers on architectural bottlenecks without condescension.
+                </p>
+                <div class="mt-auto pt-space-xs">
+                  <span class="font-code-inline text-code-inline text-secondary"
+                    >Artifacts: RFCs • Design Hand-offs • Standups</span
+                  >
+                </div>
+              </div>
+              <!-- Trait 2 -->
+              <div
+                class="p-space-lg bg-surface-container-low rounded-xl flex flex-col gap-space-md"
+              >
+                <div class="flex items-center gap-space-xs text-secondary">
+                  <span class="material-symbols-outlined text-[24px]"
+                    >splitscreen</span
+                  >
+                  <span class="font-label-pill text-label-pill uppercase"
+                    >DECONSTRUCTION</span
+                  >
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                  Problem Decomposition
+                </h3>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                >
+                  Dissecting ambiguous enterprise requirements into atomic,
+                  independently shippable user stories accompanied by rigid
+                  acceptance criteria and automated integration checks.
+                </p>
+                <div class="mt-auto pt-space-xs">
+                  <span class="font-code-inline text-code-inline text-primary"
+                    >Execution: Incremental PRs • Zero Mega-Branches</span
+                  >
+                </div>
+              </div>
+              <!-- Trait 3 -->
+              <div
+                class="p-space-lg bg-surface-container-low rounded-xl flex flex-col gap-space-md"
+              >
+                <div class="flex items-center gap-space-xs text-tertiary">
+                  <span class="material-symbols-outlined text-[24px]"
+                    >insights</span
+                  >
+                  <span class="font-label-pill text-label-pill uppercase"
+                    >BUSINESS SYNERGY</span
+                  >
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                  Product &amp; Metric Instincts
+                </h3>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                >
+                  Balancing pristine engineering idealism with harsh business
+                  realities. We ship high-impact features quickly to unlock
+                  customer feedback loops, then iterate to achieve architectural
+                  longevity.
+                </p>
+                <div class="mt-auto pt-space-xs">
+                  <span class="font-code-inline text-code-inline text-tertiary"
+                    >Focus: Conversion • LTV • Retention Velocity</span
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section 6: Direct Conversion Bar / Collaboration Terminal -->
+          <section
+            class="max-w-container-max mx-auto w-full px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop py-space-xl mb-space-2xl"
+          >
+            <div
+              class="relative bg-surface-container-high rounded-2xl p-space-xl md:p-space-2xl overflow-hidden shadow-2xl"
+            >
+              <!-- Subtle Neon Border Trace & Accent Wash -->
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-transparent pointer-events-none"
+              ></div>
+              <div class="relative z-10 flex flex-col gap-space-xl">
+                <div
+                  class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg"
+                >
+                  <div class="flex flex-col gap-space-xs max-w-2xl">
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"
+                      ></span>
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-widest"
+                        >DISPATCH TERMINAL OPEN</span
+                      >
+                    </div>
+                    <h2
+                      class="font-headline-lg text-headline-lg text-on-surface tracking-tight"
+                    >
+                      Looking for an engineer who bridges frontend craft with
+                      systems architecture?
+                    </h2>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant"
+                    >
+                      Available for Senior Frontend, Staff UI Engineer, or Lead
+                      Frontend roles worldwide. Let’s architect high-performance
+                      products that customers fall in love with.
+                    </p>
+                  </div>
+                  <!-- Primary Contact Gateway Actions -->
+                  <div
+                    class="flex flex-wrap items-center gap-space-sm shrink-0"
+                  >
+                    <a
+                      class="inline-flex items-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-primary text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary-fixed transition-all shadow-[0_0_24px_rgba(16,185,129,0.3)]"
+                      href="https://wa.me/6281212126215"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span class="material-symbols-outlined text-[18px]"
+                        >chat</span
+                      >
+                      <span>WhatsApp Direct</span>
+                    </a>
+                    <a
+                      class="inline-flex items-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-sm text-body-sm font-medium hover:bg-surface-container hover:text-primary transition-colors"
+                      href="mailto:yeremia997@gmail.com"
+                    >
+                      <span class="material-symbols-outlined text-[18px]"
+                        >mail</span
+                      >
+                      <span>yeremia997@gmail.com</span>
+                    </a>
+                  </div>
+                </div>
+                <!-- Channel Telemetry Matrix -->
+                <div
+                  class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm pt-space-md"
+                >
+                  <a
+                    class="p-space-sm rounded-lg bg-surface-container-lowest flex items-center justify-between hover:bg-surface-container transition-colors group"
+                    href="https://github.com/yeremiaChris"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                        >REPOSITORY</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface group-hover:text-primary transition-colors"
+                        >@yeremiaChris</span
+                      >
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary"
+                      >arrow_outward</span
+                    >
+                  </a>
+                  <a
+                    class="p-space-sm rounded-lg bg-surface-container-lowest flex items-center justify-between hover:bg-surface-container transition-colors group"
+                    href="https://linkedin.com/in/yeremia-chris-saragi-587a671a9/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                        >NETWORK</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface group-hover:text-secondary transition-colors"
+                        >Yeremia Chris</span
+                      >
+                    </div>
+                    <span
+                      class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-secondary"
+                      >arrow_outward</span
+                    >
+                  </a>
+                  <div
+                    class="p-space-sm rounded-lg bg-surface-container-lowest flex flex-col justify-center"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >CURRENT LOCATION</span
+                    >
+                    <span
+                      class="font-code-inline text-code-inline text-on-surface"
+                      >Indonesia // UTC+7</span
+                    >
+                  </div>
+                  <div
+                    class="p-space-sm rounded-lg bg-surface-container-lowest flex flex-col justify-center"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-primary"
+                      >ENGAGEMENT MODEL</span
+                    >
+                    <span
+                      class="font-code-inline text-code-inline text-on-surface"
+                      >Remote / Relocation</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="w-full bg-surface-container-lowest py-space-2xl">
+      <div
+        class="max-w-container-max mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop flex flex-col gap-space-xl"
+      >
+        <div
+          class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg"
+        >
+          <div class="flex flex-col gap-space-xs">
+            <div class="flex items-center gap-space-xs">
+              <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span
+              ><span
+                class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-widest"
+                >Telemetry: All Systems Operational</span
+              >
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-md"
+            >
+              Engineering robust enterprise distributed frontends, design
+              systems, and low-latency AI-augmented workflows.
+            </p>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-space-sm font-body-sm text-body-sm"
+          >
+            <a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://wa.me/6281212126215"
+              rel="noopener noreferrer"
+              target="_blank"
+              >WhatsApp +62 812-1212-6215</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="mailto:yeremia997@gmail.com"
+              >yeremia997@gmail.com</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://github.com/yeremiaChris"
+              rel="noopener noreferrer"
+              target="_blank"
+              >GitHub</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://linkedin.com/in/yeremia-chris-saragi"
+              rel="noopener noreferrer"
+              target="_blank"
+              >LinkedIn</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-secondary hover:bg-surface-container hover:text-secondary-fixed transition-colors"
+              href="https://yeremia.dev/cv.pdf"
+              rel="noopener noreferrer"
+              target="_blank"
+              >Resume DOC</a
+            >
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-md"
+        >
+          <span
+            class="font-code-inline text-code-inline text-on-surface-variant"
+            >© 2025 Yeremia Chris. Crafted with computational luxury.</span
+          ><span
+            class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+            >v4.2.0-kernel // latency ~14ms</span
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

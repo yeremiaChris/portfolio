@@ -55,6 +55,19 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: "mazecare",
+    title: "Mazecare Clinic & Hospital OS",
+    tag: "work",
+    year: "2025–2026",
+    summary:
+      "FHIR-compliant EMR/HIS covering the full patient lifecycle — registration, scheduling, clinical care, queues, pharmacy, billing, and AI-assisted documentation — built with Vue 3 and Nuxt 3.",
+    tools: ["Vue 3", "Nuxt 3", "TypeScript", "GraphQL", "FHIR"],
+    image: "/projects/mazecare.png",
+    imageAlt: "Mazecare receptionist dashboard and queue management",
+    href: "https://www.mazecare.com/",
+    ctaLabel: "Open Site",
+  },
+  {
     id: "primaku",
     title: "PrimaKu Landing Page (Revamp)",
     tag: "work",

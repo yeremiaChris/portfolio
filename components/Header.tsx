@@ -16,13 +16,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Container } from "@/components/Container";
+import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/", label: "Overview" },
-  { href: "/experience", label: "Experience" },
   { href: "/projects", label: "Projects" },
-  { href: "/#tech-stack", label: "Tech Stack" },
+  { href: "/experience", label: "Experience" },
   { href: "/about", label: "About" },
 ] as const;
 
@@ -93,7 +93,9 @@ export function Header() {
           </Link>
 
           <Link
-            href="/resume.pdf"
+            href={site.links.resume}
+            target="_blank"
+            rel="noopener noreferrer"
             className={cn(
               buttonVariants({ variant: "ghost", size: "sm" }),
               "font-mono text-[13px] text-muted-foreground",

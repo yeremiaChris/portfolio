@@ -45,7 +45,7 @@ export const experienceIntro = {
   eyebrow: "// STACK_ARCHITECTURE · VERIFIED PRODUCTION DISPATCH",
   title: "Engineering Experience",
   description:
-    "Production track record across healthcare platforms, high-throughput logistics aggregation, and high-velocity digital product agencies.",
+    "Production track record across AI-native hospital systems, pediatric health platforms, high-throughput logistics, and digital product agencies.",
   tenureBadge: "Career Timeline // 4+ Years Tenor",
 } as const;
 
@@ -78,8 +78,8 @@ export const experienceMetrics: ExperienceMetric[] = [
   },
   {
     label: "Core Ecosystems",
-    value: "3 Groups",
-    detail: "Health · Logistics · Agency",
+    value: "4 Groups",
+    detail: "HIS · Health · Logistics · Agency",
     tone: "foreground",
     icon: "building",
   },
@@ -141,8 +141,46 @@ export const experienceRoles: ExperienceRole[] = [
     tone: "primary",
   },
   {
-    id: "kiriminaja",
+    id: "mazecare",
     roleCode: "ROLE:02_SYS",
+    status: "COMPLETED MISSION",
+    locationPeriod: "Indonesia (Remote) · Jun 2025 — Jul 2026",
+    title: "Frontend Engineer",
+    company: "Mazecare",
+    companyLegal: "(Full-time)",
+    summary:
+      "AI-native Clinic & Hospital Information System (EMR/HIS) — FHIR-compliant platform covering the full patient lifecycle from registration and scheduling through clinical care, lab, pharmacy, billing, and insurance.",
+    sideStats: ["FHIR · GraphQL APIs", "Vue 3 / Nuxt 3"],
+    highlights: [
+      "Built features across the patient lifecycle: registration, scheduling, clinical visits (diagnosis, notes, prescriptions, procedures), care episodes, teleconsultation, queues, digital consent/forms, medical imaging, and billing workflows.",
+      "Shipped AI clinical assistant capabilities — speech-to-text and AI-assisted medical note drafting, with diagnosis and prescription suggestions during encounters.",
+      "Delivered AI configuration tools — natural-language builders for encounter templates, dashboards, workflows, and reports — plus intelligent document processing for billing and insurance data extraction.",
+      "Integrated FHIR & GraphQL APIs with standardized clinical coding for third-party and payor integrations.",
+    ],
+    panel: {
+      title: "Clinical Platform Scope",
+      score: "Full Patient Lifecycle",
+      progressPct: 100,
+      rows: [
+        { label: "Domain:", value: "EMR / HIS / Queues", emphasize: true },
+        { label: "AI Surface:", value: "Notes · Templates · Docs" },
+        { label: "Integration:", value: "FHIR · GraphQL" },
+      ],
+      footnote: "Clinic & hospital OS · mazecare.com",
+    },
+    stack: [
+      "Vue 3",
+      "Nuxt 3",
+      "TypeScript",
+      "GraphQL",
+      "FHIR",
+      "Front-End Development",
+    ],
+    tone: "cyan",
+  },
+  {
+    id: "kiriminaja",
+    roleCode: "ROLE:03_SYS",
     status: "COMPLETED MISSION",
     locationPeriod: "Yogyakarta, ID (Onsite) · Jan 2023 — Apr 2024",
     title: "Frontend Web Developer",
@@ -180,11 +218,11 @@ export const experienceRoles: ExperienceRole[] = [
       "RESTful Architecture",
       "Micro-frontends",
     ],
-    tone: "cyan",
+    tone: "violet",
   },
   {
     id: "icreativelabs",
-    roleCode: "ROLE:03_SYS",
+    roleCode: "ROLE:04_SYS",
     status: "FOUNDATIONAL TENOR",
     locationPeriod: "Bandung, ID (Hybrid) · Jan 2022 — May 2023",
     title: "Frontend Web Developer",
@@ -218,7 +256,7 @@ export const experienceRoles: ExperienceRole[] = [
       "React Native",
       "Tailwind CSS",
     ],
-    tone: "violet",
+    tone: "cyan",
   },
 ];
 

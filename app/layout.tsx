@@ -1,10 +1,26 @@
 import type { Metadata } from "next";
+import { Geist, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { cn } from "@/lib/utils";
+
 import "./globals.css";
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
-import { EmailSeparator } from "./components/EmailSeparator";
-import { DotPatternBackground } from "./components/DotPatternBackground";
-import { Spotlight } from "@/components/ui/spotlight-new";
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
 export const metadata: Metadata = {
   title: "Yeremia Portfolio",
@@ -17,16 +33,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        {/* <div className="text-white h-[200px] fixed right-0 left-0 top-0 bg-gradient-to-b from-gray-800 to-transparent" /> */}
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn(
+        "dark font-sans",
+        geist.variable,
+        jetbrainsMono.variable,
+        spaceGrotesk.variable
+      )}
+    >
+      <body
+        suppressHydrationWarning
+        className="min-h-screen bg-background text-foreground antialiased"
+      >
         <Header />
-        <div className="md:block hidden absolute top-0 left-0 w-full h-full overflow-hidden">
-          <Spotlight />
-        </div>
-        <DotPatternBackground />
-        {children}
-        <EmailSeparator />
+        <div className="pt-16">{children}</div>
         <Footer />
       </body>
     </html>

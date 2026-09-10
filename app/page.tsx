@@ -1,7 +1,12 @@
-import Banner from "./components/home/Home";
-import { TechStack } from "./components/home/TechStack";
-import Post from "./components/home/Post";
-export const metadata = {
+import type { Metadata } from "next";
+
+import { Artifacts } from "@/components/home/Artifacts";
+import { ContactCta } from "@/components/home/ContactCta";
+import { Hero } from "@/components/home/Hero";
+import { Milestones } from "@/components/home/Milestones";
+import { TechStack } from "@/components/home/TechStack";
+
+export const metadata: Metadata = {
   title: "Yeremia Chris Saragi | Frontend Web Developer",
   description:
     "Frontend Web Developer specializing in building exceptional digital experiences. Explore my portfolio showcasing web development projects and professional experience.",
@@ -29,12 +34,12 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <>
-      <Banner />
-
+    <main>
+      <Hero />
+      <Artifacts />
+      <Milestones />
       <TechStack />
-
-      <Post />
-    </>
+      <ContactCta />
+    </main>
   );
 }

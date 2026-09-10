@@ -1,0 +1,1318 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#001f26",
+              "on-secondary-container": "#00424e",
+              "on-tertiary-container": "#003e55",
+              "error-container": "#93000a",
+              "surface-container": "#1c2026",
+              "secondary-container": "#03b5d3",
+              "surface-dim": "#10141a",
+              "on-primary-container": "#00422b",
+              "outline-variant": "#3c4a42",
+              "primary-fixed": "#6ffbbe",
+              "secondary-fixed": "#acedff",
+              "surface-tint": "#4edea3",
+              "on-error": "#690005",
+              "inverse-on-surface": "#2d3137",
+              "tertiary-fixed-dim": "#7bd0ff",
+              "primary-fixed-dim": "#4edea3",
+              secondary: "#4cd7f6",
+              surface: "#10141a",
+              "surface-container-low": "#181c22",
+              "on-surface-variant": "#bbcabf",
+              "primary-container": "#10b981",
+              "on-tertiary-fixed-variant": "#004c69",
+              "surface-container-highest": "#31353c",
+              "inverse-primary": "#006c49",
+              "on-surface": "#dfe2eb",
+              "on-primary-fixed-variant": "#005236",
+              "on-primary-fixed": "#002113",
+              "on-tertiary": "#00354a",
+              error: "#ffb4ab",
+              "surface-bright": "#353940",
+              primary: "#4edea3",
+              "on-tertiary-fixed": "#001e2c",
+              "surface-container-high": "#262a31",
+              "surface-variant": "#31353c",
+              "tertiary-fixed": "#c4e7ff",
+              "on-error-container": "#ffdad6",
+              "surface-container-lowest": "#0a0e14",
+              "tertiary-container": "#19aee8",
+              "on-primary": "#003824",
+              tertiary: "#7bd0ff",
+              "secondary-fixed-dim": "#4cd7f6",
+              "on-secondary": "#003640",
+              "on-background": "#dfe2eb",
+              outline: "#86948a",
+              background: "#10141a",
+              "inverse-surface": "#dfe2eb",
+              "on-secondary-fixed-variant": "#004e5c",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "space-md": "1rem",
+              "space-xxs": "0.25rem",
+              "space-sm": "0.75rem",
+              "space-xs": "0.5rem",
+              "gutter-mobile": "1rem",
+              "gutter-desktop": "2rem",
+              "space-xl": "2rem",
+              "space-lg": "1.5rem",
+              "space-3xl": "4rem",
+              "space-4xl": "6rem",
+              "container-max": "76rem",
+              "gutter-tablet": "1.5rem",
+              "space-2xl": "3rem",
+            },
+            fontFamily: {
+              "code-inline": ["JetBrains Mono"],
+              "label-pill": ["JetBrains Mono"],
+              "display-hero": ["Space Grotesk"],
+              "label-telemetry": ["JetBrains Mono"],
+              "body-lg": ["Geist"],
+              "body-md": ["Geist"],
+              "display-hero-mobile": ["Space Grotesk"],
+              "headline-sm": ["Space Grotesk"],
+              "headline-lg": ["Space Grotesk"],
+              "headline-lg-mobile": ["Space Grotesk"],
+              "code-block": ["JetBrains Mono"],
+              "body-sm": ["Geist"],
+              "headline-md": ["Space Grotesk"],
+            },
+            fontSize: {
+              "code-inline": [
+                "13px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "500",
+                },
+              ],
+              "label-pill": [
+                "11px",
+                {
+                  lineHeight: "14px",
+                  letterSpacing: "0.06em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero": [
+                "64px",
+                {
+                  lineHeight: "72px",
+                  letterSpacing: "-0.04em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-telemetry": [
+                "10px",
+                {
+                  lineHeight: "12px",
+                  letterSpacing: "0.08em",
+                  fontWeight: "500",
+                },
+              ],
+              "body-lg": [
+                "18px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "400",
+                },
+              ],
+              "body-md": [
+                "15px",
+                { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "display-hero-mobile": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg": [
+                "36px",
+                {
+                  lineHeight: "44px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg-mobile": [
+                "28px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "code-block": [
+                "14px",
+                { lineHeight: "22px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "body-sm": [
+                "13px",
+                { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container relative min-h-screen"
+  >
+    <div
+      class="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(16,185,129,0.08),transparent_70%)] z-0"
+    ></div>
+    <header
+      class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
+    >
+      <div
+        class="h-16 max-w-[76rem] mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-md">
+          <a
+            class="flex items-center gap-space-sm group"
+            data-path="overview"
+            href="#"
+            ><span
+              class="font-code-inline text-code-inline text-primary font-bold tracking-tight"
+              >&lt;YC /&gt;</span
+            ><span
+              class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight hidden sm:inline-block"
+              >yeremia.dev</span
+            ></a
+          >
+          <div
+            class="hidden xl:flex items-center gap-space-xs px-space-xs py-space-xxs rounded-full bg-surface-container-low"
+          >
+            <span class="relative flex h-2 w-2"
+              ><span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"
+              ></span
+              ><span
+                class="relative inline-flex rounded-full h-2 w-2 bg-primary"
+              ></span></span
+            ><span
+              class="font-label-telemetry text-label-telemetry text-primary uppercase"
+              >Available for work</span
+            >
+          </div>
+        </div>
+        <nav
+          class="hidden lg:flex items-center gap-space-xs"
+          data-active-classes="bg-surface-container-high text-on-surface font-semibold rounded-lg"
+        >
+          <a
+            aria-current="page"
+            class="px-space-sm py-space-xs transition-colors bg-surface-container-high text-on-surface font-semibold rounded-lg"
+            data-path="overview"
+            href="#"
+            >Overview</a
+          ><a
+            class="px-space-sm py-space-xs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            data-path="experience"
+            href="#"
+            >Experience</a
+          ><a
+            class="px-space-sm py-space-xs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            data-path="projects"
+            href="#"
+            >Projects</a
+          ><a
+            class="px-space-sm py-space-xs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            data-path="tech-stack"
+            href="#"
+            >Tech Stack</a
+          ><a
+            class="px-space-sm py-space-xs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            data-path="about"
+            href="#"
+            >About</a
+          >
+        </nav>
+        <div class="flex items-center gap-space-sm">
+          <a
+            class="hidden sm:inline-flex items-center justify-center px-space-md py-space-xs rounded-lg font-body-sm text-body-sm font-semibold bg-primary-container text-on-primary-container hover:bg-primary transition-all duration-200 shadow-[0_0_16px_rgba(16,185,129,0.2)] hover:shadow-[0_0_24px_rgba(78,222,163,0.4)]"
+            data-path="get-in-touch"
+            href="#"
+            >Get in Touch</a
+          ><a
+            class="inline-flex items-center justify-center px-space-sm py-space-xs rounded-lg font-code-inline text-code-inline text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            data-path="resume"
+            href="#"
+            >CV.pdf</a
+          >
+          <div
+            class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-on-primary text-[18px]"
+              >person</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="relative z-10 w-full pt-16 bg-transparent">
+      <div
+        class="max-w-[76rem] mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop min-h-[calc(100vh-4rem)] flex flex-col"
+      >
+        <div class="flex flex-col w-full">
+          <!-- Top Ambient Halo -->
+          <div class="relative w-full pt-space-xl pb-space-3xl overflow-hidden">
+            <!-- Atmospheric Ambient Glows -->
+            <div
+              class="absolute -top-24 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"
+            ></div>
+            <div
+              class="absolute top-1/3 right-10 w-80 h-80 bg-secondary/10 rounded-full blur-3xl pointer-events-none"
+            ></div>
+            <!-- Section 1: Hero Two-Column Layout -->
+            <div
+              class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl lg:gap-space-2xl items-start"
+            >
+              <!-- Left Column: Typography & Intentional CTAs -->
+              <div class="lg:col-span-7 flex flex-col items-start">
+                <!-- Live Availability Radar & Title Pill -->
+                <div
+                  class="flex flex-wrap items-center gap-space-sm mb-space-md"
+                >
+                  <div
+                    class="inline-flex items-center gap-space-xs px-space-sm py-space-xxs rounded-full bg-surface-container-high shadow-sm"
+                  >
+                    <span class="relative flex h-2 w-2">
+                      <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-80"
+                      ></span>
+                      <span
+                        class="relative inline-flex rounded-full h-2 w-2 bg-primary"
+                      ></span>
+                    </span>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-primary tracking-wider uppercase"
+                      >Open to exciting opportunities</span
+                    >
+                  </div>
+                  <div
+                    class="inline-flex items-center gap-space-xs px-space-sm py-space-xxs rounded-full bg-surface-container-low shadow-sm"
+                  >
+                    <span class="text-primary font-code-inline text-code-inline"
+                      >⚡</span
+                    >
+                    <span
+                      class="font-code-inline text-code-inline text-on-surface"
+                      >Senior / Full-Stack Engineer</span
+                    >
+                  </div>
+                </div>
+                <!-- Name & Pronunciation Header -->
+                <div class="flex flex-col mb-space-sm">
+                  <div class="flex items-baseline gap-space-sm flex-wrap">
+                    <h1
+                      class="font-display-hero text-display-hero text-on-surface tracking-tight"
+                    >
+                      Hi, I'm
+                      <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-fixed to-secondary"
+                        >Yeremia</span
+                      >
+                    </h1>
+                  </div>
+                  <span
+                    class="font-code-inline text-code-inline text-outline tracking-normal mt-space-xxs"
+                  >
+                    / jɛ-rə-ˈmaɪ-ə krɪs sə-ˈrɑː-ɡi / · Yeremia Chris Saragi
+                  </span>
+                </div>
+                <!-- Bio Paragraph -->
+                <p
+                  class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-space-sm mb-space-xl leading-relaxed"
+                >
+                  Software engineer with proven expertise in developing
+                  user-focused applications from concept to deployment,
+                  enhancing performance and scalability, executing tech stack
+                  upgrades, and maintaining high standards of code quality.
+                </p>
+                <!-- Primary Action Triggers -->
+                <div
+                  class="flex flex-wrap items-center gap-space-sm mb-space-xl w-full sm:w-auto"
+                >
+                  <a
+                    class="inline-flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-lg font-body-md text-body-md font-semibold bg-primary-container text-on-primary-container hover:bg-primary shadow-[0_0_24px_rgba(16,185,129,0.3)] hover:shadow-[0_0_32px_rgba(78,222,163,0.5)] transition-all transform hover:-translate-y-0.5"
+                    href="#milestones"
+                  >
+                    <span>Explore Experience</span>
+                    <span class="material-symbols-outlined text-[18px]"
+                      >arrow_forward</span
+                    >
+                  </a>
+                  <a
+                    class="inline-flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-lg font-body-md text-body-md font-medium bg-surface-container-high text-on-surface hover:bg-surface-bright shadow-sm transition-colors"
+                    data-path="about"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >person</span
+                    >
+                    <span>More About Me</span>
+                  </a>
+                  <a
+                    class="inline-flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-lg font-code-inline text-code-inline bg-surface-container-low text-primary hover:bg-surface-container-high transition-colors"
+                    href="https://docs.google.com/document/d/1PFzw-wlXXIgONKRkJ2YQd1k50uR1P7aIsAr-qPqU4qE/edit?usp=sharing"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >open_in_new</span
+                    >
+                    <span>View Resume</span>
+                  </a>
+                </div>
+                <!-- Social & Contact Quick Launcher Bar -->
+                <div class="flex flex-col gap-space-xs pt-space-xs w-full">
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-outline uppercase tracking-widest"
+                    >Connect / Telemetry Nodes</span
+                  >
+                  <div class="flex items-center flex-wrap gap-space-xs">
+                    <!-- WhatsApp -->
+                    <a
+                      class="group flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm"
+                      href="https://wa.me/6281212126215"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-primary transition-colors"
+                        >chat</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant group-hover:text-on-surface"
+                        >WhatsApp</span
+                      >
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-outline group-hover:text-primary"
+                        >+62-812</span
+                      >
+                    </a>
+                    <!-- GitHub -->
+                    <a
+                      class="group flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm"
+                      href="https://github.com/yeremiaChris"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-primary transition-colors"
+                        >code</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant group-hover:text-on-surface"
+                        >GitHub</span
+                      >
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-outline group-hover:text-primary"
+                        >@yeremiaChris</span
+                      >
+                    </a>
+                    <!-- LinkedIn -->
+                    <a
+                      class="group flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm"
+                      href="https://www.linkedin.com/in/yeremia-chris-saragi-587a671a9/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-secondary transition-colors"
+                        >share</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant group-hover:text-on-surface"
+                        >LinkedIn</span
+                      >
+                    </a>
+                    <!-- Email Direct -->
+                    <a
+                      class="group flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm"
+                      href="mailto:yeremia997@gmail.com"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[18px] text-on-surface-variant group-hover:text-primary transition-colors"
+                        >mail</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant group-hover:text-on-surface"
+                        >yeremia997@gmail.com</span
+                      >
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-- Right Column: Interactive Code Console & System Diagnostics Card -->
+              <div class="lg:col-span-5 w-full flex flex-col gap-space-md">
+                <!-- Interactive Terminal Shell Card -->
+                <div
+                  class="w-full rounded-xl bg-surface-container-low shadow-xl overflow-hidden backdrop-blur-md"
+                >
+                  <!-- Terminal Tab Bar -->
+                  <div
+                    class="bg-surface-container px-space-md py-space-xs flex items-center justify-between"
+                  >
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="w-3 h-3 rounded-full bg-error/80 inline-block"
+                      ></span>
+                      <span
+                        class="w-3 h-3 rounded-full bg-secondary/80 inline-block"
+                      ></span>
+                      <span
+                        class="w-3 h-3 rounded-full bg-primary/80 inline-block"
+                      ></span>
+                      <span
+                        class="ml-space-xs font-code-inline text-code-inline text-on-surface-variant"
+                        >yeremia.kernel.ts</span
+                      >
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="font-label-telemetry text-label-telemetry px-space-xs py-0.5 rounded bg-surface-container-high text-primary font-mono"
+                        >v4.8.0-prod</span
+                      >
+                      <span
+                        class="material-symbols-outlined text-[16px] text-outline"
+                        >terminal</span
+                      >
+                    </div>
+                  </div>
+                  <!-- Code Body with Syntax Tones -->
+                  <div
+                    class="p-space-md font-code-block text-code-block overflow-x-auto bg-surface-container-lowest leading-relaxed"
+                  >
+                    <div
+                      class="grid grid-cols-[2rem_1fr] gap-x-space-sm text-outline-variant select-none"
+                    >
+                      <span class="text-right text-outline">01</span>
+                      <div>
+                        <span class="text-secondary font-semibold">import</span>
+                        { Architect, FullStack }
+                        <span class="text-secondary font-semibold">from</span>
+                        <span class="text-primary-fixed">'@core/runtime'</span>;
+                      </div>
+                      <span class="text-right text-outline">02</span>
+                      <div>
+                        <span class="text-secondary font-semibold"
+                          >export const</span
+                        >
+                        <span class="text-primary">engineer</span> =
+                        <span class="text-secondary">new</span>
+                        <span class="text-tertiary">Architect</span>({
+                      </div>
+                      <span class="text-right text-outline">03</span>
+                      <div class="pl-space-md">
+                        identity:
+                        <span class="text-primary-fixed"
+                          >'Yeremia Chris Saragi'</span
+                        >,
+                      </div>
+                      <span class="text-right text-outline">04</span>
+                      <div class="pl-space-md">
+                        role:
+                        <span class="text-primary-fixed"
+                          >'Senior Software Engineer'</span
+                        >,
+                      </div>
+                      <span class="text-right text-outline">05</span>
+                      <div class="pl-space-md">
+                        focus: [<span class="text-secondary-fixed"
+                          >'High-Scale Distributed Systems'</span
+                        >,
+                        <span class="text-secondary-fixed">'Web Arch'</span>],
+                      </div>
+                      <span class="text-right text-outline">06</span>
+                      <div class="pl-space-md">
+                        uptimeSla: <span class="text-tertiary">0.9995</span>,
+                        <span class="text-outline-variant"
+                          >// 99.95% Target</span
+                        >
+                      </div>
+                      <span class="text-right text-outline">07</span>
+                      <div class="pl-space-md">
+                        status:
+                        <span class="text-primary"
+                          >STATUS.OPEN_FOR_OPPORTUNITY</span
+                        >,
+                      </div>
+                      <span class="text-right text-outline">08</span>
+                      <div>});</div>
+                      <span class="text-right text-outline">09</span>
+                      <div></div>
+                      <span class="text-right text-outline">10</span>
+                      <div>
+                        <span class="text-outline-variant"
+                          >// Self-executing pipeline</span
+                        >
+                      </div>
+                      <span class="text-right text-outline">11</span>
+                      <div>
+                        <span class="text-secondary font-semibold">await</span>
+                        <span class="text-primary">engineer</span>.<span
+                          class="text-tertiary-fixed"
+                          >deployEnterpriseSolutions</span
+                        >({
+                      </div>
+                      <span class="text-right text-outline">12</span>
+                      <div class="pl-space-md">
+                        cleanCode: <span class="text-primary">true</span>,
+                        testCoverage:
+                        <span class="text-secondary">'&gt;90%'</span>
+                      </div>
+                      <span class="text-right text-outline">13</span>
+                      <div>});</div>
+                    </div>
+                  </div>
+                  <!-- Bottom Telemetry Console Output -->
+                  <div
+                    class="bg-surface-container px-space-md py-space-xs flex items-center justify-between text-on-surface-variant font-label-telemetry text-label-telemetry"
+                  >
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse"
+                      ></span>
+                      <span class="text-primary font-code-inline">STATUS:</span>
+                      <span class="text-on-surface"
+                        >Available for hire &amp; freelance contracts</span
+                      >
+                    </div>
+                    <span class="text-outline font-mono">LAT: 12ms</span>
+                  </div>
+                </div>
+                <!-- Micro Stats Quad Matrix -->
+                <div class="grid grid-cols-2 gap-space-xs w-full">
+                  <div
+                    class="p-space-sm rounded-lg bg-surface-container-low shadow-sm flex flex-col"
+                  >
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-outline uppercase"
+                        >Experience</span
+                      >
+                      <span
+                        class="material-symbols-outlined text-primary text-[16px]"
+                        >military_tech</span
+                      >
+                    </div>
+                    <span
+                      class="font-headline-md text-headline-md text-on-surface font-semibold mt-space-xxs"
+                      >4+ Years</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                      >Full-stack &amp; systems</span
+                    >
+                  </div>
+                  <div
+                    class="p-space-sm rounded-lg bg-surface-container-low shadow-sm flex flex-col"
+                  >
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-outline uppercase"
+                        >Deployment SLA</span
+                      >
+                      <span
+                        class="material-symbols-outlined text-secondary text-[16px]"
+                        >cloud_done</span
+                      >
+                    </div>
+                    <span
+                      class="font-headline-md text-headline-md text-on-surface font-semibold mt-space-xxs"
+                      >99.9%</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                      >Production reliability</span
+                    >
+                  </div>
+                  <div
+                    class="p-space-sm rounded-lg bg-surface-container-low shadow-sm flex flex-col"
+                  >
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-outline uppercase"
+                        >Code Quality</span
+                      >
+                      <span
+                        class="material-symbols-outlined text-primary text-[16px]"
+                        >verified</span
+                      >
+                    </div>
+                    <span
+                      class="font-headline-md text-headline-md text-on-surface font-semibold mt-space-xxs"
+                      >100%</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                      >Lint, types &amp; tests</span
+                    >
+                  </div>
+                  <div
+                    class="p-space-sm rounded-lg bg-surface-container-low shadow-sm flex flex-col"
+                  >
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-outline uppercase"
+                        >Tech Stack</span
+                      >
+                      <span
+                        class="material-symbols-outlined text-secondary text-[16px]"
+                        >layers</span
+                      >
+                    </div>
+                    <span
+                      class="font-headline-md text-headline-md text-on-surface font-semibold mt-space-xxs"
+                      >Modern</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                      >Next, Node, Go, K8s</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Section 2: Core Engineering Pillars -->
+          <div class="w-full py-space-2xl">
+            <div
+              class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg"
+            >
+              <div>
+                <div
+                  class="flex items-center gap-space-xs text-primary font-code-inline text-code-inline uppercase tracking-wider mb-space-xxs"
+                >
+                  <span class="material-symbols-outlined text-[16px]"
+                    >token</span
+                  >
+                  <span>Architectural Foundations</span>
+                </div>
+                <h2
+                  class="font-headline-lg text-headline-lg text-on-surface tracking-tight"
+                >
+                  Core Engineering Pillars
+                </h2>
+              </div>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant max-w-md mt-space-xs md:mt-0"
+              >
+                Systematic methodologies honed through production-grade software
+                delivery and mission-critical cloud deployments.
+              </p>
+            </div>
+            <!-- Pillars Cards Grid -->
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md"
+            >
+              <!-- Card 1 -->
+              <div
+                class="flex flex-col p-space-lg rounded-xl bg-surface-container-low shadow-sm hover:bg-surface-container transition-all group"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary mb-space-md group-hover:scale-110 transition-transform"
+                >
+                  <span class="material-symbols-outlined text-[24px]">hub</span>
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface mb-space-xs"
+                >
+                  Scalable Architecture &amp; System Design
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md"
+                >
+                  Designing distributed services with domain-driven design,
+                  caching layers, robust microservices, and database
+                  optimization for resilient high concurrency.
+                </p>
+                <div
+                  class="mt-auto flex items-center gap-space-xs text-outline font-label-telemetry text-label-telemetry uppercase tracking-wider"
+                >
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  <span>Resilience First</span>
+                </div>
+              </div>
+              <!-- Card 2 -->
+              <div
+                class="flex flex-col p-space-lg rounded-xl bg-surface-container-low shadow-sm hover:bg-surface-container transition-all group"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary mb-space-md group-hover:scale-110 transition-transform"
+                >
+                  <span class="material-symbols-outlined text-[24px]"
+                    >speed</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface mb-space-xs"
+                >
+                  High-Performance Web &amp; Full-Stack
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md"
+                >
+                  Crafting sub-second user experiences with React/Next.js
+                  SSR/SSG, efficient state engines, optimized payload sizes, and
+                  low API roundtrips.
+                </p>
+                <div
+                  class="mt-auto flex items-center gap-space-xs text-outline font-label-telemetry text-label-telemetry uppercase tracking-wider"
+                >
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  <span>Speed &amp; Ergonomics</span>
+                </div>
+              </div>
+              <!-- Card 3 -->
+              <div
+                class="flex flex-col p-space-lg rounded-xl bg-surface-container-low shadow-sm hover:bg-surface-container transition-all group"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-fixed mb-space-md group-hover:scale-110 transition-transform"
+                >
+                  <span class="material-symbols-outlined text-[24px]"
+                    >rocket_launch</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface mb-space-xs"
+                >
+                  Tech Stack Migration &amp; DevOps
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md"
+                >
+                  Modernizing legacy repositories smoothly into containerized,
+                  CI/CD automated Docker/Kubernetes workflows with zero-downtime
+                  blue/green rollouts.
+                </p>
+                <div
+                  class="mt-auto flex items-center gap-space-xs text-outline font-label-telemetry text-label-telemetry uppercase tracking-wider"
+                >
+                  <span
+                    class="w-1.5 h-1.5 rounded-full bg-primary-fixed"
+                  ></span>
+                  <span>Zero-Downtime Shift</span>
+                </div>
+              </div>
+              <!-- Card 4 -->
+              <div
+                class="flex flex-col p-space-lg rounded-xl bg-surface-container-low shadow-sm hover:bg-surface-container transition-all group"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary mb-space-md group-hover:scale-110 transition-transform"
+                >
+                  <span class="material-symbols-outlined text-[24px]"
+                    >fact_check</span
+                  >
+                </div>
+                <h3
+                  class="font-headline-sm text-headline-sm text-on-surface mb-space-xs"
+                >
+                  Clean Code &amp; Test-Driven Dev
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed mb-space-md"
+                >
+                  Preserving strict semantic typing, lint standards,
+                  comprehensive unit and end-to-end integration test suites
+                  ensuring regression-free shipping.
+                </p>
+                <div
+                  class="mt-auto flex items-center gap-space-xs text-outline font-label-telemetry text-label-telemetry uppercase tracking-wider"
+                >
+                  <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  <span>Maintainability</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Section 3: Tech Radar / Primary Technology Arsenal -->
+          <div class="w-full py-space-xl">
+            <div
+              class="rounded-xl bg-surface-container-low p-space-lg md:p-space-xl shadow-md"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-lg"
+              >
+                <div>
+                  <div
+                    class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-wider mb-space-xxs"
+                  >
+                    Active Weapons &amp; Frameworks
+                  </div>
+                  <h3 class="font-headline-md text-headline-md text-on-surface">
+                    Production Tech Radar
+                  </h3>
+                </div>
+                <div
+                  class="flex items-center gap-space-xs text-outline-variant font-code-inline text-code-inline"
+                >
+                  <span class="w-2 h-2 rounded-full bg-primary"></span>
+                  <span>Active in Production</span>
+                </div>
+              </div>
+              <!-- Badges Cluster -->
+              <div
+                class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-space-xs"
+              >
+                <div
+                  class="flex flex-col p-space-sm rounded-lg bg-surface-container shadow-sm hover:bg-surface-container-high transition-colors"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-primary font-semibold"
+                    >TypeScript</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant mt-0.5"
+                    >Strict Strict</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col p-space-sm rounded-lg bg-surface-container shadow-sm hover:bg-surface-container-high transition-colors"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-secondary font-semibold"
+                    >React / Next.js</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant mt-0.5"
+                    >App Router &amp; SSR</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col p-space-sm rounded-lg bg-surface-container shadow-sm hover:bg-surface-container-high transition-colors"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-primary-fixed font-semibold"
+                    >Node.js</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant mt-0.5"
+                    >Express, Fastify</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col p-space-sm rounded-lg bg-surface-container shadow-sm hover:bg-surface-container-high transition-colors"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-tertiary font-semibold"
+                    >Go / Python</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant mt-0.5"
+                    >Microservices &amp; CLI</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col p-space-sm rounded-lg bg-surface-container shadow-sm hover:bg-surface-container-high transition-colors"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-on-surface font-semibold"
+                    >PostgreSQL</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant mt-0.5"
+                    >Prisma, Indexes</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col p-space-sm rounded-lg bg-surface-container shadow-sm hover:bg-surface-container-high transition-colors"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-primary font-semibold"
+                    >Docker &amp; K8s</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant mt-0.5"
+                    >Containerization</span
+                  >
+                </div>
+                <div
+                  class="flex flex-col p-space-sm rounded-lg bg-surface-container shadow-sm hover:bg-surface-container-high transition-colors"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-secondary font-semibold"
+                    >Cloud / AWS</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant mt-0.5"
+                    >ECS, S3, Lambdas</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Section 4: Recent Milestones & Impact Preview -->
+          <div class="w-full py-space-xl" id="milestones">
+            <div
+              class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg"
+            >
+              <div>
+                <div
+                  class="flex items-center gap-space-xs text-secondary font-code-inline text-code-inline uppercase tracking-wider mb-space-xxs"
+                >
+                  <span class="material-symbols-outlined text-[16px]"
+                    >verified</span
+                  >
+                  <span>Verified Engineering Record</span>
+                </div>
+                <h2
+                  class="font-headline-lg text-headline-lg text-on-surface tracking-tight"
+                >
+                  Recent Milestones &amp; Impact
+                </h2>
+              </div>
+              <a
+                class="inline-flex items-center gap-space-xs font-code-inline text-code-inline text-primary hover:text-primary-fixed transition-colors mt-space-xs md:mt-0"
+                data-path="experience"
+                href="#"
+              >
+                <span>View full historical timeline</span>
+                <span class="material-symbols-outlined text-[16px]"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+            <!-- Milestone Cards Array -->
+            <div class="flex flex-col gap-space-md">
+              <!-- Milestone 1 -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-md hover:bg-surface-container transition-colors"
+              >
+                <div class="flex flex-col max-w-3xl">
+                  <div class="flex items-center gap-space-xs mb-space-xxs">
+                    <span
+                      class="font-label-telemetry text-label-telemetry px-space-xs py-0.5 rounded bg-surface-container-high text-primary font-mono"
+                      >ARCH_MIGRATE</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                      >Enterprise Scale Upgrade</span
+                    >
+                  </div>
+                  <h3
+                    class="font-headline-sm text-headline-sm text-on-surface mb-space-xxs"
+                  >
+                    Multi-tenant Web Platform Modernization
+                  </h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant">
+                    Architected and transitioned legacy codebases into Next.js
+                    App Router and TypeScript micro-frontends, reducing median
+                    bundle sizes by 42% and trimming load times to under 1.1
+                    seconds.
+                  </p>
+                </div>
+                <div
+                  class="flex lg:flex-col items-end justify-between shrink-0 gap-space-xs"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-primary font-bold"
+                    >-42% Latency</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-outline"
+                    >Production Live</span
+                  >
+                </div>
+              </div>
+              <!-- Milestone 2 -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-md hover:bg-surface-container transition-colors"
+              >
+                <div class="flex flex-col max-w-3xl">
+                  <div class="flex items-center gap-space-xs mb-space-xxs">
+                    <span
+                      class="font-label-telemetry text-label-telemetry px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-mono"
+                      >SYS_DESIGN</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                      >Cloud Distributed Backend</span
+                    >
+                  </div>
+                  <h3
+                    class="font-headline-sm text-headline-sm text-on-surface mb-space-xxs"
+                  >
+                    Resilient Cloud Microservices &amp; Ingestion Engine
+                  </h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant">
+                    Engineered scalable Node.js and Go event queues with
+                    automated Postgres indexing and Redis caching, sustaining
+                    heavy multi-tenant peak volumes with 99.9% uptime
+                    compliance.
+                  </p>
+                </div>
+                <div
+                  class="flex lg:flex-col items-end justify-between shrink-0 gap-space-xs"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-secondary font-bold"
+                    >99.9% Availability</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-outline"
+                    >Cloud Automated</span
+                  >
+                </div>
+              </div>
+              <!-- Milestone 3 -->
+              <div
+                class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-md hover:bg-surface-container transition-colors"
+              >
+                <div class="flex flex-col max-w-3xl">
+                  <div class="flex items-center gap-space-xs mb-space-xxs">
+                    <span
+                      class="font-label-telemetry text-label-telemetry px-space-xs py-0.5 rounded bg-surface-container-high text-tertiary font-mono"
+                      >DEVOPS_PIPELINE</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                      >Automated Testing &amp; Quality</span
+                    >
+                  </div>
+                  <h3
+                    class="font-headline-sm text-headline-sm text-on-surface mb-space-xxs"
+                  >
+                    CI/CD Pipeline Optimization &amp; Test Suite Scaling
+                  </h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant">
+                    Introduced comprehensive automated testing suites and GitHub
+                    Actions orchestration, reducing manual deployment cycles
+                    from 2 hours to 8 minutes with zero deployment defects.
+                  </p>
+                </div>
+                <div
+                  class="flex lg:flex-col items-end justify-between shrink-0 gap-space-xs"
+                >
+                  <span
+                    class="font-code-inline text-code-inline text-tertiary font-bold"
+                    >8 Min Deploy</span
+                  >
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-outline"
+                    >Zero Regression</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Section 5: Bottom Call to Action Terminal Panel -->
+          <div class="w-full my-space-2xl">
+            <div
+              class="relative overflow-hidden rounded-xl bg-surface-container p-space-xl md:p-space-2xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-space-xl"
+            >
+              <!-- Background subtle gradient shimmer -->
+              <div
+                class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none"
+              ></div>
+              <div class="flex flex-col max-w-xl z-10">
+                <div
+                  class="flex items-center gap-space-xs text-primary font-code-inline text-code-inline uppercase tracking-wider mb-space-xs"
+                >
+                  <span
+                    class="w-2 h-2 rounded-full bg-primary animate-ping"
+                  ></span>
+                  <span>Ready to build something exceptional?</span>
+                </div>
+                <h3
+                  class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight mb-space-xs"
+                >
+                  Let's discuss systems, full-stack architecture, or your next
+                  major engineering leap.
+                </h3>
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                  Available for full-time engineering roles, strategic systems
+                  consulting, and high-impact contractor partnerships worldwide.
+                </p>
+              </div>
+              <div
+                class="flex flex-col sm:flex-row items-center gap-space-sm z-10 w-full md:w-auto"
+              >
+                <a
+                  class="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs px-space-lg py-space-sm rounded-lg font-body-md text-body-md font-semibold bg-primary-container text-on-primary-container hover:bg-primary shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all"
+                  href="mailto:yeremia997@gmail.com"
+                >
+                  <span class="material-symbols-outlined text-[20px]"
+                    >mail</span
+                  >
+                  <span>Initiate Contact</span>
+                </a>
+                <a
+                  class="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-lg font-body-md text-body-md font-medium bg-surface-container-high text-on-surface hover:bg-surface-bright shadow-sm transition-colors"
+                  href="https://wa.me/6281212126215"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <span
+                    class="material-symbols-outlined text-[20px] text-primary"
+                    >chat</span
+                  >
+                  <span>Direct WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer
+      class="relative z-10 w-full bg-surface-container-lowest py-space-2xl mt-space-3xl"
+    >
+      <div
+        class="max-w-[76rem] mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop"
+      >
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-space-lg mb-space-xl"
+        >
+          <div class="flex flex-col items-center md:items-start gap-space-xxs">
+            <div class="flex items-center gap-space-xs">
+              <span
+                class="font-code-inline text-code-inline text-primary font-bold"
+                >&lt;YC /&gt;</span
+              ><span
+                class="font-headline-sm text-headline-sm text-on-surface font-semibold"
+                >yeremia.dev</span
+              >
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Systems Architecture &amp; Full-Stack Engineering
+            </p>
+          </div>
+          <div class="flex items-center gap-space-md">
+            <a
+              class="w-9 h-9 rounded-lg flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors"
+              data-path="github"
+              href="#"
+              title="GitHub"
+              ><span class="material-symbols-outlined text-[20px]"
+                >code</span
+              ></a
+            ><a
+              class="w-9 h-9 rounded-lg flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors"
+              data-path="linkedin"
+              href="#"
+              title="LinkedIn"
+              ><span class="material-symbols-outlined text-[20px]"
+                >share</span
+              ></a
+            ><a
+              class="w-9 h-9 rounded-lg flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors"
+              data-path="whatsapp"
+              href="#"
+              title="WhatsApp"
+              ><span class="material-symbols-outlined text-[20px]"
+                >chat</span
+              ></a
+            ><a
+              class="w-9 h-9 rounded-lg flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors"
+              data-path="mail"
+              href="#"
+              title="Email"
+              ><span class="material-symbols-outlined text-[20px]"
+                >mail</span
+              ></a
+            ><a
+              class="w-9 h-9 rounded-lg flex items-center justify-center bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors"
+              data-path="resume"
+              href="#"
+              title="Resume"
+              ><span class="material-symbols-outlined text-[20px]"
+                >description</span
+              ></a
+            >
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-lg text-on-surface-variant font-label-telemetry text-label-telemetry"
+        >
+          <p>© 2025 Yeremia C. All rights reserved.</p>
+          <div class="flex items-center gap-space-md">
+            <span class="text-outline-variant font-code-inline text-code-inline"
+              >LATENCY: 18ms</span
+            ><span class="text-primary font-code-inline text-code-inline"
+              >SYS_STATUS: OPTIMAL</span
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

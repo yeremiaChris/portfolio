@@ -28,14 +28,14 @@ export function ProjectCard({ project }: { project: Project }) {
   );
 
   return (
-    <Card className="group flex h-full flex-col rounded-3xl bg-muted py-0 ring-border/20 transition-transform duration-300 hover:-translate-y-0.5">
-      <CardHeader className="gap-0 p-3 pb-0">
+    <Card className="group flex h-full min-w-0 flex-col overflow-hidden rounded-3xl bg-muted py-0 ring-border/20 transition-transform duration-300 hover:-translate-y-0.5">
+      <CardHeader className="min-w-0 gap-0 p-3 pb-0">
         {project.href ? (
           <a
             href={project.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="block min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             {media}
           </a>
@@ -44,9 +44,9 @@ export function ProjectCard({ project }: { project: Project }) {
         )}
       </CardHeader>
 
-      <CardContent className="flex flex-1 flex-col gap-3 px-4 pt-4 pb-0">
-        <div className="flex flex-wrap items-center gap-2">
-          <CardTitle className="font-heading text-lg font-semibold tracking-tight">
+      <CardContent className="flex min-w-0 flex-1 flex-col gap-3 px-4 pt-4 pb-0">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <CardTitle className="min-w-0 font-heading text-lg font-semibold tracking-tight wrap-break-word">
             <h3>{project.title}</h3>
           </CardTitle>
           <Badge
@@ -57,11 +57,11 @@ export function ProjectCard({ project }: { project: Project }) {
           </Badge>
         </div>
 
-        <CardDescription className="line-clamp-3 text-[13px] leading-relaxed text-muted-foreground">
+        <CardDescription className="line-clamp-3 text-[13px] leading-relaxed wrap-break-word text-muted-foreground">
           {project.summary}
         </CardDescription>
 
-        <div className="flex flex-wrap items-center gap-2 pt-1">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 pt-1">
           <span className="text-[12px] font-semibold text-foreground">
             Tools:
           </span>
@@ -69,7 +69,7 @@ export function ProjectCard({ project }: { project: Project }) {
             <Badge
               key={tool}
               variant="default"
-              className="rounded-md px-2 py-0.5 text-[11px] font-medium"
+              className="max-w-full rounded-md px-2 py-0.5 text-[11px] font-medium whitespace-normal"
             >
               {tool}
             </Badge>
@@ -77,9 +77,9 @@ export function ProjectCard({ project }: { project: Project }) {
         </div>
       </CardContent>
 
-      <CardFooter className="mt-auto flex items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4">
+      <CardFooter className="mt-auto flex min-w-0 flex-wrap items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4">
         <span className="inline-flex items-center gap-2 font-mono text-[12px] text-muted-foreground">
-          <Calendar className="size-3.5" aria-hidden />#{project.year}
+          <Calendar className="size-3.5 shrink-0" aria-hidden />#{project.year}
         </span>
 
         {project.href && project.ctaLabel ? (
@@ -92,6 +92,7 @@ export function ProjectCard({ project }: { project: Project }) {
                 variant: project.ctaLabel === "Webview" ? "link" : "default",
                 size: "sm",
               }),
+              "shrink-0",
               project.ctaLabel === "Webview"
                 ? "h-auto px-0 text-[13px]"
                 : "h-9 gap-1.5",

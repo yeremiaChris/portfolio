@@ -132,15 +132,15 @@ function ContactActionLink({ action }: { action: ContactCtaAction }) {
           variant: action.variant ?? "secondary",
           size: "lg",
         }),
-        "h-11 w-full gap-2 px-5 text-[15px] font-medium sm:w-auto",
+        "h-11 w-full max-w-full gap-2 px-5 text-[15px] font-medium sm:w-auto",
         isPrimary && "font-semibold shadow-[0_0_20px_rgba(78,222,163,0.3)]",
       )}
     >
       <Icon
-        className={cn("size-5", !isPrimary && "text-primary")}
+        className={cn("size-5 shrink-0", !isPrimary && "text-primary")}
         aria-hidden
       />
-      {action.label}
+      <span className="truncate">{action.label}</span>
     </a>
   );
 }

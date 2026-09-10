@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <main>
-      <Container className="flex min-h-[calc(100vh-4rem)] flex-col py-6 md:py-8">
+      <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
         <ProjectsHeader />
         <ProjectsGrid />
         <ContactCta

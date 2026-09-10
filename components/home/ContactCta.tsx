@@ -170,3 +170,22 @@ export function experienceContactActions(): ContactCtaAction[] {
     },
   ];
 }
+
+export function projectsContactActions(): ContactCtaAction[] {
+  return [
+    {
+      href: site.links.whatsapp,
+      label: `WhatsApp (${site.links.whatsappLabel})`,
+      icon: "whatsapp",
+      variant: "default",
+      external: true,
+      primary: true,
+    },
+    {
+      href: site.links.email,
+      label: site.links.emailLabel,
+      icon: "mail",
+      variant: "secondary",
+    },
+  ];
+}

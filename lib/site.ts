@@ -14,7 +14,7 @@ export const site = {
     email: "mailto:yeremia997@gmail.com",
     emailLabel: "yeremia997@gmail.com",
     resume:
-      "https://docs.google.com/document/d/1Ikbj2zdF3pYiOruBShZ6eFDXdilUdtqeh9tyA-dU8fM/edit?usp=sharing",
+      "https://docs.google.com/document/d/1lF9qIEuyGviopkk51BARVXWxTjCCDKeF9nBXmMWx8Is/edit?usp=sharing",
     about: "/about",
     experience: "/experience",
   },

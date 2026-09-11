@@ -82,8 +82,8 @@ export function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-3 border-t border-border/40 pt-6 sm:flex-row">
           <span className="font-mono text-[12px] text-muted-foreground">
-            © {new Date().getFullYear()} {site.fullName}. Crafted with
-            computational luxury.
+            © {new Date().getFullYear()} {site.fullName}. Software Engineer ·
+            Frontend-Heavy.
           </span>
           <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
             v4.2.0-kernel // latency ~14ms

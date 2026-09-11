@@ -29,29 +29,29 @@ export type MilestoneCaseStudy = {
 
 export const milestonesIntro = {
   eyebrow: "Production Track Record",
-  title: "Architectural Case Studies & Quantified Impact",
+  title: "Selected Work & Impact",
   description:
-    "Selected systems work measured against latency, throughput, and delivery confidence — not slide-deck claims.",
+    "A few shipped outcomes across product UI, realtime surfaces, and delivery habits — with numbers I can walk through in an interview.",
 } as const;
 
 export const featuredMilestone: MilestoneCaseStudy = {
   id: "micro-frontends",
-  tag: "Enterprise Scale",
+  tag: "Product Scale",
   tagTone: "primary",
-  stack: "Next.js 14 · Micro-Frontends · Zustand",
-  title: "Enterprise Distributed Frontend & Micro-Frontend Overhaul",
+  stack: "Next.js 14 · App Router · Zustand",
+  title: "Next.js App Router Migration & Shared UI Boundaries",
   summary:
-    "Led migration of legacy monolithic client apps to Next.js App Router with clear micro-frontend boundaries. Centralized design tokens, strict TypeScript contracts, and edge caching for high-frequency dynamic routes.",
+    "Helped migrate legacy client apps to Next.js App Router with clearer module boundaries, shared design tokens, and TypeScript contracts — improving maintainability and page latency on high-traffic routes.",
   metrics: [
     { value: "-42%", label: "P95 Page Latency", tone: "primary" },
     { value: "98/100", label: "Core Web Vitals", tone: "cyan" },
-    { value: "50k+", label: "Dynamic Routes", tone: "foreground" },
+    { value: "High-traffic", label: "Dynamic Routes", tone: "foreground" },
   ],
   chart: {
     title: "Latency Reduction Curve",
     subtitle: "P95: 1.8s → 1.04s",
     caption: "TTFB Benchmark",
-    verified: "Verified on production edge",
+    verified: "Measured on production edge",
     bars: [
       { label: "Legacy", heightPct: 92 },
       { label: "Q1 Migr", heightPct: 75 },
@@ -64,28 +64,28 @@ export const featuredMilestone: MilestoneCaseStudy = {
 export const secondaryMilestones: MilestoneCaseStudy[] = [
   {
     id: "telemetry",
-    tag: "Systems Throughput",
+    tag: "Realtime Product UI",
     tagTone: "cyan",
-    stack: "Go · Redis Pub/Sub · WebSocket",
-    title: "High-Concurrency Telemetry & Event Ingestion Engine",
+    stack: "WebSocket · React / Next.js · API Integration",
+    title: "Realtime Telemetry Surfaces for Clinical Dashboards",
     summary:
-      "Built resilient Go ingestion workers with Redis clustering to consume real-time user events and push telemetry to dashboards without UI jank.",
+      "Built and tuned realtime dashboard surfaces that consume event streams over WebSocket/API — keeping charts and status views responsive under frequent updates without freezing the main UI thread.",
     metrics: [
-      { value: "15k req/s", label: "Sustained Ingestion", tone: "cyan" },
-      { value: "< 50ms", label: "E2E Delivery", tone: "primary" },
+      { value: "Realtime", label: "Event-Driven UI", tone: "cyan" },
+      { value: "Smooth UX", label: "Under Frequent Updates", tone: "primary" },
     ],
   },
   {
     id: "cicd",
-    tag: "DevOps Velocity",
+    tag: "Delivery Confidence",
     tagTone: "violet",
-    stack: "GitHub Actions · Docker · K8s",
-    title: "Automated GitOps, CI/CD & Regression-Safe Testing",
+    stack: "GitHub Actions · Playwright · TypeScript",
+    title: "Faster Feedback Loops with CI Checks & E2E Smoke Tests",
     summary:
-      "Rebuilt multi-stage CD with parallel caches, Playwright smoke coverage, and strict TypeScript checks to ship faster with higher confidence.",
+      "Improved delivery confidence by tightening CI gates — TypeScript checks, lint, and Playwright smoke coverage — so regressions are caught earlier and releases feel safer.",
     metrics: [
-      { value: "8 Min", label: "Build Time (from 45m)", tone: "violet" },
-      { value: "0 Regressions", label: "Production P1s", tone: "primary" },
+      { value: "Faster CI", label: "Feedback Loop", tone: "violet" },
+      { value: "E2E Smoke", label: "Release Gate", tone: "primary" },
     ],
   },
 ];

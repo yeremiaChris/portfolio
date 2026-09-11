@@ -12,7 +12,7 @@ import { projectsContactCta } from "@/lib/projects";
 export const metadata: Metadata = {
   title: "Projects | Yeremia Chris Saragi",
   description:
-    "Featured production projects across healthcare, logistics, and API-backed web platforms.",
+    "Production work across healthcare and logistics — clinical systems, shipping platforms, and product interfaces built with React, Next.js, Vue, and modern APIs.",
 };
 
 export default function ProjectsPage() {

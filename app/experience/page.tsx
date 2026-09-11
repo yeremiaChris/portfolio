@@ -14,7 +14,7 @@ import { experienceContactCta } from "@/lib/experience";
 export const metadata: Metadata = {
   title: "Engineering Experience | Yeremia Chris Saragi",
   description:
-    "Software Engineer track record across healthcare platforms, logistics aggregation, and digital product agencies.",
+    "Production track record across health-tech platforms, logistics systems, and digital product teams.",
 };
 
 export default function ExperiencePage() {

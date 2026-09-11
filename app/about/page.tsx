@@ -7,7 +7,7 @@ import { Container } from "@/components/Container";
 export const metadata: Metadata = {
   title: "About | Yeremia Chris Saragi",
   description:
-    "About Yeremia Chris Saragi — Software Engineer (frontend-heavy) shipping production platforms across health-tech and logistics.",
+    "Software Engineer (frontend-heavy) building production platforms across health-tech and logistics. Strong in React, Next.js, and Vue, with solid experience in API integration, authentication flows, and data-aware delivery.",
 };
 
 export default function AboutPage() {

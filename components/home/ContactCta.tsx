@@ -1,4 +1,4 @@
-import { FileText, Mail, MessageCircle } from "lucide-react";
+import { FileText, Link2, Mail, MessageCircle } from "lucide-react";
 
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export type ContactCtaAction = {
   href: string;
   label: string;
-  icon: "mail" | "whatsapp" | "file";
+  icon: "mail" | "whatsapp" | "file" | "linkedin";
   variant?: "default" | "secondary";
   external?: boolean;
   primary?: boolean;
@@ -30,6 +30,7 @@ const ACTION_ICONS = {
   mail: Mail,
   whatsapp: MessageCircle,
   file: FileText,
+  linkedin: Link2,
 } as const;
 
 const DEFAULT_ACTIONS: ContactCtaAction[] = [
@@ -162,9 +163,9 @@ export function experienceContactActions(): ContactCtaAction[] {
       variant: "secondary",
     },
     {
-      href: site.links.resume,
-      label: "Resume (PDF)",
-      icon: "file",
+      href: site.links.linkedin,
+      label: "LinkedIn",
+      icon: "linkedin",
       variant: "secondary",
       external: true,
     },

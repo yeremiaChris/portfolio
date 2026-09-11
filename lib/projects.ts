@@ -9,9 +9,9 @@ export type ProjectRibbonMetric = {
 export const projectsIntro = {
   breadcrumbRoot: "sys://root/index",
   breadcrumbLeaf: "architectural_deployments.log",
-  title: "Featured Projects & Engineering Lab",
+  title: "Featured Projects",
   description:
-    "Production platforms across healthcare and logistics — clinical dashboards, shipping engines, and interactive architectures built with React, Next.js, Vue, Nuxt, APIs, and modern state primitives.",
+    "Production work across healthcare and logistics — clinical systems, shipping platforms, and product interfaces built with React, Next.js, Vue, and modern APIs.",
 } as const;
 
 export const projectRibbonToneClass: Record<ProjectRibbonTone, string> = {
@@ -22,18 +22,18 @@ export const projectRibbonToneClass: Record<ProjectRibbonTone, string> = {
 
 export const projectsRibbon: ProjectRibbonMetric[] = [
   {
-    label: "Deployed Repos",
-    value: "6+ Enterprise",
+    label: "Shipped Projects",
+    value: "10 Featured",
     tone: "foreground",
   },
   {
-    label: "Avg Lighthouse",
-    value: "98.4 / 100",
+    label: "Domains",
+    value: "Health · Logistics",
     tone: "primary",
   },
   {
-    label: "Total Reach",
-    value: "1M+ Clinicians",
+    label: "Stack Focus",
+    value: "React · Vue · APIs",
     tone: "cyan",
   },
 ];
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     tag: "work",
     year: "2025–2026",
     summary:
-      "FHIR-compliant EMR/HIS covering the full patient lifecycle — registration, scheduling, clinical care, queues, pharmacy, billing, and AI-assisted documentation — built with Vue 3 and Nuxt 3.",
+      "FHIR-compliant EMR/HIS covering the full patient lifecycle. Built clinical visit flows, queues, teleconsultation, billing, and AI-assisted documentation features using Vue 3 and Nuxt 3.",
     tools: ["Vue 3", "Nuxt 3", "TypeScript", "GraphQL", "FHIR"],
     image: "/projects/mazecare.png",
     imageAlt: "Mazecare receptionist dashboard and queue management",
@@ -73,18 +73,14 @@ export const projects: Project[] = [
     tag: "work",
     year: "2025",
     summary:
-      "The revamped PrimaKu landing page features smooth animations and sections highlighting PrimaKu's parenting tools, ecosystem, and impact, designed for an engaging user experience.",
+      "Revamped the main marketing site with smoother animations and clearer product storytelling. Focused on performance, form handling, and engagement tracking.",
     tools: [
       "Next.js",
-      "HeroUI (NextUI)",
       "TypeScript",
-      "Swiper",
       "React Hook Form",
       "Valibot",
       "TanStack Query",
-      "Axios",
       "Framer Motion",
-      "MoEngage",
     ],
     image: "/projects/primaku.png",
     imageAlt: "PrimaKu landing page",
@@ -97,17 +93,13 @@ export const projects: Project[] = [
     tag: "work",
     year: "2025",
     summary:
-      "An annual program by PrimaKu that supports parents with free and paid classes from trusted doctors, plus opportunities to win prizes like cash, vouchers, and children's product hampers through point collection.",
+      "Built the program site for PrimaKu’s annual parenting classes and rewards system, including registration flows and point collection features.",
     tools: [
       "Next.js",
-      "HeroUI (NextUI)",
       "TypeScript",
-      "Swiper",
       "React Hook Form",
       "TanStack Query",
-      "Axios",
       "Valibot",
-      "MoEngage",
     ],
     image: "/projects/parenthood.jpg",
     imageAlt: "Parenthood Institute",
@@ -120,14 +112,12 @@ export const projects: Project[] = [
     tag: "work",
     year: "2024",
     summary:
-      "PrimaCare.ai is a web-based clinic management app from PrimaKu that simplifies medical records, integrates with SatuSehat for compliance, and provides easy access for doctors and staff with no maintenance costs and regular updates.",
+      "Clinic management web app focused on medical records and SatuSehat integration. Worked on core forms, data flows, and clinician-facing interfaces.",
     tools: [
       "Next.js",
-      "HeroUI (NextUI)",
       "TypeScript",
       "React Hook Form",
       "TanStack Query",
-      "Axios",
       "Valibot",
     ],
     image: "/projects/primacare.jpg",
@@ -137,21 +127,12 @@ export const projects: Project[] = [
   },
   {
     id: "buildingbots",
-    title: "BuildingBots AI (Agigtech)",
+    title: "BuildingBots AI",
     tag: "work",
     year: "2024",
     summary:
-      "Official landing page for BuildingBots.AI, a software agency offering tailored AI solutions — mission, vision, values, and expertise in cutting-edge AI technologies and digital services.",
-    tools: [
-      "Nuxt.js",
-      "Supabase",
-      "Tailwind CSS",
-      "Nuxt UI",
-      "TypeScript",
-      "VeeValidate",
-      "Axios",
-      "Valibot",
-    ],
+      "Landing page for an AI solutions agency. Built the site structure, content sections, and form handling.",
+    tools: ["Nuxt.js", "Supabase", "Tailwind CSS", "TypeScript"],
     image: "/projects/buildingbots.png",
     imageAlt: "BuildingBots AI",
     href: "https://buildingbots.ai",
@@ -163,8 +144,8 @@ export const projects: Project[] = [
     tag: "work",
     year: "2023",
     summary:
-      "Shipping aggregator platform that simplifies logistics for businesses — regular, instant, cargo, and bulk shipments, plus fulfillment and warehousing, trusted by over 200,000 users.",
-    tools: ["Nuxt.js", "TypeScript", "Swiper", "GrapesJS", "Firebase"],
+      "Frontend for a multi-courier shipping platform used by 200K+ users. Built logistics interfaces for pricing, manifest handling, and shipment tracking.",
+    tools: ["Nuxt.js", "TypeScript", "Swiper", "Firebase"],
     image: "/projects/kiriminaja.jpg",
     imageAlt: "KiriminAja logistics platform",
     href: "https://app.kiriminaja.com",
@@ -176,8 +157,8 @@ export const projects: Project[] = [
     tag: "work",
     year: "2023",
     summary:
-      "Webview app that makes managing a child's diabetes easier with Accu-Chek device connection and a detailed health diary for pediatric care.",
-    tools: ["Nuxt.js", "Tailwind CSS", "Axios", "Swiper"],
+      "Webview app for pediatric diabetes management with device connection and health diary features.",
+    tools: ["Nuxt.js", "Tailwind CSS", "Axios"],
     image: "/projects/cdic.jpg",
     imageAlt: "CDIC pediatric diabetes tracker",
     href: "https://play.google.com/store/apps/details?id=com.primaku.app&hl=id",
@@ -189,8 +170,8 @@ export const projects: Project[] = [
     tag: "work",
     year: "2023",
     summary:
-      "Landing page for Flou Cloud's locally-owned, high-performance cloud services, with a customizable CMS for content, pages, and menus.",
-    tools: ["Nuxt.js", "Tailwind CSS", "Swiper", "Axios"],
+      "Landing page and CMS-driven site for a local cloud service provider.",
+    tools: ["Nuxt.js", "Tailwind CSS", "Axios"],
     image: "/projects/floucloud.jpg",
     imageAlt: "Flou Cloud",
     href: "https://www.floucloud.id",
@@ -202,8 +183,8 @@ export const projects: Project[] = [
     tag: "work",
     year: "2022",
     summary:
-      "Telkom subsidiary site for telecom infrastructure and outsourcing solutions, with a CMS-driven landing page for vision, values, and contact.",
-    tools: ["Nuxt.js", "Tailwind CSS", "Swiper", "Axios"],
+      "Corporate site for Telkom’s infrastructure subsidiary with CMS-managed content.",
+    tools: ["Nuxt.js", "Tailwind CSS", "Axios"],
     image: "/projects/telkom-infra.png",
     imageAlt: "Telkom Infra",
     href: "https://telkominfra.co.id",
@@ -215,8 +196,8 @@ export const projects: Project[] = [
     tag: "personal",
     year: "2022",
     summary:
-      "Pixel-perfect dashboard UI built with Nuxt.js and Tailwind CSS — charts and summaries for a seamless admin experience.",
-    tools: ["Nuxt.js", "Tailwind CSS", "Swiper"],
+      "Personal project — pixel-perfect admin dashboard UI built with Nuxt.js and Tailwind CSS.",
+    tools: ["Nuxt.js", "Tailwind CSS"],
     image: "/projects/dashboard-purity.png",
     imageAlt: "Dashboard Purity UI",
     href: "https://slicing-ui-purity.netlify.app/",
@@ -225,8 +206,8 @@ export const projects: Project[] = [
 ];
 
 export const projectsContactCta = {
-  eyebrow: "Available for Software Engineer roles",
-  title: "Interested in hiring or discussing technical architecture?",
+  eyebrow: "Available for Software Engineer roles (frontend-heavy)",
+  title: "Interested in hiring or discussing a product build?",
   description:
-    "Open for Software Engineer opportunities (frontend-heavy, full-time remote or hybrid). Reach me via WhatsApp or verified email.",
+    "Open for full-time remote or hybrid opportunities. Feel free to reach out via WhatsApp or email.",
 } as const;

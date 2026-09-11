@@ -7,22 +7,23 @@ import { Milestones } from "@/components/home/Milestones";
 import { TechStack } from "@/components/home/TechStack";
 
 export const metadata: Metadata = {
-  title: "Yeremia Chris Saragi | Frontend Web Developer",
+  title: "Yeremia Chris Saragi | Software Engineer",
   description:
-    "Frontend Web Developer specializing in building exceptional digital experiences. Explore my portfolio showcasing web development projects and professional experience.",
+    "Software Engineer (frontend-heavy) building production web platforms across health-tech and logistics — React, Next.js, Vue, APIs, and data integration.",
   keywords: [
     "Yeremia Chris Saragi",
-    "Frontend Developer",
-    "Web Developer",
+    "Software Engineer",
+    "Frontend Engineer",
     "React Developer",
     "Next.js Developer",
+    "Vue Developer",
     "Portfolio",
     "Web Development",
   ],
   openGraph: {
-    title: "Yeremia Chris Saragi | Frontend Web Developer",
+    title: "Yeremia Chris Saragi | Software Engineer",
     description:
-      "Frontend Web Developer specializing in building exceptional digital experiences",
+      "Software Engineer (frontend-heavy) building production platforms across health-tech and logistics",
     type: "website",
     locale: "en_US",
   },

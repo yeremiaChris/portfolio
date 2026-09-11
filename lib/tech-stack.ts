@@ -17,11 +17,11 @@ export type TechCategory = {
 
 export const techStackIntro = {
   eyebrow: "Battle-Tested Arsenal",
-  title: "Production Frontend Stack",
+  title: "Production Engineering Stack",
   description:
-    "A React-first toolkit hardened across real product surfaces — with solid SQL and delivery habits underneath.",
+    "Frontend craft as the core strength — backed by API integration, SQL familiarity, and delivery habits that hold up in production.",
   focusLabel: "Focus:",
-  focusValue: "Frontend · React / Next.js",
+  focusValue: "Software Engineer · Frontend-Heavy",
 } as const;
 
 export const techToneClass: Record<TechTone, string> = {
@@ -70,7 +70,7 @@ export const techCategories: TechCategory[] = [
     title: "Data & APIs",
     badge: "QUERY",
     description:
-      "SQL-first data work, BaaS when it speeds delivery, and typed services in Node or Go when the UI needs a real backend.",
+      "SQL-aware querying, REST/GraphQL contracts, auth handshakes, and FHIR-style clinical integrations when the product needs a real data plane.",
     tone: "cyan",
     icon: "database",
     items: [
@@ -83,6 +83,7 @@ export const techCategories: TechCategory[] = [
       { name: "Go (Golang)", tone: "cyan" },
       { name: "REST APIs", tone: "primary" },
       { name: "GraphQL", tone: "primary" },
+      { name: "FHIR", tone: "primary" },
       { name: "WebSockets", tone: "cyan" },
     ],
   },
@@ -91,7 +92,7 @@ export const techCategories: TechCategory[] = [
     title: "Delivery & Platform",
     badge: "SHIP",
     description:
-      "Predictable deploys, host platforms for fast frontend surfaces, and end-to-end suites that gate what ships.",
+      "Predictable deploys, host platforms for product surfaces, and end-to-end suites that gate what ships.",
     tone: "violet",
     icon: "cloud",
     items: [

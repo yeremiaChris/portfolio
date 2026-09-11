@@ -174,7 +174,7 @@ export const experienceRoles: ExperienceRole[] = [
       "TypeScript",
       "GraphQL",
       "FHIR",
-      "Front-End Development",
+      "API Integration",
     ],
     tone: "cyan",
   },
@@ -308,5 +308,5 @@ export const experienceContactCta = {
   eyebrow: "Available for select high-impact opportunities",
   title: "Ready to review verified references or schedule an interview?",
   description:
-    "Open for Senior Frontend positions (full-time or advisory). Direct communication via WhatsApp, email, or formal CV review.",
+    "Open for Software Engineer roles (frontend-heavy) — full-time or advisory. Reach me via WhatsApp, email, or formal CV review.",
 } as const;

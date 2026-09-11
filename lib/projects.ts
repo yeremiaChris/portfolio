@@ -11,7 +11,7 @@ export const projectsIntro = {
   breadcrumbLeaf: "architectural_deployments.log",
   title: "Featured Projects & Engineering Lab",
   description:
-    "Production web platforms, clinical healthcare dashboards, high-volume shipping calculation engines, and interactive frontend architectures built with React, Next.js (App Router), Vue, Nuxt, and modern state primitives.",
+    "Production platforms across healthcare and logistics — clinical dashboards, shipping engines, and interactive architectures built with React, Next.js, Vue, Nuxt, APIs, and modern state primitives.",
 } as const;
 
 export const projectRibbonToneClass: Record<ProjectRibbonTone, string> = {
@@ -225,8 +225,8 @@ export const projects: Project[] = [
 ];
 
 export const projectsContactCta = {
-  eyebrow: "Available for senior frontend roles",
+  eyebrow: "Available for Software Engineer roles",
   title: "Interested in hiring or discussing technical architecture?",
   description:
-    "Open for Senior Frontend Web Developer opportunities (full-time remote or hybrid). Reach me via WhatsApp or verified email.",
+    "Open for Software Engineer opportunities (frontend-heavy, full-time remote or hybrid). Reach me via WhatsApp or verified email.",
 } as const;

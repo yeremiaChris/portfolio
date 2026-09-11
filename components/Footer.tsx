@@ -50,8 +50,8 @@ export function Footer() {
               Telemetry: All Systems Operational
             </Badge>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Engineering robust distributed frontends, design systems, and
-              low-latency product interfaces.
+              Engineering production web platforms — frontend craft, API
+              integration, and low-latency product interfaces.
             </p>
           </div>
 

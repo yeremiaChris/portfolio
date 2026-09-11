@@ -35,11 +35,11 @@ export function HeroTerminal() {
             identity: <Str>&apos;Yeremia Chris Saragi&apos;</Str>,
           </Line>
           <Line n={4} indent>
-            role: <Str>&apos;Senior Software Engineer&apos;</Str>,
+            role: <Str>&apos;Software Engineer · Frontend-Heavy&apos;</Str>,
           </Line>
           <Line n={5} indent>
-            focus: [<Str>&apos;High-Scale Distributed Systems&apos;</Str>,{" "}
-            <Str>&apos;Web Arch&apos;</Str>],
+            focus: [<Str>&apos;Product Platforms&apos;</Str>,{" "}
+            <Str>&apos;APIs · UI Craft&apos;</Str>],
           </Line>
           <Line n={6} indent>
             uptimeSla: <Type>0.9995</Type>,{" "}

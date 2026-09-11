@@ -2,9 +2,9 @@ export const site = {
   name: "Yeremia",
   fullName: "Yeremia Chris Saragi",
   pronunciation: "/ jɛ-rə-ˈmaɪ-ə krɪs sə-ˈrɑː-ɡi / · Yeremia Chris Saragi",
-  role: "Senior / Full-Stack Engineer",
+  role: "Software Engineer · Frontend-Heavy",
   availability: "Open to exciting opportunities",
-  bio: "Software engineer with proven expertise in developing user-focused applications from concept to deployment, enhancing performance and scalability, executing tech stack upgrades, and maintaining high standards of code quality.",
+  bio: "Software Engineer with 5+ years building production web platforms across health-tech (HIS/EMR) and logistics. Strong in modern frontend (React, Next.js, Vue) with proven ability to integrate REST/GraphQL APIs, authentication flows, and data pipelines — focused on reliability, clean architecture, and measurable impact.",
   links: {
     whatsapp: "https://wa.me/6281212126215",
     whatsappLabel: "+62-812",
@@ -14,7 +14,7 @@ export const site = {
     email: "mailto:yeremia997@gmail.com",
     emailLabel: "yeremia997@gmail.com",
     resume:
-      "https://docs.google.com/document/d/1PFzw-wlXXIgONKRkJ2YQd1k50uR1P7aIsAr-qPqU4qE/edit?usp=sharing",
+      "https://docs.google.com/document/d/1Ikbj2zdF3pYiOruBShZ6eFDXdilUdtqeh9tyA-dU8fM/edit?usp=sharing",
     about: "/about",
     experience: "/experience",
   },
@@ -22,7 +22,7 @@ export const site = {
     {
       label: "Experience",
       value: "5+ Years",
-      detail: "Full-stack & systems",
+      detail: "Product & platform delivery",
       icon: "award" as const,
     },
     {
@@ -40,7 +40,7 @@ export const site = {
     {
       label: "Tech Stack",
       value: "Modern",
-      detail: "Next, React, SQL",
+      detail: "React, Vue, APIs, SQL",
       icon: "layers" as const,
     },
   ],

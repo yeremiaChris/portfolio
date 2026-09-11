@@ -52,8 +52,8 @@ const DEFAULT_ACTIONS: ContactCtaAction[] = [
 export function ContactCta({
   id = "contact",
   eyebrow = "Ready to build something exceptional?",
-  title = "Let's discuss frontend architecture, product UI, or your next React / Next.js build.",
-  description = "Available for full-time frontend roles, design-system work, and high-impact contractor partnerships worldwide.",
+  title = "Let's discuss product platforms, API-backed UI, or your next React / Next.js build.",
+  description = "Available for Software Engineer roles (frontend-heavy), design-system work, and high-impact contractor partnerships worldwide.",
   actions = DEFAULT_ACTIONS,
   withContainer = true,
   className,

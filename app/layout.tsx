@@ -23,8 +23,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Yeremia Portfolio",
-  description: "Yeremia Portfolio",
+  title: "Yeremia Chris Saragi | Software Engineer",
+  description:
+    "Software Engineer (frontend-heavy) — production web platforms across health-tech and logistics.",
 };
 
 export default function RootLayout({

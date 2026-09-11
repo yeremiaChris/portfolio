@@ -5,7 +5,7 @@ export const aboutIntro = {
   eyebrow: "Dossier · Spec 2025.1",
   title: "About Yeremia Chris Saragi",
   description:
-    "Crafting resilient product interfaces, performance-minded React / Next.js apps, and human-centered UI systems with obsessive attention to runtime quality.",
+    "Software Engineer (frontend-heavy) shipping production platforms across health-tech and logistics — React / Next.js / Vue craft with API integration, auth flows, and data-aware delivery.",
   resumeLabel: "Official Resume",
   chatLabel: "Schedule a chat",
 } as const;
@@ -38,7 +38,7 @@ export const aboutProfile = {
   location: "Indonesia // Remote Worldwide",
   ageLabel: "26 y.o.",
   intent:
-    "Ready for senior frontend execution, high-cadence product UI work, or dedicated enterprise consulting.",
+    "Open to Software Engineer roles (frontend-heavy) — product platforms, clinical systems, or high-cadence delivery with API and data ownership.",
 } as const;
 
 export const aboutProfileMetricToneClass: Record<AboutMetricTone, string> = {
@@ -49,8 +49,8 @@ export const aboutProfileMetricToneClass: Record<AboutMetricTone, string> = {
 
 export const aboutProfileMetrics: AboutProfileMetric[] = [
   {
-    label: "Core Specialization",
-    value: "Distributed Frontends & Micro-UIs",
+    label: "Core Strength",
+    value: "Frontend Craft + API / Data Integration",
     tone: "foreground",
   },
   {
@@ -65,7 +65,7 @@ export const aboutProfileMetrics: AboutProfileMetric[] = [
   },
   {
     label: "Target Domain",
-    value: "Senior / Staff / Lead Roles",
+    value: "Software Engineer · Frontend-Heavy",
     tone: "foreground",
   },
 ];
@@ -116,8 +116,8 @@ export const aboutStoryEras: AboutStoryEra[] = [
     id: "senior",
     label: "Production Reign",
     period: "2023 — Present // Senior Tenure",
-    title: "Mission-Critical Healthtech Frontends",
-    body: "Driving core frontend infrastructure at PrimaKu (Indonesian Pediatric Society partner) — patient monitoring, growth-chart telemetry, and clinician appointment flows. Also shipped FHIR-compliant clinic & hospital OS features at Mazecare (Jun 2025 — Jul 2026) on Vue 3 / Nuxt 3 with GraphQL.",
+    title: "Mission-Critical Healthtech Platforms",
+    body: "Driving product surfaces and integrations at PrimaKu (Indonesian Pediatric Society partner) — patient monitoring, growth-chart telemetry, clinician appointment flows, REST pipelines, and auth handshakes. Also shipped FHIR-compliant clinic & hospital OS features at Mazecare (Jun 2025 — Jul 2026) on Vue 3 / Nuxt 3 with GraphQL.",
     tone: "primary",
     current: true,
   },
@@ -126,7 +126,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
     label: "HIS Track",
     period: "2025 — 2026 // Clinic & Hospital OS",
     title: "Mazecare — AI-Native Clinic & Hospital OS",
-    body: "Built patient-lifecycle features for Mazecare’s EMR/HIS: clinical visits, queues, teleconsultation, billing, and AI clinical assistant / configuration tooling — TypeScript, Vue 3, Nuxt 3, GraphQL, and FHIR integrations.",
+    body: "Owned end-to-end patient-lifecycle features for Mazecare’s EMR/HIS: clinical visits, queues, teleconsultation, billing, and AI clinical assistant / configuration tooling — TypeScript, Vue 3, Nuxt 3, GraphQL, and FHIR integrations.",
     tone: "violet",
   },
 ];

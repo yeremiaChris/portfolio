@@ -25,10 +25,10 @@ export function Artifacts() {
               id="artifacts-heading"
               className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
             >
-              Frontend Engineering Artifacts
+              Engineering Artifacts
             </h2>
             <p className="max-w-xl text-[15px] leading-6 text-muted-foreground">
-              Direct proof-of-work: small interactive demos for tokens, streaming
+              Direct proof-of-work: interactive demos for tokens, streaming
               patterns, and accessible UI state.
             </p>
           </div>

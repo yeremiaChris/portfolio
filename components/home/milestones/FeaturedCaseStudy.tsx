@@ -43,29 +43,31 @@ export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
             </CardDescription>
           </CardHeader>
 
-          <dl className="grid grid-cols-3 gap-3 font-mono">
+          <div className="grid grid-cols-3 gap-3 font-mono">
             {study.metrics.map((metric) => (
               <div
                 key={metric.label}
                 className="rounded-xl bg-[#0a0e14] p-3"
               >
-                <dt className="sr-only">{metric.label}</dt>
-                <dd
-                  className={cn(
-                    "block text-2xl font-bold tracking-tight",
-                    metric.tone
-                      ? metricToneClass[metric.tone]
-                      : "text-foreground",
-                  )}
-                >
-                  {metric.value}
-                </dd>
-                <span className="mt-1 block text-[10px] tracking-wider text-muted-foreground uppercase">
+                <dl>
+                  <dt className="sr-only">{metric.label}</dt>
+                  <dd
+                    className={cn(
+                      "block text-2xl font-bold tracking-tight",
+                      metric.tone
+                        ? metricToneClass[metric.tone]
+                        : "text-foreground",
+                    )}
+                  >
+                    {metric.value}
+                  </dd>
+                </dl>
+                <p className="mt-1 block text-[10px] tracking-wider text-muted-foreground uppercase">
                   {metric.label}
-                </span>
+                </p>
               </div>
             ))}
-          </dl>
+          </div>
         </div>
 
         {study.chart ? (

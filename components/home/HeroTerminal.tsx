@@ -115,5 +115,5 @@ function Str({ children }: { children: ReactNode }) {
 }
 
 function Comment({ children }: { children: ReactNode }) {
-  return <span className="text-[#3c4a42]">{children}</span>;
+  return <span className="text-[#8b9a92]">{children}</span>;
 }

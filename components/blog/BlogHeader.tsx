@@ -67,12 +67,12 @@ export function BlogHeader({ metrics }: { metrics: BlogRibbonMetric[] }) {
           </p>
         </div>
 
-        <dl
+        <div
           aria-label="Blog metrics"
           className="grid w-full min-w-0 grid-cols-1 overflow-hidden rounded-xl border border-border/60 bg-[#0a0e14]/90 font-mono sm:grid-cols-3 md:w-auto md:shrink-0"
         >
           {metrics.map((metric, index) => (
-            <div
+            <dl
               key={metric.label}
               className={cn(
                 "flex min-w-0 flex-col gap-0.5 px-4 py-2.5",
@@ -91,9 +91,9 @@ export function BlogHeader({ metrics }: { metrics: BlogRibbonMetric[] }) {
               >
                 {metric.value}
               </dd>
-            </div>
+            </dl>
           ))}
-        </dl>
+        </div>
       </div>
     </section>
   );

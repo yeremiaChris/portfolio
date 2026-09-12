@@ -115,9 +115,9 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
                   style={{ width: `${role.panel.progressPct}%` }}
                 />
               </div>
-              <dl className="space-y-1.5 font-mono text-[12px]">
+              <div className="space-y-1.5 font-mono text-[12px]">
                 {role.panel.rows.map((row) => (
-                  <div
+                  <dl
                     key={row.label}
                     className="flex justify-between gap-3 text-muted-foreground"
                   >
@@ -131,9 +131,9 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
                     >
                       {row.value}
                     </dd>
-                  </div>
+                  </dl>
                 ))}
-              </dl>
+              </div>
             </div>
             <p className="flex items-center gap-2 rounded-md bg-muted px-2 py-1.5 font-mono text-[10px] tracking-wider text-muted-foreground uppercase">
               <BadgeCheck

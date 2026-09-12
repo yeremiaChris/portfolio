@@ -1,0 +1,223 @@
+---
+title: "Compound Components with Context"
+description: "Share state across related UI pieces without prop wiring — and when a single component or shadcn is still the better choice."
+date: "2026-09-12"
+tags: ["react", "patterns", "context"]
+featured: false
+---
+
+React has plenty of patterns — you don’t need every one committed to memory. What helps most is knowing they exist. When the right situation shows up, the syntax is easy to pick up with a quick reference.
+
+**Compound components with Context** is one of those patterns.
+
+**One-sentence answer:** A parent owns shared state; related children read it from Context so you get a flexible `Parent.Child` API without manually wiring props.
+
+## Why it matters
+
+You already have UI kits — shadcn, Radix, HeroUI. You usually **don’t** rebuild Tabs, Dialog, or Accordion. This pattern matters when _you_ own a multi-part widget whose pieces must share local state, or when you’re extending a library into your own product API.
+
+## A different use case: shipment filters
+
+Imagine an ops dashboard. You want a filter strip that products can rearrange:
+
+```tsx
+<ShipmentFilters>
+  <ShipmentFilters.Search />
+  <ShipmentFilters.Status />
+  <ShipmentFilters.ResultsCount />
+  <ShipmentFilters.ClearAll />
+</ShipmentFilters>
+```
+
+On another page the layout is different — count first, then search — but the **same shared filter state** still applies.
+
+What has to stay in sync?
+
+```text
+ShipmentFilters
+│
+├── Search        → reads/writes query
+├── Status        → reads/writes status
+├── ResultsCount  → reads query + status (to show “12 matching”)
+└── ClearAll      → resets everything
+```
+
+## The problem without Context
+
+You _could_ lift state in the page and pass props into every piece:
+
+```tsx
+<ShipmentFilters.Search query={query} onQueryChange={setQuery} />
+<ShipmentFilters.Status status={status} onStatusChange={setStatus} />
+<ShipmentFilters.ResultsCount query={query} status={status} total={total} />
+<ShipmentFilters.ClearAll onClear={clearAll} />
+```
+
+Now every consumer must understand the internals. The children look related, but the developer is the glue.
+
+That’s the smell this pattern fixes: **related parts of one widget, forced to share state through the outside world.**
+
+## The pattern
+
+1. Parent owns state (`query`, `status`, `clearAll`, …)
+2. Provider wraps children
+3. Children read via a custom hook
+4. Hook throws if used outside the parent (better DX)
+
+```tsx
+type FiltersState = {
+  query: string;
+  status: "all" | "in_transit" | "delivered";
+  setQuery: (value: string) => void;
+  setStatus: (value: FiltersState["status"]) => void;
+  clearAll: () => void;
+};
+
+const ShipmentFiltersContext = createContext<FiltersState | null>(null);
+
+function useShipmentFilters() {
+  const ctx = useContext(ShipmentFiltersContext);
+  if (!ctx) {
+    throw new Error("ShipmentFilters.* must be used inside <ShipmentFilters>");
+  }
+  return ctx;
+}
+
+function ShipmentFilters({ children }: { children: React.ReactNode }) {
+  const [query, setQuery] = useState("");
+  const [status, setStatus] = useState<FiltersState["status"]>("all");
+
+  const clearAll = () => {
+    setQuery("");
+    setStatus("all");
+  };
+
+  return (
+    <ShipmentFiltersContext.Provider
+      value={{ query, status, setQuery, setStatus, clearAll }}
+    >
+      <div className="filter-bar">{children}</div>
+    </ShipmentFiltersContext.Provider>
+  );
+}
+
+function Search() {
+  const { query, setQuery } = useShipmentFilters();
+  return (
+    <input
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      placeholder="Search AWB / receiver"
+    />
+  );
+}
+
+function Status() {
+  const { status, setStatus } = useShipmentFilters();
+  return (
+    <select
+      value={status}
+      onChange={(e) => setStatus(e.target.value as FiltersState["status"])}
+    >
+      <option value="all">All</option>
+      <option value="in_transit">In transit</option>
+      <option value="delivered">Delivered</option>
+    </select>
+  );
+}
+
+function ClearAll() {
+  const { clearAll } = useShipmentFilters();
+  return (
+    <button type="button" onClick={clearAll}>
+      Clear filters
+    </button>
+  );
+}
+
+ShipmentFilters.Search = Search;
+ShipmentFilters.Status = Status;
+ShipmentFilters.ClearAll = ClearAll;
+```
+
+Mental model:
+
+```text
+ShipmentFilters (owns filter state)
+              ↓
+           Context
+        /    |     \
+   Search  Status  ClearAll
+```
+
+Change status once — every child that cares updates together, without the page threading props.
+
+## Another quick example: multi-step wizard
+
+Same idea, different domain:
+
+```tsx
+<OnboardingWizard>
+  <OnboardingWizard.Steps />
+  <OnboardingWizard.Panel step={1}>{/* company */}</OnboardingWizard.Panel>
+  <OnboardingWizard.Panel step={2}>{/* billing */}</OnboardingWizard.Panel>
+  <OnboardingWizard.Next />
+  <OnboardingWizard.Back />
+</OnboardingWizard>
+```
+
+Shared state might be `currentStep` + `goNext` / `goBack`. Triggers and panels all read from one Context under the wizard root.
+
+## When to use it
+
+Use this when **several child pieces belong to one parent and must share the same internal state**, and you want a composable API:
+
+- Domain widgets your kit doesn’t ship: filter bars, shipment panels, onboarding wizards, claim timelines
+- Wrapping library primitives into _your_ API (`AppModal.Header` / `Body` / `Footer` with shared close + analytics)
+- Layout must stay flexible (same state, different slot order per screen)
+- You’re building design-system / internal package primitives
+
+Classic shapes in libraries: Modal, Tabs, Accordion, Select, Menu, Popover — which is why Headless UI and Radix feel familiar once you know this pattern.
+
+## When not to use it
+
+| Situation                                 | Prefer                       |
+| ----------------------------------------- | ---------------------------- |
+| Need Tabs / Dialog / Accordion / Select   | **shadcn / Radix / HeroUI**  |
+| One fixed layout, few props               | A **single component**       |
+| Global concerns (auth, theme, user)       | App-level Context or a store |
+| No composition need — just avoiding props | Props                        |
+
+For a one-off filter row on a single page, this is often enough:
+
+```tsx
+function ShipmentFilters() {
+  const [query, setQuery] = useState("");
+  const [status, setStatus] = useState("all");
+  // render search + status + clear in one component
+}
+```
+
+Don’t reach for Context because you know Context.
+
+## How this fits with shadcn (and friends)
+
+Libraries already solved the common widgets. Many of them **are** compound components under the hood.
+
+Your job is usually:
+
+1. **Use** the kit for standard UI
+2. **Learn** this pattern so you can extend and compose it
+3. **Apply** it when you invent product-specific multi-part components
+
+Rebuilding `Tabs` from scratch in an app that already has shadcn is usually the wrong use case. Building `ShipmentFilters` for your logistics product often isn’t.
+
+## Takeaway
+
+Ask one question:
+
+> Do multiple children of one parent need the same internal state — and do I want a flexible compound API?
+
+If yes, Context under the parent is a clean fit. If no, keep it simple.
+
+Keep the pattern on your radar. When the right use case appears, looking up the syntax is enough.

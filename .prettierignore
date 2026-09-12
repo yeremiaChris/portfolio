@@ -1,0 +1,26 @@
+# dependencies
+node_modules
+.yarn
+
+# builds / caches
+.next
+out
+build
+coverage
+dist
+
+# lockfiles
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# generated
+next-env.d.ts
+*.tsbuildinfo
+
+# local / misc
+.vercel
+.env*
+public
+prototype.html
+prototype-detail.html

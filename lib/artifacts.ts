@@ -1,8 +1,28 @@
 export const artifactThemes = [
-  { id: "emerald", hex: "#4edea3", label: "Obsidian Emerald", swatchClass: "text-primary" },
-  { id: "cyan", hex: "#4cd7f6", label: "Cyber Cyan", swatchClass: "text-[#4cd7f6]" },
-  { id: "tokyo", hex: "#bb86fc", label: "Tokyo Night", swatchClass: "text-[#bb86fc]" },
-  { id: "amber", hex: "#fbbf24", label: "Solar Gold", swatchClass: "text-[#fbbf24]" },
+  {
+    id: "emerald",
+    hex: "#4edea3",
+    label: "Obsidian Emerald",
+    swatchClass: "text-primary",
+  },
+  {
+    id: "cyan",
+    hex: "#4cd7f6",
+    label: "Cyber Cyan",
+    swatchClass: "text-[#4cd7f6]",
+  },
+  {
+    id: "tokyo",
+    hex: "#bb86fc",
+    label: "Tokyo Night",
+    swatchClass: "text-[#bb86fc]",
+  },
+  {
+    id: "amber",
+    hex: "#fbbf24",
+    label: "Solar Gold",
+    swatchClass: "text-[#fbbf24]",
+  },
 ] as const;
 
 export type ArtifactThemeId = (typeof artifactThemes)[number]["id"];
@@ -41,10 +61,7 @@ export const fsmStates = ["IDLE", "FETCHING", "MUTATING", "SUCCESS"] as const;
 
 export type FsmState = (typeof fsmStates)[number];
 
-export const fsmMeta: Record<
-  FsmState,
-  { fps: string; statusClass: string }
-> = {
+export const fsmMeta: Record<FsmState, { fps: string; statusClass: string }> = {
   IDLE: { fps: "60.0 FPS", statusClass: "text-primary" },
   FETCHING: { fps: "59.8 FPS", statusClass: "text-[#4cd7f6]" },
   MUTATING: { fps: "60.0 FPS", statusClass: "text-[#bb86fc]" },

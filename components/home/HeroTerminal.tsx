@@ -3,21 +3,21 @@ import { TerminalIcon } from "lucide-react";
 
 export function HeroTerminal() {
   return (
-    <figure className="w-full overflow-hidden rounded-xl border border-border/60 bg-muted shadow-xl backdrop-blur-md">
-      <figcaption className="flex items-center justify-between bg-card px-4 py-2">
+    <figure className="border-border/60 bg-muted w-full overflow-hidden rounded-xl border shadow-xl backdrop-blur-md">
+      <figcaption className="bg-card flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-2">
-          <span className="inline-block size-3 rounded-full bg-destructive/80" />
+          <span className="bg-destructive/80 inline-block size-3 rounded-full" />
           <span className="inline-block size-3 rounded-full bg-[#4cd7f6]/80" />
-          <span className="inline-block size-3 rounded-full bg-primary/80" />
-          <span className="ml-2 font-mono text-[13px] text-muted-foreground">
+          <span className="bg-primary/80 inline-block size-3 rounded-full" />
+          <span className="text-muted-foreground ml-2 font-mono text-[13px]">
             yeremia.kernel.ts
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="rounded bg-secondary px-1.5 py-0.5 font-mono text-[10px] text-primary">
+          <span className="bg-secondary text-primary rounded px-1.5 py-0.5 font-mono text-[10px]">
             v4.8.0-prod
           </span>
-          <TerminalIcon className="size-4 text-muted-foreground" />
+          <TerminalIcon className="text-muted-foreground size-4" />
         </div>
       </figcaption>
 
@@ -65,9 +65,9 @@ export function HeroTerminal() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between bg-card px-4 py-2 font-mono text-[10px] text-muted-foreground">
+      <div className="bg-card text-muted-foreground flex items-center justify-between px-4 py-2 font-mono text-[10px]">
         <div className="flex items-center gap-2">
-          <span className="inline-block size-1.5 animate-pulse rounded-full bg-primary" />
+          <span className="bg-primary inline-block size-1.5 animate-pulse rounded-full" />
           <span className="text-primary">STATUS:</span>
           <span className="text-foreground">
             Available for hire &amp; freelance contracts
@@ -90,7 +90,7 @@ function Line({
 }) {
   return (
     <>
-      <span className="text-right text-muted-foreground/70">
+      <span className="text-muted-foreground/70 text-right">
         {String(n).padStart(2, "0")}
       </span>
       <div className={indent ? "pl-4" : undefined}>{children}</div>

@@ -16,11 +16,11 @@ They’re easy to cargo-cult. Used well, they protect expensive children from un
 
 ## Quick comparison
 
-| Tool | Remembers | Typical use |
-|------|-----------|-------------|
-| **`React.memo`** | A **component** output (skip re-render if props equal) | Heavy presentational children |
-| **`useMemo`** | A **value** | Expensive calc, or stable object/array for deps/props |
-| **`useCallback`** | A **function** | Stable handlers passed to memoized children |
+| Tool              | Remembers                                              | Typical use                                           |
+| ----------------- | ------------------------------------------------------ | ----------------------------------------------------- |
+| **`React.memo`**  | A **component** output (skip re-render if props equal) | Heavy presentational children                         |
+| **`useMemo`**     | A **value**                                            | Expensive calc, or stable object/array for deps/props |
+| **`useCallback`** | A **function**                                         | Stable handlers passed to memoized children           |
 
 Mental model: **component / value / function**.
 
@@ -48,10 +48,7 @@ const sorted = useMemo(
 Also useful when a child expects a stable object:
 
 ```tsx
-const query = useMemo(
-  () => ({ status: "open", assigneeId }),
-  [assigneeId],
-);
+const query = useMemo(() => ({ status: "open", assigneeId }), [assigneeId]);
 ```
 
 ## `useCallback` — memoize a function
@@ -82,9 +79,9 @@ Without stable `filters` / `onChange`, `memo` on `FilterPanel` won’t help.
 
 ## Common mistakes
 
-- `useCallback` everywhere with no memoized consumers  
-- Empty or wrong dependency arrays → stale props/state  
-- `useMemo` for trivial math (`a + b`)  
+- `useCallback` everywhere with no memoized consumers
+- Empty or wrong dependency arrays → stale props/state
+- `useMemo` for trivial math (`a + b`)
 - Expecting `memo` to deep-compare large nested objects (it won’t by default)
 
 ## When not to use them
@@ -93,8 +90,8 @@ If the Profiler doesn’t show a problem, skip them. Clarity first. React is alr
 
 ## Takeaway
 
-- **`memo`** → component  
-- **`useMemo`** → value  
-- **`useCallback`** → function  
+- **`memo`** → component
+- **`useMemo`** → value
+- **`useCallback`** → function
 
 Add them when prop identity or expensive work is a **measured** problem — especially together — not as default style.

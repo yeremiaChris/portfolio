@@ -26,13 +26,13 @@ export function LatencyChart({
   return (
     <Card
       size="sm"
-      className="h-full gap-3 rounded-2xl bg-[#0a0e14] py-0 ring-border/40"
+      className="ring-border/40 h-full gap-3 rounded-2xl bg-[#0a0e14] py-0"
     >
       <CardHeader className="flex-row items-center justify-between gap-2 p-4 pb-0">
-        <CardTitle className="font-mono text-[13px] font-semibold text-foreground">
+        <CardTitle className="text-foreground font-mono text-[13px] font-semibold">
           {title}
         </CardTitle>
-        <span className="font-mono text-[10px] text-primary">{subtitle}</span>
+        <span className="text-primary font-mono text-[10px]">{subtitle}</span>
       </CardHeader>
 
       <CardContent className="px-4">
@@ -55,8 +55,8 @@ export function LatencyChart({
               />
               <span
                 className={cn(
-                  "font-mono text-[10px] text-muted-foreground",
-                  bar.emphasized && "font-bold text-primary",
+                  "text-muted-foreground font-mono text-[10px]",
+                  bar.emphasized && "text-primary font-bold",
                 )}
               >
                 {bar.label}
@@ -66,9 +66,9 @@ export function LatencyChart({
         </div>
       </CardContent>
 
-      <CardFooter className="justify-between border-t-0 bg-transparent px-4 pt-0 pb-4 font-mono text-xs text-muted-foreground">
+      <CardFooter className="text-muted-foreground justify-between border-t-0 bg-transparent px-4 pt-0 pb-4 font-mono text-xs">
         <span>{caption}</span>
-        <span className="font-bold text-primary">{verified}</span>
+        <span className="text-primary font-bold">{verified}</span>
       </CardFooter>
     </Card>
   );

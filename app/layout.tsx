@@ -41,12 +41,12 @@ export default function RootLayout({
         "dark font-sans",
         geist.variable,
         jetbrainsMono.variable,
-        spaceGrotesk.variable
+        spaceGrotesk.variable,
       )}
     >
       <body
         suppressHydrationWarning
-        className="min-h-screen bg-background text-foreground antialiased"
+        className="bg-background text-foreground min-h-screen antialiased"
       >
         <Header />
         <div className="pt-16">{children}</div>

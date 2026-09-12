@@ -6,11 +6,7 @@ import { List } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { BlogHeading } from "@/lib/blog";
 import { cn } from "@/lib/utils";
 
@@ -50,7 +46,7 @@ export function BlogTocNav({
 
         const children = (
           <>
-            <span className="shrink-0 font-mono text-[11px] text-muted-foreground/80">
+            <span className="text-muted-foreground/80 shrink-0 font-mono text-[11px]">
               {String(index + 1).padStart(2, "0")}
             </span>
             <span className="text-left leading-snug">{heading.text}</span>
@@ -78,12 +74,12 @@ export function BlogTocHeader({ count }: { count: number }) {
     <div className="flex items-center justify-between gap-2">
       <Badge
         variant="secondary"
-        className="w-fit gap-1.5 bg-transparent px-0 font-mono text-[10px] tracking-widest text-primary uppercase"
+        className="text-primary w-fit gap-1.5 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
       >
         <List className="size-3.5" aria-hidden />
         On this page
       </Badge>
-      <span className="font-mono text-[11px] text-muted-foreground">
+      <span className="text-muted-foreground font-mono text-[11px]">
         {String(count).padStart(2, "0")} sections
       </span>
     </div>
@@ -96,8 +92,8 @@ export function BlogToc({ headings }: { headings: BlogHeading[] }) {
   if (items.length < MIN_HEADINGS) return null;
 
   return (
-    <Card className="hidden gap-0 rounded-xl bg-muted py-0 ring-border/40 lg:block">
-      <CardHeader className="border-b border-border/40 p-4 pb-3">
+    <Card className="bg-muted ring-border/40 hidden gap-0 rounded-xl py-0 lg:block">
+      <CardHeader className="border-border/40 border-b p-4 pb-3">
         <BlogTocHeader count={items.length} />
       </CardHeader>
       <CardContent className="p-2">

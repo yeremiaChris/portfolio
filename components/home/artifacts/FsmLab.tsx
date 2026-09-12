@@ -27,10 +27,10 @@ export function FsmLab() {
   const meta = fsmMeta[state];
 
   return (
-    <Card className="h-full bg-muted ring-border/20 transition-colors hover:bg-card">
+    <Card className="bg-muted ring-border/20 hover:bg-card h-full transition-colors">
       <CardHeader>
         <div className="col-span-full mb-2 flex items-center justify-between">
-          <span className="rounded-xl bg-secondary p-2 text-primary">
+          <span className="bg-secondary text-primary rounded-xl p-2">
             <PointerIcon className="size-5" />
           </span>
           <Badge
@@ -52,7 +52,7 @@ export function FsmLab() {
       <CardContent>
         <div className="flex flex-col gap-3 rounded-xl bg-[#0a0e14] p-3">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs text-foreground">
+            <span className="text-foreground font-mono text-xs">
               FSM State:{" "}
               <strong className={cn("font-mono font-bold", meta.statusClass)}>
                 {state}
@@ -85,14 +85,14 @@ export function FsmLab() {
             ))}
           </div>
 
-          <div className="flex items-center justify-between rounded bg-secondary/80 p-2 font-mono text-xs text-muted-foreground">
+          <div className="bg-secondary/80 text-muted-foreground flex items-center justify-between rounded p-2 font-mono text-xs">
             <span>WCAG 2.2 AA contrast:</span>
-            <span className="font-bold text-primary">14.2:1 (PASS)</span>
+            <span className="text-primary font-bold">14.2:1 (PASS)</span>
           </div>
         </div>
       </CardContent>
 
-      <CardFooter className="justify-between border-t-0 bg-transparent font-mono text-[10px] text-muted-foreground">
+      <CardFooter className="text-muted-foreground justify-between border-t-0 bg-transparent font-mono text-[10px]">
         <span>ARIA labels &amp; keyboard-ready controls</span>
         <span className="text-primary">Demo coverage</span>
       </CardFooter>

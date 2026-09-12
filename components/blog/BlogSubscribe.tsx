@@ -11,24 +11,24 @@ export function BlogSubscribe() {
   return (
     <section
       aria-labelledby="blog-subscribe-heading"
-      className="mb-6 overflow-hidden rounded-xl bg-muted p-6 ring-1 ring-border/40 md:mb-8 md:p-8"
+      className="bg-muted ring-border/40 mb-6 overflow-hidden rounded-xl p-6 ring-1 md:mb-8 md:p-8"
     >
       <div className="relative z-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
         <div className="flex max-w-xl flex-col gap-2">
           <Badge
             variant="secondary"
-            className="w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest text-primary uppercase"
+            className="text-primary w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
           >
-            <span className="size-2 animate-pulse rounded-full bg-primary" />
+            <span className="bg-primary size-2 animate-pulse rounded-full" />
             {blogSubscribe.eyebrow}
           </Badge>
           <h2
             id="blog-subscribe-heading"
-            className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl"
+            className="font-heading text-foreground text-xl font-semibold tracking-tight sm:text-2xl"
           >
             {blogSubscribe.title}
           </h2>
-          <p className="text-sm leading-relaxed text-muted-foreground">
+          <p className="text-muted-foreground text-sm leading-relaxed">
             {blogSubscribe.description}
           </p>
         </div>
@@ -57,9 +57,9 @@ export function BlogSubscribe() {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-4 border-t border-border/40 pt-4 font-mono text-[11px] text-muted-foreground">
+      <div className="border-border/40 text-muted-foreground mt-5 flex flex-wrap items-center gap-4 border-t pt-4 font-mono text-[11px]">
         <span className="inline-flex items-center gap-1.5">
-          <Lock className="size-3.5 text-primary" aria-hidden />
+          <Lock className="text-primary size-3.5" aria-hidden />
           {blogSubscribe.privacyNote}
         </span>
         <span className="inline-flex items-center gap-1.5">

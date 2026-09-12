@@ -17,30 +17,30 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
   const primaryTag = post.tags[0] ?? "Article";
 
   return (
-    <Card className="group flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-xl bg-muted py-0 ring-border/40 transition-colors hover:bg-muted/80">
+    <Card className="group bg-muted ring-border/40 hover:bg-muted/80 flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-xl py-0 transition-colors">
       <CardHeader className="gap-3 p-4 pb-0">
         <div className="flex items-center justify-between gap-2">
           <Badge
             variant="secondary"
-            className="rounded-md bg-muted px-2 py-0.5 font-mono text-[10px] tracking-wider text-primary uppercase"
+            className="bg-muted text-primary rounded-md px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
           >
             {primaryTag}
           </Badge>
-          <span className="shrink-0 font-mono text-[11px] text-muted-foreground">
+          <span className="text-muted-foreground shrink-0 font-mono text-[11px]">
             {post.readingTime}
           </span>
         </div>
 
-        <CardTitle className="font-heading text-base leading-snug font-semibold tracking-tight text-foreground sm:text-lg">
+        <CardTitle className="font-heading text-foreground text-base leading-snug font-semibold tracking-tight sm:text-lg">
           <Link
             href={href}
-            className="transition-colors group-hover:text-primary"
+            className="group-hover:text-primary transition-colors"
           >
             {post.title}
           </Link>
         </CardTitle>
 
-        <CardDescription className="line-clamp-3 text-[13px] leading-relaxed text-muted-foreground">
+        <CardDescription className="text-muted-foreground line-clamp-3 text-[13px] leading-relaxed">
           {post.description}
         </CardDescription>
       </CardHeader>
@@ -52,7 +52,7 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
               <Badge
                 key={tag}
                 variant="secondary"
-                className="rounded-md px-1.5 py-0.5 font-mono text-[11px] font-normal text-muted-foreground"
+                className="text-muted-foreground rounded-md px-1.5 py-0.5 font-mono text-[11px] font-normal"
               >
                 {tag}
               </Badge>
@@ -64,13 +64,13 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
       <CardFooter className="flex items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4">
         <time
           dateTime={post.date}
-          className="font-mono text-[11px] tracking-wider text-muted-foreground uppercase"
+          className="text-muted-foreground font-mono text-[11px] tracking-wider uppercase"
         >
           {formatBlogDate(post.date)}
         </time>
         <Link
           href={href}
-          className="inline-flex items-center gap-0.5 font-mono text-[12px] text-primary transition-transform group-hover:translate-x-0.5"
+          className="text-primary inline-flex items-center gap-0.5 font-mono text-[12px] transition-transform group-hover:translate-x-0.5"
         >
           Read article
           <ArrowRight className="size-3.5" aria-hidden />

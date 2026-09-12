@@ -8,15 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  tagToneClass,
-  type MilestoneCaseStudy,
-} from "@/lib/milestones";
+import { tagToneClass, type MilestoneCaseStudy } from "@/lib/milestones";
 import { cn } from "@/lib/utils";
 
 export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
   return (
-    <Card className="overflow-hidden rounded-3xl bg-muted ring-border/20">
+    <Card className="bg-muted ring-border/20 overflow-hidden rounded-3xl">
       <CardContent className="grid grid-cols-1 gap-8 p-6 md:p-8 lg:grid-cols-12 lg:gap-10">
         <div className="flex flex-col justify-between gap-6 lg:col-span-7">
           <CardHeader className="gap-2 p-0">
@@ -30,14 +27,14 @@ export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
               >
                 {study.tag}
               </Badge>
-              <span className="font-mono text-[13px] text-muted-foreground">
+              <span className="text-muted-foreground font-mono text-[13px]">
                 {study.stack}
               </span>
             </div>
-            <CardTitle className="font-heading text-2xl font-bold tracking-tight text-foreground">
+            <CardTitle className="font-heading text-foreground text-2xl font-bold tracking-tight">
               <h3>{study.title}</h3>
             </CardTitle>
-            <CardDescription className="text-[15px] leading-relaxed text-muted-foreground">
+            <CardDescription className="text-muted-foreground text-[15px] leading-relaxed">
               {study.summary}
             </CardDescription>
           </CardHeader>

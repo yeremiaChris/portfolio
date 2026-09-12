@@ -35,21 +35,21 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-border/40 bg-[#0a0e14] py-12 md:py-16">
+    <footer className="border-border/40 w-full border-t bg-[#0a0e14] py-12 md:py-16">
       <Container className="flex flex-col gap-10">
         <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
           <div className="flex max-w-md flex-col gap-2">
             <Badge
               variant="secondary"
-              className="w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest text-primary uppercase"
+              className="text-primary w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
             >
               <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-primary" />
+                <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
+                <span className="bg-primary relative inline-flex size-2 rounded-full" />
               </span>
               Telemetry: All Systems Operational
             </Badge>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               Engineering production web platforms — frontend craft, API
               integration, and low-latency product interfaces.
             </p>
@@ -68,7 +68,7 @@ export function Footer() {
                   : {})}
                 className={cn(
                   buttonVariants({ variant: "secondary", size: "sm" }),
-                  "h-auto px-3 py-1.5 text-[13px] font-normal text-muted-foreground hover:text-foreground",
+                  "text-muted-foreground hover:text-foreground h-auto px-3 py-1.5 text-[13px] font-normal",
                   "accent" in link &&
                     link.accent &&
                     "text-primary hover:text-primary",
@@ -80,12 +80,12 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-border/40 pt-6 sm:flex-row">
-          <span className="font-mono text-[12px] text-muted-foreground">
+        <div className="border-border/40 flex flex-col items-center justify-between gap-3 border-t pt-6 sm:flex-row">
+          <span className="text-muted-foreground font-mono text-[12px]">
             © {new Date().getFullYear()} {site.fullName}. Software Engineer ·
             Frontend-Heavy.
           </span>
-          <span className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
+          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
             v4.2.0-kernel // latency ~14ms
           </span>
         </div>

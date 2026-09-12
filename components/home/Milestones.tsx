@@ -19,18 +19,18 @@ export function Milestones() {
         <header className="flex max-w-2xl flex-col gap-1">
           <Badge
             variant="secondary"
-            className="mb-1 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest text-primary uppercase"
+            className="text-primary mb-1 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
           >
-            <span className="size-2.5 rounded-full bg-primary" aria-hidden />
+            <span className="bg-primary size-2.5 rounded-full" aria-hidden />
             {milestonesIntro.eyebrow}
           </Badge>
           <h2
             id="milestones-heading"
-            className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+            className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
           >
             {milestonesIntro.title}
           </h2>
-          <p className="text-[15px] leading-6 text-muted-foreground">
+          <p className="text-muted-foreground text-[15px] leading-6">
             {milestonesIntro.description}
           </p>
         </header>

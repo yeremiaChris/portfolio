@@ -18,25 +18,28 @@ export function Artifacts() {
               variant="secondary"
               className="mb-1 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest text-[#4cd7f6] uppercase"
             >
-              <span className="size-2.5 rounded-full bg-[#4cd7f6]" aria-hidden />
+              <span
+                className="size-2.5 rounded-full bg-[#4cd7f6]"
+                aria-hidden
+              />
               Interactive Laboratory
             </Badge>
             <h2
               id="artifacts-heading"
-              className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+              className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
             >
               Engineering Artifacts
             </h2>
-            <p className="max-w-xl text-[15px] leading-6 text-muted-foreground">
+            <p className="text-muted-foreground max-w-xl text-[15px] leading-6">
               Direct proof-of-work: interactive demos for tokens, streaming
               patterns, and accessible UI state.
             </p>
           </div>
           <Badge
             variant="secondary"
-            className="w-fit gap-2 font-mono text-[13px] font-normal normal-case tracking-normal text-muted-foreground"
+            className="text-muted-foreground w-fit gap-2 font-mono text-[13px] font-normal tracking-normal normal-case"
           >
-            <span className="size-2 animate-pulse rounded-full bg-primary" />
+            <span className="bg-primary size-2 animate-pulse rounded-full" />
             Interactive canvas live
           </Badge>
         </header>

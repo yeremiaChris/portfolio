@@ -17,26 +17,23 @@ export function BlogPostGrid({ posts }: { posts: BlogPost[] }) {
           />
           <h2
             id="blog-grid-heading"
-            className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl"
+            className="font-heading text-foreground text-xl font-semibold tracking-tight sm:text-2xl"
           >
             More writing
           </h2>
         </div>
-        <span className="font-mono text-[10px] tracking-wider text-muted-foreground uppercase">
+        <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
           {String(posts.length).padStart(2, "0")} posts
         </span>
       </div>
 
       {posts.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-xl bg-muted/60 px-6 py-12 text-center ring-1 ring-border/40">
-          <FileSearch
-            className="size-10 text-muted-foreground"
-            aria-hidden
-          />
-          <h3 className="font-heading text-lg font-semibold text-foreground">
+        <div className="bg-muted/60 ring-border/40 flex flex-col items-center justify-center gap-3 rounded-xl px-6 py-12 text-center ring-1">
+          <FileSearch className="text-muted-foreground size-10" aria-hidden />
+          <h3 className="font-heading text-foreground text-lg font-semibold">
             No more posts yet
           </h3>
-          <p className="max-w-sm text-sm text-muted-foreground">
+          <p className="text-muted-foreground max-w-sm text-sm">
             Featured writing is above. New articles will show up here as they’re
             published.
           </p>

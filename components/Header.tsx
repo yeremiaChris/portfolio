@@ -37,25 +37,25 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
+    <header className="border-border/40 bg-background/80 fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl">
       <Container className="flex h-16 items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <span className="font-mono text-[13px] font-bold tracking-tight text-primary">
+            <span className="text-primary font-mono text-[13px] font-bold tracking-tight">
               {"<YC />"}
             </span>
-            <span className="hidden font-heading font-semibold tracking-tight text-foreground sm:inline-block">
+            <span className="font-heading text-foreground hidden font-semibold tracking-tight sm:inline-block">
               yeremia.dev
             </span>
           </Link>
 
           <Badge
             variant="secondary"
-            className="hidden gap-1.5 bg-muted px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] text-primary uppercase xl:inline-flex"
+            className="bg-muted text-primary hidden gap-1.5 px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] uppercase xl:inline-flex"
           >
             <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex size-2 rounded-full bg-primary" />
+              <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
+              <span className="bg-primary relative inline-flex size-2 rounded-full" />
             </span>
             Available for work
           </Badge>
@@ -73,7 +73,7 @@ export function Header() {
                   buttonVariants({ variant: "ghost", size: "sm" }),
                   "text-[13px]",
                   active &&
-                    "bg-secondary font-semibold text-foreground hover:bg-secondary",
+                    "bg-secondary text-foreground hover:bg-secondary font-semibold",
                 )}
               >
                 {item.label}
@@ -87,7 +87,7 @@ export function Header() {
             href="/#contact"
             className={cn(
               buttonVariants({ size: "sm" }),
-              "hidden bg-[#10b981] text-[#00422b] hover:bg-primary sm:inline-flex",
+              "hover:bg-primary hidden bg-[#10b981] text-[#00422b] sm:inline-flex",
             )}
           >
             Get in Touch
@@ -99,7 +99,7 @@ export function Header() {
             rel="noopener noreferrer"
             className={cn(
               buttonVariants({ variant: "ghost", size: "sm" }),
-              "font-mono text-[13px] text-muted-foreground",
+              "text-muted-foreground font-mono text-[13px]",
             )}
           >
             CV.pdf
@@ -126,7 +126,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[min(100%,20rem)]">
               <SheetHeader>
-                <SheetTitle className="font-mono text-primary">
+                <SheetTitle className="text-primary font-mono">
                   {"<YC />"}
                 </SheetTitle>
               </SheetHeader>
@@ -163,7 +163,7 @@ export function Header() {
                       href="/#contact"
                       className={cn(
                         buttonVariants({ variant: "default" }),
-                        "mt-2 justify-start bg-[#10b981] text-[#00422b] hover:bg-primary",
+                        "hover:bg-primary mt-2 justify-start bg-[#10b981] text-[#00422b]",
                       )}
                     />
                   }

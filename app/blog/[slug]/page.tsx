@@ -55,22 +55,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="flex flex-col gap-4">
           <Link
             href="/blog"
-            className="inline-flex w-fit items-center gap-1.5 font-mono text-[12px] text-muted-foreground transition-colors hover:text-primary"
+            className="text-muted-foreground hover:text-primary inline-flex w-fit items-center gap-1.5 font-mono text-[12px] transition-colors"
           >
-            <ArrowLeft className="size-3.5 text-primary" aria-hidden />
+            <ArrowLeft className="text-primary size-3.5" aria-hidden />
             Back to blog
           </Link>
 
           <header className="flex flex-col gap-3">
-            <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] text-muted-foreground">
+            <div className="text-muted-foreground flex flex-wrap items-center gap-2 font-mono text-[11px]">
               <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
               <span aria-hidden>·</span>
               <span>{post.readingTime}</span>
             </div>
-            <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <h1 className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
               {post.title}
             </h1>
-            <p className="max-w-2xl text-[15px] leading-6 text-muted-foreground">
+            <p className="text-muted-foreground max-w-2xl text-[15px] leading-6">
               {post.description}
             </p>
             {post.tags.length > 0 ? (
@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     key={tag}
                     variant="secondary"
                     className={cn(
-                      "font-mono text-[10px] tracking-wider text-muted-foreground uppercase",
+                      "text-muted-foreground font-mono text-[10px] tracking-wider uppercase",
                     )}
                   >
                     {tag}
@@ -94,7 +94,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <BlogTocMobile headings={headings} />
 
         <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-          <article className="prose prose-invert min-w-0 max-w-none lg:col-span-8 prose-headings:scroll-mt-24 prose-headings:font-heading prose-a:text-primary prose-code:font-mono prose-pre:border prose-pre:border-border/60 prose-pre:bg-muted">
+          <article className="prose prose-invert prose-headings:scroll-mt-24 prose-headings:font-heading prose-a:text-primary prose-code:font-mono prose-pre:border prose-pre:border-border/60 prose-pre:bg-muted max-w-none min-w-0 lg:col-span-8">
             <MDXRemote source={post.content} options={mdxOptions} />
           </article>
 

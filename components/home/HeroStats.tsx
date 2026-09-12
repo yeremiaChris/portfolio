@@ -22,24 +22,24 @@ export function HeroStats() {
         return (
           <li
             key={stat.label}
-            className="flex flex-col rounded-lg bg-muted p-3 shadow-sm"
+            className="bg-muted flex flex-col rounded-lg p-3 shadow-sm"
           >
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] tracking-wider text-muted-foreground uppercase">
+              <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
                 {stat.label}
               </span>
               <Icon
                 className={
                   stat.icon === "cloud" || stat.icon === "layers"
                     ? "size-4 text-[#4cd7f6]"
-                    : "size-4 text-primary"
+                    : "text-primary size-4"
                 }
               />
             </div>
-            <span className="font-heading mt-1 text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+            <span className="font-heading text-foreground mt-1 text-xl font-semibold tracking-tight sm:text-2xl">
               {stat.value}
             </span>
-            <span className="text-[13px] text-muted-foreground">
+            <span className="text-muted-foreground text-[13px]">
               {stat.detail}
             </span>
           </li>

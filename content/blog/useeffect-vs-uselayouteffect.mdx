@@ -8,7 +8,7 @@ featured: false
 
 Both hooks run after React updates the DOM. The difference is **when** they run relative to the browser paint.
 
-**One-sentence answer:** use `useEffect` for most side effects; use `useLayoutEffect` only when you need to read or change layout *before* the user sees the screen.
+**One-sentence answer:** use `useEffect` for most side effects; use `useLayoutEffect` only when you need to read or change layout _before_ the user sees the screen.
 
 ## Why it matters
 
@@ -16,10 +16,10 @@ Wrong timing shows up as flicker: a modal jumps, a tooltip measures the wrong si
 
 ## Timing in plain words
 
-1. React renders  
-2. React commits DOM updates  
-3. **`useLayoutEffect` runs** (still before paint)  
-4. Browser paints  
+1. React renders
+2. React commits DOM updates
+3. **`useLayoutEffect` runs** (still before paint)
+4. Browser paints
 5. **`useEffect` runs** (after paint)
 
 So the user already sees the UI when `useEffect` fires. With `useLayoutEffect`, they don’t see the intermediate state if you fix layout in that window.
@@ -28,10 +28,10 @@ So the user already sees the UI when `useEffect` fires. With `useLayoutEffect`, 
 
 Use it for work that can wait until after paint:
 
-- Fetching data  
-- Adding event listeners or subscriptions  
-- Analytics / logging  
-- Syncing with external stores  
+- Fetching data
+- Adding event listeners or subscriptions
+- Analytics / logging
+- Syncing with external stores
 
 ```tsx
 useEffect(() => {
@@ -49,9 +49,9 @@ useEffect(() => {
 
 Use it when skipping paint would cause a visible glitch:
 
-- Measuring DOM (`getBoundingClientRect`, `offsetHeight`)  
-- Restoring or locking scroll position  
-- Positioning a popover/tooltip from measured coords  
+- Measuring DOM (`getBoundingClientRect`, `offsetHeight`)
+- Restoring or locking scroll position
+- Positioning a popover/tooltip from measured coords
 - Avoiding a flash of wrong styles or layout
 
 ```tsx
@@ -64,9 +64,9 @@ useLayoutEffect(() => {
 
 ## Common mistakes
 
-- Using `useLayoutEffect` for data fetching (blocks paint for no benefit)  
-- Forgetting cleanup (listeners, observers, abort controllers)  
-- Assuming layout effects are “faster” — they can make interactions feel slower if overused  
+- Using `useLayoutEffect` for data fetching (blocks paint for no benefit)
+- Forgetting cleanup (listeners, observers, abort controllers)
+- Assuming layout effects are “faster” — they can make interactions feel slower if overused
 - Ignoring SSR: `useLayoutEffect` warns on the server; guard or prefer `useEffect` for client-only measurement patterns when needed
 
 ## When not to use `useLayoutEffect`

@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 
 export function ProjectCard({ project }: { project: Project }) {
   const media = (
-    <div className="relative h-44 overflow-hidden rounded-xl bg-[#0a0e14] ring-1 ring-border/40">
+    <div className="ring-border/40 relative h-44 overflow-hidden rounded-xl bg-[#0a0e14] ring-1">
       <Image
         src={project.image}
         alt={project.imageAlt}
@@ -28,14 +28,14 @@ export function ProjectCard({ project }: { project: Project }) {
   );
 
   return (
-    <Card className="group flex h-full min-w-0 flex-col overflow-hidden rounded-3xl bg-muted py-0 ring-border/20 transition-transform duration-300 hover:-translate-y-0.5">
+    <Card className="group bg-muted ring-border/20 flex h-full min-w-0 flex-col overflow-hidden rounded-3xl py-0 transition-transform duration-300 hover:-translate-y-0.5">
       <CardHeader className="min-w-0 gap-0 p-3 pb-0">
         {project.href ? (
           <a
             href={project.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="block min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="focus-visible:ring-ring block min-w-0 focus-visible:ring-2 focus-visible:outline-none"
           >
             {media}
           </a>
@@ -46,23 +46,23 @@ export function ProjectCard({ project }: { project: Project }) {
 
       <CardContent className="flex min-w-0 flex-1 flex-col gap-3 px-4 pt-4 pb-0">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
-          <CardTitle className="min-w-0 font-heading text-lg font-semibold tracking-tight wrap-break-word">
+          <CardTitle className="font-heading min-w-0 text-lg font-semibold tracking-tight wrap-break-word">
             <h3>{project.title}</h3>
           </CardTitle>
           <Badge
             variant="outline"
-            className="rounded-md font-mono text-[11px] font-normal normal-case tracking-normal text-muted-foreground"
+            className="text-muted-foreground rounded-md font-mono text-[11px] font-normal tracking-normal normal-case"
           >
             #{project.tag}
           </Badge>
         </div>
 
-        <CardDescription className="line-clamp-3 text-[13px] leading-relaxed wrap-break-word text-muted-foreground">
+        <CardDescription className="text-muted-foreground line-clamp-3 text-[13px] leading-relaxed wrap-break-word">
           {project.summary}
         </CardDescription>
 
         <div className="flex min-w-0 flex-wrap items-center gap-2 pt-1">
-          <span className="text-[12px] font-semibold text-foreground">
+          <span className="text-foreground text-[12px] font-semibold">
             Tools:
           </span>
           {project.tools.map((tool) => (
@@ -78,7 +78,7 @@ export function ProjectCard({ project }: { project: Project }) {
       </CardContent>
 
       <CardFooter className="mt-auto flex min-w-0 flex-wrap items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4">
-        <span className="inline-flex items-center gap-2 font-mono text-[12px] text-muted-foreground">
+        <span className="text-muted-foreground inline-flex items-center gap-2 font-mono text-[12px]">
           <Calendar className="size-3.5 shrink-0" aria-hidden />#{project.year}
         </span>
 

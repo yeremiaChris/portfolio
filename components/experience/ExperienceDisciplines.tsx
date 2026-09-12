@@ -1,9 +1,4 @@
-import {
-  Code2,
-  LayoutGrid,
-  Network,
-  type LucideIcon,
-} from "lucide-react";
+import { Code2, LayoutGrid, Network, type LucideIcon } from "lucide-react";
 
 import {
   Card,
@@ -33,12 +28,12 @@ export function ExperienceDisciplines() {
       className="mb-12 w-full md:mb-16"
     >
       <header className="mb-6">
-        <p className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
+        <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
           {experienceDisciplinesIntro.eyebrow}
         </p>
         <h2
           id="disciplines-heading"
-          className="font-heading mt-1 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          className="font-heading text-foreground mt-1 text-2xl font-semibold tracking-tight sm:text-3xl"
         >
           {experienceDisciplinesIntro.title}
         </h2>
@@ -58,11 +53,11 @@ function DisciplineCard({ item }: { item: ExperienceDiscipline }) {
   const toneClass = experienceRoleToneClass[item.tone];
 
   return (
-    <Card className="flex h-full flex-col justify-between rounded-3xl bg-muted ring-border/20">
+    <Card className="bg-muted ring-border/20 flex h-full flex-col justify-between rounded-3xl">
       <CardHeader className="gap-4">
         <div
           className={cn(
-            "flex size-10 items-center justify-center rounded-lg bg-secondary",
+            "bg-secondary flex size-10 items-center justify-center rounded-lg",
             toneClass,
           )}
         >

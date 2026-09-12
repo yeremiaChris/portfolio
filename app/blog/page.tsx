@@ -5,10 +5,7 @@ import { BlogPostGrid } from "@/components/blog/BlogPostGrid";
 import { BlogSubscribe } from "@/components/blog/BlogSubscribe";
 import { FeaturedPost } from "@/components/blog/FeaturedPost";
 import { Container } from "@/components/Container";
-import {
-  ContactCta,
-  blogContactActions,
-} from "@/components/home/ContactCta";
+import { ContactCta, blogContactActions } from "@/components/home/ContactCta";
 import {
   blogContactCta,
   blogIntro,
@@ -38,7 +35,7 @@ export default function BlogPage() {
         {featured ? <FeaturedPost post={featured} /> : null}
 
         {posts.length === 0 ? (
-          <p className="mb-8 text-sm text-muted-foreground">No posts yet.</p>
+          <p className="text-muted-foreground mb-8 text-sm">No posts yet.</p>
         ) : (
           <BlogPostGrid posts={remaining} />
         )}

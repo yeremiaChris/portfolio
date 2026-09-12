@@ -1,11 +1,5 @@
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
-import {
-  metricToneClass,
-  type MilestoneMetric,
-} from "@/lib/milestones";
+import { Card, CardContent } from "@/components/ui/card";
+import { metricToneClass, type MilestoneMetric } from "@/lib/milestones";
 import { cn } from "@/lib/utils";
 
 export function CaseStudyMetrics({
@@ -19,18 +13,20 @@ export function CaseStudyMetrics({
     <div
       className={cn(
         "grid gap-2 font-mono sm:gap-3",
-        columns === 3 ? "grid-cols-1 sm:grid-cols-3" : "grid-cols-1 sm:grid-cols-2",
+        columns === 3
+          ? "grid-cols-1 sm:grid-cols-3"
+          : "grid-cols-1 sm:grid-cols-2",
       )}
     >
       {metrics.map((metric) => (
         <Card
           key={metric.label}
           size="sm"
-          className="gap-0 rounded-xl bg-[#0a0e14] py-0 ring-border/40"
+          className="ring-border/40 gap-0 rounded-xl bg-[#0a0e14] py-0"
         >
           <CardContent className="p-3">
             <dl className="flex flex-row items-baseline justify-between gap-3 sm:flex-col sm:items-stretch">
-              <dt className="order-2 shrink-0 text-right text-[10px] tracking-wider text-muted-foreground uppercase sm:order-2 sm:mt-1 sm:text-left">
+              <dt className="text-muted-foreground order-2 shrink-0 text-right text-[10px] tracking-wider uppercase sm:order-2 sm:mt-1 sm:text-left">
                 {metric.label}
               </dt>
               <dd

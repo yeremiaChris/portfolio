@@ -25,17 +25,19 @@ const [email, setEmail] = useState("");
   value={email}
   onChange={(e) => setEmail(e.target.value)}
   aria-invalid={email.includes("@") ? undefined : true}
-/>
+/>;
 ```
 
 **Pros**
-- Easy validation and instant UI feedback  
-- Single source of truth  
-- Simple to disable submit until valid  
-- Predictable in tests  
+
+- Easy validation and instant UI feedback
+- Single source of truth
+- Simple to disable submit until valid
+- Predictable in tests
 
 **Cons**
-- More boilerplate per field  
+
+- More boilerplate per field
 - Every keystroke re-renders (usually fine; optimize only if it hurts)
 
 ## Uncontrolled components
@@ -50,26 +52,28 @@ function onSubmit(e: FormEvent) {
   console.log(inputRef.current?.value);
 }
 
-<input ref={inputRef} defaultValue="hello" />
+<input ref={inputRef} defaultValue="hello" />;
 ```
 
 **Pros**
-- Less React state for simple forms  
-- Natural fit for **file inputs**  
-- Easy integration with non-React code  
+
+- Less React state for simple forms
+- Natural fit for **file inputs**
+- Easy integration with non-React code
 
 **Cons**
-- Harder to drive UI from value changes in real time  
-- Validation patterns get awkward as forms grow  
+
+- Harder to drive UI from value changes in real time
+- Validation patterns get awkward as forms grow
 
 ## When to use which
 
-| Situation | Prefer |
-|-----------|--------|
-| App forms, wizards, live validation | **Controlled** |
+| Situation                              | Prefer                   |
+| -------------------------------------- | ------------------------ |
+| App forms, wizards, live validation    | **Controlled**           |
 | One-off simple form, “submit and read” | Uncontrolled can be fine |
-| `<input type="file" />` | Usually **uncontrolled** |
-| Mixing React with older DOM plugins | Uncontrolled / refs |
+| `<input type="file" />`                | Usually **uncontrolled** |
+| Mixing React with older DOM plugins    | Uncontrolled / refs      |
 
 ## Hybrid pattern (common in real apps)
 
@@ -87,9 +91,9 @@ Libraries like React Hook Form often use uncontrolled (or lightly controlled) st
 
 ## Common mistakes
 
-- Mixing `value` and `defaultValue` on the same input  
-- Setting `value={undefined}` and accidentally flipping controlled → uncontrolled  
-- Fighting file inputs with controlled `value`  
+- Mixing `value` and `defaultValue` on the same input
+- Setting `value={undefined}` and accidentally flipping controlled → uncontrolled
+- Fighting file inputs with controlled `value`
 
 ## Takeaway
 

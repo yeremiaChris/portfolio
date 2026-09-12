@@ -30,12 +30,12 @@ function TechCategoryCard({ category }: { category: TechCategory }) {
   const Icon = categoryIcons[category.icon];
 
   return (
-    <Card className="flex h-full flex-col rounded-3xl bg-muted ring-border/20">
+    <Card className="bg-muted ring-border/20 flex h-full flex-col rounded-3xl">
       <CardHeader className="gap-3">
         <div className="flex items-start justify-between gap-3">
           <CardTitle
             className={cn(
-              "flex items-center gap-2 font-heading text-lg font-semibold tracking-tight",
+              "font-heading flex items-center gap-2 text-lg font-semibold tracking-tight",
             )}
           >
             <Icon
@@ -74,7 +74,7 @@ function TechCategoryCard({ category }: { category: TechCategory }) {
 
 function TechChip({ name, tone }: { name: string; tone: TechTone }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#0a0e14] px-3 py-1.5 font-mono text-[12px] text-foreground shadow-sm ring-1 ring-border/20">
+    <span className="text-foreground ring-border/20 inline-flex items-center gap-1.5 rounded-lg bg-[#0a0e14] px-3 py-1.5 font-mono text-[12px] shadow-sm ring-1">
       <span
         className={cn("size-1.5 shrink-0 rounded-full", techDotClass[tone])}
         aria-hidden
@@ -96,24 +96,24 @@ export function TechStack() {
           <div className="flex max-w-2xl flex-col gap-1">
             <Badge
               variant="secondary"
-              className="mb-1 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest text-primary uppercase"
+              className="text-primary mb-1 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
             >
-              <span className="size-2.5 rounded-full bg-primary" aria-hidden />
+              <span className="bg-primary size-2.5 rounded-full" aria-hidden />
               {techStackIntro.eyebrow}
             </Badge>
             <h2
               id="tech-stack-heading"
-              className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+              className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
             >
               {techStackIntro.title}
             </h2>
-            <p className="text-[15px] leading-6 text-muted-foreground">
+            <p className="text-muted-foreground text-[15px] leading-6">
               {techStackIntro.description}
             </p>
           </div>
-          <p className="font-mono text-[13px] text-muted-foreground">
+          <p className="text-muted-foreground font-mono text-[13px]">
             {techStackIntro.focusLabel}{" "}
-            <span className="font-semibold text-primary">
+            <span className="text-primary font-semibold">
               {techStackIntro.focusValue}
             </span>
           </p>

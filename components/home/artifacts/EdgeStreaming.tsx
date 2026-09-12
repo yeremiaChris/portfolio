@@ -13,10 +13,10 @@ import { edgeChunks } from "@/lib/artifacts";
 
 export function EdgeStreaming() {
   return (
-    <Card className="h-full bg-muted ring-border/20 transition-colors hover:bg-card">
+    <Card className="bg-muted ring-border/20 hover:bg-card h-full transition-colors">
       <CardHeader>
         <div className="col-span-full mb-2 flex items-center justify-between">
-          <span className="rounded-xl bg-secondary p-2 text-[#4cd7f6]">
+          <span className="bg-secondary rounded-xl p-2 text-[#4cd7f6]">
             <ChartNoAxesColumnIcon className="size-5" />
           </span>
           <Badge
@@ -39,11 +39,11 @@ export function EdgeStreaming() {
         <div className="flex flex-col gap-2 rounded-xl bg-[#0a0e14] p-3 font-mono text-xs">
           {edgeChunks.map((chunk) => (
             <div key={chunk.id} className="flex flex-col gap-1">
-              <div className="flex justify-between text-muted-foreground">
+              <div className="text-muted-foreground flex justify-between">
                 <span>{chunk.label}</span>
                 <span className={chunk.timeClass}>{chunk.duration}</span>
               </div>
-              <div className="h-2 w-full overflow-hidden rounded bg-secondary">
+              <div className="bg-secondary h-2 w-full overflow-hidden rounded">
                 <div
                   className={`h-full rounded ${chunk.colorClass}`}
                   style={{ width: chunk.width, marginLeft: chunk.offset }}
@@ -54,7 +54,7 @@ export function EdgeStreaming() {
         </div>
       </CardContent>
 
-      <CardFooter className="justify-between border-t-0 bg-transparent font-mono text-[10px] text-muted-foreground">
+      <CardFooter className="text-muted-foreground justify-between border-t-0 bg-transparent font-mono text-[10px]">
         <span>Target: 98 Lighthouse performance</span>
         <span className="text-[#4cd7f6]">0ms main-thread lock</span>
       </CardFooter>

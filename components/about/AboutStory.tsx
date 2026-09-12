@@ -1,9 +1,5 @@
 import Image from "next/image";
-import {
-  BadgeCheck,
-  GitBranch,
-  MapPin,
-} from "lucide-react";
+import { BadgeCheck, GitBranch, MapPin } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -32,9 +28,9 @@ export function AboutStory() {
       className="mb-12 grid w-full grid-cols-1 items-start gap-8 lg:mb-16 lg:grid-cols-12 lg:gap-10"
     >
       <div className="lg:col-span-5">
-        <Card className="relative overflow-hidden rounded-3xl bg-muted ring-border/20">
+        <Card className="bg-muted ring-border/20 relative overflow-hidden rounded-3xl">
           <div
-            className="pointer-events-none absolute -top-12 -right-12 size-32 rounded-full bg-primary/10 blur-2xl"
+            className="bg-primary/10 pointer-events-none absolute -top-12 -right-12 size-32 rounded-full blur-2xl"
             aria-hidden
           />
 
@@ -42,17 +38,17 @@ export function AboutStory() {
             <div className="flex items-center justify-between gap-3">
               <Badge
                 variant="secondary"
-                className="gap-2 font-mono text-[10px] tracking-widest text-primary uppercase"
+                className="text-primary gap-2 font-mono text-[10px] tracking-widest uppercase"
               >
-                <span className="size-2.5 animate-ping rounded-full bg-primary" />
+                <span className="bg-primary size-2.5 animate-ping rounded-full" />
                 {aboutProfile.status}
               </Badge>
-              <span className="font-mono text-[10px] tracking-wider text-muted-foreground uppercase">
+              <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
                 {aboutProfile.nodeId}
               </span>
             </div>
 
-            <div className="relative aspect-4/3 overflow-hidden rounded-xl bg-[#0a0e14] ring-1 ring-border/40">
+            <div className="ring-border/40 relative aspect-4/3 overflow-hidden rounded-xl bg-[#0a0e14] ring-1">
               <Image
                 src={aboutProfile.image}
                 alt={aboutProfile.imageAlt}
@@ -70,7 +66,7 @@ export function AboutStory() {
                   variant="secondary"
                   className="gap-1 bg-[#0a0e14]/80 font-mono text-[10px] backdrop-blur-md"
                 >
-                  <MapPin className="size-3 text-primary" aria-hidden />
+                  <MapPin className="text-primary size-3" aria-hidden />
                   {aboutProfile.location}
                 </Badge>
                 <Badge
@@ -87,9 +83,9 @@ export function AboutStory() {
             {aboutProfileMetrics.map((metric) => (
               <div
                 key={metric.label}
-                className="flex items-center justify-between gap-3 rounded-lg bg-secondary/60 px-3 py-2"
+                className="bg-secondary/60 flex items-center justify-between gap-3 rounded-lg px-3 py-2"
               >
-                <span className="text-[13px] text-muted-foreground">
+                <span className="text-muted-foreground text-[13px]">
                   {metric.label}
                 </span>
                 <span
@@ -105,12 +101,12 @@ export function AboutStory() {
           </CardContent>
 
           <CardFooter className="relative items-start gap-2 border-t-0 bg-transparent">
-            <div className="flex w-full items-start gap-2 rounded-xl bg-secondary/80 p-3">
+            <div className="bg-secondary/80 flex w-full items-start gap-2 rounded-xl p-3">
               <BadgeCheck
-                className="mt-0.5 size-5 shrink-0 text-primary"
+                className="text-primary mt-0.5 size-5 shrink-0"
                 aria-hidden
               />
-              <p className="text-[13px] leading-relaxed text-foreground">
+              <p className="text-foreground text-[13px] leading-relaxed">
                 {aboutProfile.intent}
               </p>
             </div>
@@ -124,12 +120,12 @@ export function AboutStory() {
             <GitBranch className="size-5 text-[#4cd7f6]" aria-hidden />
             <h2
               id="about-story-heading"
-              className="font-heading text-2xl font-semibold tracking-tight text-foreground"
+              className="font-heading text-foreground text-2xl font-semibold tracking-tight"
             >
               {aboutStoryIntro.title}
             </h2>
           </div>
-          <span className="font-mono text-[12px] text-muted-foreground">
+          <span className="text-muted-foreground font-mono text-[12px]">
             {aboutStoryIntro.meta}
           </span>
         </div>
@@ -139,7 +135,7 @@ export function AboutStory() {
             <li key={era.id}>
               <Card
                 className={cn(
-                  "rounded-3xl bg-muted ring-border/20 transition-colors hover:bg-muted/80",
+                  "bg-muted ring-border/20 hover:bg-muted/80 rounded-3xl transition-colors",
                   era.current && "ring-primary/30",
                 )}
               >
@@ -164,9 +160,7 @@ export function AboutStory() {
                     <span
                       className={cn(
                         "font-mono text-[10px] tracking-wider uppercase",
-                        era.current
-                          ? "text-primary"
-                          : "text-muted-foreground",
+                        era.current ? "text-primary" : "text-muted-foreground",
                       )}
                     >
                       {era.period}

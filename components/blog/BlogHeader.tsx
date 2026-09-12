@@ -13,7 +13,7 @@ export function BlogHeader({ metrics }: { metrics: BlogRibbonMetric[] }) {
   return (
     <section className="relative flex w-full min-w-0 flex-col gap-6 pt-2 pb-8 md:pt-4 md:pb-10">
       <div
-        className="pointer-events-none absolute top-0 left-1/4 -z-10 size-[28rem] rounded-full bg-primary/5 blur-[140px]"
+        className="bg-primary/5 pointer-events-none absolute top-0 left-1/4 -z-10 size-[28rem] rounded-full blur-[140px]"
         aria-hidden
       />
       <div
@@ -24,11 +24,11 @@ export function BlogHeader({ metrics }: { metrics: BlogRibbonMetric[] }) {
       <div className="flex w-full min-w-0 flex-wrap items-center justify-between gap-3">
         <nav
           aria-label="Breadcrumb"
-          className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-border/60 bg-[#0a0e14] px-3 py-1.5 font-mono text-[11px] text-muted-foreground sm:text-[12px]"
+          className="border-border/60 text-muted-foreground flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 rounded-md border bg-[#0a0e14] px-3 py-1.5 font-mono text-[11px] sm:text-[12px]"
         >
           <Link
             href="/"
-            className="inline-flex min-w-0 items-center gap-1.5 text-primary transition-colors hover:text-primary/80"
+            className="text-primary hover:text-primary/80 inline-flex min-w-0 items-center gap-1.5 transition-colors"
           >
             <ArrowLeft className="size-3.5 shrink-0" aria-hidden />
             <span className="break-all">{blogIntro.breadcrumbRoot}</span>
@@ -36,40 +36,40 @@ export function BlogHeader({ metrics }: { metrics: BlogRibbonMetric[] }) {
           <span className="text-border" aria-hidden>
             /
           </span>
-          <span className="min-w-0 break-all text-foreground/80">
+          <span className="text-foreground/80 min-w-0 break-all">
             {blogIntro.breadcrumbLeaf}
           </span>
           <span
-            className="size-2 shrink-0 animate-ping rounded-full bg-primary"
+            className="bg-primary size-2 shrink-0 animate-ping rounded-full"
             aria-hidden
           />
         </nav>
 
         <Badge
           variant="secondary"
-          className="gap-1.5 bg-muted px-2.5 py-1 font-mono text-[10px] tracking-wider text-primary uppercase"
+          className="bg-muted text-primary gap-1.5 px-2.5 py-1 font-mono text-[10px] tracking-wider uppercase"
         >
           <span className="relative flex size-1.5">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
-            <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
+            <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
+            <span className="bg-primary relative inline-flex size-1.5 rounded-full" />
           </span>
           {blogIntro.statusBadge}
         </Badge>
       </div>
 
       <div className="flex min-w-0 flex-col justify-between gap-6 md:flex-row md:items-end">
-        <div className="min-w-0 max-w-3xl">
-          <h1 className="font-heading text-3xl font-bold tracking-tight wrap-break-word text-foreground sm:text-4xl lg:text-5xl">
+        <div className="max-w-3xl min-w-0">
+          <h1 className="font-heading text-foreground text-3xl font-bold tracking-tight wrap-break-word sm:text-4xl lg:text-5xl">
             {blogIntro.title}
           </h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed sm:text-base">
             {blogIntro.description}
           </p>
         </div>
 
         <div
           aria-label="Blog metrics"
-          className="grid w-full min-w-0 grid-cols-1 overflow-hidden rounded-xl border border-border/60 bg-[#0a0e14]/90 font-mono sm:grid-cols-3 md:w-auto md:shrink-0"
+          className="border-border/60 grid w-full min-w-0 grid-cols-1 overflow-hidden rounded-xl border bg-[#0a0e14]/90 font-mono sm:grid-cols-3 md:w-auto md:shrink-0"
         >
           {metrics.map((metric, index) => (
             <dl
@@ -77,10 +77,10 @@ export function BlogHeader({ metrics }: { metrics: BlogRibbonMetric[] }) {
               className={cn(
                 "flex min-w-0 flex-col gap-0.5 px-4 py-2.5",
                 index > 0 &&
-                  "border-t border-border/60 sm:border-t-0 sm:border-l",
+                  "border-border/60 border-t sm:border-t-0 sm:border-l",
               )}
             >
-              <dt className="text-[10px] tracking-wider text-muted-foreground uppercase">
+              <dt className="text-muted-foreground text-[10px] tracking-wider uppercase">
                 {metric.label}
               </dt>
               <dd

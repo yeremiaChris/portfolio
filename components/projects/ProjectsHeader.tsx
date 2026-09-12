@@ -13,11 +13,11 @@ export function ProjectsHeader() {
     <section className="flex w-full min-w-0 flex-col gap-6 pt-2 pb-8 md:pt-4 md:pb-10">
       <nav
         aria-label="Breadcrumb"
-        className="flex w-full max-w-full min-w-0 flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-border/60 bg-[#0a0e14] px-3 py-1.5 font-mono text-[11px] text-muted-foreground sm:text-[12px]"
+        className="border-border/60 text-muted-foreground flex w-full max-w-full min-w-0 flex-wrap items-center gap-x-2 gap-y-1 rounded-md border bg-[#0a0e14] px-3 py-1.5 font-mono text-[11px] sm:text-[12px]"
       >
         <Link
           href="/"
-          className="inline-flex min-w-0 items-center gap-1.5 text-primary transition-colors hover:text-primary/80"
+          className="text-primary hover:text-primary/80 inline-flex min-w-0 items-center gap-1.5 transition-colors"
         >
           <ArrowLeft className="size-3.5 shrink-0" aria-hidden />
           <span className="break-all">{projectsIntro.breadcrumbRoot}</span>
@@ -25,38 +25,39 @@ export function ProjectsHeader() {
         <span className="text-border" aria-hidden>
           /
         </span>
-        <span className="min-w-0 break-all text-foreground/80">
+        <span className="text-foreground/80 min-w-0 break-all">
           {projectsIntro.breadcrumbLeaf}
         </span>
         <span
-          className="size-2 shrink-0 animate-ping rounded-full bg-primary"
+          className="bg-primary size-2 shrink-0 animate-ping rounded-full"
           aria-hidden
         />
       </nav>
 
       <div className="flex min-w-0 flex-col justify-between gap-6 md:flex-row md:items-end">
-        <div className="min-w-0 max-w-3xl">
-          <h1 className="font-heading text-3xl font-bold tracking-tight wrap-break-word text-foreground sm:text-4xl lg:text-5xl">
+        <div className="max-w-3xl min-w-0">
+          <h1 className="font-heading text-foreground text-3xl font-bold tracking-tight wrap-break-word sm:text-4xl lg:text-5xl">
             {projectsIntro.title}
           </h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed sm:text-base">
             {projectsIntro.description}
           </p>
         </div>
 
         <div
           aria-label="Project metrics"
-          className="grid w-full min-w-0 grid-cols-1 overflow-hidden rounded-xl border border-border/60 bg-[#0a0e14]/90 font-mono sm:grid-cols-3 md:w-auto md:shrink-0"
+          className="border-border/60 grid w-full min-w-0 grid-cols-1 overflow-hidden rounded-xl border bg-[#0a0e14]/90 font-mono sm:grid-cols-3 md:w-auto md:shrink-0"
         >
           {projectsRibbon.map((metric, index) => (
             <dl
               key={metric.label}
               className={cn(
                 "flex min-w-0 flex-col gap-0.5 px-4 py-2.5",
-                index > 0 && "border-t border-border/60 sm:border-t-0 sm:border-l",
+                index > 0 &&
+                  "border-border/60 border-t sm:border-t-0 sm:border-l",
               )}
             >
-              <dt className="text-[10px] tracking-wider text-muted-foreground uppercase">
+              <dt className="text-muted-foreground text-[10px] tracking-wider uppercase">
                 {metric.label}
               </dt>
               <dd

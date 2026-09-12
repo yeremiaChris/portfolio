@@ -29,10 +29,10 @@ export function ExperienceMetrics() {
           return (
             <article
               key={metric.label}
-              className="flex flex-col gap-1 rounded-lg bg-muted p-4"
+              className="bg-muted flex flex-col gap-1 rounded-lg p-4"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="font-mono text-[10px] tracking-wider text-muted-foreground uppercase">
+                <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
                   {metric.label}
                 </span>
                 <Icon
@@ -51,7 +51,7 @@ export function ExperienceMetrics() {
               >
                 {metric.value}
               </p>
-              <p className="font-mono text-[12px] text-muted-foreground">
+              <p className="text-muted-foreground font-mono text-[12px]">
                 {metric.detail}
               </p>
             </article>

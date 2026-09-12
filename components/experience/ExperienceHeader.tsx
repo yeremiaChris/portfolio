@@ -13,13 +13,13 @@ export function ExperienceHeader() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <nav
           aria-label="Breadcrumb"
-          className="flex items-center gap-2 font-mono text-[12px] text-muted-foreground"
+          className="text-muted-foreground flex items-center gap-2 font-mono text-[12px]"
         >
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 transition-colors hover:text-primary"
+            className="hover:text-primary inline-flex items-center gap-1.5 transition-colors"
           >
-            <ArrowLeft className="size-4 text-primary" aria-hidden />
+            <ArrowLeft className="text-primary size-4" aria-hidden />
             <span>{experienceIntro.breadcrumbRoot}</span>
           </Link>
           <span className="text-border" aria-hidden>
@@ -32,11 +32,11 @@ export function ExperienceHeader() {
 
         <Badge
           variant="secondary"
-          className="gap-2 rounded-full px-3 py-1 font-mono text-[10px] tracking-widest text-primary uppercase"
+          className="text-primary gap-2 rounded-full px-3 py-1 font-mono text-[10px] tracking-widest uppercase"
         >
           <span className="relative flex size-2">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
-            <span className="relative inline-flex size-2 rounded-full bg-primary" />
+            <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
+            <span className="bg-primary relative inline-flex size-2 rounded-full" />
           </span>
           {experienceIntro.tenureBadge}
         </Badge>
@@ -44,13 +44,13 @@ export function ExperienceHeader() {
 
       <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div className="max-w-2xl">
-          <p className="mb-2 font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
+          <p className="text-muted-foreground mb-2 font-mono text-[10px] tracking-widest uppercase">
             {experienceIntro.eyebrow}
           </p>
-          <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="font-heading text-foreground text-3xl font-semibold tracking-tight sm:text-4xl">
             {experienceIntro.title}
           </h1>
-          <p className="mt-3 text-[15px] leading-6 text-muted-foreground">
+          <p className="text-muted-foreground mt-3 text-[15px] leading-6">
             {experienceIntro.description}
           </p>
         </div>
@@ -63,7 +63,7 @@ export function ExperienceHeader() {
               "h-9 gap-2 font-mono text-[13px]",
             )}
           >
-            <Terminal className="size-4 text-primary" aria-hidden />
+            <Terminal className="text-primary size-4" aria-hidden />
             Contact Recruiter
           </a>
           <a

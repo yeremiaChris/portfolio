@@ -30,15 +30,15 @@ export function TokenEngine() {
   const [theme, setTheme] = useState<Theme>(artifactThemes[0]);
 
   return (
-    <Card className="h-full bg-muted ring-border/20 transition-colors hover:bg-card">
+    <Card className="bg-muted ring-border/20 hover:bg-card h-full transition-colors">
       <CardHeader className="has-data-[slot=card-action]:grid-cols-[1fr_auto]">
         <div className="col-span-full mb-2 flex items-center justify-between">
-          <span className="rounded-xl bg-secondary p-2 text-primary">
+          <span className="bg-secondary text-primary rounded-xl p-2">
             <PaletteIcon className="size-5" />
           </span>
           <Badge
             variant="secondary"
-            className="font-mono text-[10px] tracking-widest text-primary uppercase"
+            className="text-primary font-mono text-[10px] tracking-widest uppercase"
           >
             Realtime Tokenizer
           </Badge>
@@ -55,7 +55,7 @@ export function TokenEngine() {
       <CardContent>
         <div className="flex flex-col gap-3 rounded-xl bg-[#0a0e14] p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[13px] font-medium text-foreground">
+            <span className="text-foreground text-[13px] font-medium">
               {theme.label}
             </span>
             <span
@@ -81,7 +81,7 @@ export function TokenEngine() {
                 className={cn(
                   "h-auto px-1 py-1 font-mono text-xs",
                   preset.swatchClass,
-                  theme.id === preset.id && "ring-1 ring-primary/60",
+                  theme.id === preset.id && "ring-primary/60 ring-1",
                 )}
               >
                 {THEME_BUTTON_LABELS[preset.id]}
@@ -89,15 +89,15 @@ export function TokenEngine() {
             ))}
           </div>
 
-          <ScrollArea className="w-full rounded bg-secondary/80">
-            <pre className="p-2 font-mono text-xs text-muted-foreground whitespace-nowrap">
+          <ScrollArea className="bg-secondary/80 w-full rounded">
+            <pre className="text-muted-foreground p-2 font-mono text-xs whitespace-nowrap">
               <code>{`:root { --theme-primary: ${theme.hex}; --alpha: 0.94; }`}</code>
             </pre>
           </ScrollArea>
         </div>
       </CardContent>
 
-      <CardFooter className="justify-between border-t-0 bg-transparent font-mono text-[10px] text-muted-foreground">
+      <CardFooter className="text-muted-foreground justify-between border-t-0 bg-transparent font-mono text-[10px]">
         <span>CSS variables &amp; Tailwind tokens</span>
         <span className="text-primary">&lt; 0.4kb preview</span>
       </CardFooter>

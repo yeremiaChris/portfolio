@@ -123,7 +123,11 @@ export const experienceRoles: ExperienceRole[] = [
       score: "Growth + Clinical UI",
       progressPct: 92,
       rows: [
-        { label: "Stack:", value: "React · Next.js App Router", emphasize: true },
+        {
+          label: "Stack:",
+          value: "React · Next.js App Router",
+          emphasize: true,
+        },
         { label: "Integrations:", value: "REST · Auth · Telemetry" },
         { label: "Quality:", value: "Design system · Jest / RTL" },
       ],
@@ -202,13 +206,7 @@ export const experienceRoles: ExperienceRole[] = [
       ],
       footnote: "Parcel aggregation · fulfillment ops",
     },
-    stack: [
-      "Vue.js",
-      "Nuxt.js",
-      "Pinia / Vuex",
-      "Tailwind CSS",
-      "REST APIs",
-    ],
+    stack: ["Vue.js", "Nuxt.js", "Pinia / Vuex", "Tailwind CSS", "REST APIs"],
     tone: "violet",
   },
   {
@@ -239,14 +237,7 @@ export const experienceRoles: ExperienceRole[] = [
       ],
       footnote: "Agency delivery across enterprise clients",
     },
-    stack: [
-      "React",
-      "Next.js",
-      "Vue",
-      "Nuxt",
-      "React Native",
-      "Tailwind CSS",
-    ],
+    stack: ["React", "Next.js", "Vue", "Nuxt", "React Native", "Tailwind CSS"],
     tone: "cyan",
   },
 ];

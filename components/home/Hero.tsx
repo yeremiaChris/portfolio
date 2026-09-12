@@ -12,7 +12,7 @@ export function Hero() {
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-24 left-1/4 size-96 rounded-full bg-primary/10 blur-3xl"
+        className="bg-primary/10 pointer-events-none absolute -top-24 left-1/4 size-96 rounded-full blur-3xl"
       />
       <div
         aria-hidden
@@ -20,13 +20,13 @@ export function Hero() {
       />
 
       <Container className="relative grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
-        <div className="animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both lg:col-span-7">
+        <div className="animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-700 lg:col-span-7">
           <HeroIntro />
         </div>
 
-        <div className="flex w-full flex-col gap-4 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-700 fill-mode-both lg:col-span-5">
+        <div className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both flex w-full flex-col gap-4 delay-150 duration-700 lg:col-span-5">
           <HeroTerminal />
-          <div className="animate-in fade-in slide-in-from-bottom-2 delay-300 duration-700 fill-mode-both">
+          <div className="animate-in fade-in slide-in-from-bottom-2 fill-mode-both delay-300 duration-700">
             <HeroStats />
           </div>
         </div>

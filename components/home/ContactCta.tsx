@@ -65,30 +65,30 @@ export function ContactCta({
   const panel = (
     <div
       className={cn(
-        "relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl bg-muted p-8 shadow-xl ring-1 ring-border/20 md:flex-row md:items-center md:gap-10 md:p-12",
+        "bg-muted ring-border/20 relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl p-8 shadow-xl ring-1 md:flex-row md:items-center md:gap-10 md:p-12",
         panelClassName,
       )}
     >
       <div
-        className="pointer-events-none absolute -right-20 -bottom-20 size-80 rounded-full bg-primary/10 blur-3xl"
+        className="bg-primary/10 pointer-events-none absolute -right-20 -bottom-20 size-80 rounded-full blur-3xl"
         aria-hidden
       />
 
       <div className="relative z-10 flex max-w-2xl flex-col">
         <Badge
           variant="secondary"
-          className="mb-3 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest text-primary uppercase"
+          className="text-primary mb-3 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
         >
-          <span className="size-2 animate-ping rounded-full bg-primary" />
+          <span className="bg-primary size-2 animate-ping rounded-full" />
           {eyebrow}
         </Badge>
         <h2
           id={headingId}
-          className="font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          className="font-heading text-foreground text-2xl font-semibold tracking-tight sm:text-3xl"
         >
           {title}
         </h2>
-        <p className="mt-3 text-[15px] leading-6 text-muted-foreground">
+        <p className="text-muted-foreground mt-3 text-[15px] leading-6">
           {description}
         </p>
       </div>

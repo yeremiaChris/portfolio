@@ -7,15 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  tagToneClass,
-  type MilestoneCaseStudy,
-} from "@/lib/milestones";
+import { tagToneClass, type MilestoneCaseStudy } from "@/lib/milestones";
 import { cn } from "@/lib/utils";
 
 export function CaseStudyCard({ study }: { study: MilestoneCaseStudy }) {
   return (
-    <Card className="flex h-full flex-col rounded-3xl bg-muted ring-border/20">
+    <Card className="bg-muted ring-border/20 flex h-full flex-col rounded-3xl">
       <CardHeader className="gap-2">
         <div className="flex flex-wrap items-center gap-2">
           <Badge
@@ -27,7 +24,7 @@ export function CaseStudyCard({ study }: { study: MilestoneCaseStudy }) {
           >
             {study.tag}
           </Badge>
-          <span className="font-mono text-[13px] text-muted-foreground">
+          <span className="text-muted-foreground font-mono text-[13px]">
             {study.stack}
           </span>
         </div>

@@ -12,19 +12,19 @@ export function AboutHeader() {
   return (
     <section className="relative flex w-full flex-col gap-6 pt-2 pb-8 md:pt-4 md:pb-10">
       <div
-        className="pointer-events-none absolute top-0 left-1/2 -z-10 h-72 w-[min(100%,54rem)] -translate-x-1/2 bg-linear-to-b from-primary/10 via-primary/5 to-transparent blur-3xl"
+        className="from-primary/10 via-primary/5 pointer-events-none absolute top-0 left-1/2 -z-10 h-72 w-[min(100%,54rem)] -translate-x-1/2 bg-linear-to-b to-transparent blur-3xl"
         aria-hidden
       />
 
-      <Card className="rounded-xl bg-muted py-0 ring-border/40">
+      <Card className="bg-muted ring-border/40 rounded-xl py-0">
         <CardContent className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5">
           <nav
             aria-label="Breadcrumb"
-            className="flex min-w-0 items-center gap-2 truncate font-mono text-[12px] text-muted-foreground"
+            className="text-muted-foreground flex min-w-0 items-center gap-2 truncate font-mono text-[12px]"
           >
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 font-semibold text-primary transition-colors hover:text-primary/80"
+              className="text-primary hover:text-primary/80 inline-flex items-center gap-1.5 font-semibold transition-colors"
             >
               <ArrowLeft className="size-3.5 shrink-0" aria-hidden />
               <span className="truncate">{aboutIntro.breadcrumbRoot}</span>
@@ -32,16 +32,16 @@ export function AboutHeader() {
             <span className="text-border" aria-hidden>
               /
             </span>
-            <span className="truncate text-foreground">
+            <span className="text-foreground truncate">
               {aboutIntro.breadcrumbLeaf}
             </span>
           </nav>
 
           <Badge
             variant="secondary"
-            className="gap-2 rounded-full px-3 py-1 font-mono text-[10px] tracking-widest text-primary uppercase"
+            className="text-primary gap-2 rounded-full px-3 py-1 font-mono text-[10px] tracking-widest uppercase"
           >
-            <span className="size-2 animate-pulse rounded-full bg-primary" />
+            <span className="bg-primary size-2 animate-pulse rounded-full" />
             {aboutIntro.statusBadge}
           </Badge>
         </CardContent>
@@ -49,14 +49,14 @@ export function AboutHeader() {
 
       <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
         <div className="max-w-3xl">
-          <p className="mb-2 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
-            <Terminal className="size-3.5 text-primary" aria-hidden />
+          <p className="text-muted-foreground mb-2 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase">
+            <Terminal className="text-primary size-3.5" aria-hidden />
             {aboutIntro.eyebrow}
           </p>
-          <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+          <h1 className="font-heading text-foreground text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
             {aboutIntro.title}
           </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="text-muted-foreground mt-4 max-w-2xl text-[15px] leading-relaxed sm:text-base">
             {aboutIntro.description}
           </p>
         </div>
@@ -83,7 +83,7 @@ export function AboutHeader() {
               "h-11 w-full gap-2 px-6 text-[14px] font-medium sm:w-auto",
             )}
           >
-            <MessageCircle className="size-4 text-primary" aria-hidden />
+            <MessageCircle className="text-primary size-4" aria-hidden />
             {aboutIntro.chatLabel}
           </Link>
         </div>

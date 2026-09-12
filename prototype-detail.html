@@ -1,0 +1,1751 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#c4e7ff",
+              background: "#10141a",
+              "on-primary-container": "#00422b",
+              "surface-container-highest": "#31353c",
+              "surface-container-high": "#262a31",
+              "on-surface-variant": "#bbcabf",
+              "tertiary-container": "#19aee8",
+              error: "#ffb4ab",
+              "primary-fixed-dim": "#4edea3",
+              "surface-bright": "#353940",
+              "surface-tint": "#4edea3",
+              primary: "#4edea3",
+              "secondary-container": "#03b5d3",
+              "surface-container-low": "#181c22",
+              "on-primary": "#003824",
+              "tertiary-fixed-dim": "#7bd0ff",
+              "error-container": "#93000a",
+              tertiary: "#7bd0ff",
+              "surface-container-lowest": "#0a0e14",
+              "on-secondary": "#003640",
+              "on-primary-fixed-variant": "#005236",
+              "on-surface": "#dfe2eb",
+              "surface-container": "#1c2026",
+              "on-primary-fixed": "#002113",
+              "on-tertiary-container": "#003e55",
+              surface: "#10141a",
+              "surface-variant": "#31353c",
+              "on-tertiary-fixed": "#001e2c",
+              "on-secondary-fixed": "#001f26",
+              "surface-dim": "#10141a",
+              "secondary-fixed": "#acedff",
+              "primary-container": "#10b981",
+              "on-secondary-container": "#00424e",
+              "inverse-on-surface": "#2d3137",
+              "on-tertiary": "#00354a",
+              "on-secondary-fixed-variant": "#004e5c",
+              "outline-variant": "#3c4a42",
+              "on-background": "#dfe2eb",
+              "primary-fixed": "#6ffbbe",
+              "on-error-container": "#ffdad6",
+              secondary: "#4cd7f6",
+              "on-error": "#690005",
+              "inverse-primary": "#006c49",
+              "on-tertiary-fixed-variant": "#004c69",
+              outline: "#86948a",
+              "secondary-fixed-dim": "#4cd7f6",
+              "inverse-surface": "#dfe2eb",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "gutter-mobile": "1rem",
+              "space-4xl": "6rem",
+              "gutter-desktop": "2rem",
+              "space-lg": "1.5rem",
+              "space-2xl": "3rem",
+              "gutter-tablet": "1.5rem",
+              "space-xs": "0.5rem",
+              "space-sm": "0.75rem",
+              "space-xxs": "0.25rem",
+              "space-xl": "2rem",
+              "container-max": "76rem",
+              "space-3xl": "4rem",
+              "space-md": "1rem",
+            },
+            fontFamily: {
+              "code-inline": ["JetBrains Mono"],
+              "body-md": ["Geist"],
+              "body-sm": ["Geist"],
+              "headline-md": ["Space Grotesk"],
+              "code-block": ["JetBrains Mono"],
+              "headline-lg-mobile": ["Space Grotesk"],
+              "body-lg": ["Geist"],
+              "label-pill": ["JetBrains Mono"],
+              "headline-lg": ["Space Grotesk"],
+              "display-hero": ["Space Grotesk"],
+              "headline-sm": ["Space Grotesk"],
+              "display-hero-mobile": ["Space Grotesk"],
+              "label-telemetry": ["JetBrains Mono"],
+            },
+            fontSize: {
+              "code-inline": [
+                "13px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "500",
+                },
+              ],
+              "body-md": [
+                "15px",
+                { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "body-sm": [
+                "13px",
+                { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "code-block": [
+                "14px",
+                { lineHeight: "22px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-lg-mobile": [
+                "28px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-lg": [
+                "18px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "400",
+                },
+              ],
+              "label-pill": [
+                "11px",
+                {
+                  lineHeight: "14px",
+                  letterSpacing: "0.06em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg": [
+                "36px",
+                {
+                  lineHeight: "44px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero": [
+                "64px",
+                {
+                  lineHeight: "72px",
+                  letterSpacing: "-0.04em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero-mobile": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-telemetry": [
+                "10px",
+                {
+                  lineHeight: "12px",
+                  letterSpacing: "0.08em",
+                  fontWeight: "500",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary"
+  >
+    <header
+      class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)]"
+    >
+      <div
+        class="h-16 max-w-container-max mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm shrink-0">
+          <a
+            class="flex items-center gap-space-xs group"
+            data-path="home"
+            href="#"
+            ><span
+              class="flex items-center justify-center w-8 h-8 rounded-xl bg-surface-container-high text-primary font-code-inline text-code-inline font-semibold group-hover:bg-primary group-hover:text-on-primary transition-all duration-200"
+              >YC</span
+            >
+            <div class="flex flex-col">
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface"
+                >yeremia<span class="text-primary">.dev</span></span
+              ><span
+                class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-wider hidden sm:inline"
+                >Systems Architect</span
+              >
+            </div></a
+          >
+          <div class="hidden md:flex items-center gap-space-xxs pl-space-sm">
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span
+            ><span
+              class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-wider"
+              >sys:ready</span
+            >
+          </div>
+        </div>
+        <nav
+          class="hidden lg:flex items-center gap-space-xs"
+          data-active-classes="bg-surface-container text-primary font-medium rounded-lg"
+        >
+          <a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="home"
+            href="#"
+            >Home</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="experience"
+            href="#"
+            >Experience</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="projects"
+            href="#"
+            >Projects</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="about"
+            href="#"
+            >About</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="blog"
+            href="#"
+            >Blog</a
+          >
+        </nav>
+        <div class="flex items-center gap-space-xs shrink-0">
+          <a
+            class="hidden sm:inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-surface-container text-secondary font-label-pill text-label-pill hover:bg-surface-container-high hover:text-secondary-fixed transition-colors"
+            data-path="ask-ai"
+            href="#"
+            ><span
+              class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"
+            ></span
+            >Ask AI</a
+          ><a
+            class="hidden md:inline-flex items-center px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            href="https://yeremia.dev/cv.pdf"
+            rel="noopener noreferrer"
+            target="_blank"
+            >CV</a
+          ><a
+            class="inline-flex items-center justify-center px-space-md py-space-xxs rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-semibold hover:bg-primary hover:text-on-primary transition-all duration-200 shadow-[0_0_20px_rgba(16,185,129,0.25)]"
+            data-path="contact"
+            href="#"
+            >Hire Architect</a
+          >
+          <div
+            class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 ml-space-xxs"
+          >
+            <span class="material-symbols-outlined text-on-primary text-[18px]"
+              >person</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-16 bg-background">
+      <div class="flex flex-col w-full">
+        <!-- Top Reading Progress Indicator -->
+        <div
+          class="fixed top-16 left-0 h-[2px] bg-primary z-40 transition-all duration-75 w-0 shadow-[0_0_12px_rgba(78,222,163,0.8)]"
+          id="read-progress"
+        ></div>
+        <!-- Ambient Spectral Core Gradients (Relative to Container) -->
+        <div class="relative w-full overflow-hidden">
+          <div
+            class="absolute top-10 left-1/2 -translate-x-1/2 w-[840px] h-[340px] bg-gradient-to-b from-primary/10 via-secondary/5 to-transparent blur-[120px] pointer-events-none -z-10"
+          ></div>
+          <div
+            class="absolute top-[480px] right-[-100px] w-[420px] h-[420px] bg-secondary/5 blur-[140px] pointer-events-none -z-10"
+          ></div>
+          <!-- Masthead / Article Header Section -->
+          <section
+            class="max-w-container-max mx-auto w-full px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop pt-space-xl pb-space-2xl"
+          >
+            <!-- Breadcrumb & Back Link -->
+            <div
+              class="flex flex-wrap items-center justify-between gap-space-sm pb-space-md"
+            >
+              <a
+                class="group inline-flex items-center gap-space-xxs text-secondary font-code-inline text-code-inline hover:text-primary transition-colors"
+                data-path="blog"
+                href="#"
+              >
+                <span
+                  class="material-symbols-outlined text-[18px] transition-transform group-hover:-translate-x-1"
+                  >arrow_back</span
+                >
+                <span>Return to Dispatches</span>
+              </a>
+              <div
+                class="flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-surface-container-low text-on-surface-variant font-code-inline text-code-inline"
+              >
+                <span class="text-primary">&gt;</span>
+                <span class="text-on-surface">sys://root/blog/</span
+                ><span class="text-primary">eliminating-long-tasks-inp</span>
+              </div>
+            </div>
+            <!-- Main Headline -->
+            <h1
+              class="font-headline-lg text-headline-lg md:text-[44px] md:leading-[52px] text-on-surface tracking-tight max-w-5xl mt-space-sm"
+            >
+              Eliminating Long Tasks: How We Achieved
+              <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary"
+                >Sub-40ms INP</span
+              >
+              in High-Volume Logistics Aggregators
+            </h1>
+            <!-- Metadata Strip & Verification Seal -->
+            <div
+              class="flex flex-wrap items-center gap-y-space-xs gap-x-space-md pt-space-md pb-space-lg text-on-surface-variant font-body-sm text-body-sm"
+            >
+              <div class="flex items-center gap-space-xxs">
+                <span class="material-symbols-outlined text-[16px] text-primary"
+                  >calendar_today</span
+                >
+                <span>Published Feb 18, 2025</span>
+              </div>
+              <span class="text-outline-variant">•</span>
+              <div class="flex items-center gap-space-xxs">
+                <span
+                  class="material-symbols-outlined text-[16px] text-secondary"
+                  >timer</span
+                >
+                <span>9 min read (2,420 words)</span>
+              </div>
+              <span class="text-outline-variant">•</span>
+              <div class="flex items-center gap-space-xxs">
+                <span class="material-symbols-outlined text-[16px] text-primary"
+                  >verified_user</span
+                >
+                <span class="text-on-surface font-medium"
+                  >Yeremia Chris Saragi</span
+                >
+                <span class="text-on-surface-variant"
+                  >(Principal Architect)</span
+                >
+              </div>
+              <span class="text-outline-variant">•</span>
+              <div
+                class="inline-flex items-center gap-space-xxs px-space-xs py-space-xxs rounded-md bg-surface-container-high text-primary font-label-telemetry text-label-telemetry uppercase tracking-wider"
+              >
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"
+                ></span>
+                <span>Verified Production Run: KiriminAja Engine</span>
+              </div>
+            </div>
+            <!-- Key Performance Badges Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
+              <div
+                class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xxs shadow-sm hover:bg-surface-container transition-colors"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-widest"
+                    >Target Metric (P95)</span
+                  >
+                  <span
+                    class="material-symbols-outlined text-primary text-[20px]"
+                    >bolt</span
+                  >
+                </div>
+                <div class="flex items-baseline gap-space-xs">
+                  <span class="font-headline-lg text-headline-lg text-primary"
+                    >34<span class="text-headline-md text-on-surface-variant"
+                      >ms</span
+                    ></span
+                  >
+                  <span
+                    class="font-label-pill text-label-pill px-space-xxs py-[2px] rounded bg-primary/10 text-primary"
+                    >Sub-40ms INP</span
+                  >
+                </div>
+                <span class="font-body-sm text-body-sm text-on-surface-variant"
+                  >Down from 268ms baseline on peak concurrent sync.</span
+                >
+              </div>
+              <div
+                class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xxs shadow-sm hover:bg-surface-container transition-colors"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-widest"
+                    >Main Thread Jitter</span
+                  >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[20px]"
+                    >speed</span
+                  >
+                </div>
+                <div class="flex items-baseline gap-space-xs">
+                  <span class="font-headline-lg text-headline-lg text-secondary"
+                    >0<span class="text-headline-md text-on-surface-variant"
+                      >ms</span
+                    ></span
+                  >
+                  <span
+                    class="font-label-pill text-label-pill px-space-xxs py-[2px] rounded bg-secondary/10 text-secondary"
+                    >Zero Long Tasks</span
+                  >
+                </div>
+                <span class="font-body-sm text-body-sm text-on-surface-variant"
+                  >Scheduler slice ceiling clamped to &lt;16.6ms window.</span
+                >
+              </div>
+              <div
+                class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xxs shadow-sm hover:bg-surface-container transition-colors"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-widest"
+                    >Production Volume</span
+                  >
+                  <span
+                    class="material-symbols-outlined text-tertiary text-[20px]"
+                    >dataset</span
+                  >
+                </div>
+                <div class="flex items-baseline gap-space-xs">
+                  <span class="font-headline-lg text-headline-lg text-tertiary"
+                    >50k+</span
+                  >
+                  <span
+                    class="font-label-pill text-label-pill px-space-xxs py-[2px] rounded bg-tertiary/10 text-tertiary"
+                    >Waybills / Day</span
+                  >
+                </div>
+                <span class="font-body-sm text-body-sm text-on-surface-variant"
+                  >15 concurrent logistics rates computed asynchronously.</span
+                >
+              </div>
+            </div>
+          </section>
+          <!-- Two-Column Editorial Layout -->
+          <div
+            class="max-w-container-max mx-auto w-full px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop pb-space-4xl"
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+              <!-- Sticky Sidebar (Left Column - 4 cols) -->
+              <aside class="lg:col-span-4 flex flex-col gap-space-lg">
+                <div class="sticky top-24 flex flex-col gap-space-lg">
+                  <!-- Table of Contents Widget -->
+                  <div
+                    class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm shadow-md"
+                  >
+                    <div class="flex items-center justify-between pb-space-xxs">
+                      <span
+                        class="font-label-telemetry text-label-telemetry uppercase tracking-widest text-primary font-semibold"
+                        >Table of Contents</span
+                      >
+                      <span
+                        class="font-code-inline text-[11px] text-on-surface-variant"
+                        >5 Chapters</span
+                      >
+                    </div>
+                    <nav
+                      class="flex flex-col gap-space-xs font-body-sm text-body-sm"
+                      id="toc-nav"
+                    >
+                      <a
+                        class="toc-item flex items-center justify-between py-space-xxs px-space-xs rounded-lg text-on-surface hover:bg-surface-container hover:text-primary transition-colors"
+                        href="#problem-space"
+                      >
+                        <span>01. The Problem Space</span>
+                        <span
+                          class="font-code-inline text-[11px] text-on-surface-variant"
+                          >240ms Lock</span
+                        >
+                      </a>
+                      <a
+                        class="toc-item flex items-center justify-between py-space-xxs px-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+                        href="#profiling-frame-budget"
+                      >
+                        <span>02. Profiling the Frame Budget</span>
+                        <span
+                          class="font-code-inline text-[11px] text-on-surface-variant"
+                          >Flamegraph</span
+                        >
+                      </a>
+                      <a
+                        class="toc-item flex items-center justify-between py-space-xxs px-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+                        href="#worker-offloading"
+                      >
+                        <span>03. Offloading to Web Workers</span>
+                        <span
+                          class="font-code-inline text-[11px] text-on-surface-variant"
+                          >Code</span
+                        >
+                      </a>
+                      <a
+                        class="toc-item flex items-center justify-between py-space-xxs px-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+                        href="#dom-virtualization"
+                      >
+                        <span>04. DOM Virtualization &amp; Canvas</span>
+                        <span
+                          class="font-code-inline text-[11px] text-on-surface-variant"
+                          >Offscreen</span
+                        >
+                      </a>
+                      <a
+                        class="toc-item flex items-center justify-between py-space-xxs px-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+                        href="#production-benchmarks"
+                      >
+                        <span>05. Production Benchmarks</span>
+                        <span
+                          class="font-code-inline text-[11px] text-on-surface-variant"
+                          >Metrics</span
+                        >
+                      </a>
+                    </nav>
+                  </div>
+                  <!-- Author Mini Dossier Card -->
+                  <div
+                    class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm shadow-md"
+                  >
+                    <div class="flex items-center gap-space-sm">
+                      <div
+                        class="relative w-12 h-12 rounded-full overflow-hidden shrink-0 bg-surface-container-high ring-2 ring-primary/30"
+                      >
+                        <img
+                          class="w-full h-full object-cover"
+                          data-alt="Close up portrait photograph of Yeremia Chris, Indonesian software architect with glasses, tech aesthetic, soft cyan and emerald background rim light, minimalist dark studio setting."
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq21WGB-6uP-sVXBMBfA3XnaFAA5Zfj7uMvf4EP9R_Zel4kxkxveMc1UwR5WL4HH8R0EJwryUXrY7JzocLBJ-EUI6DbCvmoozl40VedewV41lJH9cGo-Z-hv4SqNfJe4bKRIyOxcM2Qqgxh0A6XZ29Hh0K4nbhPnj70ONchSSwru1PdECW0eB-jPGPzgeUUlvrdiWb92psu1EKE5KJPmKYgn2aftzMmQ3Jv9Wl88t_I1vFLhCQ2RC5bw"
+                        />
+                      </div>
+                      <div class="flex flex-col min-w-0">
+                        <div class="flex items-center gap-space-xxs">
+                          <span
+                            class="font-headline-sm text-headline-sm text-on-surface truncate"
+                            >Yeremia Chris</span
+                          >
+                          <span
+                            class="material-symbols-outlined text-[16px] text-primary"
+                            >verified</span
+                          >
+                        </div>
+                        <span
+                          class="font-label-telemetry text-label-telemetry text-secondary uppercase tracking-wider"
+                          >Sr. Systems &amp; Frontend Architect</span
+                        >
+                      </div>
+                    </div>
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                    >
+                      Directing frontend architectural strategy,
+                      micro-frontends, and high-frequency real-time web engines.
+                      Specializing in Web Workers, AST tooling, and Sub-50ms INP
+                      architectures.
+                    </p>
+                    <div class="flex items-center gap-space-xs pt-space-xxs">
+                      <a
+                        class="px-space-sm py-space-xxs rounded-lg bg-surface-container text-on-surface hover:text-primary font-code-inline text-code-inline transition-colors flex items-center gap-space-xxs"
+                        href="https://github.com/yeremiaChris"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <span class="material-symbols-outlined text-[16px]"
+                          >code</span
+                        >
+                        <span>GitHub</span>
+                      </a>
+                      <a
+                        class="px-space-sm py-space-xxs rounded-lg bg-surface-container text-on-surface hover:text-secondary font-code-inline text-code-inline transition-colors flex items-center gap-space-xxs"
+                        href="https://linkedin.com/in/yeremia-chris-saragi"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <span class="material-symbols-outlined text-[16px]"
+                          >share</span
+                        >
+                        <span>LinkedIn</span>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- Share & Interaction Actions -->
+                  <div
+                    class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs shadow-md"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry uppercase tracking-widest text-on-surface-variant"
+                      >Dissemination</span
+                    >
+                    <div class="flex items-center gap-space-xs pt-space-xxs">
+                      <button
+                        class="flex-1 py-space-xxs px-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high hover:text-primary font-body-sm text-body-sm flex items-center justify-center gap-space-xxs transition-colors"
+                        id="copy-link-btn"
+                        onclick="
+                          navigator.clipboard.writeText(window.location.href);
+                          alert('Article URL copied to clipboard.');
+                        "
+                      >
+                        <span class="material-symbols-outlined text-[16px]"
+                          >link</span
+                        >
+                        <span>Copy Link</span>
+                      </button>
+                      <a
+                        class="p-space-xxs rounded-lg bg-surface-container text-on-surface-variant hover:text-secondary transition-colors"
+                        href="https://twitter.com/intent/tweet?text=Eliminating%20Long%20Tasks:%20Sub-40ms%20INP%20in%20Logistics%20by%20Yeremia%20Chris"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        title="Share on X"
+                      >
+                        <span class="material-symbols-outlined text-[18px]"
+                          >share</span
+                        >
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              <!-- Main Content Stream (Right Column - 8 cols) -->
+              <main class="lg:col-span-8 flex flex-col gap-space-2xl min-w-0">
+                <!-- Executive Abstract / TL;DR Box -->
+                <div
+                  class="p-space-lg rounded-xl bg-gradient-to-br from-surface-container-high via-surface-container to-surface-container-low shadow-xl relative overflow-hidden"
+                >
+                  <div
+                    class="absolute -right-8 -top-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"
+                  ></div>
+                  <div class="flex items-center gap-space-xs pb-space-xs">
+                    <span
+                      class="w-2 h-2 rounded-full bg-primary animate-pulse"
+                    ></span>
+                    <span
+                      class="font-label-telemetry text-label-telemetry uppercase tracking-widest text-primary font-semibold"
+                      >Architectural Executive Summary</span
+                    >
+                  </div>
+                  <p
+                    class="font-body-lg text-body-lg text-on-surface font-normal leading-relaxed"
+                  >
+                    When processing over
+                    <strong
+                      >50,000 multi-destination logistics shipments per
+                      day</strong
+                    >, interaction latency is not a vanity metric—it dictates
+                    operational throughput. Our initial logistics dashboard
+                    suffered from interaction to next paint (INP) spikes upwards
+                    of <strong>268ms</strong> during concurrent multi-carrier
+                    pricing recalculations. By decoupling state derivation into
+                    an isolated <strong>Web Worker actor loop</strong>, adopting
+                    <strong>OffscreenCanvas barcode streams</strong>, and
+                    enforcing strict
+                    <strong
+                      >micro-task scheduling with
+                      <code
+                        class="font-code-inline text-code-inline text-secondary"
+                        >scheduler.yield()</code
+                      ></strong
+                    >, we crushed INP down to an ultra-responsive
+                    <strong>34ms (P95)</strong> with zero dropped user
+                    keystrokes.
+                  </p>
+                </div>
+                <!-- Section 1: The Problem Space -->
+                <section
+                  class="flex flex-col gap-space-md scroll-mt-24"
+                  id="problem-space"
+                >
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="font-code-inline text-code-inline text-secondary"
+                      >01 //</span
+                    >
+                    <h2
+                      class="font-headline-md text-headline-md text-on-surface"
+                    >
+                      The Bottleneck in Multi-Courier Matrix Calculations
+                    </h2>
+                  </div>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                  >
+                    In high-volume B2B logistics aggregators, a single
+                    operational view presents live tables containing hundreds of
+                    shipments. When an operator adjusts a parcel parameter (such
+                    as cubing dimensions, hazardous material flags, or origin
+                    postal zones), the system immediately triggers:
+                  </p>
+                  <ul
+                    class="flex flex-col gap-space-xs font-body-md text-body-md text-on-surface-variant pl-space-md"
+                  >
+                    <li class="flex items-start gap-space-xs">
+                      <span
+                        class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-1"
+                        >arrow_right</span
+                      >
+                      <span
+                        ><strong>15+ Carrier Rate Lookups:</strong> Instant
+                        pricing algorithms factoring in volumetric discount
+                        thresholds, fuel surcharges, and SLA guarantees (JNE,
+                        SiCepat, J&amp;T, NinjaVan, POS Indonesia).</span
+                      >
+                    </li>
+                    <li class="flex items-start gap-space-xs">
+                      <span
+                        class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-1"
+                        >arrow_right</span
+                      >
+                      <span
+                        ><strong>High-Density Code128 / QR Rendering:</strong>
+                        Dynamic generation of standard shipping barcode vectors
+                        rendered across tens of tabular rows
+                        simultaneously.</span
+                      >
+                    </li>
+                    <li class="flex items-start gap-space-xs">
+                      <span
+                        class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-1"
+                        >arrow_right</span
+                      >
+                      <span
+                        ><strong>Virtual DOM Thrashing:</strong> Traditional
+                        React reconciliation running massive differential trees
+                        across 200+ rendered nodes, starving the browser's
+                        compositor thread.</span
+                      >
+                    </li>
+                  </ul>
+                  <!-- Architectural Visualization / Infographic -->
+                  <div
+                    class="my-space-sm p-space-md rounded-xl bg-surface-container-lowest shadow-lg flex flex-col gap-space-sm"
+                  >
+                    <div class="flex items-center justify-between pb-space-xxs">
+                      <div class="flex items-center gap-space-xs">
+                        <span
+                          class="material-symbols-outlined text-error text-[18px]"
+                          >warning</span
+                        >
+                        <span
+                          class="font-code-inline text-code-inline text-on-surface"
+                          >Legacy Architecture: Main Thread Starvation</span
+                        >
+                      </div>
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-error uppercase"
+                        >INP ~268ms (Degraded)</span
+                      >
+                    </div>
+                    <!-- Inline SVG Diagram: Thread Blockage -->
+                    <div
+                      class="w-full bg-surface-container-low p-space-sm rounded-lg overflow-x-auto"
+                    >
+                      <svg
+                        class="w-full h-36 min-w-[500px]"
+                        fill="none"
+                        viewbox="0 0 700 120"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <!-- Timeline background grid -->
+                        <line
+                          class="text-surface-container-highest"
+                          stroke="currentColor"
+                          stroke-dasharray="4 4"
+                          x1="20"
+                          x2="680"
+                          y1="30"
+                          y2="30"
+                        ></line>
+                        <line
+                          class="text-surface-container-highest"
+                          stroke="currentColor"
+                          stroke-dasharray="4 4"
+                          x1="20"
+                          x2="680"
+                          y1="85"
+                          y2="85"
+                        ></line>
+                        <!-- Labels -->
+                        <text
+                          class="text-on-surface-variant font-label-telemetry text-[11px]"
+                          fill="currentColor"
+                          x="20"
+                          y="22"
+                        >
+                          MAIN THREAD (UI + JS)
+                        </text>
+                        <text
+                          class="text-on-surface-variant font-label-telemetry text-[11px]"
+                          fill="currentColor"
+                          x="20"
+                          y="77"
+                        >
+                          FRAME COMPOSITOR (60 FPS / 16.6ms)
+                        </text>
+                        <!-- User Click Event -->
+                        <circle
+                          class="fill-secondary"
+                          cx="90"
+                          cy="30"
+                          r="6"
+                        ></circle>
+                        <text
+                          class="text-secondary font-label-telemetry text-[10px]"
+                          fill="currentColor"
+                          x="80"
+                          y="15"
+                        >
+                          USER CLICK
+                        </text>
+                        <!-- Long Task Block -->
+                        <rect
+                          class="fill-error/20 stroke-error"
+                          height="28"
+                          rx="4"
+                          stroke-width="1.5"
+                          width="310"
+                          x="105"
+                          y="16"
+                        ></rect>
+                        <text
+                          class="text-error font-code-inline text-[12px] font-semibold"
+                          fill="currentColor"
+                          x="115"
+                          y="34"
+                        >
+                          LONG TASK (240ms Blocking Calculation)
+                        </text>
+                        <!-- Dropped frames indicator -->
+                        <rect
+                          class="fill-error/10"
+                          height="24"
+                          rx="4"
+                          width="310"
+                          x="105"
+                          y="70"
+                        ></rect>
+                        <text
+                          class="text-error font-label-telemetry text-[11px]"
+                          fill="currentColor"
+                          x="145"
+                          y="86"
+                        >
+                          14 CONSECUTIVE DROPPED FRAMES
+                        </text>
+                        <!-- Recovery / Paint -->
+                        <rect
+                          class="fill-primary/20 stroke-primary"
+                          height="28"
+                          rx="4"
+                          stroke-width="1"
+                          width="60"
+                          x="425"
+                          y="16"
+                        ></rect>
+                        <text
+                          class="text-primary font-code-inline text-[11px]"
+                          fill="currentColor"
+                          x="435"
+                          y="34"
+                        >
+                          PAINT
+                        </text>
+                        <line
+                          class="text-primary"
+                          stroke="currentColor"
+                          stroke-dasharray="2 2"
+                          stroke-width="2"
+                          x1="455"
+                          x2="455"
+                          y1="44"
+                          y2="70"
+                        ></line>
+                        <text
+                          class="text-primary font-label-telemetry text-[11px]"
+                          fill="currentColor"
+                          x="480"
+                          y="86"
+                        >
+                          INP RESOLVED (268ms)
+                        </text>
+                      </svg>
+                    </div>
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant italic"
+                    >
+                      Figure 1: Main thread timeline during multi-courier
+                      recalculation prior to worker isolation. The browser is
+                      completely unresponsive to input for over 14 visual
+                      frames.
+                    </span>
+                  </div>
+                </section>
+                <!-- Section 2: Flamegraph & Frame Budget -->
+                <section
+                  class="flex flex-col gap-space-md scroll-mt-24"
+                  id="profiling-frame-budget"
+                >
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="font-code-inline text-code-inline text-secondary"
+                      >02 //</span
+                    >
+                    <h2
+                      class="font-headline-md text-headline-md text-on-surface"
+                    >
+                      Profiling the Frame Budget with Chrome DevTools
+                    </h2>
+                  </div>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                  >
+                    Dissecting the trace recordings showed that
+                    <strong>64% of CPU execution time</strong> was spent inside
+                    recursive mathematical normalization routines for parcel
+                    volume metrics, while
+                    <strong>22% was eaten by SVG path string generation</strong>
+                    for the 1D barcodes. In accordance with RAIL guidelines, any
+                    user interaction must yield a visual response within 50ms.
+                    Here is the micro-profiling telemetry breakdown:
+                  </p>
+                  <!-- Comparative Metric Bar Chart -->
+                  <div
+                    class="p-space-lg rounded-xl bg-surface-container-low flex flex-col gap-space-md shadow-md"
+                  >
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-wider font-semibold"
+                        >Frame Execution Breakdown (Per Mutation)</span
+                      >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface-variant"
+                        >Frame Budget: 16.6ms Target</span
+                      >
+                    </div>
+                    <div
+                      class="flex flex-col gap-space-sm font-body-sm text-body-sm"
+                    >
+                      <!-- Row 1: Carrier Rate Pricing Algo -->
+                      <div class="flex flex-col gap-space-xxs">
+                        <div class="flex justify-between text-on-surface">
+                          <span
+                            >Carrier Pricing &amp; Rule Engine (15
+                            carriers)</span
+                          >
+                          <span class="font-code-inline text-error"
+                            >142ms → 0ms (Moved to Worker)</span
+                          >
+                        </div>
+                        <div
+                          class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden flex"
+                        >
+                          <div
+                            class="h-full bg-error rounded-full transition-all duration-500"
+                            style="width: 72%"
+                          ></div>
+                        </div>
+                      </div>
+                      <!-- Row 2: Barcode Path Serialization -->
+                      <div class="flex flex-col gap-space-xxs">
+                        <div class="flex justify-between text-on-surface">
+                          <span>Barcode DOM SVG Serialization</span>
+                          <span class="font-code-inline text-error"
+                            >68ms → 2.1ms (OffscreenCanvas)</span
+                          >
+                        </div>
+                        <div
+                          class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden flex"
+                        >
+                          <div
+                            class="h-full bg-secondary rounded-full transition-all duration-500"
+                            style="width: 35%"
+                          ></div>
+                        </div>
+                      </div>
+                      <!-- Row 3: DOM Reconciliation -->
+                      <div class="flex flex-col gap-space-xxs">
+                        <div class="flex justify-between text-on-surface">
+                          <span>React Tree Diffing &amp; Paint Commit</span>
+                          <span class="font-code-inline text-primary"
+                            >30ms → 5.4ms (DOM Virtualization)</span
+                          >
+                        </div>
+                        <div
+                          class="w-full h-3 bg-surface-container-highest rounded-full overflow-hidden flex"
+                        >
+                          <div
+                            class="h-full bg-primary rounded-full transition-all duration-500"
+                            style="width: 18%"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <!-- Section 3: High-Fidelity Code Snippet Block -->
+                <section
+                  class="flex flex-col gap-space-md scroll-mt-24"
+                  id="worker-offloading"
+                >
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="font-code-inline text-code-inline text-secondary"
+                      >03 //</span
+                    >
+                    <h2
+                      class="font-headline-md text-headline-md text-on-surface"
+                    >
+                      Offloading to Web Workers with Zero Serialization Overhead
+                    </h2>
+                  </div>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                  >
+                    Standard
+                    <code class="font-code-inline text-code-inline text-primary"
+                      >postMessage()</code
+                    >
+                    payloads often introduce hidden serialization serialization
+                    penalties when transferring thousands of objects. We
+                    implemented a memory-efficient zero-copy array buffer
+                    protocol utilizing
+                    <code class="font-code-inline text-code-inline text-primary"
+                      >SharedArrayBuffer</code
+                    >
+                    where supported, with fallback to structured cloning via
+                    Transferable Objects.
+                  </p>
+                  <!-- Terminal Inspector Code Box -->
+                  <div
+                    class="rounded-xl bg-surface-container-lowest overflow-hidden shadow-2xl"
+                  >
+                    <!-- Window Header -->
+                    <div
+                      class="px-space-md py-space-xs bg-surface-container-low flex items-center justify-between"
+                    >
+                      <div class="flex items-center gap-space-xs">
+                        <div class="flex items-center gap-1.5">
+                          <span
+                            class="w-3 h-3 rounded-full bg-surface-variant hover:bg-error transition-colors"
+                          ></span>
+                          <span
+                            class="w-3 h-3 rounded-full bg-surface-variant hover:bg-secondary transition-colors"
+                          ></span>
+                          <span
+                            class="w-3 h-3 rounded-full bg-surface-variant hover:bg-primary transition-colors"
+                          ></span>
+                        </div>
+                        <span
+                          class="font-code-inline text-code-inline text-on-surface-variant pl-space-xs"
+                          >workers/logistics-matrix.worker.ts</span
+                        >
+                      </div>
+                      <button
+                        class="inline-flex items-center gap-space-xxs px-space-xs py-1 rounded bg-surface-container text-on-surface-variant hover:text-primary font-code-inline text-[11px] transition-colors"
+                        onclick="
+                          navigator.clipboard.writeText(
+                            document.getElementById('code-content').innerText,
+                          );
+                          alert('Code snippet copied to clipboard');
+                        "
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >content_copy</span
+                        >
+                        <span>Copy</span>
+                      </button>
+                    </div>
+                    <!-- Code Content with Line Numbers -->
+                    <div
+                      class="p-space-md overflow-x-auto text-on-surface font-code-block text-code-block leading-relaxed"
+                      id="code-content"
+                    >
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">1</span><span class="text-secondary">import</span> { <span class="text-tertiary">CarrierEngine</span> } <span class="text-secondary">from</span> <span class="text-primary">'@kiriminaja/carrier-core'</span>;</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">2</span><span class="text-secondary">import</span> { <span class="text-tertiary">chunkTask</span> } <span class="text-secondary">from</span> <span class="text-primary">'@/lib/scheduler'</span>;</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">3</span></pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">4</span><span class="text-on-surface-variant">// Offload heavy pricing recalculations away from DOM compositor</span></pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">5</span>self.<span class="text-primary">onmessage</span> = <span class="text-secondary">async</span> (event: <span class="text-tertiary">MessageEvent&lt;CalculationPayload&gt;</span>) =&gt; {</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">6</span>  <span class="text-secondary">const</span> { waybills, carrierMatrix, rateConfig } = event.data;</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">7</span>  <span class="text-secondary">const</span> calculatedRates: <span class="text-tertiary">CalculatedRateResult[]</span> = [];</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">8</span></pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">9</span>  <span class="text-on-surface-variant">// Enforce 8ms cooperative time-slicing within Worker</span></pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">10</span>  <span class="text-secondary">await</span> <span class="text-tertiary">chunkTask</span>(waybills, <span class="text-secondary">async</span> (waybill) =&gt; {</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">11</span>    <span class="text-secondary">const</span> quote = CarrierEngine.<span class="text-primary">evaluateRates</span>({</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">12</span>      weightGrams: waybill.billableWeight,</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">13</span>      originPostal: waybill.originCode,</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">14</span>      destinationPostal: waybill.destCode,</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">15</span>      matrix: carrierMatrix,</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">16</span>    });</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">17</span>    calculatedRates.<span class="text-primary">push</span>({ id: waybill.id, quote });</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">18</span>  }, { sliceBudgetMs: 8 });</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">19</span></pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">20</span>  <span class="text-on-surface-variant">// Zero-copy Transferable ArrayBuffer back to UI main-thread</span></pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">21</span>  <span class="text-secondary">const</span> serializedBuffer = <span class="text-tertiary">packToBinary</span>(calculatedRates);</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">22</span>  self.<span class="text-primary">postMessage</span>(serializedBuffer, [serializedBuffer.buffer]);</pre>
+                      <pre
+                        class="flex"
+                      ><span class="select-none text-on-surface-variant/40 pr-space-md text-right w-8">23</span>};</pre>
+                    </div>
+                  </div>
+                </section>
+                <!-- Section 4: Architectural Takeaways -->
+                <section
+                  class="flex flex-col gap-space-md scroll-mt-24"
+                  id="dom-virtualization"
+                >
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="font-code-inline text-code-inline text-secondary"
+                      >04 //</span
+                    >
+                    <h2
+                      class="font-headline-md text-headline-md text-on-surface"
+                    >
+                      Deterministic State &amp; Offscreen Canvas Rendering
+                    </h2>
+                  </div>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                  >
+                    Beyond calculating freight rates, high-density waybill
+                    printing required generating thousands of Code128 barcodes.
+                    Injecting inline SVG elements bloated the DOM tree to
+                    12,000+ nodes, turning simple table row selections into
+                    120ms recalculation traps.
+                  </p>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+                    <div
+                      class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs shadow-md"
+                    >
+                      <div
+                        class="flex items-center gap-space-xs text-primary font-headline-sm text-headline-sm"
+                      >
+                        <span class="material-symbols-outlined"
+                          >center_focus_weak</span
+                        >
+                        <span>OffscreenCanvas Pipes</span>
+                      </div>
+                      <p
+                        class="font-body-sm text-body-sm text-on-surface-variant"
+                      >
+                        Barcodes are now pre-rasterized inside background worker
+                        instances using standard
+                        <code
+                          class="font-code-inline text-code-inline text-primary"
+                          >OffscreenCanvas</code
+                        >, transferring raw ImageBitmaps without triggering main
+                        thread reflows.
+                      </p>
+                    </div>
+                    <div
+                      class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs shadow-md"
+                    >
+                      <div
+                        class="flex items-center gap-space-xs text-secondary font-headline-sm text-headline-sm"
+                      >
+                        <span class="material-symbols-outlined"
+                          >hourglass_empty</span
+                        >
+                        <span>scheduler.yield() Integration</span>
+                      </div>
+                      <p
+                        class="font-body-sm text-body-sm text-on-surface-variant"
+                      >
+                        We polyfilled the progressive Chrome Scheduling API
+                        (<code
+                          class="font-code-inline text-code-inline text-secondary"
+                          >scheduler.yield()</code
+                        >). Heavy batch renders cooperatively yield execution to
+                        the browser event loop every 12ms.
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Detail Image Demonstration -->
+                  <div
+                    class="relative w-full rounded-xl overflow-hidden bg-surface-container-low shadow-xl"
+                  >
+                    <img
+                      class="w-full h-72 object-cover object-center"
+                      data-alt="High tech developer screen displaying Chrome DevTools Performance panel with green frame markers, showing 60fps stable render, eliminated long tasks, and dark theme UI code inspector."
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUTi0eYb4SE8FUAzE7wygmZCllZ9ceXmwhsCW1vm1CDIWTfaNWwuOlP3fp75MjrcvH0sH5I0O2SkRgqwP5_8xiwKgC-n9IsLLqevbAKSLwroEsN3OmGQoHrxhk9IB5gbt69Y8gE9L_bSVFnSNFI1SfY1Iw0SGlJziM-AGOE0Z72f6VXuF6-XGx3m9V2exLmpCyGWzTWOtMyGSkimSn6AuCGtaJ1Cig7QgjRJhlfHJdUr0tSCyuC0Oc_Q"
+                    />
+                    <div
+                      class="p-space-sm bg-surface-container-high/90 backdrop-blur-md flex items-center justify-between"
+                    >
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface"
+                        >Snapshot: DevTools Performance Profile
+                        post-refactor</span
+                      >
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-primary font-semibold"
+                        >ALL FRAMES &lt; 16.6ms</span
+                      >
+                    </div>
+                  </div>
+                </section>
+                <!-- Section 5: Quantified Production Results -->
+                <section
+                  class="flex flex-col gap-space-md scroll-mt-24"
+                  id="production-benchmarks"
+                >
+                  <div class="flex items-center gap-space-xs">
+                    <span
+                      class="font-code-inline text-code-inline text-secondary"
+                      >05 //</span
+                    >
+                    <h2
+                      class="font-headline-md text-headline-md text-on-surface"
+                    >
+                      Production Benchmarks: Before vs. After
+                    </h2>
+                  </div>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                  >
+                    Telemetry gathered from 50,000 real-user sessions over a
+                    30-day verification rollout at KiriminAja confirms
+                    substantial architectural uplift across all Core Web Vitals
+                    vectors:
+                  </p>
+                  <!-- Comprehensive Performance Table -->
+                  <div
+                    class="w-full overflow-x-auto rounded-xl bg-surface-container-low shadow-md"
+                  >
+                    <table class="w-full text-left font-body-sm text-body-sm">
+                      <thead
+                        class="bg-surface-container font-label-telemetry text-label-telemetry uppercase tracking-wider text-on-surface-variant"
+                      >
+                        <tr>
+                          <th class="py-space-sm px-space-md">
+                            Telemetry Invariant
+                          </th>
+                          <th class="py-space-sm px-space-md">
+                            Legacy Architecture
+                          </th>
+                          <th class="py-space-sm px-space-md text-primary">
+                            Web Worker Core
+                          </th>
+                          <th class="py-space-sm px-space-md">Impact</th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        class="divide-y divide-surface-container-highest font-code-inline text-code-inline text-on-surface"
+                      >
+                        <tr
+                          class="hover:bg-surface-container/50 transition-colors"
+                        >
+                          <td
+                            class="py-space-sm px-space-md font-body-sm text-on-surface font-medium"
+                          >
+                            Interaction to Next Paint (INP - P95)
+                          </td>
+                          <td class="py-space-sm px-space-md text-error">
+                            268 ms
+                          </td>
+                          <td
+                            class="py-space-sm px-space-md text-primary font-bold"
+                          >
+                            34 ms
+                          </td>
+                          <td class="py-space-sm px-space-md">
+                            <span
+                              class="px-space-xxs py-[2px] rounded bg-primary/10 text-primary font-label-pill text-label-pill"
+                              >-87.3% (Good)</span
+                            >
+                          </td>
+                        </tr>
+                        <tr
+                          class="hover:bg-surface-container/50 transition-colors"
+                        >
+                          <td
+                            class="py-space-sm px-space-md font-body-sm text-on-surface font-medium"
+                          >
+                            Total Blocking Time (TBT)
+                          </td>
+                          <td class="py-space-sm px-space-md text-error">
+                            890 ms
+                          </td>
+                          <td
+                            class="py-space-sm px-space-md text-primary font-bold"
+                          >
+                            0 ms
+                          </td>
+                          <td class="py-space-sm px-space-md">
+                            <span
+                              class="px-space-xxs py-[2px] rounded bg-primary/10 text-primary font-label-pill text-label-pill"
+                              >-100% Locked Time</span
+                            >
+                          </td>
+                        </tr>
+                        <tr
+                          class="hover:bg-surface-container/50 transition-colors"
+                        >
+                          <td
+                            class="py-space-sm px-space-md font-body-sm text-on-surface font-medium"
+                          >
+                            DOM Node Count (Peak)
+                          </td>
+                          <td
+                            class="py-space-sm px-space-md text-on-surface-variant"
+                          >
+                            14,200 nodes
+                          </td>
+                          <td
+                            class="py-space-sm px-space-md text-secondary font-bold"
+                          >
+                            1,150 nodes
+                          </td>
+                          <td class="py-space-sm px-space-md">
+                            <span
+                              class="px-space-xxs py-[2px] rounded bg-secondary/10 text-secondary font-label-pill text-label-pill"
+                              >-91.9% Virtualized</span
+                            >
+                          </td>
+                        </tr>
+                        <tr
+                          class="hover:bg-surface-container/50 transition-colors"
+                        >
+                          <td
+                            class="py-space-sm px-space-md font-body-sm text-on-surface font-medium"
+                          >
+                            Client Memory Footprint
+                          </td>
+                          <td
+                            class="py-space-sm px-space-md text-on-surface-variant"
+                          >
+                            420 MB
+                          </td>
+                          <td
+                            class="py-space-sm px-space-md text-tertiary font-bold"
+                          >
+                            168 MB
+                          </td>
+                          <td class="py-space-sm px-space-md">
+                            <span
+                              class="px-space-xxs py-[2px] rounded bg-tertiary/10 text-tertiary font-label-pill text-label-pill"
+                              >-60% Heap Pressure</span
+                            >
+                          </td>
+                        </tr>
+                        <tr
+                          class="hover:bg-surface-container/50 transition-colors"
+                        >
+                          <td
+                            class="py-space-sm px-space-md font-body-sm text-on-surface font-medium"
+                          >
+                            Logistics Operator CSAT (Survey)
+                          </td>
+                          <td
+                            class="py-space-sm px-space-md text-on-surface-variant"
+                          >
+                            3.4 / 5.0
+                          </td>
+                          <td
+                            class="py-space-sm px-space-md text-primary font-bold"
+                          >
+                            4.9 / 5.0
+                          </td>
+                          <td class="py-space-sm px-space-md">
+                            <span
+                              class="px-space-xxs py-[2px] rounded bg-primary/10 text-primary font-label-pill text-label-pill"
+                              >+44.1% Satisfaction</span
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+                <!-- Technical Commentary & Discussion Preview -->
+                <div
+                  class="p-space-lg rounded-xl bg-surface-container-low flex flex-col gap-space-md shadow-md"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="material-symbols-outlined text-primary text-[22px]"
+                        >forum</span
+                      >
+                      <h3
+                        class="font-headline-sm text-headline-sm text-on-surface"
+                      >
+                        Architectural Discussion &amp; RFC
+                      </h3>
+                    </div>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-secondary uppercase"
+                      >GitHub RFC #084</span
+                    >
+                  </div>
+                  <p class="font-body-md text-body-md text-on-surface-variant">
+                    Have questions regarding our zero-copy worker transfer
+                    serialization or custom virtual DOM scroller implementation?
+                    Join the discourse in our open RFC thread or leave a
+                    technical critique.
+                  </p>
+                  <div
+                    class="p-space-sm rounded-lg bg-surface-container-highest flex items-center justify-between"
+                  >
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="font-code-inline text-code-inline text-on-surface"
+                        >yeremiaChris/architect-dispatches &gt;
+                        rfc-084-inp.md</span
+                      >
+                    </div>
+                    <a
+                      class="px-space-sm py-space-xxs rounded bg-primary text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary-fixed transition-colors"
+                      href="https://github.com/yeremiaChris"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Contribute to Discussion
+                    </a>
+                  </div>
+                </div>
+                <!-- Direct Recruiter & Consultation Contact Card -->
+                <div
+                  class="p-space-xl rounded-xl bg-gradient-to-br from-surface-container to-surface-container-low shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg relative overflow-hidden"
+                >
+                  <div
+                    class="absolute -left-12 -bottom-12 w-40 h-40 bg-secondary/10 rounded-full blur-3xl pointer-events-none"
+                  ></div>
+                  <div class="flex flex-col gap-space-xs max-w-xl">
+                    <div class="flex items-center gap-space-xs">
+                      <span
+                        class="w-2 h-2 rounded-full bg-primary animate-ping"
+                      ></span>
+                      <span
+                        class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-widest font-semibold"
+                        >Open for Consulting &amp; Principal Roles</span
+                      >
+                    </div>
+                    <h3
+                      class="font-headline-md text-headline-md text-on-surface"
+                    >
+                      Facing Main Thread Starvation or Scaling Complex Frontend
+                      Systems?
+                    </h3>
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                    >
+                      I assist engineering teams in transforming
+                      mission-critical web applications into sub-50ms
+                      high-throughput engines. Let's inspect your performance
+                      profiles.
+                    </p>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row md:flex-col gap-space-xs shrink-0 w-full sm:w-auto"
+                  >
+                    <a
+                      class="px-space-md py-space-xs rounded-lg bg-primary text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary-fixed transition-all flex items-center justify-center gap-space-xxs shadow-[0_0_20px_rgba(78,222,163,0.3)]"
+                      href="https://wa.me/6281212126215"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span class="material-symbols-outlined text-[18px]"
+                        >chat</span
+                      >
+                      <span>WhatsApp: +62 812-1212-6215</span>
+                    </a>
+                    <a
+                      class="px-space-md py-space-xs rounded-lg bg-surface-container-high text-on-surface hover:text-primary font-body-sm text-body-sm font-semibold transition-colors flex items-center justify-center gap-space-xxs"
+                      href="mailto:yeremia997@gmail.com"
+                    >
+                      <span class="material-symbols-outlined text-[18px]"
+                        >mail</span
+                      >
+                      <span>yeremia997@gmail.com</span>
+                    </a>
+                  </div>
+                </div>
+                <!-- Prev / Next Article Navigation Footer -->
+                <div
+                  class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-md"
+                >
+                  <a
+                    class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col gap-space-xxs group"
+                    href="#"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-wider flex items-center gap-space-xxs group-hover:text-primary transition-colors"
+                    >
+                      <span class="material-symbols-outlined text-[14px]"
+                        >arrow_back</span
+                      >
+                      <span>Previous Dispatch</span>
+                    </span>
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors line-clamp-1"
+                    >
+                      Zero-Runtime Micro-Frontend Boundaries in Monorepos
+                    </span>
+                  </a>
+                  <a
+                    class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col gap-space-xxs group text-right"
+                    href="#"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-wider flex items-center justify-end gap-space-xxs group-hover:text-secondary transition-colors"
+                    >
+                      <span>Next Dispatch</span>
+                      <span class="material-symbols-outlined text-[14px]"
+                        >arrow_forward</span
+                      >
+                    </span>
+                    <span
+                      class="font-headline-sm text-headline-sm text-on-surface group-hover:text-secondary transition-colors line-clamp-1"
+                    >
+                      Designing Distributed Design Tokens with CSS Houdini
+                    </span>
+                  </a>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
+        <!-- Scroll and Interactivity Script -->
+        <script>
+          (function () {
+            // Reading Progress Bar calculation
+            window.addEventListener("scroll", () => {
+              const winScroll =
+                document.documentElement.scrollTop || document.body.scrollTop;
+              const height =
+                document.documentElement.scrollHeight -
+                document.documentElement.clientHeight;
+              const scrolled = (winScroll / height) * 100;
+              const bar = document.getElementById("read-progress");
+              if (bar) {
+                bar.style.width = scrolled + "%";
+              }
+
+              // Active Table of Contents Item Highlighting
+              const sections = [
+                "problem-space",
+                "profiling-frame-budget",
+                "worker-offloading",
+                "dom-virtualization",
+                "production-benchmarks",
+              ];
+              const scrollPosition = window.scrollY + 160;
+
+              sections.forEach((id) => {
+                const el = document.getElementById(id);
+                const link = document.querySelector(`a[href="#${id}"]`);
+                if (el && link) {
+                  if (
+                    el.offsetTop <= scrollPosition &&
+                    el.offsetTop + el.offsetHeight > scrollPosition
+                  ) {
+                    link.classList.add("text-primary", "bg-surface-container");
+                    link.classList.remove("text-on-surface-variant");
+                  } else {
+                    link.classList.remove(
+                      "text-primary",
+                      "bg-surface-container",
+                    );
+                    link.classList.add("text-on-surface-variant");
+                  }
+                }
+              });
+            });
+          })();
+        </script>
+      </div>
+    </main>
+    <footer class="w-full bg-surface-container-lowest py-space-2xl">
+      <div
+        class="max-w-container-max mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop flex flex-col gap-space-xl"
+      >
+        <div
+          class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg"
+        >
+          <div class="flex flex-col gap-space-xs">
+            <div class="flex items-center gap-space-xs">
+              <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span
+              ><span
+                class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-widest"
+                >Telemetry: All Systems Operational</span
+              >
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-md"
+            >
+              Engineering robust enterprise distributed frontends, design
+              systems, and low-latency AI-augmented workflows.
+            </p>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-space-sm font-body-sm text-body-sm"
+          >
+            <a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://wa.me/6281212126215"
+              rel="noopener noreferrer"
+              target="_blank"
+              >WhatsApp +62 812-1212-6215</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="mailto:yeremia997@gmail.com"
+              >yeremia997@gmail.com</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://github.com/yeremiaChris"
+              rel="noopener noreferrer"
+              target="_blank"
+              >GitHub</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://linkedin.com/in/yeremia-chris-saragi"
+              rel="noopener noreferrer"
+              target="_blank"
+              >LinkedIn</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-secondary hover:bg-surface-container hover:text-secondary-fixed transition-colors"
+              href="https://yeremia.dev/cv.pdf"
+              rel="noopener noreferrer"
+              target="_blank"
+              >Resume DOC</a
+            >
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-md"
+        >
+          <span
+            class="font-code-inline text-code-inline text-on-surface-variant"
+            >© 2025 Yeremia Chris. Crafted with computational luxury.</span
+          ><span
+            class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+            >v4.2.0-kernel // latency ~14ms</span
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

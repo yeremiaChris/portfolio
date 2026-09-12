@@ -190,3 +190,29 @@ export function projectsContactActions(): ContactCtaAction[] {
     },
   ];
 }
+
+export function blogContactActions(): ContactCtaAction[] {
+  return [
+    {
+      href: site.links.whatsapp,
+      label: `WhatsApp (${site.links.whatsappLabel})`,
+      icon: "whatsapp",
+      variant: "default",
+      external: true,
+      primary: true,
+    },
+    {
+      href: site.links.email,
+      label: site.links.emailLabel,
+      icon: "mail",
+      variant: "secondary",
+    },
+    {
+      href: site.links.linkedin,
+      label: "LinkedIn",
+      icon: "linkedin",
+      variant: "secondary",
+      external: true,
+    },
+  ];
+}

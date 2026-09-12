@@ -1,0 +1,62 @@
+---
+title: "How React Reconciliation Works"
+description: "Reconciliation is how React compares the next UI tree with the previous one so it can update the real DOM as little as possible."
+date: "2026-09-11"
+tags: ["react", "fundamentals"]
+featured: false
+---
+
+When state or props change, React doesn’t rebuild the entire page from scratch. It figures out **what changed** and updates only what’s needed. That comparison step is **reconciliation**.
+
+**One-sentence answer:** React diffs the new virtual tree against the previous one, then applies the smallest practical set of real DOM updates.
+
+## Why it matters
+
+Real DOM work is expensive. Reconciliation exists so React can keep UIs declarative (“render what the UI should look like”) without thrashing the browser on every update.
+
+## The basic flow
+
+1. State/props change → component function runs again  
+2. React produces a new tree describing the UI  
+3. React compares it with the previous tree (reconcile / diff)  
+4. React commits updates to the real DOM  
+5. Effects run after commit (and paint, for `useEffect`)
+
+You still write JSX; React decides *how* to sync the DOM.
+
+## Diffing rules that matter in practice
+
+React’s algorithm uses heuristics, not a perfect deep comparison of every possible tree. The practical rules:
+
+**Different element types → replace**  
+`<div>` to `<span>`, or `ComponentA` to `ComponentB`, means tear down the old subtree and build a new one (state in that subtree is lost).
+
+**Same type → update in place**  
+Same DOM tag or same component type: React updates changed attributes/props and recurses into children.
+
+**Keys identify list items**  
+Keys tell React which item is which across renders so it can move, insert, or remove without remounting the wrong nodes.
+
+```tsx
+{items.map((item) => (
+  <Row key={item.id} item={item} />
+))}
+```
+
+Prefer stable IDs. Index keys are fine only for static lists that never reorder or insert in the middle.
+
+## What reconciliation is not
+
+- It is **not** “Virtual DOM is always faster than imperative DOM.” It’s a tradeoff that favors predictable updates.  
+- It does **not** mean every re-render rewrites the whole DOM. Re-render ≠ full DOM rewrite.  
+- Modern React also schedules work (concurrent features); the mental model of “diff then commit” still helps day to day.
+
+## Common mistakes
+
+- Using array index as `key` when lists reorder → wrong state stuck on wrong rows  
+- Changing component type unnecessarily (`isAdmin ? <AdminForm /> : <UserForm />` remounts; sometimes intentional, sometimes not)  
+- Expecting React to magically deep-compare huge nested props without help from your structure
+
+## Takeaway
+
+Reconciliation is React’s strategy for **cheap, correct DOM updates**: same types update, different types replace, and **keys** keep lists honest. Structure your components and keys so React can reuse work instead of remounting.

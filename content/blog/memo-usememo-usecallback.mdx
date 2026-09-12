@@ -1,0 +1,100 @@
+---
+title: "memo, useMemo, and useCallback Explained"
+description: "memo caches a component, useMemo caches a value, useCallback caches a function. Use them together when prop identity matters — not on every line of code."
+date: "2026-09-08"
+tags: ["react", "performance", "hooks"]
+featured: false
+---
+
+These three tools all relate to **remembering something between renders**, but they remember different things.
+
+**One-sentence answer:** `memo` skips re-rendering a component when props are the same; `useMemo` reuses a value; `useCallback` reuses a function reference.
+
+## Why it matters
+
+They’re easy to cargo-cult. Used well, they protect expensive children from unstable props. Used everywhere, they add noise, stale-closure bugs, and little benefit.
+
+## Quick comparison
+
+| Tool | Remembers | Typical use |
+|------|-----------|-------------|
+| **`React.memo`** | A **component** output (skip re-render if props equal) | Heavy presentational children |
+| **`useMemo`** | A **value** | Expensive calc, or stable object/array for deps/props |
+| **`useCallback`** | A **function** | Stable handlers passed to memoized children |
+
+Mental model: **component / value / function**.
+
+## `React.memo` — memoize a component
+
+```tsx
+const UserBadge = memo(function UserBadge({ name }: { name: string }) {
+  return <span>{name}</span>;
+});
+```
+
+If `name` is unchanged (shallow compare), React skips rendering `UserBadge` when the parent re-renders.
+
+Custom compare functions exist; prefer simple props first.
+
+## `useMemo` — memoize a value
+
+```tsx
+const sorted = useMemo(
+  () => [...items].sort((a, b) => a.label.localeCompare(b.label)),
+  [items],
+);
+```
+
+Also useful when a child expects a stable object:
+
+```tsx
+const query = useMemo(
+  () => ({ status: "open", assigneeId }),
+  [assigneeId],
+);
+```
+
+## `useCallback` — memoize a function
+
+```tsx
+const handleSelect = useCallback((id: string) => {
+  setSelectedId(id);
+}, []);
+```
+
+This matters most when the function is a prop to a **`memo`** child (or a dependency of another hook). If the child isn’t memoized, `useCallback` often buys nothing.
+
+## They work as a set
+
+```tsx
+const filters = useMemo(() => ({ query }), [query]);
+
+const onChange = useCallback((next: string) => {
+  setQuery(next);
+}, []);
+
+return <FilterPanel filters={filters} onChange={onChange} />;
+
+// FilterPanel = memo(...)
+```
+
+Without stable `filters` / `onChange`, `memo` on `FilterPanel` won’t help.
+
+## Common mistakes
+
+- `useCallback` everywhere with no memoized consumers  
+- Empty or wrong dependency arrays → stale props/state  
+- `useMemo` for trivial math (`a + b`)  
+- Expecting `memo` to deep-compare large nested objects (it won’t by default)
+
+## When not to use them
+
+If the Profiler doesn’t show a problem, skip them. Clarity first. React is already fast for typical forms and marketing pages.
+
+## Takeaway
+
+- **`memo`** → component  
+- **`useMemo`** → value  
+- **`useCallback`** → function  
+
+Add them when prop identity or expensive work is a **measured** problem — especially together — not as default style.

@@ -1,0 +1,1444 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#c4e7ff",
+              background: "#10141a",
+              "on-primary-container": "#00422b",
+              "surface-container-highest": "#31353c",
+              "surface-container-high": "#262a31",
+              "on-surface-variant": "#bbcabf",
+              "tertiary-container": "#19aee8",
+              error: "#ffb4ab",
+              "primary-fixed-dim": "#4edea3",
+              "surface-bright": "#353940",
+              "surface-tint": "#4edea3",
+              primary: "#4edea3",
+              "secondary-container": "#03b5d3",
+              "surface-container-low": "#181c22",
+              "on-primary": "#003824",
+              "tertiary-fixed-dim": "#7bd0ff",
+              "error-container": "#93000a",
+              tertiary: "#7bd0ff",
+              "surface-container-lowest": "#0a0e14",
+              "on-secondary": "#003640",
+              "on-primary-fixed-variant": "#005236",
+              "on-surface": "#dfe2eb",
+              "surface-container": "#1c2026",
+              "on-primary-fixed": "#002113",
+              "on-tertiary-container": "#003e55",
+              surface: "#10141a",
+              "surface-variant": "#31353c",
+              "on-tertiary-fixed": "#001e2c",
+              "on-secondary-fixed": "#001f26",
+              "surface-dim": "#10141a",
+              "secondary-fixed": "#acedff",
+              "primary-container": "#10b981",
+              "on-secondary-container": "#00424e",
+              "inverse-on-surface": "#2d3137",
+              "on-tertiary": "#00354a",
+              "on-secondary-fixed-variant": "#004e5c",
+              "outline-variant": "#3c4a42",
+              "on-background": "#dfe2eb",
+              "primary-fixed": "#6ffbbe",
+              "on-error-container": "#ffdad6",
+              secondary: "#4cd7f6",
+              "on-error": "#690005",
+              "inverse-primary": "#006c49",
+              "on-tertiary-fixed-variant": "#004c69",
+              outline: "#86948a",
+              "secondary-fixed-dim": "#4cd7f6",
+              "inverse-surface": "#dfe2eb",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "gutter-mobile": "1rem",
+              "space-4xl": "6rem",
+              "gutter-desktop": "2rem",
+              "space-lg": "1.5rem",
+              "space-2xl": "3rem",
+              "gutter-tablet": "1.5rem",
+              "space-xs": "0.5rem",
+              "space-sm": "0.75rem",
+              "space-xxs": "0.25rem",
+              "space-xl": "2rem",
+              "container-max": "76rem",
+              "space-3xl": "4rem",
+              "space-md": "1rem",
+            },
+            fontFamily: {
+              "code-inline": ["JetBrains Mono"],
+              "body-md": ["Geist"],
+              "body-sm": ["Geist"],
+              "headline-md": ["Space Grotesk"],
+              "code-block": ["JetBrains Mono"],
+              "headline-lg-mobile": ["Space Grotesk"],
+              "body-lg": ["Geist"],
+              "label-pill": ["JetBrains Mono"],
+              "headline-lg": ["Space Grotesk"],
+              "display-hero": ["Space Grotesk"],
+              "headline-sm": ["Space Grotesk"],
+              "display-hero-mobile": ["Space Grotesk"],
+              "label-telemetry": ["JetBrains Mono"],
+            },
+            fontSize: {
+              "code-inline": [
+                "13px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "500",
+                },
+              ],
+              "body-md": [
+                "15px",
+                { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "body-sm": [
+                "13px",
+                { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "code-block": [
+                "14px",
+                { lineHeight: "22px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-lg-mobile": [
+                "28px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-lg": [
+                "18px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "400",
+                },
+              ],
+              "label-pill": [
+                "11px",
+                {
+                  lineHeight: "14px",
+                  letterSpacing: "0.06em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg": [
+                "36px",
+                {
+                  lineHeight: "44px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero": [
+                "64px",
+                {
+                  lineHeight: "72px",
+                  letterSpacing: "-0.04em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero-mobile": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-telemetry": [
+                "10px",
+                {
+                  lineHeight: "12px",
+                  letterSpacing: "0.08em",
+                  fontWeight: "500",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary"
+  >
+    <header
+      class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)]"
+    >
+      <div
+        class="h-16 max-w-container-max mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm shrink-0">
+          <a
+            class="flex items-center gap-space-xs group"
+            data-path="home"
+            href="#"
+            ><span
+              class="flex items-center justify-center w-8 h-8 rounded-xl bg-surface-container-high text-primary font-code-inline text-code-inline font-semibold group-hover:bg-primary group-hover:text-on-primary transition-all duration-200"
+              >YC</span
+            >
+            <div class="flex flex-col">
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface"
+                >yeremia<span class="text-primary">.dev</span></span
+              ><span
+                class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-wider hidden sm:inline"
+                >Systems Architect</span
+              >
+            </div></a
+          >
+          <div class="hidden md:flex items-center gap-space-xxs pl-space-sm">
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span
+            ><span
+              class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-wider"
+              >sys:ready</span
+            >
+          </div>
+        </div>
+        <nav
+          class="hidden lg:flex items-center gap-space-xs"
+          data-active-classes="bg-surface-container text-primary font-medium rounded-lg"
+        >
+          <a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="home"
+            href="#"
+            >Home</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="experience"
+            href="#"
+            >Experience</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="projects"
+            href="#"
+            >Projects</a
+          ><a
+            class="px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            data-path="about"
+            href="#"
+            >About</a
+          ><a
+            aria-current="page"
+            class="px-space-sm py-space-xxs transition-colors bg-surface-container text-primary font-medium rounded-lg"
+            data-path="blog"
+            href="#"
+            >Blog</a
+          >
+        </nav>
+        <div class="flex items-center gap-space-xs shrink-0">
+          <a
+            class="hidden sm:inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-surface-container text-secondary font-label-pill text-label-pill hover:bg-surface-container-high hover:text-secondary-fixed transition-colors"
+            data-path="ask-ai"
+            href="#"
+            ><span
+              class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"
+            ></span
+            >Ask AI</a
+          ><a
+            class="hidden md:inline-flex items-center px-space-sm py-space-xxs rounded-lg font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            href="https://yeremia.dev/cv.pdf"
+            rel="noopener noreferrer"
+            target="_blank"
+            >CV</a
+          ><a
+            class="inline-flex items-center justify-center px-space-md py-space-xxs rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-semibold hover:bg-primary hover:text-on-primary transition-all duration-200 shadow-[0_0_20px_rgba(16,185,129,0.25)]"
+            data-path="contact"
+            href="#"
+            >Hire Architect</a
+          >
+          <div
+            class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 ml-space-xxs"
+          >
+            <span class="material-symbols-outlined text-on-primary text-[18px]"
+              >person</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-16 bg-background">
+      <div
+        class="flex flex-col w-full relative selection:bg-primary selection:text-on-primary"
+      >
+        <!-- Radial Substrate Glows -->
+        <div
+          class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[140px] pointer-events-none -z-10"
+        ></div>
+        <div
+          class="absolute top-1/3 right-10 w-[420px] h-[420px] bg-secondary/5 rounded-full blur-[160px] pointer-events-none -z-10"
+        ></div>
+        <div
+          class="absolute bottom-1/4 left-10 w-[380px] h-[380px] bg-tertiary-container/5 rounded-full blur-[150px] pointer-events-none -z-10"
+        ></div>
+        <div
+          class="max-w-container-max mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop w-full pb-space-4xl flex flex-col gap-space-2xl"
+        >
+          <!-- Header & Dossier Terminal Section -->
+          <header class="flex flex-col gap-space-md pt-space-lg">
+            <div
+              class="flex flex-wrap items-center justify-between gap-space-xs"
+            >
+              <div
+                class="flex items-center gap-space-xs font-code-inline text-code-inline text-on-surface-variant"
+              >
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"
+                ></span>
+                <span class="text-primary font-semibold">sys://root/blog</span>
+                <span class="text-outline">/</span>
+                <span class="text-on-surface-variant/80"
+                  >engineering_dispatches.log</span
+                >
+              </div>
+              <div
+                class="flex items-center gap-space-xxs px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-telemetry text-label-telemetry uppercase tracking-wider"
+              >
+                <span
+                  class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"
+                ></span>
+                <span>READ_PROTOCOL // ACTIVE</span>
+              </div>
+            </div>
+            <div
+              class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md"
+            >
+              <div class="flex flex-col gap-space-xs max-w-3xl">
+                <h1
+                  class="font-headline-lg text-headline-lg tracking-tight text-on-surface"
+                >
+                  Engineering Dispatches
+                  <span class="text-primary">&amp;</span> Architectural Essays
+                </h1>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                >
+                  Technical deep dives on React server components, low-latency
+                  UI rendering, deterministic state machines, Web Workers, and
+                  design systems at national scale.
+                </p>
+              </div>
+              <!-- Telemetry Stats Badge Array -->
+              <div
+                class="flex items-center gap-space-xs shrink-0 p-space-xs rounded-xl bg-surface-container-low shadow-sm"
+              >
+                <div class="flex flex-col px-space-sm py-space-xxs">
+                  <span
+                    class="font-label-telemetry text-label-telemetry uppercase tracking-wider text-on-surface-variant"
+                    >Dispatches</span
+                  >
+                  <span
+                    class="font-code-inline text-code-inline text-primary font-semibold"
+                    >08 // PUB</span
+                  >
+                </div>
+                <div class="w-px h-6 bg-surface-container-highest"></div>
+                <div class="flex flex-col px-space-sm py-space-xxs">
+                  <span
+                    class="font-label-telemetry text-label-telemetry uppercase tracking-wider text-on-surface-variant"
+                    >Avg Score</span
+                  >
+                  <span
+                    class="font-code-inline text-code-inline text-secondary font-semibold"
+                    >100 LH</span
+                  >
+                </div>
+                <div class="w-px h-6 bg-surface-container-highest"></div>
+                <div class="flex flex-col px-space-sm py-space-xxs">
+                  <span
+                    class="font-label-telemetry text-label-telemetry uppercase tracking-wider text-on-surface-variant"
+                    >Read Time</span
+                  >
+                  <span
+                    class="font-code-inline text-code-inline text-on-surface font-semibold"
+                    >56 MIN</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Live Search & Filter Array -->
+            <div class="flex flex-col gap-space-sm mt-space-xs">
+              <div
+                class="flex flex-col md:flex-row items-stretch md:items-center gap-space-sm"
+              >
+                <div class="relative flex-1 group">
+                  <div
+                    class="absolute inset-y-0 left-0 pl-space-sm flex items-center pointer-events-none text-primary font-code-inline text-code-inline font-bold"
+                  >
+                    &gt;
+                  </div>
+                  <input
+                    class="w-full pl-8 pr-16 py-2.5 rounded-lg bg-surface-container text-on-surface font-code-block text-code-block placeholder:text-outline/70 focus:outline-none focus:bg-surface-container-high transition-all shadow-sm"
+                    id="article-search"
+                    placeholder="filter dispatches by keyword, architectural pattern, or stack..."
+                    type="text"
+                  />
+                  <div
+                    class="absolute inset-y-0 right-0 pr-space-sm flex items-center pointer-events-none"
+                  >
+                    <kbd
+                      class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-code-inline text-[10px] uppercase tracking-widest shadow-sm"
+                      >⌘K</kbd
+                    >
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-space-xxs shrink-0 overflow-x-auto pb-1 md:pb-0 scrollbar-none"
+                  id="filter-pills"
+                >
+                  <button
+                    class="filter-btn active px-space-sm py-1.5 rounded-full bg-primary text-on-primary font-label-pill text-label-pill transition-all whitespace-nowrap shadow-sm"
+                    data-filter="all"
+                  >
+                    All (8)
+                  </button>
+                  <button
+                    class="filter-btn px-space-sm py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-pill text-label-pill transition-all whitespace-nowrap"
+                    data-filter="react"
+                  >
+                    React 19 / Next.js
+                  </button>
+                  <button
+                    class="filter-btn px-space-sm py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-pill text-label-pill transition-all whitespace-nowrap"
+                    data-filter="performance"
+                  >
+                    Performance &amp; INP
+                  </button>
+                  <button
+                    class="filter-btn px-space-sm py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-pill text-label-pill transition-all whitespace-nowrap"
+                    data-filter="state"
+                  >
+                    State Machines
+                  </button>
+                  <button
+                    class="filter-btn px-space-sm py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-pill text-label-pill transition-all whitespace-nowrap"
+                    data-filter="workers"
+                  >
+                    Concurrency
+                  </button>
+                </div>
+              </div>
+            </div>
+          </header>
+          <!-- Flagship Lead Article: Bento Master Card -->
+          <section class="flex flex-col gap-space-xs">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-xxs">
+                <span class="material-symbols-outlined text-primary text-[18px]"
+                  >verified</span
+                >
+                <span
+                  class="font-label-telemetry text-label-telemetry uppercase tracking-widest text-primary font-semibold"
+                  >Featured Flagship Dossier</span
+                >
+              </div>
+              <span
+                class="font-code-inline text-code-inline text-on-surface-variant"
+                >ARCH-DISPATCH-08</span
+              >
+            </div>
+            <article
+              class="article-item group relative flex flex-col xl:flex-row gap-space-lg p-space-lg rounded-xl bg-surface-container hover:bg-surface-container-high transition-all duration-300 shadow-md"
+              data-category="performance react workers"
+              data-title="eliminating long tasks how we achieved sub-40ms inp in high-volume logistics aggregators"
+            >
+              <!-- Visual & Architectural Comparison Box -->
+              <div
+                class="xl:w-5/12 flex flex-col justify-between gap-space-md rounded-lg bg-surface-container-lowest p-space-md overflow-hidden relative"
+              >
+                <!-- Dot grid ambient -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-error/60"></span>
+                    <span
+                      class="w-2.5 h-2.5 rounded-full bg-secondary/60"
+                    ></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary/60"></span>
+                  </div>
+                  <span
+                    class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                    >FLAMEGRAPH_INSPECTOR.trace</span
+                  >
+                </div>
+                <!-- Flamegraph Waterfall Graphic Visualization -->
+                <div class="flex flex-col gap-space-xs py-space-xs">
+                  <div
+                    class="flex items-center justify-between font-label-telemetry text-label-telemetry"
+                  >
+                    <span class="text-error font-medium"
+                      >BEFORE: Main Thread Lock (~184ms)</span
+                    >
+                    <span class="text-error font-mono font-semibold"
+                      >INP: Poor</span
+                    >
+                  </div>
+                  <!-- Before bar -->
+                  <div
+                    class="w-full h-4 bg-surface-container-high rounded flex overflow-hidden"
+                  >
+                    <div
+                      class="h-full bg-error w-3/4 animate-pulse"
+                      title="Long Task Chunk"
+                    ></div>
+                    <div class="h-full bg-error-container w-1/4"></div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between font-label-telemetry text-label-telemetry mt-space-xs"
+                  >
+                    <span class="text-primary font-medium"
+                      >AFTER: Shared WebWorker Offload</span
+                    >
+                    <span class="text-primary font-mono font-semibold"
+                      >INP: 34ms (Elite)</span
+                    >
+                  </div>
+                  <!-- After bar chunks -->
+                  <div
+                    class="w-full h-4 bg-surface-container-high rounded flex gap-1 items-center px-1"
+                  >
+                    <div class="h-2.5 bg-primary rounded-sm w-12"></div>
+                    <div class="h-2.5 bg-primary/40 rounded-sm w-8"></div>
+                    <div class="h-2.5 bg-secondary rounded-sm w-16"></div>
+                    <div class="h-2.5 bg-primary/60 rounded-sm flex-1"></div>
+                  </div>
+                  <!-- Task breakdown sparkline diagram -->
+                  <div
+                    class="pt-space-xs flex items-center justify-between text-[11px] font-code-inline text-on-surface-variant"
+                  >
+                    <span>Main Thread: 0ms</span>
+                    <span class="text-secondary"
+                      >Worker 1: Barcode Matrix (12ms)</span
+                    >
+                    <span class="text-primary">DOM Commit (4ms)</span>
+                  </div>
+                </div>
+                <!-- Key Metrics Badges -->
+                <div
+                  class="flex flex-wrap items-center gap-space-xs pt-space-xs"
+                >
+                  <span
+                    class="px-space-sm py-1 rounded bg-primary/10 text-primary font-code-inline text-code-inline font-semibold"
+                  >
+                    -62% Task Duration
+                  </span>
+                  <span
+                    class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant font-code-inline text-code-inline"
+                  >
+                    0ms Main Freeze
+                  </span>
+                </div>
+              </div>
+              <!-- Article Summary & Meta -->
+              <div class="xl:w-7/12 flex flex-col justify-between gap-space-md">
+                <div class="flex flex-col gap-space-xs">
+                  <div class="flex flex-wrap items-center gap-space-xs">
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-pill text-label-pill uppercase tracking-wider"
+                    >
+                      CORE WEB VITALS
+                    </span>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >• FEB 2025</span
+                    >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >• 9 MIN READ</span
+                    >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-primary flex items-center gap-1"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                      PROD VALIDATED
+                    </span>
+                  </div>
+                  <h2
+                    class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors tracking-tight mt-1"
+                  >
+                    Eliminating Long Tasks: How We Achieved Sub-40ms INP in
+                    High-Volume Logistics Aggregators
+                  </h2>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                  >
+                    When orchestrating real-time tracking for hundreds of
+                    thousands of shipments, traditional client-side
+                    reconciliation causes catastrophic input delay. We decoupled
+                    the computation pipeline using dedicated Web Workers,
+                    postMessage streaming via ArrayBuffers, and prioritized
+                    React 19 transitions to keep the frame budget locked at
+                    60fps.
+                  </p>
+                </div>
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs"
+                >
+                  <!-- Tech Badges -->
+                  <div class="flex flex-wrap items-center gap-space-xxs">
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-low text-on-surface font-code-inline text-code-inline"
+                      >Next.js 15</span
+                    >
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-low text-on-surface font-code-inline text-code-inline"
+                      >Web Workers</span
+                    >
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-low text-on-surface font-code-inline text-code-inline"
+                      >INP Tuning</span
+                    >
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-low text-on-surface font-code-inline text-code-inline"
+                      >Zero-Copy Buffer</span
+                    >
+                  </div>
+                  <a
+                    class="inline-flex items-center gap-space-xxs px-space-md py-2 rounded-lg bg-primary text-on-primary font-body-sm text-body-sm font-semibold hover:bg-primary-fixed transition-all shrink-0 shadow-sm"
+                    href="#"
+                  >
+                    <span>Read Deep Dive</span>
+                    <span class="material-symbols-outlined text-[16px]"
+                      >arrow_forward</span
+                    >
+                  </a>
+                </div>
+              </div>
+            </article>
+          </section>
+          <!-- Technical Dispatch Grid -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-xs">
+                <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">
+                  Architectural Dispatches
+                </h2>
+              </div>
+              <span
+                class="font-label-telemetry text-label-telemetry text-on-surface-variant uppercase tracking-wider"
+                >INDEXED // 5 ENTRIES</span
+              >
+            </div>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"
+              id="articles-grid"
+            >
+              <!-- Article 1: Finite State Machines in Clinical Portals -->
+              <article
+                class="article-item group flex flex-col justify-between p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all duration-200 shadow-sm"
+                data-category="state"
+                data-title="deterministic form architectures finite state machines in mission-critical clinical portals"
+              >
+                <div class="flex flex-col gap-space-sm">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-highest text-primary font-label-pill text-label-pill uppercase tracking-wider"
+                    >
+                      PrimaKu Case Study
+                    </span>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >7 MIN READ</span
+                    >
+                  </div>
+                  <!-- Faux mini state transition diagram -->
+                  <div
+                    class="p-space-xs rounded bg-surface-container-lowest flex items-center justify-between text-on-surface-variant font-code-inline text-[11px]"
+                  >
+                    <span
+                      class="px-1.5 py-0.5 rounded bg-surface-container text-secondary"
+                      >IDLE</span
+                    >
+                    <span class="text-outline">--[VALIDATE]--&gt;</span>
+                    <span
+                      class="px-1.5 py-0.5 rounded bg-surface-container text-primary"
+                      >STAGED</span
+                    >
+                    <span class="text-outline">--&gt;</span>
+                    <span
+                      class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface"
+                      >PERSISTED</span
+                    >
+                  </div>
+                  <h3
+                    class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug"
+                  >
+                    Deterministic Form Architectures: Finite State Machines in
+                    Mission-Critical Clinical Portals
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3"
+                  >
+                    Eliminating unhandled edge states in multi-step pediatric
+                    healthcare assessments. Replacing fragile boolean flags with
+                    mathematical state machine guarantees using XState and
+                    zero-overhead schema validation.
+                  </p>
+                </div>
+                <div class="flex flex-col gap-space-xs pt-space-md mt-space-sm">
+                  <div
+                    class="flex flex-wrap items-center gap-1 font-code-inline text-[12px] text-on-surface-variant"
+                  >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >XState</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Valibot</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >HealthTech</span
+                    >
+                  </div>
+                  <div
+                    class="flex items-center justify-between text-body-sm pt-space-xs"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >JAN 2025</span
+                    >
+                    <a
+                      class="font-code-inline text-code-inline text-primary flex items-center gap-0.5 group-hover:translate-x-1 transition-transform"
+                      href="#"
+                    >
+                      Read Dossier
+                      <span class="material-symbols-outlined text-[14px]"
+                        >arrow_right_alt</span
+                      >
+                    </a>
+                  </div>
+                </div>
+              </article>
+              <!-- Article 2: Design Tokens to Tailwind CSS -->
+              <article
+                class="article-item group flex flex-col justify-between p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all duration-200 shadow-sm"
+                data-category="performance react"
+                data-title="zero-tolerance visual regression bridging figma design tokens to tailwind css at scale"
+              >
+                <div class="flex flex-col gap-space-sm">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-pill text-label-pill uppercase tracking-wider"
+                    >
+                      DESIGN SYSTEMS
+                    </span>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >6 MIN READ</span
+                    >
+                  </div>
+                  <!-- Visual token translation preview -->
+                  <div
+                    class="p-space-xs rounded bg-surface-container-lowest flex items-center justify-between font-code-inline text-[11px] text-on-surface-variant"
+                  >
+                    <span class="text-tertiary">figma.style.fill</span>
+                    <span class="text-outline">=&gt;</span>
+                    <span class="text-primary font-mono">tokens.json</span>
+                    <span class="text-outline">=&gt;</span>
+                    <span class="text-secondary">tw-plugin.config</span>
+                  </div>
+                  <h3
+                    class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug"
+                  >
+                    Zero-Tolerance Visual Regression: Bridging Figma Design
+                    Tokens to Tailwind CSS at Scale
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3"
+                  >
+                    Constructing an automated GitHub Actions pipeline converting
+                    Figma REST API variables into strict CSS custom properties
+                    and Tailwind utility classes with chromatic snapshot gates.
+                  </p>
+                </div>
+                <div class="flex flex-col gap-space-xs pt-space-md mt-space-sm">
+                  <div
+                    class="flex flex-wrap items-center gap-1 font-code-inline text-[12px] text-on-surface-variant"
+                  >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Design Systems</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >GitHub Actions</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Tokens API</span
+                    >
+                  </div>
+                  <div
+                    class="flex items-center justify-between text-body-sm pt-space-xs"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >NOV 2024</span
+                    >
+                    <a
+                      class="font-code-inline text-code-inline text-primary flex items-center gap-0.5 group-hover:translate-x-1 transition-transform"
+                      href="#"
+                    >
+                      Read Dossier
+                      <span class="material-symbols-outlined text-[14px]"
+                        >arrow_right_alt</span
+                      >
+                    </a>
+                  </div>
+                </div>
+              </article>
+              <!-- Article 3: Offloading Barcode Parsing -->
+              <article
+                class="article-item group flex flex-col justify-between p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all duration-200 shadow-sm"
+                data-category="workers performance"
+                data-title="offloading heavy barcode parsing to dedicated web workers with sharedarraybuffer"
+              >
+                <div class="flex flex-col gap-space-sm">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-highest text-tertiary font-label-pill text-label-pill uppercase tracking-wider"
+                    >
+                      KiriminAja Logistics
+                    </span>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >8 MIN READ</span
+                    >
+                  </div>
+                  <!-- Worker telemetry visual -->
+                  <div
+                    class="p-space-xs rounded bg-surface-container-lowest flex items-center justify-between font-code-inline text-[11px]"
+                  >
+                    <span class="text-on-surface">Raw Video Stream</span>
+                    <span class="text-primary font-semibold"
+                      >SharedBuffer(1024KB)</span
+                    >
+                    <span class="text-secondary">Wasm Decoder</span>
+                  </div>
+                  <h3
+                    class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug"
+                  >
+                    Offloading Heavy Barcode Parsing to Dedicated Web Workers
+                    with SharedArrayBuffer
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3"
+                  >
+                    Executing high-frequency ZXing barcode scanner decode
+                    algorithms in non-blocking background threads. Zero garbage
+                    collection pauses via pre-allocated shared memory buffers in
+                    production logistics.
+                  </p>
+                </div>
+                <div class="flex flex-col gap-space-xs pt-space-md mt-space-sm">
+                  <div
+                    class="flex flex-wrap items-center gap-1 font-code-inline text-[12px] text-on-surface-variant"
+                  >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Web Workers</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >SharedArrayBuffer</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Wasm</span
+                    >
+                  </div>
+                  <div
+                    class="flex items-center justify-between text-body-sm pt-space-xs"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >OCT 2024</span
+                    >
+                    <a
+                      class="font-code-inline text-code-inline text-primary flex items-center gap-0.5 group-hover:translate-x-1 transition-transform"
+                      href="#"
+                    >
+                      Read Dossier
+                      <span class="material-symbols-outlined text-[14px]"
+                        >arrow_right_alt</span
+                      >
+                    </a>
+                  </div>
+                </div>
+              </article>
+              <!-- Article 4: Next.js 15 Partial Prerendering -->
+              <article
+                class="article-item group flex flex-col justify-between p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all duration-200 shadow-sm"
+                data-category="react performance"
+                data-title="next.js 15 partial prerendering ppr and edge streaming under the hood"
+              >
+                <div class="flex flex-col gap-space-sm">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-highest text-secondary font-label-pill text-label-pill uppercase tracking-wider"
+                    >
+                      EDGE ARCHITECTURE
+                    </span>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >5 MIN READ</span
+                    >
+                  </div>
+                  <div
+                    class="p-space-xs rounded bg-surface-container-lowest flex items-center justify-between font-code-inline text-[11px] text-on-surface-variant"
+                  >
+                    <span class="text-primary font-semibold"
+                      >Static Shell (0ms)</span
+                    >
+                    <span class="text-outline">++</span>
+                    <span class="text-secondary">Dynamic Chunk (Streamed)</span>
+                  </div>
+                  <h3
+                    class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug"
+                  >
+                    Next.js 15 Partial Prerendering (PPR) &amp; Edge Streaming
+                    Under The Hood
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3"
+                  >
+                    Deconstructing how React Server Components combined with
+                    HTTP chunked transfer encoding deliver instantaneous static
+                    CDN shells while concurrently hydrating personalized dynamic
+                    slots.
+                  </p>
+                </div>
+                <div class="flex flex-col gap-space-xs pt-space-md mt-space-sm">
+                  <div
+                    class="flex flex-wrap items-center gap-1 font-code-inline text-[12px] text-on-surface-variant"
+                  >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Next.js 15</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >PPR</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Edge Compute</span
+                    >
+                  </div>
+                  <div
+                    class="flex items-center justify-between text-body-sm pt-space-xs"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >SEP 2024</span
+                    >
+                    <a
+                      class="font-code-inline text-code-inline text-primary flex items-center gap-0.5 group-hover:translate-x-1 transition-transform"
+                      href="#"
+                    >
+                      Read Dossier
+                      <span class="material-symbols-outlined text-[14px]"
+                        >arrow_right_alt</span
+                      >
+                    </a>
+                  </div>
+                </div>
+              </article>
+              <!-- Article 5: 150k Lines SPA Migration to Nuxt 3 -->
+              <article
+                class="article-item group flex flex-col justify-between p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all duration-200 shadow-sm"
+                data-category="performance state"
+                data-title="migrating 150k lines of legacy spa to nuxt 3 micro-frontends without downtime"
+              >
+                <div class="flex flex-col gap-space-sm">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="px-space-xs py-0.5 rounded bg-surface-container-highest text-primary font-label-pill text-label-pill uppercase tracking-wider"
+                    >
+                      ENTERPRISE MIGRATION
+                    </span>
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >11 MIN READ</span
+                    >
+                  </div>
+                  <div
+                    class="p-space-xs rounded bg-surface-container-lowest flex items-center justify-between font-code-inline text-[11px] text-on-surface-variant"
+                  >
+                    <span class="text-error line-through">Webpack 4 Mono</span>
+                    <span class="text-outline">--&gt;</span>
+                    <span class="text-primary font-semibold"
+                      >Vite Federated Micro-FE</span
+                    >
+                  </div>
+                  <h3
+                    class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug"
+                  >
+                    Migrating 150k Lines of Legacy SPA to Nuxt 3 Micro-Frontends
+                    Without Downtime
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3"
+                  >
+                    A blueprint for strangler-fig pattern execution on a
+                    mission-critical e-commerce console. How we preserved
+                    session states, consolidated design tokens, and reduced
+                    build times from 14m to 19s.
+                  </p>
+                </div>
+                <div class="flex flex-col gap-space-xs pt-space-md mt-space-sm">
+                  <div
+                    class="flex flex-wrap items-center gap-1 font-code-inline text-[12px] text-on-surface-variant"
+                  >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Nuxt 3</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Micro-Frontends</span
+                    >
+                    <span class="px-1.5 py-0.5 rounded bg-surface-container-low"
+                      >Vite</span
+                    >
+                  </div>
+                  <div
+                    class="flex items-center justify-between text-body-sm pt-space-xs"
+                  >
+                    <span
+                      class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+                      >AUG 2024</span
+                    >
+                    <a
+                      class="font-code-inline text-code-inline text-primary flex items-center gap-0.5 group-hover:translate-x-1 transition-transform"
+                      href="#"
+                    >
+                      Read Dossier
+                      <span class="material-symbols-outlined text-[14px]"
+                        >arrow_right_alt</span
+                      >
+                    </a>
+                  </div>
+                </div>
+              </article>
+              <!-- Dynamic Empty State Placeholder (Filtered State) -->
+              <div
+                class="hidden col-span-full p-space-2xl rounded-xl bg-surface-container-low flex-col items-center justify-center text-center gap-space-sm"
+                id="empty-state"
+              >
+                <span class="material-symbols-outlined text-outline text-[40px]"
+                  >terminal</span
+                >
+                <h4 class="font-headline-sm text-headline-sm text-on-surface">
+                  No dispatches match specified query
+                </h4>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant max-w-sm"
+                >
+                  Try revising your search term or toggle active architectural
+                  tags to re-initialize query inspector.
+                </p>
+                <button
+                  class="mt-space-xs px-space-md py-1.5 rounded-lg bg-surface-container text-primary font-code-inline text-code-inline hover:bg-surface-container-high"
+                  id="reset-search-btn"
+                >
+                  reset_filters()
+                </button>
+              </div>
+            </div>
+          </section>
+          <!-- Technical Dispatch Subscription Module -->
+          <section
+            class="rounded-xl bg-surface-container p-space-lg relative overflow-hidden shadow-md"
+          >
+            <div
+              class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg relative z-10"
+            >
+              <div class="flex flex-col gap-space-xs max-w-xl">
+                <div class="flex items-center gap-space-xs">
+                  <span
+                    class="w-2 h-2 rounded-full bg-primary animate-pulse"
+                  ></span>
+                  <span
+                    class="font-label-telemetry text-label-telemetry uppercase tracking-widest text-primary font-semibold"
+                    >DIRECT TELEMETRY FEED</span
+                  >
+                </div>
+                <h3 class="font-headline-md text-headline-md text-on-surface">
+                  Subscribe to Architectural Dispatches
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  No marketing newsletters or fluff. Only deep-dive code
+                  breakdowns, performance profiling scripts, and production
+                  post-mortems delivered once a month.
+                </p>
+              </div>
+              <form
+                class="w-full lg:w-auto flex flex-col sm:flex-row items-stretch gap-space-xs"
+                id="subscribe-form"
+              >
+                <div class="relative min-w-[280px]">
+                  <span
+                    class="absolute inset-y-0 left-0 pl-space-sm flex items-center pointer-events-none text-primary font-code-inline text-code-inline"
+                  >
+                    $&gt;
+                  </span>
+                  <input
+                    class="w-full pl-8 pr-space-md py-2.5 rounded-lg bg-surface-container-lowest text-on-surface font-code-inline text-code-inline placeholder:text-outline/60 focus:outline-none shadow-sm"
+                    placeholder="architect@domain.com"
+                    required=""
+                    type="email"
+                  />
+                </div>
+                <button
+                  class="px-space-md py-2.5 rounded-lg bg-primary text-on-primary font-code-inline text-code-inline font-semibold hover:bg-primary-fixed transition-colors flex items-center justify-center gap-space-xxs shadow-sm"
+                  type="submit"
+                >
+                  <span>SUBSCRIBE_STREAM</span>
+                  <span class="material-symbols-outlined text-[16px]"
+                    >rss_feed</span
+                  >
+                </button>
+              </form>
+            </div>
+            <div
+              class="flex flex-wrap items-center gap-space-md pt-space-md mt-space-sm text-on-surface-variant font-label-telemetry text-label-telemetry"
+            >
+              <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-primary"
+                  >lock</span
+                >
+                Zero Tracker Policy
+              </span>
+              <span class="flex items-center gap-1">
+                <span
+                  class="material-symbols-outlined text-[14px] text-secondary"
+                  >feed</span
+                >
+                Direct RSS:
+                <a class="text-secondary hover:underline" href="#">/feed.xml</a>
+              </span>
+              <span class="flex items-center gap-1">
+                <span
+                  class="material-symbols-outlined text-[14px] text-on-surface"
+                  >code</span
+                >
+                GitHub Repo Releases Sync
+              </span>
+            </div>
+          </section>
+          <!-- Consultation & Recruiter Fast-Action Terminal -->
+          <section
+            class="rounded-xl bg-surface-container-low p-space-lg flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg shadow-sm"
+          >
+            <div class="flex flex-col gap-space-xs max-w-xl">
+              <div class="flex items-center gap-space-xs">
+                <span
+                  class="font-code-inline text-code-inline text-primary font-semibold"
+                  >~/consultation-terminal</span
+                >
+                <span
+                  class="px-space-xs py-0.5 rounded bg-surface-container text-secondary font-label-telemetry text-label-telemetry uppercase"
+                  >SLOTS: OPEN Q2 2025</span
+                >
+              </div>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                Need an Architect to Scale or Optimize Your Systems?
+              </h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Available for technical advisory, Core Web Vitals audits,
+                complex enterprise refactors, or leading mission-critical
+                frontend initiatives.
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-space-xs shrink-0">
+              <!-- One-click WhatsApp CTA -->
+              <a
+                class="inline-flex items-center gap-space-xxs px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-semibold hover:bg-primary hover:text-on-primary transition-all shadow-sm"
+                href="https://wa.me/6281212126215?text=Hi%20Yeremia,%20I'd%20like%20to%20discuss%20an%20engineering%20consultation"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span class="material-symbols-outlined text-[18px]">chat</span>
+                <span>WhatsApp Direct</span>
+              </a>
+              <!-- Mail Action -->
+              <a
+                class="inline-flex items-center gap-space-xxs px-space-md py-2.5 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-container-high transition-colors"
+                href="mailto:yeremia997@gmail.com?subject=Technical%20Consultation%20Inquiry"
+              >
+                <span class="material-symbols-outlined text-[18px]">mail</span>
+                <span>Email</span>
+              </a>
+              <!-- LinkedIn Profile -->
+              <a
+                class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-surface-container text-on-surface hover:text-secondary hover:bg-surface-container-high transition-colors"
+                href="https://linkedin.com/in/yeremia-chris-saragi"
+                rel="noopener noreferrer"
+                target="_blank"
+                title="LinkedIn Profile"
+              >
+                <span class="material-symbols-outlined text-[20px]">share</span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+      <script>
+        (function () {
+          const searchInput = document.getElementById("article-search");
+          const filterButtons = document.querySelectorAll(".filter-btn");
+          const articles = document.querySelectorAll(".article-item");
+          const emptyState = document.getElementById("empty-state");
+          const resetBtn = document.getElementById("reset-search-btn");
+          const subscribeForm = document.getElementById("subscribe-form");
+
+          let currentFilter = "all";
+          let searchQuery = "";
+
+          function filterDispatches() {
+            let visibleCount = 0;
+
+            articles.forEach((article) => {
+              const title = article.getAttribute("data-title") || "";
+              const categories = article.getAttribute("data-category") || "";
+
+              const matchesCategory =
+                currentFilter === "all" || categories.includes(currentFilter);
+              const matchesQuery =
+                searchQuery === "" || title.includes(searchQuery.toLowerCase());
+
+              if (matchesCategory && matchesQuery) {
+                article.classList.remove("hidden");
+                article.classList.add("flex");
+                visibleCount++;
+              } else {
+                article.classList.add("hidden");
+                article.classList.remove("flex");
+              }
+            });
+
+            if (visibleCount === 0) {
+              emptyState.classList.remove("hidden");
+              emptyState.classList.add("flex");
+            } else {
+              emptyState.classList.add("hidden");
+              emptyState.classList.remove("flex");
+            }
+          }
+
+          if (searchInput) {
+            searchInput.addEventListener("input", (e) => {
+              searchQuery = e.target.value.trim();
+              filterDispatches();
+            });
+
+            // Quick CMD+K shortcut
+            window.addEventListener("keydown", (e) => {
+              if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+                e.preventDefault();
+                searchInput.focus();
+              }
+            });
+          }
+
+          filterButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+              filterButtons.forEach((b) => {
+                b.classList.remove("active", "bg-primary", "text-on-primary");
+                b.classList.add(
+                  "bg-surface-container-low",
+                  "text-on-surface-variant",
+                );
+              });
+
+              btn.classList.remove(
+                "bg-surface-container-low",
+                "text-on-surface-variant",
+              );
+              btn.classList.add("active", "bg-primary", "text-on-primary");
+
+              currentFilter = btn.getAttribute("data-filter") || "all";
+              filterDispatches();
+            });
+          });
+
+          if (resetBtn) {
+            resetBtn.addEventListener("click", () => {
+              if (searchInput) searchInput.value = "";
+              searchQuery = "";
+              currentFilter = "all";
+              filterButtons.forEach((b, idx) => {
+                if (idx === 0) {
+                  b.classList.add("bg-primary", "text-on-primary");
+                  b.classList.remove(
+                    "bg-surface-container-low",
+                    "text-on-surface-variant",
+                  );
+                } else {
+                  b.classList.remove("bg-primary", "text-on-primary");
+                  b.classList.add(
+                    "bg-surface-container-low",
+                    "text-on-surface-variant",
+                  );
+                }
+              });
+              filterDispatches();
+            });
+          }
+
+          if (subscribeForm) {
+            subscribeForm.addEventListener("submit", (e) => {
+              e.preventDefault();
+              const input = subscribeForm.querySelector('input[type="email"]');
+              if (input && input.value) {
+                const btn = subscribeForm.querySelector("button");
+                const originalText = btn.innerHTML;
+                btn.innerHTML =
+                  '<span class="material-symbols-outlined text-[16px] animate-spin">sync</span> REGISTERED';
+                btn.classList.remove("bg-primary");
+                btn.classList.add("bg-secondary", "text-on-secondary");
+                input.value = "";
+                input.placeholder = "STREAM_ACTIVE // THANK YOU";
+                setTimeout(() => {
+                  btn.innerHTML = originalText;
+                  btn.classList.remove("bg-secondary", "text-on-secondary");
+                  btn.classList.add("bg-primary", "text-on-primary");
+                  input.placeholder = "architect@domain.com";
+                }, 4000);
+              }
+            });
+          }
+        })();
+      </script>
+    </main>
+    <footer class="w-full bg-surface-container-lowest py-space-2xl">
+      <div
+        class="max-w-container-max mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop flex flex-col gap-space-xl"
+      >
+        <div
+          class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg"
+        >
+          <div class="flex flex-col gap-space-xs">
+            <div class="flex items-center gap-space-xs">
+              <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span
+              ><span
+                class="font-label-telemetry text-label-telemetry text-primary uppercase tracking-widest"
+                >Telemetry: All Systems Operational</span
+              >
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-md"
+            >
+              Engineering robust enterprise distributed frontends, design
+              systems, and low-latency AI-augmented workflows.
+            </p>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-space-sm font-body-sm text-body-sm"
+          >
+            <a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://wa.me/6281212126215"
+              rel="noopener noreferrer"
+              target="_blank"
+              >WhatsApp +62 812-1212-6215</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="mailto:yeremia997@gmail.com"
+              >yeremia997@gmail.com</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://github.com/yeremiaChris"
+              rel="noopener noreferrer"
+              target="_blank"
+              >GitHub</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+              href="https://linkedin.com/in/yeremia-chris-saragi"
+              rel="noopener noreferrer"
+              target="_blank"
+              >LinkedIn</a
+            ><a
+              class="px-space-sm py-space-xxs rounded-lg bg-surface-container-low text-secondary hover:bg-surface-container hover:text-secondary-fixed transition-colors"
+              href="https://yeremia.dev/cv.pdf"
+              rel="noopener noreferrer"
+              target="_blank"
+              >Resume DOC</a
+            >
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-md"
+        >
+          <span
+            class="font-code-inline text-code-inline text-on-surface-variant"
+            >© 2025 Yeremia Chris. Crafted with computational luxury.</span
+          ><span
+            class="font-label-telemetry text-label-telemetry text-on-surface-variant"
+            >v4.2.0-kernel // latency ~14ms</span
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

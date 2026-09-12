@@ -1,0 +1,77 @@
+---
+title: "How to Prevent Unnecessary Re-renders in React"
+description: "Re-renders are normal. Unnecessary ones usually come from unstable props, broad state, or overused context — fix the cause before sprinkling memo everywhere."
+date: "2026-09-10"
+tags: ["react", "performance"]
+featured: true
+---
+
+A re-render means a component function runs again. That’s healthy when data changed. It becomes a problem when parents or context force children to re-run **even though their visible output didn’t need to**.
+
+**One-sentence answer:** Keep state local, keep props stable, and only memoize when you’ve confirmed a real cost.
+
+## Why it matters
+
+Extra re-renders rarely matter on small screens. On dense dashboards, tables, or animation-heavy UIs, they add up. Understanding *causes* beats blindly wrapping everything in `memo`.
+
+## Re-render vs DOM update
+
+- **Re-render:** React calls your component again.  
+- **DOM update:** React may still skip touching the DOM if output is the same.
+
+So “it re-rendered” is not automatically “the DOM thrashing.” Still, heavy components (charts, large lists) are worth protecting.
+
+## Common causes
+
+1. **Parent re-renders** and passes new object/array/function identities every time  
+2. **State updates** that don’t change meaningful data (or state living too high)  
+3. **Unstable list keys** causing remounts that feel like “rerender storms”  
+4. **Context** whose value object is recreated every render  
+5. **Inline props** in JSX: `style={{ margin: 8 }}`, `onClick={() => ...}` into memoized children
+
+```tsx
+// New object every render → memoized child still re-renders
+<Chart options={{ color: "green" }} />
+```
+
+## How to prevent them (in order)
+
+**1. Fix structure first**  
+Move state down. Split components so a frequent update doesn’t sit above a heavy subtree.
+
+**2. Stabilize props when a child is memoized**
+
+```tsx
+const options = useMemo(() => ({ color: "green" }), []);
+const onSelect = useCallback((id: string) => {
+  setSelectedId(id);
+}, []);
+
+return <Chart options={options} onSelect={onSelect} />;
+```
+
+**3. Memoize expensive pure children**
+
+```tsx
+const Chart = memo(function Chart({ options, onSelect }: Props) {
+  // ...
+});
+```
+
+`memo` only helps if props are referentially stable (see also: memo vs useMemo vs useCallback).
+
+**4. Be careful with context**  
+Split contexts (data vs dispatch), or memoize the context value. One giant `value={{ user, theme, flags }}` recreated each render wakes every consumer.
+
+**5. Lists**  
+Virtualize long lists when needed; use stable keys so React can reconcile instead of remounting.
+
+## What not to do
+
+- Don’t wrap every component in `memo` “just in case”  
+- Don’t `useMemo` trivial values  
+- Don’t optimize before measuring (React DevTools Profiler is enough to start)
+
+## Takeaway
+
+Unnecessary re-renders usually mean **unstable props or state that’s too high**. Fix data flow first; use `memo` / `useMemo` / `useCallback` as targeted tools, not decoration.

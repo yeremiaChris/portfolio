@@ -1,0 +1,96 @@
+---
+title: "Controlled vs Uncontrolled Components"
+description: "Controlled inputs keep form data in React state. Uncontrolled inputs keep it in the DOM. Prefer controlled for app forms; use uncontrolled for simple cases and file inputs."
+date: "2026-09-09"
+tags: ["react", "forms"]
+featured: false
+---
+
+In React forms, the big question is: **who owns the current value** — React state, or the DOM?
+
+**One-sentence answer:** Controlled components sync every change through state; uncontrolled components let the DOM hold the value until you read it (usually via a ref).
+
+## Why it matters
+
+This choice affects validation, disable/enable logic, conditional fields, and how easy the form is to test. Most product UIs feel clearer with one source of truth in React.
+
+## Controlled components
+
+The input’s `value` comes from state. `onChange` updates that state.
+
+```tsx
+const [email, setEmail] = useState("");
+
+<input
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  aria-invalid={email.includes("@") ? undefined : true}
+/>
+```
+
+**Pros**
+- Easy validation and instant UI feedback  
+- Single source of truth  
+- Simple to disable submit until valid  
+- Predictable in tests  
+
+**Cons**
+- More boilerplate per field  
+- Every keystroke re-renders (usually fine; optimize only if it hurts)
+
+## Uncontrolled components
+
+The DOM owns the value. You set an initial value with `defaultValue` (or `defaultChecked`) and read via `ref` when needed.
+
+```tsx
+const inputRef = useRef<HTMLInputElement>(null);
+
+function onSubmit(e: FormEvent) {
+  e.preventDefault();
+  console.log(inputRef.current?.value);
+}
+
+<input ref={inputRef} defaultValue="hello" />
+```
+
+**Pros**
+- Less React state for simple forms  
+- Natural fit for **file inputs**  
+- Easy integration with non-React code  
+
+**Cons**
+- Harder to drive UI from value changes in real time  
+- Validation patterns get awkward as forms grow  
+
+## When to use which
+
+| Situation | Prefer |
+|-----------|--------|
+| App forms, wizards, live validation | **Controlled** |
+| One-off simple form, “submit and read” | Uncontrolled can be fine |
+| `<input type="file" />` | Usually **uncontrolled** |
+| Mixing React with older DOM plugins | Uncontrolled / refs |
+
+## Hybrid pattern (common in real apps)
+
+Keep text fields controlled; leave the file input uncontrolled:
+
+```tsx
+const [name, setName] = useState("");
+const fileRef = useRef<HTMLInputElement>(null);
+
+<input value={name} onChange={(e) => setName(e.target.value)} />
+<input ref={fileRef} type="file" />
+```
+
+Libraries like React Hook Form often use uncontrolled (or lightly controlled) strategies under the hood for performance — the mental model still helps you debug.
+
+## Common mistakes
+
+- Mixing `value` and `defaultValue` on the same input  
+- Setting `value={undefined}` and accidentally flipping controlled → uncontrolled  
+- Fighting file inputs with controlled `value`  
+
+## Takeaway
+
+**Default to controlled** for product forms. Use **uncontrolled** when the DOM is a better source of truth — especially files — or when a form is truly throwaway-simple.

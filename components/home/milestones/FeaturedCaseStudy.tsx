@@ -1,3 +1,5 @@
+import { CaseStudyMetrics } from "@/components/home/milestones/CaseStudyMetrics";
+import { LatencyChart } from "@/components/home/milestones/LatencyChart";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -7,13 +9,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  metricToneClass,
   tagToneClass,
   type MilestoneCaseStudy,
 } from "@/lib/milestones";
 import { cn } from "@/lib/utils";
-
-import { LatencyChart } from "./LatencyChart";
 
 export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
   return (
@@ -43,31 +42,7 @@ export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
             </CardDescription>
           </CardHeader>
 
-          <div className="grid grid-cols-3 gap-3 font-mono">
-            {study.metrics.map((metric) => (
-              <div
-                key={metric.label}
-                className="rounded-xl bg-[#0a0e14] p-3"
-              >
-                <dl>
-                  <dt className="sr-only">{metric.label}</dt>
-                  <dd
-                    className={cn(
-                      "block text-2xl font-bold tracking-tight",
-                      metric.tone
-                        ? metricToneClass[metric.tone]
-                        : "text-foreground",
-                    )}
-                  >
-                    {metric.value}
-                  </dd>
-                </dl>
-                <p className="mt-1 block text-[10px] tracking-wider text-muted-foreground uppercase">
-                  {metric.label}
-                </p>
-              </div>
-            ))}
-          </div>
+          <CaseStudyMetrics metrics={study.metrics} columns={3} />
         </div>
 
         {study.chart ? (

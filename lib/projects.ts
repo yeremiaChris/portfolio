@@ -23,12 +23,12 @@ export const projectRibbonToneClass: Record<ProjectRibbonTone, string> = {
 export const projectsRibbon: ProjectRibbonMetric[] = [
   {
     label: "Shipped Projects",
-    value: "10 Featured",
+    value: "11 Featured",
     tone: "foreground",
   },
   {
     label: "Domains",
-    value: "Health · Logistics",
+    value: "Health · Logistics · SaaS",
     tone: "primary",
   },
   {
@@ -175,6 +175,19 @@ export const projects: Project[] = [
     image: "/projects/floucloud.jpg",
     imageAlt: "Flou Cloud",
     href: "https://www.floucloud.id",
+    ctaLabel: "Open Site",
+  },
+  {
+    id: "ukm-digital",
+    title: "UKM Digital",
+    tag: "work",
+    year: "2021–2022",
+    summary:
+      "No-code website builder for Indonesian SMEs. At ICreative Labs (Bandung), created new themes and improved existing templates for the template marketplace and visual editor.",
+    tools: ["Laravel", "Vue", "JavaScript"],
+    image: "/projects/ukm-digital.png",
+    imageAlt: "UKM Digital template gallery dashboard",
+    href: "https://ukm.digital/",
     ctaLabel: "Open Site",
   },
   {

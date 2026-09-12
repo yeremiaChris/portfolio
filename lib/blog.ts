@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import matter from "gray-matter";
+import GithubSlugger from "github-slugger";
 import readingTime from "reading-time";
 
 import { site } from "@/lib/site";
@@ -23,6 +24,12 @@ export type BlogPost = BlogPostMeta & {
   content: string;
   readingTime: string;
   readingMinutes: number;
+};
+
+export type BlogHeading = {
+  depth: 2 | 3;
+  text: string;
+  id: string;
 };
 
 export type BlogRibbonTone = "foreground" | "primary" | "cyan";
@@ -170,6 +177,41 @@ export function getPost(slug: string): BlogPost | null {
   const post = readPostFile(slug);
   if (!post || !isPublished(post)) return null;
   return post;
+}
+
+/** Heading IDs match `rehype-slug` (github-slugger). */
+export function getPostHeadings(content: string): BlogHeading[] {
+  const slugger = new GithubSlugger();
+  const headings: BlogHeading[] = [];
+  let inCodeFence = false;
+
+  for (const line of content.split("\n")) {
+    const trimmed = line.trimStart();
+    if (trimmed.startsWith("```")) {
+      inCodeFence = !inCodeFence;
+      continue;
+    }
+    if (inCodeFence) continue;
+
+    const match = /^(#{2,3})\s+(.+)$/.exec(line);
+    if (!match) continue;
+
+    const depth = match[1].length as 2 | 3;
+    const text = match[2]
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/[*_`~]/g, "")
+      .trim();
+
+    if (!text) continue;
+
+    headings.push({
+      depth,
+      text,
+      id: slugger.slug(text),
+    });
+  }
+
+  return headings;
 }
 
 export function getFeaturedPost(posts: BlogPost[]): BlogPost | null {

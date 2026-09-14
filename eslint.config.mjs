@@ -21,6 +21,20 @@ const eslintConfig = defineConfig([
           ],
         },
       ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
+      ],
+      "react/self-closing-comp": "error",
+      "react/jsx-no-useless-fragment": "error",
     },
   },
   prettier,

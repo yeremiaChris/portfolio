@@ -1,0 +1,212 @@
+---
+title: "How Web Fonts Work"
+description: "A custom font is a family name plus real files for each weight. The browser only uses bold, medium, or italic if you registered those faces — usually as WOFF2 via @font-face."
+date: "2026-09-14"
+tags: ["css", "fonts", "tailwind"]
+featured: false
+---
+
+A custom font on the web is not one file with a name. It is a **family**, and each weight or style is a separate member the browser has to find.
+
+I hit this with Satoshi: `font-family` worked, `font-bold` did not. The class was fine. The bold file was never registered.
+
+**One-sentence answer:** the browser uses your custom font only for weights (and styles) you actually registered — a real file per weight, or one variable font that covers that range.
+
+## Why it matters
+
+Custom fonts fail in quiet ways: “bold” looks thin, headings feel off-brand, or text flashes as Arial then jumps. If you know what the browser is looking for, those bugs take minutes instead of hours.
+
+Think of it as a **family name** plus **members**:
+
+- `font-family: 'Satoshi'` → “use the Satoshi family”
+- `font-weight: 700` → “use the bold member of that family”
+
+If you only invited Regular to the party, Bold never shows up.
+
+## What the browser actually does
+
+When CSS says:
+
+```css
+font-family: "Satoshi", sans-serif;
+font-weight: 700;
+```
+
+the browser:
+
+1. Looks for a family named `Satoshi`
+2. Looks for a face in that family with weight `700`
+3. Uses it if it exists
+4. Otherwise **synthesizes** a fake bold, falls back to `sans-serif`, or leaves the text looking regular
+
+Tailwind / HeroUI never download fonts. They only set CSS:
+
+| Class           | What it really means |
+| --------------- | -------------------- |
+| `font-medium`   | `font-weight: 500`   |
+| `font-semibold` | `font-weight: 600`   |
+| `font-bold`     | `font-weight: 700`   |
+
+The stack is:
+
+```text
+Font files (WOFF2)
+  → @font-face (register name + weight)
+    → CSS font-family
+      → Tailwind / HeroUI classes
+```
+
+Miss a step, and `font-bold` has nothing real to apply.
+
+## Font formats: OTF vs WOFF2
+
+| Format    | Full name              | Use it for                        |
+| --------- | ---------------------- | --------------------------------- |
+| **TTF**   | TrueType               | Desktop apps, older web           |
+| **OTF**   | OpenType               | Figma / design tools, not the web |
+| **WOFF**  | Web Open Font Format   | Web, compressed                   |
+| **WOFF2** | Web Open Font Format 2 | **Production web** (best default) |
+
+OTF is not “unsupported.” It is just the wrong default:
+
+- Files are heavier
+- Packs from design tools often include **only Regular**
+- You can register that one file, see the family load, then wonder why `font-bold` does nothing
+
+WOFF2 is built for the web: smaller files, the format CDNs and Fontshare actually ship for production, and usually **one file per weight**.
+
+## `@font-face` is the registration desk
+
+`@font-face` is how you tell the browser the family exists. Same family name, **one block per weight**:
+
+```css
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+Rules that actually matter:
+
+- `font-family` must be **identical** in every block (`Satoshi`, not `Satoshi Bold`)
+- `font-weight: 700` is what `font-bold` maps to
+- If you only declare `400`, `font-bold` has no real file
+- `src` must point at a file the browser can fetch (public URL, not a local Figma export)
+
+### The broken setup (only Regular)
+
+```css
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Regular.otf") format("opentype");
+  font-weight: 400;
+}
+```
+
+```html
+<div class="font-sans font-bold">This will not look bold</div>
+```
+
+The family loads. Weight 700 does not.
+
+## Static fonts vs variable fonts
+
+**Static:** one file per weight.
+
+- `Satoshi-Regular.woff2` → 400
+- `Satoshi-Medium.woff2` → 500
+- `Satoshi-Bold.woff2` → 700
+
+**Variable:** one file covers a range:
+
+```css
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+Then `font-medium`, `font-semibold`, and `font-bold` can all come from that single file. Don’t also register static files under the same name unless you mean to — two sources for one family is how the wrong face wins.
+
+## `font-display: swap`
+
+While the custom file downloads, the browser still has to show _something_.
+
+| Value      | Behavior                                  | Typical use              |
+| ---------- | ----------------------------------------- | ------------------------ |
+| `swap`     | Show fallback text, then swap in the font | **Product UI default**   |
+| `block`    | Hide text briefly until the font is ready | Rare; feels like a flash |
+| `optional` | Browser may skip the custom font if slow  | Extreme performance      |
+
+For most apps, `swap` is the right default: readable immediately, branded a moment later.
+
+## Wire it into Tailwind
+
+Register the files first. Then tell Tailwind the family name:
+
+```ts
+fontFamily: {
+  sans: ["Satoshi", "system-ui", "sans-serif"],
+}
+```
+
+In Tailwind v4 that often lives in CSS:
+
+```css
+@theme {
+  --font-sans: "Satoshi", system-ui, sans-serif;
+}
+```
+
+On Next.js you can skip hand-written `@font-face` and use `next/font/local`. The mental model does not change: **you still need a file for every weight you use.**
+
+```ts
+import localFont from "next/font/local";
+
+const satoshi = localFont({
+  src: [
+    { path: "../public/fonts/Satoshi-Regular.woff2", weight: "400" },
+    { path: "../public/fonts/Satoshi-Bold.woff2", weight: "700" },
+  ],
+  display: "swap",
+  variable: "--font-sans",
+});
+```
+
+## Production checklist
+
+1. Prefer **WOFF2**
+2. Ship every weight you actually use (`400`, `500`, `600`, `700`, …)
+3. Register each weight with `@font-face` (or `next/font`)
+4. Keep one family name
+5. Set `font-display: swap`
+6. Keep the license file next to the fonts
+7. Self-host when you can
+8. Map the family in Tailwind / your theme
+9. In DevTools → Network, confirm the bold file is requested when a `font-bold` node is on screen
+
+## Common mistakes
+
+- Using an OTF Regular from Figma and expecting `font-bold` to invent Bold
+- Naming faces `Satoshi` and `Satoshi Bold` as **two families** instead of one family, two weights
+- Pointing `src` at a path that 404s (the fallback font silently takes over)
+- Mapping Tailwind `font-sans` to Satoshi but never registering `@font-face`
+- Registering only `400` and `700`, then using `font-medium` (`500`) and wondering why it looks wrong
+
+## Takeaway
+
+**A utility class does not load a font.** `font-bold` only asks for weight 700. Give the browser a WOFF2 (or variable) face at that weight, register it under one `font-family` name, then let CSS set the number.

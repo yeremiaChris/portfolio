@@ -132,9 +132,3 @@ Fix lint errors (do not blanket-disable rules). One format pass on first setup i
 ## Non-Next React repos
 
 Use `@eslint/js` + `typescript-eslint` + `eslint-plugin-react` + `eslint-plugin-react-hooks` instead of `eslint-config-next`. Still end with `eslint-config-prettier/flat`.
-
-## Out of scope
-
-- Do not create blog posts unless asked
-- Do not force-push or amend git history
-- Do not commit unless the user asks

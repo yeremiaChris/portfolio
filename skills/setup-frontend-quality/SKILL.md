@@ -67,6 +67,8 @@ See templates in [reference.md](reference.md).
 Rules:
 
 - Spread `eslint-config-next/core-web-vitals` and `.../typescript`
+- Ban relative parent imports (`../`) with `no-restricted-imports`; require the `@/` alias. Same-folder `./` is allowed.
+- `@typescript-eslint/no-explicit-any` is already `error` via `eslint-config-next/typescript` — keep it that way
 - Put `eslint-config-prettier/flat` **last**
 - Ignore `.next`, `out`, `build`, `coverage`, `node_modules`, `next-env.d.ts`
 

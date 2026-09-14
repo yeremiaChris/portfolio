@@ -6,6 +6,23 @@ import prettier from "eslint-config-prettier/flat";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              regex: "^\\.\\./",
+              message:
+                "Do not use relative parent imports. Use the @/ alias (e.g. @/components/about/AboutHeader).",
+            },
+          ],
+        },
+      ],
+    },
+  },
   prettier,
   globalIgnores([
     ".next/**",

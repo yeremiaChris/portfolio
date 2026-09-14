@@ -113,7 +113,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
     tone: "cyan",
   },
   {
-    id: "senior",
+    id: "primaku",
     label: "2023 – Present",
     period: "Healthtech Focus",
     title: "PrimaKu",

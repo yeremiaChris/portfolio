@@ -106,7 +106,7 @@ export const experienceRoles: ExperienceRole[] = [
     status: "PRESENT",
     current: true,
     locationPeriod: "Jakarta, ID (Remote) · Dec 2022 — Present",
-    title: "Senior Frontend Web Developer",
+    title: "Frontend Web Developer",
     company: "PrimaKu",
     companyLegal: "(PT Cipta Medika Informasi)",
     summary:

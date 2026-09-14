@@ -22,7 +22,7 @@ export default function NotFound() {
         />
 
         <Container className="relative flex min-h-[calc(100vh-4rem)] flex-col justify-center py-16 md:py-24">
-          <div className="animate-in fade-in slide-in-from-bottom-3 fill-mode-both flex max-w-xl flex-col gap-6 duration-700">
+          <div className="flex max-w-xl flex-col gap-6">
             <p className="text-muted-foreground inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase">
               <Terminal className="text-primary size-3.5" aria-hidden />
               Error 404
@@ -47,7 +47,7 @@ export default function NotFound() {
               </p>
             </div>
 
-            <div className="animate-in fade-in slide-in-from-bottom-2 fill-mode-both flex flex-wrap items-center gap-3 delay-150 duration-700">
+            <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/"
                 className={cn(
@@ -70,7 +70,7 @@ export default function NotFound() {
               </Link>
             </div>
 
-            <p className="animate-in fade-in fill-mode-both text-muted-foreground font-mono text-[12px] delay-300 duration-700">
+            <p className="text-muted-foreground font-mono text-[12px]">
               <span className="text-border">{"//"}</span> try{" "}
               <Link
                 href="/projects"

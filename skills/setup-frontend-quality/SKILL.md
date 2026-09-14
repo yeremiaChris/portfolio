@@ -69,12 +69,16 @@ Rules:
 - Spread `eslint-config-next/core-web-vitals` and `.../typescript`
 - Ban relative parent imports (`../`) with `no-restricted-imports`; require the `@/` alias. Same-folder `./` is allowed.
 - `@typescript-eslint/no-explicit-any` is already `error` via `eslint-config-next/typescript` — keep it that way
+- Promote `@typescript-eslint/no-unused-vars` to `error` (allow `_` prefixes)
+- Prefer type-only imports (`consistent-type-imports`)
+- Enable `react/self-closing-comp` and `react/jsx-no-useless-fragment`
 - Put `eslint-config-prettier/flat` **last**
 - Ignore `.next`, `out`, `build`, `coverage`, `node_modules`, `next-env.d.ts`
 
 ## 3. Prettier
 
 - `.prettierrc.json` with `prettier-plugin-tailwindcss` as the only/last plugin
+- Use `"endOfLine": "lf"` so Git does not thrash line endings
 - `.prettierignore` for deps, builds, lockfiles, generated files
 
 ## 4. package.json scripts
@@ -82,15 +86,18 @@ Rules:
 ```json
 {
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": ["eslint --fix", "prettier --write"],
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "eslint --fix --max-warnings 0",
+      "prettier --write"
+    ],
     "*.{json,md,mdx,css,yml,yaml}": ["prettier --write"]
   }
 }
@@ -113,12 +120,16 @@ yarn lint-staged
 
 Use the repo’s package manager in the hook (`pnpm lint-staged` / `npx lint-staged`).
 
-## 6. Editor (recommended for guide repos)
+## 6. CI
+
+Run the same gates on every push/PR: `yarn lint`, `yarn format:check`, `yarn typecheck`. Lint uses `--max-warnings 0`.
+
+## 7. Editor (recommended for guide repos)
 
 `.vscode/settings.json`: format on save via Prettier, ESLint fix on save.  
 `.vscode/extensions.json`: recommend `dbaeumer.vscode-eslint` + `esbenp.prettier-vscode`.
 
-## 7. Verify
+## 8. Verify
 
 ```bash
 yarn format

@@ -28,6 +28,20 @@ const eslintConfig = defineConfig([
           ],
         },
       ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
+      ],
+      "react/self-closing-comp": "error",
+      "react/jsx-no-useless-fragment": "error",
     },
   },
   prettier,
@@ -53,6 +67,7 @@ export default eslintConfig;
   "trailingComma": "all",
   "printWidth": 80,
   "tabWidth": 2,
+  "endOfLine": "lf",
   "plugins": ["prettier-plugin-tailwindcss"]
 }
 ```
@@ -120,4 +135,29 @@ yarn lint:fix
 yarn format
 yarn format:check
 yarn typecheck
+```
+
+## GitHub Actions (`.github/workflows/ci.yml`)
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn format:check
+      - run: yarn typecheck
 ```

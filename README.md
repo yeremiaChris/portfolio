@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# yeremia.dev
 
-## Getting Started
+Personal portfolio — Next.js 16 App Router, shadcn/ui, MDX blog. Yarn.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
+yarn
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script                                               | What                  |
+| ---------------------------------------------------- | --------------------- |
+| `yarn dev`                                           | Turbopack dev server  |
+| `yarn lint` / `yarn format:check` / `yarn typecheck` | Quality gates         |
+| `yarn test`                                          | Vitest (`vitest run`) |
+| `yarn build`                                         | Production build      |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+CI runs lint → format → typecheck → test.
 
-## Learn More
+## Skills (how we work with the agent)
 
-To learn more about Next.js, take a look at the following resources:
+Rules live in [`skills/`](./skills). That folder is the **source of truth**. Copy a skill into `.cursor/skills/` (gitignored) if Cursor should auto-load it.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Start here: [`skills/follow-project-skills/SKILL.md`](./skills/follow-project-skills/SKILL.md)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Skill                                                                          | Use it for                         |
+| ------------------------------------------------------------------------------ | ---------------------------------- |
+| [follow-project-skills](./skills/follow-project-skills/SKILL.md)               | Always — catalog + ship checklist  |
+| [frontend-folder-structure](./skills/frontend-folder-structure/SKILL.md)       | New page, section, where files go  |
+| [adhering-to-nextjs-standards](./skills/adhering-to-nextjs-standards/SKILL.md) | UI, `"use client"`, props, stack   |
+| [setup-frontend-quality](./skills/setup-frontend-quality/SKILL.md)             | ESLint, Prettier, Husky, CI        |
+| [frontend-testing](./skills/frontend-testing/SKILL.md)                         | Vitest vs skip vs Playwright later |
 
-## Deploy on Vercel
+**Prompting habit:** `@`-mention the skill files in the chat so they are in context even if auto-invoke misses. Use **Ask mode** for ideas; **Agent mode** + “Go” to implement.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Layout reminder: thin `app/` page → `components/<domain>/` UI → `lib/<domain>.ts` copy/data. No `src/`, no `features/`, no empty `hooks/` folders.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Add a new page
+
+```text
+@skills/follow-project-skills/SKILL.md
+@skills/frontend-folder-structure/SKILL.md
+@skills/adhering-to-nextjs-standards/SKILL.md
+
+Add a /speaking page.
+- Copy/data in lib/speaking.ts
+- UI in components/speaking/
+- Thin app/speaking/page.tsx that composes those
+- Match About / Experience (Container, Card, mono eyebrow, Header nav link)
+- Server Components unless a leaf needs client
+- Do not add empty hooks/ or api/ folders
+```
+
+### Add a new section (existing page)
+
+```text
+@skills/follow-project-skills/SKILL.md
+@skills/frontend-folder-structure/SKILL.md
+
+Add a section on About after the journey, same pattern as How I work.
+- Copy in lib/about.ts
+- Named export in components/about/
+- Compose it from app/about/page.tsx only
+- shadcn Card / Badge, no new UI kit
+```
+
+### Add a blog post
+
+Do **not** edit `app/blog/page.tsx`. Posts are MDX; the listing reads `content/blog/` automatically.
+
+```text
+@skills/follow-project-skills/SKILL.md
+@content/blog/how-web-fonts-work.mdx
+
+Add a new post at content/blog/my-slug.mdx.
+- Frontmatter: title, description, date (YYYY-MM-DD), tags, featured
+- Match the existing post voice: hook + one-sentence answer, then sections
+- Keep it honest to this repo (no fake features)
+- featured: true only if we should replace the current featured post
+```
+
+Drafts: `draft: true` in frontmatter — hidden in production (`lib/blog.ts`).
+
+### Design / ideas (no files yet)
+
+Stay in **Ask mode**. Ask for options, then implement in Agent mode.
+
+```text
+@skills/follow-project-skills/SKILL.md
+@app/about/page.tsx
+@components/about/AboutWorkflow.tsx
+
+Don't write files. Propose 2 layouts for a tools/AI-workflow section on About.
+Match the existing dark + green language. Say what you'd skip.
+```
+
+```text
+@skills/frontend-folder-structure/SKILL.md
+
+Where should a new "uses" page live vs a section on About? Recommend one and why.
+```
+
+## Tests
+
+Vitest only for **functions with branches** (today: `lib/blog.test.ts`). Skip static copy and presentational cards. See [frontend-testing](./skills/frontend-testing/SKILL.md).
+
+## Deploy
+
+Vercel. Production: [Next.js deploying docs](https://nextjs.org/docs/app/building-your-application/deploying).

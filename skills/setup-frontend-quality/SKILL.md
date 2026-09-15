@@ -40,7 +40,7 @@ Copy and track:
 - [ ] Add package.json scripts + lint-staged
 - [ ] Init Husky pre-commit → lint-staged
 - [ ] Optional: .vscode/settings.json + extensions.json
-- [ ] Run format, lint, typecheck; fix real errors
+- [ ] Run format, lint, typecheck; `yarn test` if Vitest is present; fix real errors
 ```
 
 ## 1. Install
@@ -91,6 +91,7 @@ Rules:
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -104,6 +105,8 @@ Rules:
 ```
 
 Run Prettier **after** `eslint --fix` so formatting wins.
+
+Add `"test": "vitest run"` only when the repo has Vitest. See [frontend-testing](../frontend-testing/SKILL.md).
 
 ## 5. Husky
 
@@ -124,6 +127,8 @@ Use the repo’s package manager in the hook (`pnpm lint-staged` / `npx lint-sta
 
 Run the same gates on every push/PR: `yarn lint`, `yarn format:check`, `yarn typecheck`. Lint uses `--max-warnings 0`.
 
+If the repo has Vitest (`yarn test`), run it **after** typecheck. See [frontend-testing](../frontend-testing/SKILL.md). Do not put the full suite in lint-staged — keep hooks fast.
+
 ## 7. Editor (recommended for guide repos)
 
 `.vscode/settings.json`: format on save via Prettier, ESLint fix on save.  
@@ -136,6 +141,7 @@ yarn format
 yarn lint
 yarn typecheck
 yarn format:check
+yarn test
 ```
 
 Fix lint errors (do not blanket-disable rules). One format pass on first setup is expected.

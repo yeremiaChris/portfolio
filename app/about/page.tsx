@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { AboutHeader } from "@/components/about/AboutHeader";
 import { AboutStory } from "@/components/about/AboutStory";
+import { AboutWorkflow } from "@/components/about/AboutWorkflow";
 import { Container } from "@/components/Container";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function AboutPage() {
       <Container className="flex min-h-[calc(100vh-4rem)] flex-col py-6 md:py-8">
         <AboutHeader />
         <AboutStory />
+        <AboutWorkflow />
       </Container>
     </main>
   );

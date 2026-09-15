@@ -11,7 +11,7 @@ description: >-
 
 This is a **portfolio**, not a product dashboard. Keep the current domain layout. Do **not** introduce `src/`, `features/`, empty `hooks/` / `actions/` folders, or a separate E2E repo.
 
-Also follow [adhering-to-nextjs-standards](../adhering-to-nextjs-standards/SKILL.md) and [setup-frontend-quality](../setup-frontend-quality/SKILL.md).
+Also follow [adhering-to-nextjs-standards](../adhering-to-nextjs-standards/SKILL.md), [setup-frontend-quality](../setup-frontend-quality/SKILL.md), and [frontend-testing](../frontend-testing/SKILL.md).
 
 ## Layout
 
@@ -66,7 +66,7 @@ Path alias: `@/*` → repo root. Prefer `@/` over `../`. Same-folder `./` is all
 1. Data/copy in `lib/<domain>.ts` (types live next to the data)
 2. UI in `components/<domain>/`
 3. Thin `app/<route>/page.tsx` that composes those
-4. Tests beside the module that can break (`lib/*.test.ts`); E2E later in `e2e/`
+4. Tests beside the module that can break (`lib/*.test.ts`); see [frontend-testing](../frontend-testing/SKILL.md). E2E later in `e2e/`
 
 Shared across 2+ pages (Header, Footer, Container, `ContactCta`) stays at `components/` root or `components/home/` — don't duplicate into every domain.
 
@@ -74,7 +74,7 @@ Shared across 2+ pages (Header, Footer, Container, `ContactCta`) stays at `compo
 
 - `home` — hero, artifacts lab, milestones, tech stack, contact CTA
 - `blog` — listing, featured, TOC, MDX pipeline, RSS
-- `about` — header + story
+- `about` — header, story, daily workflow
 - `experience` — header, metrics, timeline, disciplines
 - `projects` — header + grid
 

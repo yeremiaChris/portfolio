@@ -130,3 +130,91 @@ export const aboutStoryEras: AboutStoryEra[] = [
     tone: "violet",
   },
 ];
+
+export type AboutDriverIcon = "laptop" | "keyboard" | "cursor" | "terminal";
+
+export type AboutDriver = {
+  id: string;
+  name: string;
+  detail: string;
+  icon: AboutDriverIcon;
+};
+
+export type AboutWorkflowIcon = "plan" | "review" | "gate";
+
+export type AboutWorkflowBeat = {
+  id: string;
+  step: string;
+  title: string;
+  description: string;
+  footer: string;
+  tone: AboutStoryTone;
+  icon: AboutWorkflowIcon;
+};
+
+export const aboutWorkflowIntro = {
+  eyebrow: "Daily drivers",
+  title: "How I work",
+  description:
+    "MacBook Air M3, Keychron K6, Cursor with Vim, Ghostty. I let the model draft; I still read every diff.",
+} as const;
+
+export const aboutDrivers: AboutDriver[] = [
+  {
+    id: "mac",
+    name: "MacBook Air M3",
+    detail: "Machine",
+    icon: "laptop",
+  },
+  {
+    id: "keychron",
+    name: "Keychron K6",
+    detail: "Keyboard",
+    icon: "keyboard",
+  },
+  {
+    id: "cursor",
+    name: "Cursor · Vim",
+    detail: "Editor",
+    icon: "cursor",
+  },
+  {
+    id: "ghostty",
+    name: "Ghostty",
+    detail: "Terminal",
+    icon: "terminal",
+  },
+];
+
+export const aboutWorkflowBeats: AboutWorkflowBeat[] = [
+  {
+    id: "plan",
+    step: "01",
+    title: "Plan in the repo",
+    description:
+      "I start in the file, not a blank chat. Cursor already has the project — so the first draft stays in context.",
+    footer: "Open the file → prompt",
+    tone: "primary",
+    icon: "plan",
+  },
+  {
+    id: "review",
+    step: "02",
+    title: "Generate, then read the diff",
+    description:
+      "Vim motions to jump hunks. Nothing merges unread — the model is a draft, not a merge button.",
+    footer: "hjkl · read every hunk",
+    tone: "cyan",
+    icon: "review",
+  },
+  {
+    id: "gate",
+    step: "03",
+    title: "Gate with the usual tools",
+    description:
+      "TypeScript, ESLint, and tests catch what a fluent diff hides. AI speeds the first pass; CI is the adult in the room.",
+    footer: "tsc · lint · yarn test",
+    tone: "violet",
+    icon: "gate",
+  },
+];

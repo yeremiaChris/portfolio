@@ -7,7 +7,7 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   {
-    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    files: ["**/*.{js,jsx,mjs,cjs,mts,ts,tsx}"],
     rules: {
       "no-restricted-imports": [
         "error",

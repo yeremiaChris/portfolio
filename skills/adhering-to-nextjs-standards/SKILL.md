@@ -30,7 +30,7 @@ Do **not** introduce a competing UI kit, Zod next to Valibot, a second date libr
 
 If a library is missing and the task truly needs it, add **that** library — not a substitute.
 
-Also follow [setup-frontend-quality](../setup-frontend-quality/SKILL.md) for lint/format. Prefer `@/` imports; no `../`.
+Also follow [setup-frontend-quality](../setup-frontend-quality/SKILL.md) for lint/format and [frontend-folder-structure](../frontend-folder-structure/SKILL.md) for where files live. Prefer `@/` imports; no `../`.
 
 ## 2. Server vs client
 

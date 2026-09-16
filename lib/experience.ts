@@ -84,9 +84,9 @@ export const experienceMetrics: ExperienceMetric[] = [
     icon: "building",
   },
   {
-    label: "Shipped Work",
-    value: "150+",
-    detail: "Components & features",
+    label: "Production UI",
+    value: "React + Vue",
+    detail: "Next.js · Nuxt in prod",
     tone: "violet",
     icon: "package",
   },

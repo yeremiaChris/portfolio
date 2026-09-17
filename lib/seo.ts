@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { aboutProfile } from "@/lib/about";
 import { getSiteUrl, site } from "@/lib/site";
 
 export type PageMetadataInput = {
@@ -14,6 +15,20 @@ export function toCanonicalPath(path: string): string {
   if (trimmed === "" || trimmed === "/") return "/";
   return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
 }
+
+export function toAbsoluteUrl(path: string, origin = getSiteUrl()): string {
+  if (/^https?:\/\//.test(path)) return path;
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${origin}${normalized}`;
+}
+
+export const PERSON_KNOWS_ABOUT = [
+  "React",
+  "Next.js",
+  "Vue",
+  "TypeScript",
+  "FHIR",
+] as const;
 
 export const OG_IMAGE = {
   url: "/opengraph-image",
@@ -63,8 +78,10 @@ export function buildPersonJsonLd() {
     url,
     jobTitle: "Software Engineer",
     description: site.bio,
+    image: toAbsoluteUrl(aboutProfile.image, url),
     email: site.links.email.replace(/^mailto:/, ""),
     sameAs: [site.links.github, site.links.linkedin],
+    knowsAbout: [...PERSON_KNOWS_ABOUT],
   };
 }
 

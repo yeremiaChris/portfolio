@@ -1,13 +1,33 @@
 import { describe, expect, it } from "vitest";
 
+import { aboutProfile } from "./about";
 import {
+  PERSON_KNOWS_ABOUT,
   buildHomeJsonLd,
   buildPageMetadata,
   buildPersonJsonLd,
   buildWebSiteJsonLd,
+  toAbsoluteUrl,
   toCanonicalPath,
 } from "./seo";
-import { site } from "./site";
+import { getSiteUrl, site } from "./site";
+
+describe("toAbsoluteUrl", () => {
+  it("joins a site origin with a local path", () => {
+    expect(toAbsoluteUrl("/yeremia-1.JPG", "https://example.com")).toBe(
+      "https://example.com/yeremia-1.JPG",
+    );
+    expect(toAbsoluteUrl("portrait.jpg", "https://example.com")).toBe(
+      "https://example.com/portrait.jpg",
+    );
+  });
+
+  it("leaves absolute http(s) URLs unchanged", () => {
+    expect(toAbsoluteUrl("https://cdn.example.com/a.jpg")).toBe(
+      "https://cdn.example.com/a.jpg",
+    );
+  });
+});
 
 describe("toCanonicalPath", () => {
   it("normalizes empty and root paths to /", () => {
@@ -72,6 +92,8 @@ describe("JSON-LD", () => {
     expect(person.sameAs).toEqual([site.links.github, site.links.linkedin]);
     expect(person.sameAs).not.toContain("https://twitter.com/");
     expect(person.email).toBe("yeremia997@gmail.com");
+    expect(person.image).toBe(toAbsoluteUrl(aboutProfile.image, getSiteUrl()));
+    expect(person.knowsAbout).toEqual([...PERSON_KNOWS_ABOUT]);
   });
 
   it("pairs Person and WebSite on the home graph", () => {

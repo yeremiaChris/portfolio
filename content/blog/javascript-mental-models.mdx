@@ -1,0 +1,211 @@
+---
+title: "How JavaScript Actually Runs (And the TypeScript That Helps)"
+description: "Call stack, microtasks, closures, this, and prototypes — then the TypeScript you use every day: narrowing and discriminated unions. Why it behaves that way, not just the syntax."
+date: "2026-09-17"
+tags: ["javascript", "typescript"]
+featured: false
+---
+
+You already know `then`, `setTimeout`, and `class`. The bugs that still eat an afternoon are usually **order**, **what a function still holds**, and **how you called it**.
+
+**One-sentence answer:** JavaScript runs one stack. When that stack is empty it drains **all** microtasks before the next timer. Functions remember the scope where they were created. `this` is decided by the call, unless the function is an arrow.
+
+This is not a syllabus. It is the mental models I still use when something “should have run already,” a listener never dies, or TypeScript refuses to see a field that is obviously there.
+
+## Why it matters
+
+Frontend work is full of “later”: promises, effects, clicks, timers. If you picture one thread and two queues, those surprises get smaller. TypeScript then **narrows** what is true in each branch so you do not paper over the same bugs with `as`.
+
+## The event loop
+
+JavaScript is single-threaded. The event loop is how it still feels concurrent.
+
+**Order (accurate enough to debug by):**
+
+1. Run everything on the **call stack** (synchronous code).
+2. When the stack is empty, drain the **microtask queue completely**.
+3. Take **one** macrotask, run it.
+4. Repeat.
+
+**Microtasks** (higher priority): `Promise.then` / `catch` / `finally`, `queueMicrotask()`.
+
+**Macrotasks** (lower priority): `setTimeout` / `setInterval`, I/O, and (in the browser) work scheduled around rendering.
+
+```js
+console.log("1");
+
+setTimeout(() => console.log("2"), 0);
+
+Promise.resolve().then(() => console.log("3"));
+
+queueMicrotask(() => console.log("4"));
+
+console.log("5");
+```
+
+Output: `1 → 5 → 3 → 4 → 2`.
+
+`setTimeout(..., 0)` does **not** mean “next instant.” It means “after this task **and** every microtask already queued.”
+
+**Pitfall:** a long `then` chain is still microtasks. It can delay timers and paint. Use `queueMicrotask` when you need “after this function, before the next timeout” — not as a place to hide heavy work.
+
+## Closures remember the room they were born in
+
+A closure is a function that keeps access to variables from the scope where it was **defined**, even after that outer function has returned.
+
+Under the hood each function holds an internal environment pointer to that lexical scope. If something long-lived stores the function, that whole room stays alive.
+
+```js
+function setup() {
+  const bigData = new Array(1_000_000).fill("x");
+  const onResize = () => console.log(bigData.length);
+  window.addEventListener("resize", onResize);
+  // missing: removeEventListener("resize", onResize)
+}
+```
+
+`onResize` still sees `bigData`. The listener lives on `window`, so the array cannot be collected.
+
+Same story with `setInterval` you never `clearInterval`.
+
+**Rule:** if a function outlives the data it closes over, that data stays. Remove listeners, clear timers, or don’t close over the huge object.
+
+## `this` is about the call, not the function body
+
+Five rules, in practice:
+
+| How you call it                 | `this`                                                                             |
+| ------------------------------- | ---------------------------------------------------------------------------------- |
+| `fn()`                          | `undefined` in strict / modules                                                    |
+| `obj.method()`                  | `obj` (the thing before the `.`)                                                   |
+| `fn.call(x)` / `apply` / `bind` | what you pass                                                                      |
+| `new Fn()`                      | the new instance                                                                   |
+| Arrow function                  | **lexical** `this` from the nearest non-arrow parent — arrows do not get their own |
+
+```js
+const user = {
+  name: "Yeremia",
+  regular() {
+    console.log(this.name);
+  },
+  arrow: () => console.log(this.name),
+};
+
+user.regular(); // "Yeremia"
+user.arrow(); // undefined in a module (lexical this is not `user`)
+```
+
+The arrow was created as a property initializer. It never becomes “a method of `user`” for `this`. Pull `regular` off the object (`const f = user.regular; f()`) and you lose `user` the same way.
+
+**Pitfall:** passing `obj.method` as a callback strips the implicit binding. Use an arrow at the call site, or `bind`.
+
+## `class` is mostly the prototype, written nicely
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+  greet() {
+    return `Hi, ${this.name}`;
+  }
+}
+```
+
+is roughly:
+
+```js
+function Person(name) {
+  this.name = name;
+}
+Person.prototype.greet = function () {
+  return `Hi, ${this.name}`;
+};
+```
+
+Methods in the class body live on the **prototype** (one shared function). Fields you assign in the constructor live on the **instance**. `extends` wires the prototype chain and `super`. `static` methods hang on the constructor function itself.
+
+You still need the prototype picture: `instanceof`, method lookup, and a lot of library code are that chain, not the `class` keyword.
+
+## Modules (ESM)
+
+Static `import` / `export` are resolved **before** your code runs. Bundlers and TypeScript can tree-shake unused exports. That is the point.
+
+**Cycles:** if `a.js` imports `b.js` and `b.js` imports `a.js`, one side can see a binding that is not initialized yet. Keep cycles to types or tiny pure helpers — or break the cycle.
+
+**`import()`** returns a promise. Use it for code that should not load on first paint:
+
+```js
+const { heavy } = await import("./heavy.js");
+```
+
+## Memory, practically
+
+When something “should be gone” and isn’t:
+
+- Chrome DevTools → Memory → heap snapshot → **Retainers** (what still points at the object)
+- Detached DOM nodes (removed from the document, still referenced in JS)
+- Listeners and intervals (closures, again)
+- Caches with no cap
+
+`WeakMap` / `WeakSet` let the key get collected so the entry can die with it. Use them when the lifetime should follow the object, not a module-level `Map`.
+
+## TypeScript you actually use: narrowing
+
+TypeScript follows control flow. After a check, the type in that branch is smaller.
+
+```ts
+function process(value: string | number | null) {
+  if (typeof value === "string") {
+    return value.toUpperCase();
+  }
+  if (typeof value === "number") {
+    return value.toFixed(1);
+  }
+  return "";
+}
+```
+
+**Discriminated unions** are the pattern that stays readable in product code:
+
+```ts
+type Success = { status: "success"; data: string };
+type Failure = { status: "error"; error: string };
+type Result = Success | Failure;
+
+function handle(result: Result) {
+  if (result.status === "success") {
+    return result.data;
+  }
+  return result.error;
+}
+```
+
+Custom guards when `typeof` is not enough:
+
+```ts
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+```
+
+That `value is string` clause is what lets the next line treat `value` as a string. A boolean return is not enough.
+
+**Pitfall:** `as` does not narrow reality. It only silences the checker. Prefer a tag field (`status`) you can `if` on.
+
+Utility types like `infer` and template-literal mapped types are how libraries build `onClick` from `"click"`. You rarely need them in app UI. When you do, start from `T extends ... ? infer R : never` — and don’t name your helper `ReturnType`; TypeScript already has that.
+
+Variance, `.d.ts` augmentation, and `composite` project references matter in large packages and monorepos. This site is not that: `strict` + `skipLibCheck` + `incremental` is the practical setup. I would not add project references until more than one TypeScript program has to build in order.
+
+## Checklist
+
+- Stack first, then **all** microtasks, then **one** timer.
+- `setTimeout(0)` is not “now.”
+- If a function is stored on `window` or in an interval, everything it closes over stays.
+- `this` follows the call; arrows follow the enclosing scope.
+- Class methods are on the prototype; instance fields are on the object.
+- Static ESM is analyzable; `import()` is for later.
+- Leaks: listeners, timers, detached nodes, unbounded maps.
+- TypeScript: narrow with `typeof` or a discriminant — not `as`.
+
+When something is “late,” “still in memory,” or “`this` is undefined,” it is almost always one of those lines — not a missing framework feature.

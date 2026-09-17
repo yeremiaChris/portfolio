@@ -1,0 +1,137 @@
+---
+title: "Frontend Security in Next.js and Nuxt"
+description: "XSS, cookies, CSRF, CORS, CSP, and lockfiles — what React and Vue already escape, where v-html and dangerouslySetInnerHTML still bite, and how that maps onto App Router and Nuxt."
+date: "2026-09-17"
+tags: ["security", "nextjs", "nuxt"]
+featured: false
+---
+
+React and Vue will not save you from a `javascript:` link or a session token in `localStorage`. Most “frontend security” work is knowing **where the framework stops escaping** and what the browser will still send for you.
+
+I ship **Next.js App Router** on this site and **Nuxt / Vue** on product work (health-tech and logistics). The holes have the same names in both trees.
+
+**One-sentence answer:** Treat text as text. Opting into HTML (`dangerouslySetInnerHTML`, `v-html`, `innerHTML`) is how XSS still happens. Prefer **HttpOnly + Secure + SameSite** cookies for sessions. CSP and a lockfile are how you make the blast radius smaller.
+
+This portfolio has **no login** and **no CSP header** yet. What follows is how I think about a product SPA — not a claim that this blog is a hardened app.
+
+## Why it matters
+
+XSS in your origin can read what JS can read, click what the user can click, and often **use** a cookie session even when it cannot **print** `document.cookie`. CSRF is the opposite trick: the browser sends cookies to _your_ site from _someone else’s_ page. CORS is the browser refusing to let JS _read_ a cross-origin response. CSP is a second lock if a script still sneaks in.
+
+If you only remember one ranking: **stop XSS first**. Everything else is easier after that.
+
+## XSS — the usual SPA bug
+
+An attacker’s JavaScript runs as **you**, on **your origin**. Stored (saved on the server), reflected (bounced from a URL), or **DOM-based** (your client JS writes untrusted data into the DOM). SPAs mostly fail in that last bucket.
+
+| Stack        | Safe default        | Foot-gun                      |
+| ------------ | ------------------- | ----------------------------- |
+| React / Next | JSX text is escaped | `dangerouslySetInnerHTML`     |
+| Vue / Nuxt   | `{{ }}` is escaped  | `v-html`                      |
+| Any DOM      | `textContent`       | `innerHTML`, `document.write` |
+
+```js
+const name = new URLSearchParams(location.search).get("name");
+document.getElementById("greeting").innerHTML = `Hello, ${name}`;
+```
+
+`?name=<img src=x onerror=alert(1)>` is enough. The framework never saw it.
+
+**Do this instead:**
+
+1. Render as text (React children, Vue mustaches, `textContent`).
+2. If you truly need HTML, run it through a maintained sanitizer (DOMPurify is the usual choice) **then** pass it to the HTML API.
+3. Check `href` / `src` — `javascript:` and data URLs are still script.
+4. Treat URL params, `localStorage`, and API strings as untrusted. Same rule for Markdown/MDX if it ever includes **user** HTML. This blog’s MDX is mine; that is a different threat model.
+
+**Next:** keep user-facing copy in JSX. Don’t `dangerouslySetInnerHTML` a CMS field without a sanitizer. Server Components do not make `dangerouslySetInnerHTML` safe.
+
+**Nuxt:** `{{ user.name }}` is fine. `v-html="user.bio"` is the same class of bug as React’s HTML API.
+
+## Cookies and tokens
+
+| Attribute                  | Why                                                                  |
+| -------------------------- | -------------------------------------------------------------------- |
+| `Secure`                   | HTTPS only                                                           |
+| `HttpOnly`                 | JS cannot read it (XSS cannot dump the token from `document.cookie`) |
+| `SameSite=Lax` or `Strict` | Cross-site POST/fetch will not include it (see CSRF)                 |
+| Narrow `Path` / `Domain`   | Don’t share the cookie wider than you must                           |
+
+**Where to put a session (best → worst):**
+
+1. **HttpOnly + Secure + SameSite cookie**
+2. Memory only (gone on refresh — fine for a short-lived access token)
+3. `sessionStorage`
+4. `localStorage` (any XSS can steal it)
+
+HttpOnly does **not** mean XSS is harmless. The browser still **sends** the cookie on same-site requests. The attacker’s script can call your API as the user. You still need XSS defense.
+
+**Next:** set session cookies from Route Handlers / Server Actions with those flags. Read them with `cookies()` on the server. Don’t stash refresh tokens in `localStorage` because “it’s an SPA.”
+
+**Nuxt:** set `httpOnly` cookies from the server (`useCookie` with the httpOnly option in a server context, or Nitro `setCookie`). Client `localStorage` for the refresh token is the same worst case as React.
+
+## CSRF — the browser is being helpful
+
+The victim is logged in. A third-party page submits a POST to your origin. The browser attaches **your** cookies. You thought only your UI could do that.
+
+**SameSite** is the big lever:
+
+| Value    | Cookie on cross-site requests                              |
+| -------- | ---------------------------------------------------------- |
+| `Strict` | Never                                                      |
+| `Lax`    | Top-level GET navigations, not typical POST/`fetch`/iframe |
+| `None`   | Always (requires `Secure`) — OAuth-style cross-site        |
+
+`Lax` (or `Strict`) stops the textbook CSRF POST for cookie sessions. You still want tokens or extra checks if you use `SameSite=None`, support odd GET side effects, or need defense in depth.
+
+**Next:** cookie sessions should set SameSite. **Server Actions** already verify the request origin — don’t skip SameSite because of that.
+
+**Nuxt:** same cookie flags on the API that owns the session. A Vue `fetch` to your Nitro/Nest origin is not CSRF if it doesn’t use cookies; if it does, SameSite applies.
+
+## CORS — who may _read_ the response
+
+CORS is not authentication. It is the browser asking: may **this JS origin** read **that** response?
+
+JSON + custom headers usually trigger a preflight `OPTIONS`. `credentials: 'include'` sends cookies; then the server **must not** use `Access-Control-Allow-Origin: *`. The browser will hide a 200 body. That pairing is rejected on purpose.
+
+```http
+Access-Control-Allow-Origin: https://app.example.com
+Access-Control-Allow-Credentials: true
+```
+
+**Pitfall:** the Network tab shows 200; your `fetch` looks like it failed. Check whether you sent credentials against a `*` ACAO.
+
+Keep `connect-src` in CSP aligned with the real API host (Next rewrite vs Nuxt hitting Nest/GraphQL).
+
+## CSP — a second lock on scripts
+
+A Content-Security-Policy tells the browser which scripts, connections, and frames are allowed. It will not fix `v-html` by itself, but it makes many XSS payloads fail.
+
+Start with **Content-Security-Policy-Report-Only**, read the reports, then enforce.
+
+A strict product policy is usually: `default-src 'self'`, nonce (or hash) on scripts, `strict-dynamic` if you must load follow-on scripts, `connect-src` for your API, `frame-ancestors 'none'`. Tighten `style-src` when you can; don’t begin by punching `'unsafe-inline'` forever.
+
+**Next:** `headers()` in `next.config.ts` (or the hosting layer). Nonces on App Router are extra work; report-only is the honest first step. This repo does not set CSP yet.
+
+**Nuxt:** Nitro `routeRules` / security headers (or a module you actually maintain). Same report-only path.
+
+## The supply chain is your frontend
+
+Most attacks never touch your `page.tsx`. They land in a dependency.
+
+- Commit **`yarn.lock`** (this repo does). Never install from a floating range in production without a lockfile.
+- Dependabot / Renovate + `yarn audit` in CI — useful, not complete.
+- Prefer small, maintained packages. Read the diff on major upgrades.
+
+## Checklist
+
+- Text by default; HTML APIs only after sanitizing.
+- Next: no casual `dangerouslySetInnerHTML`. Nuxt: no casual `v-html`.
+- Sessions: HttpOnly + Secure + SameSite, not `localStorage`.
+- XSS can still _use_ a cookie session — kill XSS anyway.
+- SameSite Lax/Strict stops most cookie CSRF; tokens when SameSite is None or you want depth.
+- Never `*` + credentials on CORS.
+- CSP report-only, then enforce. `connect-src` = real API.
+- Lockfile + update alerts. Dependencies are code you shipped.
+
+Framework escaping is the default. The job is not turning it off — and not putting the keys where any injected script can copy them.

@@ -15,6 +15,7 @@ import {
   getPostHeadings,
 } from "@/lib/blog";
 import { mdxOptions } from "@/lib/mdx";
+import { buildPageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 type BlogPostPageProps = {
@@ -32,13 +33,15 @@ export async function generateMetadata({
   const post = getPost(slug);
 
   if (!post) {
-    return { title: "Post not found" };
+    return { title: "Post not found", robots: { index: false, follow: false } };
   }
 
-  return {
+  return buildPageMetadata({
     title: `${post.title} | Yeremia Chris Saragi`,
     description: post.description,
-  };
+    path: `/blog/${slug}`,
+    type: "article",
+  });
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {

@@ -1,3 +1,13 @@
+export const DEFAULT_SITE_URL = "https://yeremiachris.com";
+
+export function getSiteUrl(
+  value: string | undefined = process.env.NEXT_PUBLIC_SITE_URL,
+): string {
+  const raw = value?.trim();
+  if (!raw) return DEFAULT_SITE_URL;
+  return raw.replace(/\/+$/, "");
+}
+
 export const site = {
   name: "Yeremia",
   fullName: "Yeremia Chris Saragi",

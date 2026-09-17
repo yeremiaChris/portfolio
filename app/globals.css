@@ -132,3 +132,13 @@
     scroll-behavior: smooth;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-intro-loader] {
+    display: none;
+  }
+}
+
+html[data-intro="seen"] [data-intro-loader] {
+  display: none;
+}

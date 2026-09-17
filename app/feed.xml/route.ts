@@ -1,13 +1,10 @@
 import { buildBlogRssFeed } from "@/lib/blog";
+import { getSiteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
 
 export function GET() {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "https://yeremia.dev";
-
-  return new Response(buildBlogRssFeed(siteUrl), {
+  return new Response(buildBlogRssFeed(getSiteUrl()), {
     headers: {
       "Content-Type": "application/rss+xml; charset=utf-8",
       "Cache-Control": "s-maxage=3600, stale-while-revalidate",

@@ -13,11 +13,13 @@ import {
   getBlogRibbon,
   getFeaturedPost,
 } from "@/lib/blog";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Blog | Yeremia Chris Saragi",
   description: blogIntro.description,
-};
+  path: "/blog",
+});
 
 export default function BlogPage() {
   const posts = getAllPosts();

@@ -10,12 +10,14 @@ import {
   experienceContactActions,
 } from "@/components/home/ContactCta";
 import { experienceContactCta } from "@/lib/experience";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Engineering Experience | Yeremia Chris Saragi",
   description:
     "Production track record across health-tech platforms, logistics systems, and digital product teams.",
-};
+  path: "/experience",
+});
 
 export default function ExperiencePage() {
   return (

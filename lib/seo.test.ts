@@ -1,0 +1,86 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  buildHomeJsonLd,
+  buildPageMetadata,
+  buildPersonJsonLd,
+  buildWebSiteJsonLd,
+  toCanonicalPath,
+} from "./seo";
+import { site } from "./site";
+
+describe("toCanonicalPath", () => {
+  it("normalizes empty and root paths to /", () => {
+    expect(toCanonicalPath("")).toBe("/");
+    expect(toCanonicalPath("/")).toBe("/");
+    expect(toCanonicalPath("  ")).toBe("/");
+  });
+
+  it("prefixes a leading slash when missing", () => {
+    expect(toCanonicalPath("about")).toBe("/about");
+    expect(toCanonicalPath("/blog/example")).toBe("/blog/example");
+  });
+});
+
+describe("buildPageMetadata", () => {
+  it("sets canonical, Open Graph, and a large Twitter card", () => {
+    const metadata = buildPageMetadata({
+      title: "About | Yeremia Chris Saragi",
+      description: "About the engineer.",
+      path: "about",
+    });
+
+    expect(metadata.alternates).toEqual({ canonical: "/about" });
+    expect(metadata.openGraph).toMatchObject({
+      url: "/about",
+      type: "website",
+      siteName: site.fullName,
+    });
+    expect(metadata.openGraph?.images).toEqual([
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Yeremia Chris Saragi — Software Engineer",
+      },
+    ]);
+    expect(metadata.twitter).toMatchObject({
+      card: "summary_large_image",
+      title: "About | Yeremia Chris Saragi",
+    });
+  });
+
+  it("marks blog posts as articles", () => {
+    const metadata = buildPageMetadata({
+      title: "A post",
+      description: "Details",
+      path: "/blog/a-post",
+      type: "article",
+    });
+
+    expect(metadata.openGraph).toMatchObject({ type: "article" });
+    expect(metadata.alternates).toEqual({ canonical: "/blog/a-post" });
+  });
+});
+
+describe("JSON-LD", () => {
+  it("describes the person with real profile URLs", () => {
+    const person = buildPersonJsonLd();
+
+    expect(person["@type"]).toBe("Person");
+    expect(person.name).toBe(site.fullName);
+    expect(person.sameAs).toEqual([site.links.github, site.links.linkedin]);
+    expect(person.sameAs).not.toContain("https://twitter.com/");
+    expect(person.email).toBe("yeremia997@gmail.com");
+  });
+
+  it("pairs Person and WebSite on the home graph", () => {
+    expect(buildHomeJsonLd().map((entry) => entry["@type"])).toEqual([
+      "Person",
+      "WebSite",
+    ]);
+    expect(buildWebSiteJsonLd().publisher).toEqual({
+      "@id": buildPersonJsonLd()["@id"],
+    });
+  });
+});

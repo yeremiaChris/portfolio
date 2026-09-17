@@ -5,11 +5,17 @@ import { ContactCta } from "@/components/home/ContactCta";
 import { Hero } from "@/components/home/Hero";
 import { Milestones } from "@/components/home/Milestones";
 import { TechStack } from "@/components/home/TechStack";
+import { IntroLoader } from "@/components/intro/IntroLoader";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildHomeJsonLd, buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Yeremia Chris Saragi | Software Engineer",
-  description:
-    "Software Engineer (frontend-heavy) building production web platforms across health-tech and logistics — React, Next.js, Vue, APIs, and data integration.",
+  ...buildPageMetadata({
+    title: "Yeremia Chris Saragi | Software Engineer",
+    description:
+      "Software Engineer (frontend-heavy) building production web platforms across health-tech and logistics — React, Next.js, Vue, APIs, and data integration.",
+    path: "/",
+  }),
   keywords: [
     "Yeremia Chris Saragi",
     "Software Engineer",
@@ -20,13 +26,6 @@ export const metadata: Metadata = {
     "Portfolio",
     "Web Development",
   ],
-  openGraph: {
-    title: "Yeremia Chris Saragi | Software Engineer",
-    description:
-      "Software Engineer (frontend-heavy) building production platforms across health-tech and logistics",
-    type: "website",
-    locale: "en_US",
-  },
   robots: {
     index: true,
     follow: true,
@@ -36,6 +35,8 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main>
+      <JsonLd data={buildHomeJsonLd()} />
+      <IntroLoader />
       <Hero />
       <Artifacts />
       <Milestones />

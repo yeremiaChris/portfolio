@@ -3,6 +3,8 @@ import { Geist, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { INTRO_BOOTSTRAP_SCRIPT } from "@/lib/intro";
+import { getSiteUrl } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -23,9 +25,18 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: "Yeremia Chris Saragi | Software Engineer",
   description:
     "Software Engineer (frontend-heavy) — production web platforms across health-tech and logistics.",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Yeremia Chris Saragi",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
@@ -48,6 +59,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="bg-background text-foreground min-h-screen antialiased"
       >
+        <script dangerouslySetInnerHTML={{ __html: INTRO_BOOTSTRAP_SCRIPT }} />
         <Header />
         <div className="pt-16">{children}</div>
         <Footer />

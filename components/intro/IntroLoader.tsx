@@ -4,15 +4,41 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useSyncExternalStore } from "react";
 
 import {
+  INTRO_BAR_DELAY_MS,
   INTRO_DURATION_MS,
+  INTRO_EASE,
   INTRO_EXIT_MS,
+  INTRO_STAGGER_MS,
   completeIntro,
   getIntroClientSnapshot,
+  getIntroExitAfterMs,
   getIntroServerSnapshot,
   getSessionStorage,
   subscribeIntroVisibility,
 } from "@/lib/intro";
 import { site } from "@/lib/site";
+
+const introStack = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: INTRO_STAGGER_MS / 1000,
+    },
+  },
+};
+
+const introItem = {
+  hidden: { opacity: 0, y: 8 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: INTRO_EASE,
+    },
+  },
+};
 
 export function IntroLoader() {
   const showIntro = useSyncExternalStore(
@@ -30,7 +56,7 @@ export function IntroLoader() {
 
     const timeoutId = window.setTimeout(() => {
       completeIntro(getSessionStorage());
-    }, INTRO_DURATION_MS);
+    }, getIntroExitAfterMs());
 
     return () => {
       window.clearTimeout(timeoutId);
@@ -47,13 +73,14 @@ export function IntroLoader() {
           role="status"
           aria-busy="true"
           aria-label="Introducing the site"
-          initial={false}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
           transition={{
             duration: INTRO_EXIT_MS / 1000,
-            ease: [0.22, 1, 0.36, 1],
+            ease: INTRO_EASE,
           }}
-          className="bg-background fixed inset-0 z-100 flex items-center justify-center overflow-hidden"
+          className="bg-background fixed inset-0 z-110 flex items-center justify-center overflow-hidden"
         >
           <div
             aria-hidden
@@ -64,24 +91,39 @@ export function IntroLoader() {
             className="pointer-events-none absolute right-[12%] bottom-1/4 size-72 rounded-full bg-[#4cd7f6]/10 blur-3xl"
           />
 
-          <div className="relative flex flex-col items-center gap-7 px-6">
-            <p className="text-primary font-mono text-[13px] font-bold tracking-tight">
+          <motion.div
+            className="relative flex flex-col items-center gap-7 px-6"
+            variants={introStack}
+            initial="hidden"
+            animate="show"
+          >
+            <motion.p
+              className="text-primary font-mono text-[13px] font-bold tracking-tight"
+              variants={introItem}
+            >
               {"<YC />"}
-            </p>
+            </motion.p>
 
-            <p className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+            <motion.p
+              className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
+              variants={introItem}
+            >
               <span className="from-primary bg-linear-to-r via-[#6ffbbe] to-[#4cd7f6] bg-clip-text text-transparent">
                 {site.name}
               </span>
-            </p>
+            </motion.p>
 
-            <p className="text-muted-foreground font-mono text-[11px] tracking-[0.16em] uppercase">
+            <motion.p
+              className="text-muted-foreground font-mono text-[11px] tracking-[0.16em] uppercase"
+              variants={introItem}
+            >
               {site.role}
-            </p>
+            </motion.p>
 
-            <div
+            <motion.div
               aria-hidden
               className="bg-secondary h-0.5 w-44 overflow-hidden rounded-full sm:w-56"
+              variants={introItem}
             >
               <motion.div
                 className="from-primary h-full w-full origin-left bg-linear-to-r via-[#6ffbbe] to-[#4cd7f6]"
@@ -89,11 +131,12 @@ export function IntroLoader() {
                 animate={{ scaleX: 1 }}
                 transition={{
                   duration: INTRO_DURATION_MS / 1000,
-                  ease: [0.22, 1, 0.36, 1],
+                  delay: INTRO_BAR_DELAY_MS / 1000,
+                  ease: INTRO_EASE,
                 }}
               />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </motion.div>
       ) : null}
     </AnimatePresence>

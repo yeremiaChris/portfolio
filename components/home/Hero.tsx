@@ -20,13 +20,22 @@ export function Hero() {
       />
 
       <Container className="relative grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
-        <div className="animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-700 lg:col-span-7">
+        <div
+          data-intro-hero=""
+          className="animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-700 lg:col-span-7"
+        >
           <HeroIntro />
         </div>
 
-        <div className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both flex w-full flex-col gap-4 delay-150 duration-700 lg:col-span-5">
+        <div
+          data-intro-hero=""
+          className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both flex w-full flex-col gap-4 delay-150 duration-700 lg:col-span-5"
+        >
           <HeroTerminal />
-          <div className="animate-in fade-in slide-in-from-bottom-2 fill-mode-both delay-300 duration-700">
+          <div
+            data-intro-hero=""
+            className="animate-in fade-in slide-in-from-bottom-2 fill-mode-both delay-300 duration-700"
+          >
             <HeroStats />
           </div>
         </div>

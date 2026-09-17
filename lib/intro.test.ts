@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  INTRO_BAR_DELAY_MS,
+  INTRO_DURATION_MS,
+  INTRO_HOLD_MS,
   INTRO_SEEN_VALUE,
+  INTRO_STAGGER_MS,
   INTRO_STORAGE_KEY,
   completeIntro,
   getIntroClientSnapshot,
+  getIntroExitAfterMs,
   getIntroSeenFlag,
   getIntroServerSnapshot,
   getSessionStorage,
@@ -29,6 +34,15 @@ function createMemoryStorage(
     },
   };
 }
+
+describe("getIntroExitAfterMs", () => {
+  it("holds after the staggered bar finishes filling", () => {
+    expect(INTRO_BAR_DELAY_MS).toBe(INTRO_STAGGER_MS * 3);
+    expect(getIntroExitAfterMs()).toBe(
+      INTRO_BAR_DELAY_MS + INTRO_DURATION_MS + INTRO_HOLD_MS,
+    );
+  });
+});
 
 describe("shouldShowIntro", () => {
   it("shows on a first visit when motion is allowed", () => {

@@ -142,3 +142,8 @@
 html[data-intro="seen"] [data-intro-loader] {
   display: none;
 }
+
+html:not([data-intro-ready="true"]) [data-intro-hero] {
+  animation: none;
+  opacity: 0;
+}

@@ -1,0 +1,99 @@
+---
+title: "Why This Site's Intro Replays After You Close the Tab"
+description: "A home-only overlay, sessionStorage (not localStorage), useSyncExternalStore, Motion's AnimatePresence, and a CSS flag so the hero does not finish animating under the loader."
+date: "2026-09-18"
+tags: ["react", "nextjs", "motion"]
+featured: false
+---
+
+The overlay on `/` is **not a real loader**. The page is already there. Home plays a short branded sequence, then gets out of the way.
+
+**One-sentence answer:** Remember the intro for **this tab** with `sessionStorage`. Close the tab and the session dies, so it plays again. `useSyncExternalStore` reads that flag without a hydration flicker; Motion's `AnimatePresence` is what lets the overlay _leave_ instead of popping off.
+
+## What you actually see
+
+`IntroLoader` is composed only on the home page. `/blog` and `/about` never mount it.
+
+| You do                                         | Intro?              |
+| ---------------------------------------------- | ------------------- |
+| First visit to `/` in this tab                 | Yes                 |
+| Refresh, or `/about` → `/` in the **same** tab | No                  |
+| Close the tab, open `/` again                  | Yes (session ended) |
+| OS “reduce motion”                             | No                  |
+
+That is a **choreography**, not a progress bar tied to fonts or data.
+
+## `sessionStorage`, not `localStorage`
+
+The browser stores `intro-seen = 1` until **that tab's session ends**. Refresh keeps it. A new tab or a closed tab does not.
+
+`localStorage` would remember forever. Fine for a cookie banner. Wrong for a calling-card intro you still want on the next visit.
+
+When the bar fills and a short hold finishes, `completeIntro` does three things:
+
+1. Write `intro-seen`
+2. Mark the hero as ready (`data-intro-ready` on `<html>`)
+3. Fire a small event so React knows to hide the overlay
+
+Logic lives in `lib/intro.ts`. The component does not decide skip/replay itself.
+
+## Why `useSyncExternalStore`
+
+React cannot read `sessionStorage` during SSR. A naive `useState` + `useEffect` would render “show” on the server, paint “show” on the client, then flip to “skip” in an effect — a flash, and the `set-state-in-effect` lint this repo already hit.
+
+`useSyncExternalStore` is React's hook for **a value that lives outside React**.
+
+```tsx
+const showIntro = useSyncExternalStore(
+  subscribeIntroVisibility,
+  getIntroClientSnapshot,
+  getIntroServerSnapshot,
+);
+```
+
+| Argument        | Job                                                                |
+| --------------- | ------------------------------------------------------------------ |
+| Subscribe       | Re-render when the seen flag is written, or reduced-motion changes |
+| Client snapshot | In the browser: show only if unseen and motion is allowed          |
+| Server snapshot | Always `true` — there is no `window` yet                           |
+
+Return visits still should not flash. A **tiny inline script** in the root layout runs before React and sets `data-intro="seen"` on `<html>` when the session flag is already there. CSS then hides `[data-intro-loader]` on first paint. React can catch up after.
+
+## Why Motion and `AnimatePresence`
+
+CSS can fade a node that **stays in the DOM**. When `showIntro` becomes `false`, React would **delete** the overlay on the next render — no exit.
+
+`AnimatePresence` keeps that node mounted until `exit` finishes (`opacity: 0`, a slight `y: -12`). Inner `motion` nodes stagger mark → name → role → bar.
+
+This site already depends on `motion`. The import is `motion/react` — not a second Framer package.
+
+## Why `data-intro-hero=""`
+
+The hero uses Tailwind `animate-in` (~700ms). Without a gate, that animation **finishes while the overlay is still up**. When the overlay leaves, the hero is already static.
+
+`data-intro-hero=""` is a **flag**, not missing text. CSS only checks that the attribute exists:
+
+```css
+html:not([data-intro-ready="true"]) [data-intro-hero] {
+  animation: none;
+  opacity: 0;
+}
+```
+
+Until intro completes (or skip / reduced-motion via the bootstrap script), those blocks stay hidden and paused. Then `data-intro-ready="true"` lands, and the hero _starts_ its enter.
+
+The hero stays a Server Component. No `"use client"` just to hold a boolean.
+
+## Is this the clean split?
+
+For a portfolio, yes:
+
+- Skip/duration helpers in `lib/intro.ts`, with Vitest on the branches
+- Overlay UI in `components/intro/`
+- Home page only composes it
+- Reduced motion is a hard skip
+- Exit animation goes through `AnimatePresence`, not `display: none` mid-fade
+
+Do **not** set `data-intro="seen"` while the overlay is still exiting. That CSS hide would kill the fade. Session storage can flip immediately; the HTML `data-intro` attribute waits for the next load.
+
+Two honest limits: first paint can be an empty overlay for a couple of frames while stagger starts at opacity 0, and none of this is “the site is loading.”

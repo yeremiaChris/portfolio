@@ -42,6 +42,10 @@ describe("getIntroExitAfterMs", () => {
       INTRO_BAR_DELAY_MS + INTRO_DURATION_MS + INTRO_HOLD_MS,
     );
   });
+
+  it("keeps the first-visit overlay short enough for LCP", () => {
+    expect(getIntroExitAfterMs()).toBeLessThanOrEqual(1100);
+  });
 });
 
 describe("shouldShowIntro", () => {

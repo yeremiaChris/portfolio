@@ -1,6 +1,6 @@
 ---
 title: "Why This Site's Intro Replays After You Close the Tab"
-description: "A home-only overlay, sessionStorage (not localStorage), useSyncExternalStore, Motion's AnimatePresence, and a CSS flag so the hero does not finish animating under the loader."
+description: "A home-only overlay, sessionStorage (not localStorage), useSyncExternalStore, and Motion's AnimatePresence — with the hero painted underneath so LCP is not gated on the intro."
 date: "2026-09-18"
 tags: ["react", "nextjs", "motion"]
 featured: false
@@ -29,11 +29,10 @@ The browser stores `intro-seen = 1` until **that tab's session ends**. Refresh k
 
 `localStorage` would remember forever. Fine for a cookie banner. Wrong for a calling-card intro you still want on the next visit.
 
-When the bar fills and a short hold finishes, `completeIntro` does three things:
+When the bar fills and a short hold finishes, `completeIntro` does two things:
 
 1. Write `intro-seen`
-2. Mark the hero as ready (`data-intro-ready` on `<html>`)
-3. Fire a small event so React knows to hide the overlay
+2. Fire a small event so React knows to hide the overlay
 
 Logic lives in `lib/intro.ts`. The component does not decide skip/replay itself.
 
@@ -67,22 +66,11 @@ CSS can fade a node that **stays in the DOM**. When `showIntro` becomes `false`,
 
 This site already depends on `motion`. The import is `motion/react` — not a second Framer package.
 
-## Why `data-intro-hero=""`
+## Why the hero stays visible under the overlay
 
-The hero uses Tailwind `animate-in` (~700ms). Without a gate, that animation **finishes while the overlay is still up**. When the overlay leaves, the hero is already static.
+The overlay is `position: fixed` and covers the viewport. The heading underneath can still paint at `opacity: 1`. Chrome can then record LCP on that heading at first paint, instead of waiting until the overlay exits.
 
-`data-intro-hero=""` is a **flag**, not missing text. CSS only checks that the attribute exists:
-
-```css
-html:not([data-intro-ready="true"]) [data-intro-hero] {
-  animation: none;
-  opacity: 0;
-}
-```
-
-Until intro completes (or skip / reduced-motion via the bootstrap script), those blocks stay hidden and paused. Then `data-intro-ready="true"` lands, and the hero _starts_ its enter.
-
-The hero stays a Server Component. No `"use client"` just to hold a boolean.
+Hiding `[data-intro-hero]` until `data-intro-ready` looked cleaner, but it delayed Largest Contentful Paint by the full intro (~2s) plus a 700ms fade. The hero stays a Server Component. No `"use client"` just to hold a boolean.
 
 ## Is this the clean split?
 

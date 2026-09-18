@@ -7,6 +7,7 @@ import {
 
 export function ProjectsGrid() {
   const featured = getFeaturedProjects();
+  const [lead, ...featuredRest] = featured;
   const archive = getArchiveProjects();
 
   return (
@@ -14,11 +15,17 @@ export function ProjectsGrid() {
       <section
         id="projects-grid"
         aria-label="Featured projects"
-        className="mb-10 grid w-full min-w-0 grid-cols-1 gap-4 md:mb-14 md:grid-cols-2 md:gap-6"
+        className="mb-10 flex w-full min-w-0 flex-col gap-4 md:mb-14 md:gap-6"
       >
-        {featured.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+        {lead ? <ProjectCard project={lead} variant="lead" /> : null}
+
+        {featuredRest.length > 0 ? (
+          <div className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+            {featuredRest.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        ) : null}
       </section>
 
       {archive.length > 0 ? (

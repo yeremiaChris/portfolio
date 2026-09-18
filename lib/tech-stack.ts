@@ -16,7 +16,7 @@ export type TechCategory = {
 };
 
 export const techStackIntro = {
-  eyebrow: "Battle-Tested Arsenal",
+  eyebrow: "In production",
   title: "Production Engineering Stack",
   description:
     "Frontend craft as the core strength — backed by API integration, SQL familiarity, and delivery habits that hold up in production.",

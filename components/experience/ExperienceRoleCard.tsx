@@ -89,7 +89,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="flex flex-col gap-3 lg:col-span-8">
             <p className="text-muted-foreground font-mono text-[10px] font-semibold tracking-widest uppercase">
-              {"// Architectural Impact & Scope"}
+              {"// What I owned"}
             </p>
             <ul className="text-muted-foreground space-y-3 text-[14px] leading-relaxed">
               {role.highlights.map((item) => (
@@ -112,12 +112,14 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
                   {role.panel.score}
                 </span>
               </div>
-              <div className="bg-secondary mb-3 h-1.5 w-full overflow-hidden rounded-full">
-                <div
-                  className={cn("h-full rounded-full", barClass)}
-                  style={{ width: `${role.panel.progressPct}%` }}
-                />
-              </div>
+              {role.panel.progressPct != null ? (
+                <div className="bg-secondary mb-3 h-1.5 w-full overflow-hidden rounded-full">
+                  <div
+                    className={cn("h-full rounded-full", barClass)}
+                    style={{ width: `${role.panel.progressPct}%` }}
+                  />
+                </div>
+              ) : null}
               <div className="space-y-1.5 font-mono text-[12px]">
                 {role.panel.rows.map((row) => (
                   <dl

@@ -36,7 +36,7 @@ const ACTION_ICONS = {
 const DEFAULT_ACTIONS: ContactCtaAction[] = [
   {
     href: site.links.email,
-    label: "Initiate Contact",
+    label: "Email",
     icon: "mail",
     variant: "default",
     primary: true,
@@ -52,9 +52,9 @@ const DEFAULT_ACTIONS: ContactCtaAction[] = [
 
 export function ContactCta({
   id = "contact",
-  eyebrow = "Ready to build something exceptional?",
+  eyebrow = "Open to the right role",
   title = "Let's discuss product platforms, API-backed UI, or your next React / Next.js build.",
-  description = "Available for Software Engineer roles (frontend-heavy), design-system work, and high-impact contractor partnerships worldwide.",
+  description = "Available for Software Engineer roles (frontend-heavy) — product platforms, design-system work, and contract work worldwide.",
   actions = DEFAULT_ACTIONS,
   withContainer = true,
   className,

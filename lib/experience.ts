@@ -31,7 +31,7 @@ export type ExperienceRole = {
   panel: {
     title: string;
     score: string;
-    progressPct: number;
+    progressPct?: number;
     rows: ExperienceRolePanelRow[];
     footnote: string;
   };
@@ -120,7 +120,6 @@ export const experienceRoles: ExperienceRole[] = [
     panel: {
       title: "Product Focus",
       score: "Growth + Clinical UI",
-      progressPct: 92,
       rows: [
         {
           label: "Stack:",
@@ -161,7 +160,6 @@ export const experienceRoles: ExperienceRole[] = [
     panel: {
       title: "Clinical Platform Scope",
       score: "Full Patient Lifecycle",
-      progressPct: 100,
       rows: [
         { label: "Domain:", value: "EMR / HIS / Queues", emphasize: true },
         { label: "AI Surface:", value: "Notes · Templates · Docs" },
@@ -191,7 +189,6 @@ export const experienceRoles: ExperienceRole[] = [
     panel: {
       title: "Logistics UI Focus",
       score: "Control Room + Pricing",
-      progressPct: 90,
       rows: [
         {
           label: "Multi-carrier:",
@@ -225,7 +222,6 @@ export const experienceRoles: ExperienceRole[] = [
     panel: {
       title: "Client Delivery",
       score: "Web · Mobile · Payments",
-      progressPct: 95,
       rows: [
         { label: "Platforms:", value: "Web & mobile", emphasize: true },
         { label: "Payments:", value: "Midtrans · Xendit" },

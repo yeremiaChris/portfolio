@@ -1,8 +1,20 @@
+import dynamic from "next/dynamic";
+
 import { Container } from "@/components/Container";
 import { EdgeStreaming } from "@/components/home/artifacts/EdgeStreaming";
-import { FsmLab } from "@/components/home/artifacts/FsmLab";
-import { TokenEngine } from "@/components/home/artifacts/TokenEngine";
 import { Badge } from "@/components/ui/badge";
+
+const TokenEngine = dynamic(() =>
+  import("@/components/home/artifacts/TokenEngine").then((mod) => ({
+    default: mod.TokenEngine,
+  })),
+);
+
+const FsmLab = dynamic(() =>
+  import("@/components/home/artifacts/FsmLab").then((mod) => ({
+    default: mod.FsmLab,
+  })),
+);
 
 export function Artifacts() {
   return (

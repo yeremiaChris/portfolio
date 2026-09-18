@@ -5,7 +5,7 @@ import { ContactCta } from "@/components/home/ContactCta";
 import { Hero } from "@/components/home/Hero";
 import { Milestones } from "@/components/home/Milestones";
 import { TechStack } from "@/components/home/TechStack";
-import { IntroLoader } from "@/components/intro/IntroLoader";
+import { IntroGate } from "@/components/intro/IntroGate";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildHomeJsonLd, buildPageMetadata } from "@/lib/seo";
 
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <main>
       <JsonLd data={buildHomeJsonLd()} />
-      <IntroLoader />
+      <IntroGate />
       <Hero />
       <Artifacts />
       <Milestones />

@@ -21,6 +21,7 @@ describe("buildSitemap", () => {
     );
     expect(urls).toContain(`${SITE_URL}`);
     expect(urls).not.toContain(`${SITE_URL}/feed.xml`);
+    expect(urls).not.toContain(`${SITE_URL}/analytics`);
   });
 
   it("includes published posts with lastModified from the post date", () => {

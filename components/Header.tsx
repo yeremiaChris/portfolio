@@ -1,41 +1,15 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { MenuIcon, UserIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { HeaderMobileMenu } from "@/components/HeaderMobileMenu";
+import { HeaderNav } from "@/components/HeaderNav";
 import { Container } from "@/components/Container";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const NAV = [
-  { href: "/", label: "Overview" },
-  { href: "/projects", label: "Projects" },
-  { href: "/experience", label: "Experience" },
-  { href: "/blog", label: "Blog" },
-  { href: "/about", label: "About" },
-] as const;
-
-function isActive(pathname: string, href: string) {
-  if (href.includes("#")) return false;
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
-
 export function Header() {
-  const pathname = usePathname();
-
   return (
     <header className="border-border/40 bg-background/80 fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl">
       <Container className="flex h-16 items-center justify-between gap-4">
@@ -49,38 +23,16 @@ export function Header() {
             </span>
           </Link>
 
-          <Badge
-            variant="secondary"
-            className="bg-muted text-primary hidden gap-1.5 px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] uppercase xl:inline-flex"
-          >
+          <span className="bg-muted text-primary hidden items-center gap-1.5 rounded-lg px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] uppercase xl:inline-flex">
             <span className="relative flex size-2">
               <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
               <span className="bg-primary relative inline-flex size-2 rounded-full" />
             </span>
             Available for work
-          </Badge>
+          </span>
         </div>
 
-        <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
-          {NAV.map((item) => {
-            const active = isActive(pathname, item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  buttonVariants({ variant: "ghost", size: "sm" }),
-                  "text-[13px]",
-                  active &&
-                    "bg-secondary text-foreground hover:bg-secondary font-semibold",
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+        <HeaderNav />
 
         <div className="flex items-center gap-2">
           <Link
@@ -111,68 +63,7 @@ export function Header() {
             </AvatarFallback>
           </Avatar>
 
-          <Sheet>
-            <SheetTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  className="lg:hidden"
-                  aria-label="Open menu"
-                />
-              }
-            >
-              <MenuIcon />
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[min(100%,20rem)]">
-              <SheetHeader>
-                <SheetTitle className="text-primary font-mono">
-                  {"<YC />"}
-                </SheetTitle>
-              </SheetHeader>
-              <nav
-                aria-label="Mobile"
-                className="flex flex-col gap-1 px-4 pb-4"
-              >
-                {NAV.map((item) => {
-                  const active = isActive(pathname, item.href);
-                  return (
-                    <SheetClose
-                      key={item.href}
-                      nativeButton={false}
-                      render={
-                        <Link
-                          href={item.href}
-                          aria-current={active ? "page" : undefined}
-                          className={cn(
-                            buttonVariants({ variant: "ghost" }),
-                            "justify-start",
-                            active && "bg-secondary font-semibold",
-                          )}
-                        />
-                      }
-                    >
-                      {item.label}
-                    </SheetClose>
-                  );
-                })}
-                <SheetClose
-                  nativeButton={false}
-                  render={
-                    <Link
-                      href="/#contact"
-                      className={cn(
-                        buttonVariants({ variant: "default" }),
-                        "hover:bg-primary mt-2 justify-start bg-[#10b981] text-[#00422b]",
-                      )}
-                    />
-                  }
-                >
-                  Get in Touch
-                </SheetClose>
-              </nav>
-            </SheetContent>
-          </Sheet>
+          <HeaderMobileMenu />
         </div>
       </Container>
     </header>

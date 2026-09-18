@@ -15,6 +15,12 @@
     "test:watch": "vitest",
     "prepare": "husky"
   },
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 111",
+    "safari >= 16.4"
+  ],
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs,mts}": [
       "eslint --fix --max-warnings 0",

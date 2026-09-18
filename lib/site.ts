@@ -1,3 +1,5 @@
+import { UMAMI_SHARE_PATH } from "./umami";
+
 export const DEFAULT_SITE_URL = "https://yeremiachris.com";
 
 export function getSiteUrl(
@@ -27,6 +29,7 @@ export const site = {
       "https://docs.google.com/document/d/1lF9qIEuyGviopkk51BARVXWxTjCCDKeF9nBXmMWx8Is/edit?usp=sharing",
     about: "/about",
     experience: "/experience",
+    analytics: UMAMI_SHARE_PATH,
   },
   stats: [
     {

@@ -1,0 +1,98 @@
+---
+title: "What PageSpeed Unused JavaScript Actually Means"
+description: "A 91 mobile score was LCP, not a missing sitemap. How this Next.js portfolio split Motion, labs, and the mobile sheet — and the traps that look like dead code but aren’t."
+date: "2026-09-18"
+tags: ["nextjs", "performance", "lighthouse"]
+featured: false
+---
+
+PageSpeed Insights on this site landed at **91** on mobile. Largest Contentful Paint was about **3.2s**. Unused JavaScript showed ~71 KiB of framework and polyfills, plus ~45 KiB of Motion, header, and lab code.
+
+The tempting fixes were the wrong ones: dump sitemap / robots / RSS links in the footer, or delete “unused” JS until the audit goes green.
+
+**One-sentence answer:** Treat Lighthouse unused JS as **coverage on a cold first visit**, not as proof the file is dead — then fix the metric that actually gates the score (here: LCP from an overlay, not missing SEO links).
+
+## The report, not the folklore
+
+Crawlers already read `app/robots.ts`, `app/sitemap.ts`, and `/feed.xml`. Putting those URLs in the footer does not move LCP, Speed Index, or unused JS.
+
+What the mobile lab actually complained about:
+
+| Signal        | Why it hurt                                                |
+| ------------- | ---------------------------------------------------------- |
+| **LCP ~3.2s** | The hero waited on the intro hide + fade before it counted |
+| **Unused JS** | Bytes downloaded that did not run during _that_ trace      |
+| **TBT / SI**  | Follow-on cost from first-visit Motion and client chrome   |
+
+If LCP stays above ~1.8s, you will not see 100 no matter how aggressively you code-split icons.
+
+## Watch LCP before you delete JS
+
+The overlay on `/` is choreography, not a loader. The page is already there. Hiding the heading with `opacity: 0` until the sequence finished made Chrome wait for the intro (~2s) plus a fade before it would count the hero as LCP.
+
+The heading now paints at `opacity: 1` **under** a `position: fixed` overlay. A CSS cover holds first paint; Motion only loads when the intro should actually play. Intro timings stay at or under ~1100ms.
+
+The skip/replay rules — `sessionStorage`, `useSyncExternalStore`, reduced motion — live in a separate note: [Why This Site's Intro Replays After You Close the Tab](/blog/intro-loader-session). This post is the PageSpeed pass around that overlay, not a retell of the storage model.
+
+## Unused JS is coverage
+
+Lighthouse records scripts that were **downloaded** and then **not executed** during the lab trace. That is not a dead-code finder.
+
+A cold first visit to `/` still downloads:
+
+- Next / React runtime and whatever polyfills your `browserslist` still requires
+- Motion, if this tab has not seen the intro yet
+- Any lab or sheet chunk that hydrates because it is in the first viewport or you opened the menu
+
+Refresh the same tab and Motion can stay off the graph. Lighthouse does not take that second visit. Do not expect unused JS to hit 0 on a portfolio that still _has_ an intro and interactive labs.
+
+## What we actually split
+
+| Chunk                          | When it loads                                      |
+| ------------------------------ | -------------------------------------------------- |
+| `TokenEngine`, `FsmLab`        | `next/dynamic` on home — not in the default graph  |
+| `EdgeStreaming`                | Static — small enough to stay in the first paint   |
+| `IntroLoader` (`motion/react`) | Only when `IntroGate` decides the intro should run |
+| Mobile sheet (Base UI)         | First **Open menu**, then stays mounted            |
+| Header chrome                  | Server Component — no Sheet on every page load     |
+
+Two Next knobs around that split:
+
+- `browserslist` is `chrome` / `edge` / `firefox` `>= 111` and `safari >= 16.4`, so SWC ships fewer legacy polyfills
+- `experimental.optimizePackageImports` includes `lucide-react` so icon barrels do not pull the whole package
+
+`optimizePackageImports` helps a barrel. It is not a substitute for keeping Motion off `/about`.
+
+## What to be aware of
+
+The splits above are the easy part. The regressions showed up at the seams.
+
+| Trap                                       | What happened here                                                                                         |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `dynamic(..., { loading })`                | SSR fallback vs client island mismatched at `Button` — drop the loading fallback                           |
+| Unmount the sheet when `open` is false     | About closed the sheet and tore down the `Link` mid-navigation. Latch the chunk after first open           |
+| Import app constants into `next.config.ts` | Redirect `source` was `undefined` and `yarn dev` died. Keep `/analytics` as a string literal in the config |
+| Measure in `yarn dev`                      | Turbopack, React overlays, and unminified graphs lie. PageSpeed needs a **production** deploy              |
+| Analytics in the first paint               | Umami via `next/script` `afterInteractive`, production-only website id. Footer meta row, not header chips  |
+| Repeat-visit skip                          | Good for humans, invisible to a Lighthouse first load                                                      |
+
+Hydration errors in this stack often look like “Button is broken.” Check whether a `dynamic` `loading` placeholder rendered a different tree than the island. Code-split without a fallback is boring and usually correct.
+
+The mobile sheet needs the opposite latch from intro Motion: load late, then **keep** the island mounted so `SheetClose` + `next/link` can finish the click.
+
+## What we did not do
+
+- No sitemap / robots / RSS links in the footer “for SEO”
+- No `localStorage` for the intro (that would skip it forever)
+- No deleting the labs to flatten unused JS — they _are_ the portfolio
+- No chasing 100 in development
+
+Umami stays off localhost. A local Lighthouse run will not prove production analytics either.
+
+## How I’d re-check
+
+1. Deploy production, then run PageSpeed mobile on `/` in an incognito profile
+2. Confirm LCP and Speed Index moved before celebrating unused JS
+3. Locally: first visit plays intro; refresh skips Motion; **Open menu** → About still navigates; Cyan / Fetch still work on the labs
+
+The score is a lab. The site still has to feel like a calling card.

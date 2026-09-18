@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -85,9 +87,15 @@ export function Footer() {
             © {new Date().getFullYear()} {site.fullName}. Software Engineer ·
             Frontend-Heavy.
           </span>
-          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            v4.2.0-kernel // latency ~14ms
-          </span>
+          <Link
+            href={site.links.analytics}
+            target="_blank"
+            rel="noopener noreferrer"
+            prefetch={false}
+            className="text-muted-foreground hover:text-foreground font-mono text-[10px] tracking-widest uppercase"
+          >
+            Analytics
+          </Link>
         </div>
       </Container>
     </footer>

@@ -3,6 +3,7 @@ import { Geist, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { UmamiScript } from "@/components/UmamiScript";
 import { INTRO_BOOTSTRAP_SCRIPT } from "@/lib/intro";
 import { getSiteUrl } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -60,6 +61,7 @@ export default function RootLayout({
         className="bg-background text-foreground min-h-screen antialiased"
       >
         <script dangerouslySetInnerHTML={{ __html: INTRO_BOOTSTRAP_SCRIPT }} />
+        <UmamiScript />
         <Header />
         <div className="pt-16">{children}</div>
         <Footer />

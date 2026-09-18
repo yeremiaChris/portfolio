@@ -14,14 +14,33 @@ import { buttonVariants } from "@/components/ui/button";
 import type { Project } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
-export function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project;
+  variant?: "default" | "lead";
+}
+
+export function ProjectCard({
+  project,
+  variant = "default",
+}: ProjectCardProps) {
+  const isLead = variant === "lead";
+
   const media = (
-    <div className="ring-border/40 relative h-44 overflow-hidden rounded-xl bg-[#0a0e14] ring-1">
+    <div
+      className={cn(
+        "ring-border/40 relative w-full overflow-hidden rounded-xl bg-[#0a0e14] ring-1",
+        isLead ? "h-52 lg:h-full lg:min-h-[20rem]" : "h-44",
+      )}
+    >
       <Image
         src={project.image}
         alt={project.imageAlt}
         fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        sizes={
+          isLead
+            ? "(max-width: 1024px) 100vw, 42vw"
+            : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        }
         className="object-cover transition duration-300 group-hover:scale-[1.03] group-hover:brightness-110"
       />
     </div>
@@ -30,15 +49,25 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <Card
       id={project.id}
-      className="group bg-muted ring-border/20 flex h-full min-w-0 scroll-mt-24 flex-col overflow-hidden rounded-3xl py-0 transition-transform duration-300 hover:-translate-y-0.5"
+      className={cn(
+        "group bg-muted ring-border/20 flex min-w-0 scroll-mt-24 overflow-hidden rounded-3xl py-0 transition-transform duration-300 hover:-translate-y-0.5",
+        isLead ? "flex-col lg:flex-row" : "h-full flex-col",
+      )}
     >
-      <CardHeader className="min-w-0 gap-0 p-3 pb-0">
+      <CardHeader
+        className={cn(
+          "gap-0 p-3 pb-0",
+          isLead
+            ? "w-full lg:w-5/12 lg:shrink-0 lg:self-stretch lg:pb-3"
+            : "min-w-0",
+        )}
+      >
         {project.href ? (
           <a
             href={project.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-visible:ring-ring block min-w-0 focus-visible:ring-2 focus-visible:outline-none"
+            className="focus-visible:ring-ring block h-full w-full focus-visible:ring-2 focus-visible:outline-none"
           >
             {media}
           </a>
@@ -47,72 +76,95 @@ export function ProjectCard({ project }: { project: Project }) {
         )}
       </CardHeader>
 
-      <CardContent className="flex min-w-0 flex-1 flex-col gap-3 px-4 pt-4 pb-0">
-        <div className="flex min-w-0 flex-wrap items-center gap-2">
-          <CardTitle className="font-heading min-w-0 text-lg font-semibold tracking-tight wrap-break-word">
-            <h3>{project.title}</h3>
-          </CardTitle>
-          <Badge
-            variant="outline"
-            className="text-muted-foreground rounded-md font-mono text-[11px] font-normal tracking-normal normal-case"
-          >
-            #{project.tag}
-          </Badge>
-        </div>
-
-        <CardDescription
+      <div
+        className={cn(
+          "flex min-w-0 flex-1 flex-col",
+          isLead && "lg:justify-center",
+        )}
+      >
+        <CardContent
           className={cn(
-            "text-muted-foreground text-[13px] leading-relaxed wrap-break-word",
-            project.featured ? "line-clamp-6" : "line-clamp-3",
+            "flex min-w-0 flex-1 flex-col gap-3 px-4 pt-4 pb-0",
+            isLead && "lg:flex-none lg:gap-4 lg:px-6 lg:pt-6",
           )}
         >
-          {project.summary}
-        </CardDescription>
-
-        <div className="flex min-w-0 flex-wrap items-center gap-2 pt-1">
-          <span className="text-foreground text-[12px] font-semibold">
-            Tools:
-          </span>
-          {project.tools.map((tool) => (
-            <Badge
-              key={tool}
-              variant="default"
-              className="max-w-full rounded-md px-2 py-0.5 text-[11px] font-medium whitespace-normal"
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <CardTitle
+              className={cn(
+                "font-heading min-w-0 font-semibold tracking-tight wrap-break-word",
+                isLead ? "text-xl sm:text-2xl" : "text-lg",
+              )}
             >
-              {tool}
+              <h3>{project.title}</h3>
+            </CardTitle>
+            <Badge
+              variant="outline"
+              className="text-muted-foreground rounded-md font-mono text-[11px] font-normal tracking-normal normal-case"
+            >
+              #{project.tag}
             </Badge>
-          ))}
-        </div>
-      </CardContent>
+          </div>
 
-      <CardFooter className="mt-auto flex min-w-0 flex-wrap items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4">
-        <span className="text-muted-foreground inline-flex items-center gap-2 font-mono text-[12px]">
-          <Calendar className="size-3.5 shrink-0" aria-hidden />#{project.year}
-        </span>
-
-        {project.href && project.ctaLabel ? (
-          <a
-            href={project.href}
-            target="_blank"
-            rel="noopener noreferrer"
+          <CardDescription
             className={cn(
-              buttonVariants({
-                variant: project.ctaLabel === "Webview" ? "link" : "default",
-                size: "sm",
-              }),
-              "shrink-0",
-              project.ctaLabel === "Webview"
-                ? "h-auto px-0 text-[13px]"
-                : "h-9 gap-1.5",
+              "text-muted-foreground leading-relaxed wrap-break-word",
+              isLead ? "line-clamp-4 text-[15px]" : "line-clamp-3 text-[13px]",
             )}
           >
-            {project.ctaLabel}
-            {project.ctaLabel === "Open Site" ? (
-              <ExternalLink className="size-3.5" aria-hidden />
-            ) : null}
-          </a>
-        ) : null}
-      </CardFooter>
+            {project.summary}
+          </CardDescription>
+
+          <div className="flex min-w-0 flex-wrap items-center gap-2 pt-1">
+            <span className="text-foreground text-[12px] font-semibold">
+              Tools:
+            </span>
+            {project.tools.map((tool) => (
+              <Badge
+                key={tool}
+                variant="default"
+                className="max-w-full rounded-md px-2 py-0.5 text-[11px] font-medium whitespace-normal"
+              >
+                {tool}
+              </Badge>
+            ))}
+          </div>
+        </CardContent>
+
+        <CardFooter
+          className={cn(
+            "flex min-w-0 flex-wrap items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4",
+            isLead ? "lg:mt-6 lg:px-6" : "mt-auto",
+          )}
+        >
+          <span className="text-muted-foreground inline-flex items-center gap-2 font-mono text-[12px]">
+            <Calendar className="size-3.5 shrink-0" aria-hidden />#
+            {project.year}
+          </span>
+
+          {project.href && project.ctaLabel ? (
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                buttonVariants({
+                  variant: project.ctaLabel === "Webview" ? "link" : "default",
+                  size: "sm",
+                }),
+                "shrink-0",
+                project.ctaLabel === "Webview"
+                  ? "h-auto px-0 text-[13px]"
+                  : "h-9 gap-1.5",
+              )}
+            >
+              {project.ctaLabel}
+              {project.ctaLabel === "Open Site" ? (
+                <ExternalLink className="size-3.5" aria-hidden />
+              ) : null}
+            </a>
+          ) : null}
+        </CardFooter>
+      </div>
     </Card>
   );
 }

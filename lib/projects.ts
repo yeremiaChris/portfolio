@@ -68,7 +68,7 @@ export const projects: Project[] = [
     tag: "work",
     year: "2025–2026",
     summary:
-      "Owned clinical visit, queue, teleconsult, and billing flows on a FHIR-compliant clinic/hospital OS. Integrated GraphQL + FHIR and shipped AI-assisted documentation (speech-to-text, note drafting) used in real clinic and hospital workflows.",
+      "Visit, queue, teleconsult, and billing UI on a FHIR-compliant clinic/hospital OS — GraphQL + FHIR, plus AI-assisted notes used in real clinic workflows.",
     tools: ["Vue 3", "Nuxt 3", "TypeScript", "GraphQL", "FHIR"],
     image: "/projects/mazecare.png",
     imageAlt: "Mazecare receptionist dashboard and queue management",
@@ -82,7 +82,7 @@ export const projects: Project[] = [
     tag: "work",
     year: "2022–Present",
     summary:
-      "Owned clinician and family-facing product UI on PrimaKu’s pediatric health platform — shared design-system components, REST + auth, and realtime telemetry. The consumer app has 1M+ Google Play downloads; primaku.com is the separate parent-facing growth catalog (location-priced vaccines and medical services), not the clinical app.",
+      "Clinician and family product UI — design system, REST + auth, telemetry. Consumer app: 1M+ Play downloads. primaku.com is the parent-facing catalog, not the clinical product.",
     tools: [
       "Next.js",
       "TypeScript",
@@ -103,7 +103,7 @@ export const projects: Project[] = [
     tag: "work",
     year: "2023",
     summary:
-      "Owned high-density logistics UI for a multi-courier aggregator. Built live shipping rates across 15+ courier partners and manifest/barcode flows with virtualized lists + Web Workers so ops could process high daily label volume without the UI locking up. The consumer app has 100K+ Google Play downloads.",
+      "High-density logistics UI: live rates across 15+ courier partners, virtualized manifests + Web Workers. Consumer app: 100K+ Play downloads.",
     tools: ["Nuxt.js", "TypeScript", "Swiper", "Firebase"],
     image: "/projects/kiriminaja.jpg",
     imageAlt: "KiriminAja logistics platform",
@@ -117,7 +117,7 @@ export const projects: Project[] = [
     tag: "work",
     year: "2024",
     summary:
-      "Owned clinician-facing medical records and SatuSehat integration flows in a clinic management app — forms, data pipelines, and day-to-day clinical UI.",
+      "Clinician-facing medical records and SatuSehat flows — forms, data pipelines, and day-to-day clinic UI.",
     tools: [
       "Next.js",
       "TypeScript",

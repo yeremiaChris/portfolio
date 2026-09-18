@@ -14,7 +14,6 @@ import {
   getIntroServerSnapshot,
   getSessionStorage,
   isIntroSeen,
-  markIntroCoverDone,
   markIntroSeen,
   prefersReducedMotion,
   shouldShowIntro,
@@ -147,9 +146,5 @@ describe("browser-safe intro helpers", () => {
     completeIntro(storage);
 
     expect(storage.data.get(INTRO_STORAGE_KEY)).toBe(INTRO_SEEN_VALUE);
-  });
-
-  it("markIntroCoverDone is a no-op without document", () => {
-    expect(() => markIntroCoverDone()).not.toThrow();
   });
 });

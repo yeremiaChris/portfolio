@@ -134,14 +134,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-intro-loader],
-  [data-intro-cover] {
+  [data-intro-loader] {
     display: none;
   }
 }
 
-html[data-intro="seen"] [data-intro-loader],
-html[data-intro="seen"] [data-intro-cover],
-html[data-intro-done="true"] [data-intro-cover] {
+html[data-intro="seen"] [data-intro-loader] {
   display: none;
 }

@@ -57,11 +57,6 @@ export function markIntroSeen(storage: IntroStorage | null): void {
   }
 }
 
-export function markIntroCoverDone(): void {
-  if (typeof document === "undefined") return;
-  document.documentElement.dataset.introDone = "true";
-}
-
 export function getSessionStorage(): IntroStorage | null {
   if (typeof window === "undefined") return null;
 
@@ -115,6 +110,5 @@ export function subscribeIntroVisibility(
 
 export function completeIntro(storage: IntroStorage | null): void {
   markIntroSeen(storage);
-  markIntroCoverDone();
   notifyIntroVisibility();
 }

@@ -30,7 +30,7 @@ If LCP stays above ~1.8s, you will not see 100 no matter how aggressively you co
 
 The overlay on `/` is choreography, not a loader. The page is already there. Hiding the heading with `opacity: 0` until the sequence finished made Chrome wait for the intro (~2s) plus a fade before it would count the hero as LCP.
 
-The heading now paints at `opacity: 1` **under** a `position: fixed` overlay. A CSS cover holds first paint; Motion only loads when the intro should actually play. Intro timings stay at or under ~1100ms.
+The heading now paints at `opacity: 1` from the first HTML. Motion still loads only when the intro should play, then sits on top. An opaque full-viewport CSS cover looked cleaner, but Lighthouse treated that plate as LCP on Slow 4G and the score dropped. Intro timings stay at or under ~1100ms once the overlay is on screen.
 
 The skip/replay rules — `sessionStorage`, `useSyncExternalStore`, reduced motion — live in a separate note: [Why This Site's Intro Replays After You Close the Tab](/blog/intro-loader-session). This post is the PageSpeed pass around that overlay, not a retell of the storage model.
 
@@ -74,6 +74,7 @@ The splits above are the easy part. The regressions showed up at the seams.
 | Import app constants into `next.config.ts` | Redirect `source` was `undefined` and `yarn dev` died. Keep `/analytics` as a string literal in the config |
 | Measure in `yarn dev`                      | Turbopack, React overlays, and unminified graphs lie. PageSpeed needs a **production** deploy              |
 | Analytics in the first paint               | Umami via `next/script` `afterInteractive`, production-only website id. Footer meta row, not header chips  |
+| Opaque CSS intro cover                     | Full-viewport `bg-background` hid the hero until Motion arrived. LCP 3.2s → 3.9s. Hero paints first        |
 | Repeat-visit skip                          | Good for humans, invisible to a Lighthouse first load                                                      |
 
 Hydration errors in this stack often look like “Button is broken.” Check whether a `dynamic` `loading` placeholder rendered a different tree than the island. Code-split without a fallback is boring and usually correct.

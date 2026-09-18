@@ -1,5 +1,7 @@
 export const DEFAULT_UMAMI_WEBSITE_ID = "d2108e70-68da-44ac-9623-504113b4b355";
-export const UMAMI_SCRIPT_SRC = "https://cloud.umami.is/script.js";
+export const UMAMI_SCRIPT_ORIGIN = "https://cloud.umami.is";
+export const UMAMI_SCRIPT_SRC = `${UMAMI_SCRIPT_ORIGIN}/script.js`;
+export const UMAMI_GATEWAY_ORIGIN = "https://gateway.umami.is";
 export const UMAMI_SHARE_PATH = "/analytics";
 
 export function getUmamiWebsiteId(

@@ -43,7 +43,7 @@ export function Artifacts() {
               Engineering Artifacts
             </h2>
             <p className="text-muted-foreground max-w-xl text-[15px] leading-6">
-              Direct proof-of-work: interactive demos for tokens, streaming
+              Supporting proof-of-craft: interactive demos for tokens, streaming
               patterns, and accessible UI state.
             </p>
           </div>

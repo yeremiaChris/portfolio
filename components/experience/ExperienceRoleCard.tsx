@@ -20,7 +20,10 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
   const barClass = experienceRoleBarClass[role.tone];
 
   return (
-    <Card className="bg-muted ring-border/20 hover:bg-muted/80 rounded-3xl py-6 transition-colors md:py-8">
+    <Card
+      id={role.id}
+      className="bg-muted ring-border/20 hover:bg-muted/80 scroll-mt-24 rounded-3xl py-6 transition-colors md:py-8"
+    >
       <CardHeader className="gap-4">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
           <div className="min-w-0 flex-1">

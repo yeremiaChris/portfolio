@@ -55,7 +55,7 @@ export const aboutProfileMetrics: AboutProfileMetric[] = [
   },
   {
     label: "Healthcare Impact",
-    value: "1M+ clinicians (PrimaKu)",
+    value: "1M+ app downloads (PrimaKu)",
     tone: "primary",
   },
   {

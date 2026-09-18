@@ -13,7 +13,7 @@ import { buildPageMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildPageMetadata({
   title: "Projects | Yeremia Chris Saragi",
   description:
-    "Production work across healthcare and logistics — clinical systems, shipping platforms, and product interfaces built with React, Next.js, Vue, and modern APIs.",
+    "Production work across healthcare and logistics — featured stories with ownership and outcomes, plus earlier shipped UI.",
   path: "/projects",
 });
 

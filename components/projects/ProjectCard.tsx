@@ -28,7 +28,10 @@ export function ProjectCard({ project }: { project: Project }) {
   );
 
   return (
-    <Card className="group bg-muted ring-border/20 flex h-full min-w-0 flex-col overflow-hidden rounded-3xl py-0 transition-transform duration-300 hover:-translate-y-0.5">
+    <Card
+      id={project.id}
+      className="group bg-muted ring-border/20 flex h-full min-w-0 scroll-mt-24 flex-col overflow-hidden rounded-3xl py-0 transition-transform duration-300 hover:-translate-y-0.5"
+    >
       <CardHeader className="min-w-0 gap-0 p-3 pb-0">
         {project.href ? (
           <a
@@ -57,7 +60,12 @@ export function ProjectCard({ project }: { project: Project }) {
           </Badge>
         </div>
 
-        <CardDescription className="text-muted-foreground line-clamp-3 text-[13px] leading-relaxed wrap-break-word">
+        <CardDescription
+          className={cn(
+            "text-muted-foreground text-[13px] leading-relaxed wrap-break-word",
+            project.featured ? "line-clamp-6" : "line-clamp-3",
+          )}
+        >
           {project.summary}
         </CardDescription>
 

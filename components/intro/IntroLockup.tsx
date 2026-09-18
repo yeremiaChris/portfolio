@@ -1,0 +1,44 @@
+import type { ReactNode } from "react";
+
+import { site } from "@/lib/site";
+
+interface IntroLockupProps {
+  bar?: ReactNode;
+}
+
+export const introOverlayClassName =
+  "bg-background fixed inset-0 z-110 flex items-center justify-center overflow-hidden";
+
+export function IntroLockup({ bar }: IntroLockupProps) {
+  return (
+    <>
+      <div
+        aria-hidden
+        className="from-primary/15 pointer-events-none absolute top-1/4 left-1/2 size-112 -translate-x-1/2 rounded-full bg-linear-to-b to-transparent blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[12%] bottom-1/4 size-72 rounded-full bg-[#4cd7f6]/10 blur-3xl"
+      />
+      <div className="relative flex flex-col items-center gap-7 px-6">
+        <p className="text-primary font-mono text-[13px] font-bold tracking-tight">
+          {"<YC />"}
+        </p>
+        <p className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+          <span className="from-primary bg-linear-to-r via-[#6ffbbe] to-[#4cd7f6] bg-clip-text text-transparent">
+            {site.name}
+          </span>
+        </p>
+        <p className="text-muted-foreground font-mono text-[11px] tracking-[0.16em] uppercase">
+          {site.role}
+        </p>
+        {bar ?? (
+          <div
+            aria-hidden
+            className="bg-secondary h-0.5 w-44 rounded-full sm:w-56"
+          />
+        )}
+      </div>
+    </>
+  );
+}

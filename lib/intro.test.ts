@@ -2,12 +2,16 @@ import { describe, expect, it } from "vitest";
 
 import {
   INTRO_BAR_DELAY_MS,
+  INTRO_BOOTSTRAP_SCRIPT,
   INTRO_DURATION_MS,
   INTRO_HOLD_MS,
+  INTRO_PLAYING_STATE,
+  INTRO_SEEN_STATE,
   INTRO_SEEN_VALUE,
-  INTRO_STAGGER_MS,
   INTRO_STORAGE_KEY,
+  applyIntroSkipFlags,
   completeIntro,
+  dismissIntroCover,
   getIntroClientSnapshot,
   getIntroExitAfterMs,
   getIntroSeenFlag,
@@ -17,7 +21,9 @@ import {
   markIntroSeen,
   prefersReducedMotion,
   shouldShowIntro,
+  shouldSkipIntroCover,
   subscribeIntroVisibility,
+  type IntroDocumentFlags,
   type IntroStorage,
 } from "./intro";
 
@@ -36,8 +42,8 @@ function createMemoryStorage(
 }
 
 describe("getIntroExitAfterMs", () => {
-  it("holds after the staggered bar finishes filling", () => {
-    expect(INTRO_BAR_DELAY_MS).toBe(INTRO_STAGGER_MS * 3);
+  it("holds after the bar finishes filling", () => {
+    expect(INTRO_BAR_DELAY_MS).toBe(0);
     expect(getIntroExitAfterMs()).toBe(
       INTRO_BAR_DELAY_MS + INTRO_DURATION_MS + INTRO_HOLD_MS,
     );
@@ -63,6 +69,79 @@ describe("shouldShowIntro", () => {
 
   it("skips when both reduced motion and seen apply", () => {
     expect(shouldShowIntro({ reducedMotion: true, seen: true })).toBe(false);
+  });
+});
+
+describe("shouldSkipIntroCover", () => {
+  it("keeps the first-paint cover on an unseen visit", () => {
+    expect(shouldSkipIntroCover({ reducedMotion: false, seen: false })).toBe(
+      false,
+    );
+  });
+
+  it("skips the cover when the intro should not run", () => {
+    expect(shouldSkipIntroCover({ reducedMotion: true, seen: false })).toBe(
+      true,
+    );
+    expect(shouldSkipIntroCover({ reducedMotion: false, seen: true })).toBe(
+      true,
+    );
+  });
+});
+
+describe("applyIntroSkipFlags", () => {
+  it("leaves the cover visible for a first visit", () => {
+    const dataset: IntroDocumentFlags = {};
+
+    applyIntroSkipFlags(dataset, { reducedMotion: false, seen: false });
+
+    expect(dataset.intro).toBeUndefined();
+  });
+
+  it("hides the cover before paint on seen or reduced-motion visits", () => {
+    const seen: IntroDocumentFlags = {};
+    const reduced: IntroDocumentFlags = {};
+
+    applyIntroSkipFlags(seen, { reducedMotion: false, seen: true });
+    applyIntroSkipFlags(reduced, { reducedMotion: true, seen: false });
+
+    expect(seen.intro).toBe(INTRO_SEEN_STATE);
+    expect(reduced.intro).toBe(INTRO_SEEN_STATE);
+  });
+});
+
+describe("dismissIntroCover", () => {
+  it("no-ops without a dataset", () => {
+    expect(() => dismissIntroCover(null)).not.toThrow();
+    expect(() => dismissIntroCover(undefined)).not.toThrow();
+  });
+
+  it("marks the intro as playing so the CSS cover can hand off", () => {
+    const dataset: IntroDocumentFlags = {};
+
+    dismissIntroCover(dataset);
+
+    expect(dataset.intro).toBe(INTRO_PLAYING_STATE);
+  });
+
+  it("does not replace a seen flag with playing", () => {
+    const dataset: IntroDocumentFlags = { intro: INTRO_SEEN_STATE };
+
+    dismissIntroCover(dataset);
+
+    expect(dataset.intro).toBe(INTRO_SEEN_STATE);
+  });
+});
+
+describe("INTRO_BOOTSTRAP_SCRIPT", () => {
+  it("hides the cover before paint on seen or reduced-motion visits", () => {
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain(INTRO_STORAGE_KEY);
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain(INTRO_SEEN_VALUE);
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain("prefers-reduced-motion");
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain(
+      `d.dataset.intro="${INTRO_SEEN_STATE}"`,
+    );
+    expect(INTRO_BOOTSTRAP_SCRIPT).not.toContain("introCover");
   });
 });
 

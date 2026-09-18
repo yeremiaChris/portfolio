@@ -134,11 +134,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-intro-cover],
   [data-intro-loader] {
     display: none;
   }
 }
 
-html[data-intro="seen"] [data-intro-loader] {
+html[data-intro="seen"] [data-intro-cover],
+html[data-intro="playing"] [data-intro-cover] {
   display: none;
+}
+
+html:not([data-intro="seen"]):not([data-intro="playing"]):has(
+    [data-intro-cover]
+  ) {
+  overflow: hidden;
 }

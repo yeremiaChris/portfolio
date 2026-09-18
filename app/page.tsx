@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   ...buildPageMetadata({
     title: "Yeremia Chris Saragi | Software Engineer",
     description:
-      "Software Engineer (frontend-heavy) building production web platforms across health-tech and logistics — React, Next.js, Vue, APIs, and data integration.",
+      "Software Engineer (frontend-heavy) building production platforms across health-tech and logistics — product UI with real API, auth, and data ownership.",
     path: "/",
   }),
   keywords: [
@@ -38,8 +38,8 @@ export default function Home() {
       <JsonLd data={buildHomeJsonLd()} />
       <IntroGate />
       <Hero />
-      <Artifacts />
       <Milestones />
+      <Artifacts />
       <TechStack />
       <ContactCta />
     </main>

@@ -1,17 +1,12 @@
-import {
-  AwardIcon,
-  BadgeCheckIcon,
-  CloudCheckIcon,
-  LayersIcon,
-} from "lucide-react";
+import { AwardIcon, GaugeIcon, HeartPulseIcon, UsersIcon } from "lucide-react";
 
 import { site } from "@/lib/site";
 
 const ICONS = {
   award: AwardIcon,
-  cloud: CloudCheckIcon,
-  verified: BadgeCheckIcon,
-  layers: LayersIcon,
+  gauge: GaugeIcon,
+  users: UsersIcon,
+  heart: HeartPulseIcon,
 } as const;
 
 export function HeroStats() {
@@ -30,7 +25,7 @@ export function HeroStats() {
               </span>
               <Icon
                 className={
-                  stat.icon === "cloud" || stat.icon === "layers"
+                  stat.icon === "gauge" || stat.icon === "heart"
                     ? "size-4 text-[#4cd7f6]"
                     : "text-primary size-4"
                 }

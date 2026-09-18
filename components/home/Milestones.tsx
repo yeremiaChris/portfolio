@@ -11,9 +11,9 @@ import {
 export function Milestones() {
   return (
     <section
-      id="experience"
+      id="work"
       aria-labelledby="milestones-heading"
-      className="w-full py-16 md:py-24"
+      className="w-full scroll-mt-24 py-16 md:py-24"
     >
       <Container className="flex flex-col gap-10 md:gap-12">
         <header className="flex max-w-2xl flex-col gap-1">

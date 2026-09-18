@@ -24,12 +24,12 @@ export function HeroTerminal() {
       <div className="overflow-x-auto bg-[#0a0e14] p-4 font-mono text-[14px] leading-5.5">
         <div className="grid grid-cols-[2rem_1fr] gap-x-3 text-[#86948a] select-none">
           <Line n={1}>
-            <Kw>import</Kw> {"{ Architect, FullStack }"} <Kw>from</Kw>{" "}
+            <Kw>import</Kw> {"{ Engineer }"} <Kw>from</Kw>{" "}
             <Str>&apos;@core/runtime&apos;</Str>;
           </Line>
           <Line n={2}>
             <Kw>export const</Kw> <Ident>engineer</Ident> = <Kw>new</Kw>{" "}
-            <Type>Architect</Type>({"{"}
+            <Type>Engineer</Type>({"{"}
           </Line>
           <Line n={3} indent>
             identity: <Str>&apos;Yeremia Chris Saragi&apos;</Str>,
@@ -38,12 +38,12 @@ export function HeroTerminal() {
             role: <Str>&apos;Software Engineer · Frontend-Heavy&apos;</Str>,
           </Line>
           <Line n={5} indent>
-            focus: [<Str>&apos;Product Platforms&apos;</Str>,{" "}
-            <Str>&apos;APIs · UI Craft&apos;</Str>],
+            focus: [<Str>&apos;Health-tech&apos;</Str>,{" "}
+            <Str>&apos;Product Platforms&apos;</Str>],
           </Line>
           <Line n={6} indent>
-            uptimeSla: <Type>0.9995</Type>,{" "}
-            <Comment>{"// 99.95% Target"}</Comment>
+            downloads: <Str>&apos;1M+&apos;</Str>,{" "}
+            <Comment>{"// PrimaKu Google Play"}</Comment>
           </Line>
           <Line n={7} indent>
             status: <Ident>STATUS.OPEN_FOR_OPPORTUNITY</Ident>,
@@ -51,15 +51,15 @@ export function HeroTerminal() {
           <Line n={8}>{"}"});</Line>
           <Line n={9} />
           <Line n={10}>
-            <Comment>{"// Self-executing pipeline"}</Comment>
+            <Comment>{"// Production proof"}</Comment>
           </Line>
           <Line n={11}>
-            <Kw>await</Kw> <Ident>engineer</Ident>.
-            <Type>deployEnterpriseSolutions</Type>({"{"}
+            <Kw>await</Kw> <Ident>engineer</Ident>.<Type>ship</Type>({"{"}
           </Line>
           <Line n={12} indent>
-            cleanCode: <Ident>true</Ident>, testCoverage:{" "}
-            <Str>&apos;&gt;90%&apos;</Str>
+            domain: <Str>&apos;FHIR&apos;</Str>, logistics:{" "}
+            <Str>&apos;100K+&apos;</Str>{" "}
+            <Comment>{"// KiriminAja Play downloads"}</Comment>
           </Line>
           <Line n={13}>{"}"});</Line>
         </div>
@@ -73,7 +73,7 @@ export function HeroTerminal() {
             Available for hire &amp; freelance contracts
           </span>
         </div>
-        <span>LAT: 12ms</span>
+        <span>1M+ downloads · FHIR</span>
       </div>
     </figure>
   );

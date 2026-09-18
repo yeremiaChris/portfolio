@@ -15,7 +15,12 @@ export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
   return (
     <Card className="bg-muted ring-border/20 overflow-hidden rounded-3xl">
       <CardContent className="grid grid-cols-1 gap-8 p-6 md:p-8 lg:grid-cols-12 lg:gap-10">
-        <div className="flex flex-col justify-between gap-6 lg:col-span-7">
+        <div
+          className={cn(
+            "flex flex-col justify-between gap-6",
+            study.chart ? "lg:col-span-7" : "lg:col-span-12",
+          )}
+        >
           <CardHeader className="gap-2 p-0">
             <div className="flex flex-wrap items-center gap-2">
               <Badge

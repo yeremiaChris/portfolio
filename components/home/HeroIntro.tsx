@@ -2,12 +2,12 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   ArrowRightIcon,
+  BriefcaseIcon,
   Code2Icon,
   ExternalLinkIcon,
   MailIcon,
   MessageCircleIcon,
   Share2Icon,
-  UserIcon,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -52,27 +52,46 @@ export function HeroIntro() {
         </p>
       </div>
 
-      <p className="text-muted-foreground mt-3 mb-8 max-w-2xl text-base leading-relaxed sm:text-lg sm:leading-7">
+      <p className="text-muted-foreground mt-3 mb-6 max-w-2xl text-base leading-relaxed sm:text-lg sm:leading-7">
         {site.bio}
       </p>
 
+      <div className="mb-8 flex w-full flex-col gap-2">
+        <span className="text-muted-foreground font-mono text-[10px] tracking-[0.16em] uppercase">
+          Production
+        </span>
+        <nav
+          aria-label="Selected production work"
+          className="flex flex-wrap items-center gap-2"
+        >
+          {site.proof.map((item) => (
+            <ProofLink
+              key={item.id}
+              href={item.href}
+              label={item.label}
+              meta={item.meta}
+            />
+          ))}
+        </nav>
+      </div>
+
       <div className="mb-8 flex w-full flex-wrap items-center gap-3 sm:w-auto">
-        <Link
-          href={site.links.experience}
+        <a
+          href="#work"
           className={cn(
             buttonVariants({ size: "lg" }),
             "hover:bg-primary bg-[#10b981] text-[#00422b]",
           )}
         >
-          Explore Experience
+          Selected work
           <ArrowRightIcon />
-        </Link>
+        </a>
         <Link
-          href={site.links.about}
+          href={site.links.experience}
           className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
         >
-          <UserIcon />
-          More About Me
+          <BriefcaseIcon />
+          Experience
         </Link>
         <Link
           href={site.links.resume}
@@ -118,6 +137,28 @@ export function HeroIntro() {
         </nav>
       </div>
     </div>
+  );
+}
+
+function ProofLink({
+  href,
+  label,
+  meta,
+}: {
+  href: string;
+  label: string;
+  meta: string;
+}) {
+  return (
+    <a
+      href={href}
+      className="group bg-muted text-muted-foreground hover:bg-secondary hover:text-foreground inline-flex items-center gap-2 rounded-lg px-3 py-2 transition-colors"
+    >
+      <span className="text-foreground font-mono text-[13px]">{label}</span>
+      <span className="text-muted-foreground group-hover:text-primary font-mono text-[10px] tracking-wider uppercase">
+        {meta}
+      </span>
+    </a>
   );
 }
 

@@ -45,7 +45,7 @@ export const experienceIntro = {
   eyebrow: "// CAREER TIMELINE · PRODUCTION TRACK RECORD",
   title: "Engineering Experience",
   description:
-    "Production track record across health-tech platforms, logistics systems, and digital product teams.",
+    "Production track record across health-tech platforms, logistics systems, and product teams. Some roles overlapped in time — each entry is the work I owned there.",
   tenureBadge: "Career Timeline // 5+ Years",
 } as const;
 
@@ -91,9 +91,9 @@ export const experienceMetrics: ExperienceMetric[] = [
     icon: "package",
   },
   {
-    label: "Performance",
-    value: "< 100ms",
-    detail: "INP · 99.9% uptime",
+    label: "Scale",
+    value: "1M+",
+    detail: "PrimaKu app downloads",
     tone: "cyan",
     icon: "gauge",
   },
@@ -111,12 +111,11 @@ export const experienceRoles: ExperienceRole[] = [
     companyLegal: "(PT Cipta Medika Informasi)",
     summary:
       "National health-tech platform endorsed by the Indonesian Pediatric Society (IDAI), supporting early childhood health monitoring for clinicians and families.",
-    sideStats: ["1M+ clinicians on platform", "Jest / RTL coverage"],
+    sideStats: ["1M+ Play downloads", "Jest / RTL coverage"],
     highlights: [
-      "Built and maintained frontend architecture for consumer growth platforms and clinical portals using React and Next.js (App Router), with a strong focus on performance and maintainability.",
-      "Developed accessible design system components synced with multi-brand Figma tokens, used across a platform serving 1M+ clinicians.",
-      "Implemented REST API integrations, token-based authentication flows, and third-party pediatric telemetry streaming.",
-      "Improved team practices around code reviews, linting standards, and Agile processes.",
+      "Owned frontend architecture for PrimaKu product and clinical portals in React/Next.js — shared UI, REST + auth, and telemetry. The consumer parenting app has 1M+ Google Play downloads.",
+      "Shipped accessible design-system components synced to multi-brand Figma tokens, used across clinician and family-facing product surfaces.",
+      "Delivered primaku.com as the parent-facing growth catalog (location-priced vaccines and medical services) on SSR — a different surface from the clinician product.",
     ],
     panel: {
       title: "Product Focus",
@@ -125,7 +124,7 @@ export const experienceRoles: ExperienceRole[] = [
       rows: [
         {
           label: "Stack:",
-          value: "React · Next.js App Router",
+          value: "React · Next.js",
           emphasize: true,
         },
         { label: "Integrations:", value: "REST · Auth · Telemetry" },
@@ -135,7 +134,7 @@ export const experienceRoles: ExperienceRole[] = [
     },
     stack: [
       "React",
-      "Next.js (App Router)",
+      "Next.js",
       "TypeScript",
       "Tailwind CSS",
       "REST APIs",
@@ -155,9 +154,8 @@ export const experienceRoles: ExperienceRole[] = [
       "AI-native Clinic & Hospital Information System (EMR/HIS), FHIR-compliant, covering the full patient lifecycle.",
     sideStats: ["FHIR · GraphQL", "Vue 3 / Nuxt 3"],
     highlights: [
-      "Built features across the patient lifecycle: registration, scheduling, clinical visits, teleconsultation, queues, medical imaging, and billing.",
-      "Shipped AI clinical assistant features including speech-to-text and AI-assisted medical note drafting with diagnosis/prescription suggestions.",
-      "Developed AI configuration tools for encounter templates, dashboards, and workflows, plus document processing for billing and insurance.",
+      "Owned patient-lifecycle UI: registration, scheduling, clinical visits, teleconsultation, queues, imaging, and billing on a FHIR-compliant EMR/HIS.",
+      "Shipped AI clinical assistant features — speech-to-text and AI-assisted notes with diagnosis/prescription suggestions — used in real clinic workflows.",
       "Integrated FHIR and GraphQL APIs with standardized clinical coding for third-party and payor systems.",
     ],
     panel: {
@@ -184,12 +182,11 @@ export const experienceRoles: ExperienceRole[] = [
     companyLegal: "(PT Selalu Siap Solusi)",
     summary:
       "Multi-courier parcel aggregation platform handling bulk cargo, instant delivery, and e-commerce fulfillment across Indonesia.",
-    sideStats: ["15+ couriers", "High-density UI"],
+    sideStats: ["15+ courier partners", "High-density UI"],
     highlights: [
-      "Developed logistics control-room interfaces using Vue.js and Nuxt.js, including real-time pricing across 15+ domestic couriers.",
-      "Built high-density parcel manifest and batch barcode scanning interfaces for high daily label volume, using Web Workers and virtualized lists.",
-      "Implemented efficient state management with Pinia/Vuex for courier calculation caching and live shipment tracking.",
-      "Worked closely with operations and QA on performance and incident handling.",
+      "Owned logistics control-room UI in Vue/Nuxt, including live shipping rates across 15+ domestic courier partners. The consumer app has 100K+ Google Play downloads.",
+      "Built high-density manifest and batch barcode flows with Web Workers and virtualized lists so ops could process high daily label volume without the UI locking up.",
+      "Implemented Pinia/Vuex caching for courier calculation and live shipment tracking, working with ops and QA on performance and incidents.",
     ],
     panel: {
       title: "Logistics UI Focus",
@@ -198,7 +195,7 @@ export const experienceRoles: ExperienceRole[] = [
       rows: [
         {
           label: "Multi-carrier:",
-          value: "15+ integrated",
+          value: "15+ partners",
           emphasize: true,
         },
         { label: "Heavy lists:", value: "Virtualization · Workers" },
@@ -221,10 +218,9 @@ export const experienceRoles: ExperienceRole[] = [
       "Digital transformation consultancy delivering enterprise web and mobile applications.",
     sideStats: ["Web & mobile", "Client sprints"],
     highlights: [
-      "Built client-facing web applications, admin dashboards, and hybrid mobile interfaces using React, Next.js, Vue, and React Native.",
-      "Delivered pixel-accurate responsive interfaces from complex Figma designs.",
-      "Implemented payment gateway integrations (Midtrans, Xendit), complex state management, and multilingual support (i18n).",
-      "Worked in fast client sprints and handed off production-ready code to internal teams.",
+      "Delivered client web apps, admin dashboards, and hybrid mobile UI in React, Next.js, Vue, and React Native.",
+      "Shipped payment gateway integrations (Midtrans, Xendit), complex state, and i18n in fast client sprints.",
+      "Handed off production-ready, pixel-accurate interfaces from complex Figma designs to internal teams.",
     ],
     panel: {
       title: "Client Delivery",

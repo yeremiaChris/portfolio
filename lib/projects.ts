@@ -11,7 +11,14 @@ export const projectsIntro = {
   breadcrumbLeaf: "architectural_deployments.log",
   title: "Featured Projects",
   description:
-    "Production work across healthcare and logistics — clinical systems, shipping platforms, and product interfaces built with React, Next.js, Vue, and modern APIs.",
+    "Four production stories with ownership and outcomes — health-tech and logistics first. Earlier shipped work sits in the archive below.",
+} as const;
+
+export const projectsArchiveIntro = {
+  eyebrow: "Archive",
+  title: "Earlier work",
+  description:
+    "Additional shipped sites and UI. Real work — just not the hiring signal.",
 } as const;
 
 export const projectRibbonToneClass: Record<ProjectRibbonTone, string> = {
@@ -22,13 +29,13 @@ export const projectRibbonToneClass: Record<ProjectRibbonTone, string> = {
 
 export const projectsRibbon: ProjectRibbonMetric[] = [
   {
-    label: "Shipped Projects",
-    value: "11 Featured",
+    label: "Featured",
+    value: "4 Production",
     tone: "foreground",
   },
   {
     label: "Domains",
-    value: "Health · Logistics · SaaS",
+    value: "Health · Logistics",
     tone: "primary",
   },
   {
@@ -49,6 +56,7 @@ export type Project = {
   tools: string[];
   image: string;
   imageAlt: string;
+  featured: boolean;
   href?: string;
   ctaLabel?: "Open Site" | "Webview";
 };
@@ -60,20 +68,21 @@ export const projects: Project[] = [
     tag: "work",
     year: "2025–2026",
     summary:
-      "FHIR-compliant EMR/HIS covering the full patient lifecycle. Built clinical visit flows, queues, teleconsultation, billing, and AI-assisted documentation features using Vue 3 and Nuxt 3.",
+      "Owned clinical visit, queue, teleconsult, and billing flows on a FHIR-compliant clinic/hospital OS. Integrated GraphQL + FHIR and shipped AI-assisted documentation (speech-to-text, note drafting) used in real clinic and hospital workflows.",
     tools: ["Vue 3", "Nuxt 3", "TypeScript", "GraphQL", "FHIR"],
     image: "/projects/mazecare.png",
     imageAlt: "Mazecare receptionist dashboard and queue management",
+    featured: true,
     href: "https://www.mazecare.com/",
     ctaLabel: "Open Site",
   },
   {
     id: "primaku",
-    title: "PrimaKu Landing Page (Revamp)",
+    title: "PrimaKu",
     tag: "work",
-    year: "2025",
+    year: "2022–Present",
     summary:
-      "Revamped the main marketing site with smoother animations and clearer product storytelling. Focused on performance, form handling, and engagement tracking.",
+      "Owned clinician and family-facing product UI on PrimaKu’s pediatric health platform — shared design-system components, REST + auth, and realtime telemetry. The consumer app has 1M+ Google Play downloads; primaku.com is the separate parent-facing growth catalog (location-priced vaccines and medical services), not the clinical app.",
     tools: [
       "Next.js",
       "TypeScript",
@@ -83,8 +92,43 @@ export const projects: Project[] = [
       "Framer Motion",
     ],
     image: "/projects/primaku.png",
-    imageAlt: "PrimaKu landing page",
+    imageAlt: "PrimaKu parent-facing vaccine and medical services catalog",
+    featured: true,
     href: "https://www.primaku.com",
+    ctaLabel: "Open Site",
+  },
+  {
+    id: "kiriminaja",
+    title: "KiriminAja",
+    tag: "work",
+    year: "2023",
+    summary:
+      "Owned high-density logistics UI for a multi-courier aggregator. Built live shipping rates across 15+ courier partners and manifest/barcode flows with virtualized lists + Web Workers so ops could process high daily label volume without the UI locking up. The consumer app has 100K+ Google Play downloads.",
+    tools: ["Nuxt.js", "TypeScript", "Swiper", "Firebase"],
+    image: "/projects/kiriminaja.jpg",
+    imageAlt: "KiriminAja logistics platform",
+    featured: true,
+    href: "https://app.kiriminaja.com",
+    ctaLabel: "Open Site",
+  },
+  {
+    id: "primacare",
+    title: "PrimaCare",
+    tag: "work",
+    year: "2024",
+    summary:
+      "Owned clinician-facing medical records and SatuSehat integration flows in a clinic management app — forms, data pipelines, and day-to-day clinical UI.",
+    tools: [
+      "Next.js",
+      "TypeScript",
+      "React Hook Form",
+      "TanStack Query",
+      "Valibot",
+    ],
+    image: "/projects/primacare.jpg",
+    imageAlt: "PrimaCare clinic management",
+    featured: true,
+    href: "https://www.primacare.ai",
     ctaLabel: "Open Site",
   },
   {
@@ -103,26 +147,8 @@ export const projects: Project[] = [
     ],
     image: "/projects/parenthood.jpg",
     imageAlt: "Parenthood Institute",
+    featured: false,
     href: "https://www.primaku.com/parenthood-institute",
-    ctaLabel: "Open Site",
-  },
-  {
-    id: "primacare",
-    title: "PrimaCare",
-    tag: "work",
-    year: "2024",
-    summary:
-      "Clinic management web app focused on medical records and SatuSehat integration. Worked on core forms, data flows, and clinician-facing interfaces.",
-    tools: [
-      "Next.js",
-      "TypeScript",
-      "React Hook Form",
-      "TanStack Query",
-      "Valibot",
-    ],
-    image: "/projects/primacare.jpg",
-    imageAlt: "PrimaCare clinic management",
-    href: "https://www.primacare.ai",
     ctaLabel: "Open Site",
   },
   {
@@ -135,20 +161,8 @@ export const projects: Project[] = [
     tools: ["Nuxt.js", "Supabase", "Tailwind CSS", "TypeScript"],
     image: "/projects/buildingbots.png",
     imageAlt: "BuildingBots AI",
+    featured: false,
     href: "https://buildingbots.ai",
-    ctaLabel: "Open Site",
-  },
-  {
-    id: "kiriminaja",
-    title: "KiriminAja",
-    tag: "work",
-    year: "2023",
-    summary:
-      "Frontend for a multi-courier shipping platform used by 200K+ users. Built logistics interfaces for pricing, manifest handling, and shipment tracking.",
-    tools: ["Nuxt.js", "TypeScript", "Swiper", "Firebase"],
-    image: "/projects/kiriminaja.jpg",
-    imageAlt: "KiriminAja logistics platform",
-    href: "https://app.kiriminaja.com",
     ctaLabel: "Open Site",
   },
   {
@@ -161,6 +175,7 @@ export const projects: Project[] = [
     tools: ["Nuxt.js", "Tailwind CSS", "Axios"],
     image: "/projects/cdic.jpg",
     imageAlt: "CDIC pediatric diabetes tracker",
+    featured: false,
     href: "https://play.google.com/store/apps/details?id=com.primaku.app&hl=id",
     ctaLabel: "Webview",
   },
@@ -174,6 +189,7 @@ export const projects: Project[] = [
     tools: ["Nuxt.js", "Tailwind CSS", "Axios"],
     image: "/projects/floucloud.jpg",
     imageAlt: "Flou Cloud",
+    featured: false,
     href: "https://www.floucloud.id",
     ctaLabel: "Open Site",
   },
@@ -187,6 +203,7 @@ export const projects: Project[] = [
     tools: ["Laravel", "Vue", "JavaScript"],
     image: "/projects/ukm-digital.png",
     imageAlt: "UKM Digital template gallery dashboard",
+    featured: false,
     href: "https://ukm.digital/",
     ctaLabel: "Open Site",
   },
@@ -200,6 +217,7 @@ export const projects: Project[] = [
     tools: ["Nuxt.js", "Tailwind CSS", "Axios"],
     image: "/projects/telkom-infra.png",
     imageAlt: "Telkom Infra",
+    featured: false,
     href: "https://telkominfra.co.id",
     ctaLabel: "Open Site",
   },
@@ -213,10 +231,23 @@ export const projects: Project[] = [
     tools: ["Nuxt.js", "Tailwind CSS"],
     image: "/projects/dashboard-purity.png",
     imageAlt: "Dashboard Purity UI",
+    featured: false,
     href: "https://slicing-ui-purity.netlify.app/",
     ctaLabel: "Open Site",
   },
 ];
+
+export function getFeaturedProjects(
+  items: readonly Project[] = projects,
+): Project[] {
+  return items.filter((project) => project.featured);
+}
+
+export function getArchiveProjects(
+  items: readonly Project[] = projects,
+): Project[] {
+  return items.filter((project) => !project.featured);
+}
 
 export const projectsContactCta = {
   eyebrow: "Available for Software Engineer roles (frontend-heavy)",

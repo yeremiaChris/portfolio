@@ -1,18 +1,23 @@
 export const INTRO_STORAGE_KEY = "intro-seen";
 export const INTRO_SEEN_VALUE = "1";
 export const INTRO_DURATION_MS = 700;
-export const INTRO_STAGGER_MS = 80;
 export const INTRO_HOLD_MS = 80;
 export const INTRO_EXIT_MS = 250;
-export const INTRO_BAR_DELAY_MS = INTRO_STAGGER_MS * 3;
+export const INTRO_BAR_DELAY_MS = 0;
 export const INTRO_EASE = [0.22, 1, 0.36, 1] as const;
 export const INTRO_VISIBILITY_EVENT = "intro:visibility";
+export const INTRO_SEEN_STATE = "seen";
+export const INTRO_PLAYING_STATE = "playing";
 
-export const INTRO_BOOTSTRAP_SCRIPT = `try{var d=document.documentElement;if(sessionStorage.getItem("${INTRO_STORAGE_KEY}")==="${INTRO_SEEN_VALUE}")d.dataset.intro="seen"}catch(e){}`;
+export const INTRO_BOOTSTRAP_SCRIPT = `try{var d=document.documentElement;var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var s=sessionStorage.getItem("${INTRO_STORAGE_KEY}")==="${INTRO_SEEN_VALUE}";if(s||r)d.dataset.intro="${INTRO_SEEN_STATE}"}catch(e){}`;
 
 export interface IntroDecisionInput {
   reducedMotion: boolean;
   seen: boolean;
+}
+
+export interface IntroDocumentFlags {
+  intro?: string;
 }
 
 export interface IntroStorage {
@@ -31,6 +36,26 @@ export function shouldShowIntro({
   if (reducedMotion) return false;
   if (seen) return false;
   return true;
+}
+
+export function shouldSkipIntroCover(input: IntroDecisionInput): boolean {
+  return !shouldShowIntro(input);
+}
+
+export function applyIntroSkipFlags(
+  dataset: IntroDocumentFlags,
+  input: IntroDecisionInput,
+): void {
+  if (!shouldSkipIntroCover(input)) return;
+  dataset.intro = INTRO_SEEN_STATE;
+}
+
+export function dismissIntroCover(
+  dataset: IntroDocumentFlags | null | undefined,
+): void {
+  if (!dataset) return;
+  if (dataset.intro === INTRO_SEEN_STATE) return;
+  dataset.intro = INTRO_PLAYING_STATE;
 }
 
 export function isIntroSeen(value: string | null): boolean {
@@ -110,5 +135,11 @@ export function subscribeIntroVisibility(
 
 export function completeIntro(storage: IntroStorage | null): void {
   markIntroSeen(storage);
+  if (typeof document !== "undefined") {
+    applyIntroSkipFlags(document.documentElement.dataset, {
+      reducedMotion: false,
+      seen: true,
+    });
+  }
   notifyIntroVisibility();
 }

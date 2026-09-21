@@ -1,0 +1,206 @@
+---
+title: "What React Fiber Actually Does"
+description: "Forget the engine. Picture a search box and a 2,000-row list. Fiber is why the letters can appear now while the slow list is allowed to catch up."
+date: "2026-09-21"
+tags: ["react", "performance", "fundamentals"]
+featured: false
+---
+
+Forget Fiber as something you import. Picture **one screen**: a search box and a long list. You type. Two jobs start at once. Fiber is React’s way of saying those jobs are not equal.
+
+**One-sentence answer:** Fiber lets React pause a slow panel so a fast interaction — typing, clicking — can paint first.
+
+This sits next to [How React Reconciliation Works](/blog/react-reconciliation). Reconciliation is _what changed_. Fiber is _when that work is allowed to run_.
+
+## The screen
+
+```text
+urgent   Search [ a| ]
+slow     Ada, Adi, Andi, … 2,000 rows
+```
+
+You type `a`. Two things need to happen:
+
+1. The **input** should show `a` immediately.
+2. The **list** must filter 2,000 rows. That can take 80–150ms.
+
+The input is urgent. The list can wait a blink.
+
+## Without Fiber: the box feels frozen
+
+Old React started the list rebuild and **could not stop**.
+
+```text
+You type "a"
+  → React starts rendering 2,000 rows
+  → the browser cannot paint
+  → the letter "a" does not appear yet
+  → you type "d" … nothing happens
+  → the list finishes
+  → suddenly "ad" appears and the UI unfreezes
+```
+
+That freeze **is** the problem Fiber was built to fix. Once an update started, React had to finish the whole tree before the browser could paint or handle the next key.
+
+## With Fiber: the input wins
+
+Fiber lets React work in small slices:
+
+```text
+Frame 1  draw "a" in the input
+Frame 2  filter some rows
+Frame 3  you type "d" → draw "ad"
+Frame 4  finish the list for "ad"
+```
+
+You never write Fiber nodes. You only tell React **which part of this screen can wait**.
+
+## Same UI, two implementations
+
+**Both parts urgent** — typing waits for the list:
+
+```tsx
+function ProductSearch({ products }: { products: Product[] }) {
+  const [query, setQuery] = useState("");
+
+  const visible = products.filter((p) =>
+    p.name.toLowerCase().includes(query.toLowerCase()),
+  );
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search products"
+      />
+      <ul>
+        {visible.map((p) => (
+          <li key={p.id}>{p.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+What you feel: the caret lags. The box feels heavy. The filter and the letters share one update.
+
+**Split the screen** — letters now, list soon:
+
+```tsx
+function ProductSearch({ products }: { products: Product[] }) {
+  const [query, setQuery] = useState("");
+  const [visible, setVisible] = useState(products);
+
+  function handleChange(value: string) {
+    setQuery(value); // NOW — the letters in the box
+
+    startTransition(() => {
+      setVisible(
+        products.filter((p) =>
+          p.name.toLowerCase().includes(value.toLowerCase()),
+        ),
+      ); // SOON — the heavy list
+    });
+  }
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={(e) => handleChange(e.target.value)}
+        placeholder="Search products"
+      />
+      <ul>
+        {visible.map((p) => (
+          <li key={p.id}>{p.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+| Part of the UI | Priority | What the user sees               |
+| -------------- | -------- | -------------------------------- |
+| Search box     | Urgent   | Letter appears instantly         |
+| Product list   | Can wait | May show old results for a blink |
+
+That is Fiber in practice: **keep the control in your hand instant; let the big panel catch up.**
+
+Same search, one piece of state — `useDeferredValue` delays the value the list reads, not a second `setState`:
+
+```tsx
+const [query, setQuery] = useState("");
+const deferredQuery = useDeferredValue(query);
+
+const visible = useMemo(
+  () => products.filter((p) => p.name.includes(deferredQuery)),
+  [products, deferredQuery],
+);
+
+const isStale = query !== deferredQuery;
+```
+
+`query` is always current. `visible` may trail. Use `isStale` if the list should look slightly dim while it catches up.
+
+## Another UI: tabs
+
+Same idea, different screen.
+
+```text
+[ Overview ] [ Orders ] [ Analytics ]
+                ↑ click
+
+Orders table / chart     ← slow panel
+```
+
+```tsx
+const [tab, setTab] = useState("overview");
+const [isPending, startTransition] = useTransition();
+
+function handleTab(next: string) {
+  startTransition(() => {
+    setTab(next); // heavy panel is allowed to lag
+  });
+}
+
+return (
+  <>
+    <button type="button" onClick={() => handleTab("orders")}>
+      Orders
+    </button>
+    {isPending ? <p>Loading panel…</p> : null}
+    {tab === "orders" ? <OrdersTable /> : <Overview />}
+  </>
+);
+```
+
+The click is acknowledged. The fat panel can arrive a moment later. Put `isPending` on the **slow panel**, not on the tab the user just pressed.
+
+## What Fiber does not change
+
+- You still write function components and hooks the same way
+- A re-render is still “this function ran again” — see [unnecessary re-renders](/blog/prevent-unnecessary-rerenders)
+- Fiber does not replace `memo` / `useMemo`. It schedules work; those tools skip work
+- Wrapping everything in `startTransition` does not make a slow list fast
+
+## When to use a transition
+
+**Use it when** the update is heavy (large lists, filters, charts), the user is still interacting, and slightly stale results are OK for a moment.
+
+**Skip it when** the update is cheap, the user must see the new value immediately (the text they typed), or you have not confirmed jank (Profiler first).
+
+## Common mistakes
+
+- Putting the **input** inside `startTransition` — then the field feels laggy, which is the opposite of the API
+- Using a transition instead of moving state down or virtualizing a huge list
+- Assuming Fiber means “React never blocks paint.” Urgent updates can still be expensive if _your_ render is expensive
+- Treating Fiber as something you implement. You opt in with these APIs; you do not configure the reconciler
+
+## Takeaway
+
+**Fiber = React can pause a slow screen so a fast interaction can go first.**
+
+Day to day: keep the search box (or tab) urgent, wrap the expensive list in a transition, and fix structure before you sprinkle APIs. The engine is already there.

@@ -4,16 +4,13 @@ export const INTRO_DURATION_MS = 700;
 export const INTRO_HOLD_MS = 80;
 export const INTRO_EXIT_MS = 250;
 export const INTRO_BAR_DELAY_MS = 0;
-export const INTRO_EASE = [0.22, 1, 0.36, 1] as const;
-export const INTRO_VISIBILITY_EVENT = "intro:visibility";
 export const INTRO_SEEN_STATE = "seen";
 export const INTRO_PLAYING_STATE = "playing";
-
-export const INTRO_BOOTSTRAP_SCRIPT = `try{var d=document.documentElement;var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var s=sessionStorage.getItem("${INTRO_STORAGE_KEY}")==="${INTRO_SEEN_VALUE}";if(s||r)d.dataset.intro="${INTRO_SEEN_STATE}"}catch(e){}`;
 
 export interface IntroDecisionInput {
   reducedMotion: boolean;
   seen: boolean;
+  slowConnection?: boolean;
 }
 
 export interface IntroDocumentFlags {
@@ -25,16 +22,37 @@ export interface IntroStorage {
   setItem: (key: string, value: string) => void;
 }
 
+export interface NetworkConnectionHint {
+  saveData?: boolean;
+  effectiveType?: string;
+}
+
 export function getIntroExitAfterMs(): number {
   return INTRO_BAR_DELAY_MS + INTRO_DURATION_MS + INTRO_HOLD_MS;
+}
+
+export function getIntroCompleteAfterMs(): number {
+  return getIntroExitAfterMs() + INTRO_EXIT_MS;
+}
+
+export function isSlowConnection(
+  connection: NetworkConnectionHint | null | undefined,
+): boolean {
+  if (!connection) return false;
+  if (connection.saveData) return true;
+
+  const type = connection.effectiveType;
+  return type === "slow-2g" || type === "2g" || type === "3g";
 }
 
 export function shouldShowIntro({
   reducedMotion,
   seen,
+  slowConnection = false,
 }: IntroDecisionInput): boolean {
   if (reducedMotion) return false;
   if (seen) return false;
+  if (slowConnection) return false;
   return true;
 }
 
@@ -48,14 +66,6 @@ export function applyIntroSkipFlags(
 ): void {
   if (!shouldSkipIntroCover(input)) return;
   dataset.intro = INTRO_SEEN_STATE;
-}
-
-export function dismissIntroCover(
-  dataset: IntroDocumentFlags | null | undefined,
-): void {
-  if (!dataset) return;
-  if (dataset.intro === INTRO_SEEN_STATE) return;
-  dataset.intro = INTRO_PLAYING_STATE;
 }
 
 export function isIntroSeen(value: string | null): boolean {
@@ -82,64 +92,4 @@ export function markIntroSeen(storage: IntroStorage | null): void {
   }
 }
 
-export function getSessionStorage(): IntroStorage | null {
-  if (typeof window === "undefined") return null;
-
-  try {
-    return window.sessionStorage;
-  } catch {
-    return null;
-  }
-}
-
-export function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-
-  try {
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  } catch {
-    return false;
-  }
-}
-
-export function getIntroClientSnapshot(): boolean {
-  return shouldShowIntro({
-    reducedMotion: prefersReducedMotion(),
-    seen: getIntroSeenFlag(getSessionStorage()),
-  });
-}
-
-export function getIntroServerSnapshot(): boolean {
-  return true;
-}
-
-export function notifyIntroVisibility(): void {
-  if (typeof window === "undefined") return;
-  window.dispatchEvent(new Event(INTRO_VISIBILITY_EVENT));
-}
-
-export function subscribeIntroVisibility(
-  onStoreChange: () => void,
-): () => void {
-  if (typeof window === "undefined") return () => undefined;
-
-  const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-  media.addEventListener("change", onStoreChange);
-  window.addEventListener(INTRO_VISIBILITY_EVENT, onStoreChange);
-
-  return () => {
-    media.removeEventListener("change", onStoreChange);
-    window.removeEventListener(INTRO_VISIBILITY_EVENT, onStoreChange);
-  };
-}
-
-export function completeIntro(storage: IntroStorage | null): void {
-  markIntroSeen(storage);
-  if (typeof document !== "undefined") {
-    applyIntroSkipFlags(document.documentElement.dataset, {
-      reducedMotion: false,
-      seen: true,
-    });
-  }
-  notifyIntroVisibility();
-}
+export const INTRO_BOOTSTRAP_SCRIPT = `try{var d=document.documentElement;var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var s=sessionStorage.getItem("${INTRO_STORAGE_KEY}")==="${INTRO_SEEN_VALUE}";var c=navigator.connection;var slow=!!(c&&(c.saveData||c.effectiveType==="slow-2g"||c.effectiveType==="2g"||c.effectiveType==="3g"));if(s||r||slow)d.dataset.intro="${INTRO_SEEN_STATE}";else{d.dataset.intro="${INTRO_PLAYING_STATE}";window.setTimeout(function(){try{sessionStorage.setItem("${INTRO_STORAGE_KEY}","${INTRO_SEEN_VALUE}")}catch(e){}d.dataset.intro="${INTRO_SEEN_STATE}"},${getIntroCompleteAfterMs()})}}catch(e){}`;

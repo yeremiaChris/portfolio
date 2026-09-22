@@ -13,16 +13,21 @@ import "./globals.css";
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
+  preload: false,
+  display: "optional",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  preload: false,
+  display: "optional",
 });
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-heading",
+  preload: true,
 });
 
 export const metadata: Metadata = {

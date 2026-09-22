@@ -1,20 +1,10 @@
-import dynamic from "next/dynamic";
-
 import { Container } from "@/components/Container";
 import { EdgeStreaming } from "@/components/home/artifacts/EdgeStreaming";
+import {
+  LazyFsmLab,
+  LazyTokenEngine,
+} from "@/components/home/artifacts/LazyArtifacts";
 import { Badge } from "@/components/ui/badge";
-
-const TokenEngine = dynamic(() =>
-  import("@/components/home/artifacts/TokenEngine").then((mod) => ({
-    default: mod.TokenEngine,
-  })),
-);
-
-const FsmLab = dynamic(() =>
-  import("@/components/home/artifacts/FsmLab").then((mod) => ({
-    default: mod.FsmLab,
-  })),
-);
 
 export function Artifacts() {
   return (
@@ -57,9 +47,9 @@ export function Artifacts() {
         </header>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <TokenEngine />
+          <LazyTokenEngine />
           <EdgeStreaming />
-          <FsmLab />
+          <LazyFsmLab />
         </div>
       </Container>
     </section>

@@ -12,11 +12,11 @@ export function Hero() {
     >
       <div
         aria-hidden
-        className="bg-primary/10 pointer-events-none absolute -top-24 left-1/4 size-96 rounded-full blur-3xl"
+        className="bg-primary/10 pointer-events-none absolute -top-24 left-1/4 hidden size-96 rounded-full blur-3xl md:block"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/3 right-10 size-80 rounded-full bg-[#4cd7f6]/10 blur-3xl"
+        className="pointer-events-none absolute top-1/3 right-10 hidden size-80 rounded-full bg-[#4cd7f6]/10 blur-3xl md:block"
       />
 
       <Container className="relative grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">

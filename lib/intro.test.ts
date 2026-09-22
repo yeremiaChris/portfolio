@@ -4,25 +4,21 @@ import {
   INTRO_BAR_DELAY_MS,
   INTRO_BOOTSTRAP_SCRIPT,
   INTRO_DURATION_MS,
+  INTRO_EXIT_MS,
   INTRO_HOLD_MS,
   INTRO_PLAYING_STATE,
   INTRO_SEEN_STATE,
   INTRO_SEEN_VALUE,
   INTRO_STORAGE_KEY,
   applyIntroSkipFlags,
-  completeIntro,
-  dismissIntroCover,
-  getIntroClientSnapshot,
+  getIntroCompleteAfterMs,
   getIntroExitAfterMs,
   getIntroSeenFlag,
-  getIntroServerSnapshot,
-  getSessionStorage,
   isIntroSeen,
+  isSlowConnection,
   markIntroSeen,
-  prefersReducedMotion,
   shouldShowIntro,
   shouldSkipIntroCover,
-  subscribeIntroVisibility,
   type IntroDocumentFlags,
   type IntroStorage,
 } from "./intro";
@@ -41,16 +37,36 @@ function createMemoryStorage(
   };
 }
 
-describe("getIntroExitAfterMs", () => {
-  it("holds after the bar finishes filling", () => {
+describe("intro timings", () => {
+  it("holds after the bar finishes filling, then fades out", () => {
     expect(INTRO_BAR_DELAY_MS).toBe(0);
     expect(getIntroExitAfterMs()).toBe(
       INTRO_BAR_DELAY_MS + INTRO_DURATION_MS + INTRO_HOLD_MS,
+    );
+    expect(getIntroCompleteAfterMs()).toBe(
+      getIntroExitAfterMs() + INTRO_EXIT_MS,
     );
   });
 
   it("keeps the first-visit overlay short enough for LCP", () => {
     expect(getIntroExitAfterMs()).toBeLessThanOrEqual(1100);
+    expect(getIntroCompleteAfterMs()).toBeLessThanOrEqual(1300);
+  });
+});
+
+describe("isSlowConnection", () => {
+  it("treats missing connection data as fast enough for the intro", () => {
+    expect(isSlowConnection(null)).toBe(false);
+    expect(isSlowConnection(undefined)).toBe(false);
+    expect(isSlowConnection({})).toBe(false);
+    expect(isSlowConnection({ effectiveType: "4g" })).toBe(false);
+  });
+
+  it("skips on save-data or 2g/3g hints", () => {
+    expect(isSlowConnection({ saveData: true })).toBe(true);
+    expect(isSlowConnection({ effectiveType: "slow-2g" })).toBe(true);
+    expect(isSlowConnection({ effectiveType: "2g" })).toBe(true);
+    expect(isSlowConnection({ effectiveType: "3g" })).toBe(true);
   });
 });
 
@@ -67,8 +83,14 @@ describe("shouldShowIntro", () => {
     expect(shouldShowIntro({ reducedMotion: false, seen: true })).toBe(false);
   });
 
-  it("skips when both reduced motion and seen apply", () => {
-    expect(shouldShowIntro({ reducedMotion: true, seen: true })).toBe(false);
+  it("skips on a slow connection", () => {
+    expect(
+      shouldShowIntro({
+        reducedMotion: false,
+        seen: false,
+        slowConnection: true,
+      }),
+    ).toBe(false);
   });
 });
 
@@ -86,6 +108,13 @@ describe("shouldSkipIntroCover", () => {
     expect(shouldSkipIntroCover({ reducedMotion: false, seen: true })).toBe(
       true,
     );
+    expect(
+      shouldSkipIntroCover({
+        reducedMotion: false,
+        seen: false,
+        slowConnection: true,
+      }),
+    ).toBe(true);
   });
 });
 
@@ -98,50 +127,43 @@ describe("applyIntroSkipFlags", () => {
     expect(dataset.intro).toBeUndefined();
   });
 
-  it("hides the cover before paint on seen or reduced-motion visits", () => {
+  it("hides the cover before paint on seen, reduced-motion, or slow visits", () => {
     const seen: IntroDocumentFlags = {};
     const reduced: IntroDocumentFlags = {};
+    const slow: IntroDocumentFlags = {};
 
     applyIntroSkipFlags(seen, { reducedMotion: false, seen: true });
     applyIntroSkipFlags(reduced, { reducedMotion: true, seen: false });
+    applyIntroSkipFlags(slow, {
+      reducedMotion: false,
+      seen: false,
+      slowConnection: true,
+    });
 
     expect(seen.intro).toBe(INTRO_SEEN_STATE);
     expect(reduced.intro).toBe(INTRO_SEEN_STATE);
-  });
-});
-
-describe("dismissIntroCover", () => {
-  it("no-ops without a dataset", () => {
-    expect(() => dismissIntroCover(null)).not.toThrow();
-    expect(() => dismissIntroCover(undefined)).not.toThrow();
-  });
-
-  it("marks the intro as playing so the CSS cover can hand off", () => {
-    const dataset: IntroDocumentFlags = {};
-
-    dismissIntroCover(dataset);
-
-    expect(dataset.intro).toBe(INTRO_PLAYING_STATE);
-  });
-
-  it("does not replace a seen flag with playing", () => {
-    const dataset: IntroDocumentFlags = { intro: INTRO_SEEN_STATE };
-
-    dismissIntroCover(dataset);
-
-    expect(dataset.intro).toBe(INTRO_SEEN_STATE);
+    expect(slow.intro).toBe(INTRO_SEEN_STATE);
   });
 });
 
 describe("INTRO_BOOTSTRAP_SCRIPT", () => {
-  it("hides the cover before paint on seen or reduced-motion visits", () => {
+  it("hides the cover before paint on seen, reduced-motion, or slow visits", () => {
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain(INTRO_STORAGE_KEY);
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain(INTRO_SEEN_VALUE);
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain("prefers-reduced-motion");
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain("saveData");
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain(
       `d.dataset.intro="${INTRO_SEEN_STATE}"`,
     );
     expect(INTRO_BOOTSTRAP_SCRIPT).not.toContain("introCover");
+  });
+
+  it("starts the CSS intro immediately and completes after the overlay exits", () => {
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain(
+      `d.dataset.intro="${INTRO_PLAYING_STATE}"`,
+    );
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain("setTimeout");
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain(String(getIntroCompleteAfterMs()));
   });
 });
 
@@ -202,28 +224,5 @@ describe("markIntroSeen", () => {
     };
 
     expect(() => markIntroSeen(storage)).not.toThrow();
-  });
-});
-
-describe("browser-safe intro helpers", () => {
-  it("returns null storage and no reduced motion in Node", () => {
-    expect(getSessionStorage()).toBeNull();
-    expect(prefersReducedMotion()).toBe(false);
-    expect(getIntroClientSnapshot()).toBe(true);
-    expect(getIntroServerSnapshot()).toBe(true);
-  });
-
-  it("subscribe is a no-op without window", () => {
-    const unsubscribe = subscribeIntroVisibility(() => undefined);
-
-    expect(() => unsubscribe()).not.toThrow();
-  });
-
-  it("completeIntro marks storage without a window", () => {
-    const storage = createMemoryStorage();
-
-    completeIntro(storage);
-
-    expect(storage.data.get(INTRO_STORAGE_KEY)).toBe(INTRO_SEEN_VALUE);
   });
 });

@@ -133,20 +133,44 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-intro-cover],
-  [data-intro-loader] {
-    display: none;
-  }
+/* Intro overlay timings — keep in sync with lib/intro.ts */
+html[data-intro="playing"] {
+  overflow: hidden;
 }
 
-html[data-intro="seen"] [data-intro-cover],
-html[data-intro="playing"] [data-intro-cover] {
+html[data-intro="seen"] [data-intro-cover] {
   display: none;
 }
 
-html:not([data-intro="seen"]):not([data-intro="playing"]):has(
-    [data-intro-cover]
-  ) {
-  overflow: hidden;
+html[data-intro="playing"] [data-intro-cover] {
+  animation: intro-overlay-exit 250ms cubic-bezier(0.22, 1, 0.36, 1) 780ms
+    forwards;
+}
+
+html[data-intro="playing"] [data-intro-bar] {
+  transform: scaleX(0);
+  animation: intro-bar-fill 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes intro-bar-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes intro-overlay-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-intro-cover] {
+    display: none;
+  }
 }

@@ -22,7 +22,7 @@ export function UmamiScript() {
       <Script
         src={UMAMI_SCRIPT_SRC}
         data-website-id={websiteId}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
     </>
   );

@@ -13,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { artifactThemes } from "@/lib/artifacts";
 import { cn } from "@/lib/utils";
 
@@ -89,11 +88,9 @@ export function TokenEngine() {
             ))}
           </div>
 
-          <ScrollArea className="bg-secondary/80 w-full rounded">
-            <pre className="text-muted-foreground p-2 font-mono text-xs whitespace-nowrap">
-              <code>{`:root { --theme-primary: ${theme.hex}; --alpha: 0.94; }`}</code>
-            </pre>
-          </ScrollArea>
+          <pre className="bg-secondary/80 text-muted-foreground w-full overflow-x-auto rounded p-2 font-mono text-xs whitespace-nowrap">
+            <code>{`:root { --theme-primary: ${theme.hex}; --alpha: 0.94; }`}</code>
+          </pre>
         </div>
       </CardContent>
 

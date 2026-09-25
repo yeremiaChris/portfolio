@@ -1,0 +1,739 @@
+---
+title: "React Frontend Systems"
+description: "Working implementations of debounce, abortable fetch, backoff polling, and windowed lists — plus the JavaScript event loop and React engine that decide whether those patterns actually hold."
+date: "2026-09-25"
+tags: ["react", "javascript", "architecture", "performance"]
+featured: false
+---
+
+A search box, a table, a dashboard widget. None of those fail as “a hook bug” or “a Fiber bug” in isolation. They fail when **time**, **the engine**, and **what you ship** disagree.
+
+**One-sentence answer:** Protect I/O with debounce, abort, and backoff; let React schedule paint; then choose state, lists, and bundles based on the cost of each update.
+
+This is a systems note, not a syllabus. The code follows the same rules as this repo: Server Components by default, `"use client"` on the leaf, shadcn + Tailwind for UI, typed props, named exports.
+
+## Why it matters
+
+The bugs that survive review are usually timing bugs:
+
+- A fetch for `"ja"` lands after `"jakarta"` and overwrites good data
+- A poller keeps running after the widget unmounts
+- A 2,000-row list is correct and still janky
+- `memo` is everywhere and the Profiler still shows the parent as the cost
+
+| Layer        | Job                                  | If you skip it                         |
+| ------------ | ------------------------------------ | -------------------------------------- |
+| Time / I/O   | Don’t start work you will throw away | Races, spinner flicker, battery drain  |
+| JavaScript   | Know when “later” actually runs      | Debounce and effects feel random       |
+| React engine | Know when the user can see a result  | Urgent typing waits on a slow list     |
+| Architecture | Pick state, lists, and bundles       | Libraries everywhere, still a slow LCP |
+
+Related notes on this site: [event loop](/blog/javascript-mental-models), [Fiber](/blog/react-fiber), [reconciliation](/blog/react-reconciliation), [memo / useMemo / useCallback](/blog/memo-usememo-usecallback). This post is the **working set** those sit under.
+
+## Time and I/O
+
+Three primitives cover most product UI: **wait**, **cancel**, **retry slower**.
+
+### Debounce: wait until typing pauses
+
+Every keystroke is cheap. The work behind it (filter, fetch, analytics) often is not. Debounce keeps the **input** urgent and delays the **expensive value**.
+
+```tsx
+"use client";
+
+import { useEffect, useState } from "react";
+
+export function useDebounce<T>(value: T, delayMs = 300): T {
+  const [debounced, setDebounced] = useState(value);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setDebounced(value), delayMs);
+    return () => window.clearTimeout(timer);
+  }, [value, delayMs]);
+
+  return debounced;
+}
+```
+
+Each new `value` clears the previous timer. Only the last pause commits. `setTimeout` is a **macrotask** — it cannot run until the current stack and every queued microtask are done. A 300ms debounce is 300ms from the **last** keystroke, not the first.
+
+Wire it to a live input. The box stays instant; the badge tracks the delayed value:
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import { Search } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export function SearchField() {
+  const [query, setQuery] = useState("");
+  const debounced = useDebounce(query);
+  const isWaiting = query !== debounced;
+
+  return (
+    <Card className="bg-muted ring-border/40">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="font-heading text-base">
+            Filter shipments
+          </CardTitle>
+          <Badge
+            variant="secondary"
+            className="font-mono text-[10px] tracking-wider uppercase"
+          >
+            {isWaiting ? "Waiting" : "Settled"}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <label className="flex flex-col gap-1.5">
+          <span className="text-muted-foreground font-mono text-[11px]">
+            Search
+          </span>
+          <span className="relative">
+            <Search
+              className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2"
+              aria-hidden
+            />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="jakarta"
+              className="border-input bg-background placeholder:text-muted-foreground focus-visible:ring-ring/50 h-8 w-full rounded-lg border pr-3 pl-8 font-mono text-xs outline-none focus-visible:ring-3"
+            />
+          </span>
+        </label>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+**Use it for** search, resize, autosave. **Skip it for** the characters in the input — those must stay live. Fetch or filter from an effect on `debounced`, not from every `onChange`.
+
+### Abortable fetch: cancel the previous request
+
+Debounce reduces how often you fetch. Abort stops the request you already started. Together they close the race: slow response A arrives after fast response B.
+
+```tsx
+"use client";
+
+import { useEffect, useState } from "react";
+
+type FetchState<T> =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "success"; data: T }
+  | { status: "error"; error: string };
+
+export function useFetch<T>(url: string | null): FetchState<T> {
+  const [state, setState] = useState<FetchState<T>>({ status: "idle" });
+
+  useEffect(() => {
+    if (!url) {
+      setState({ status: "idle" });
+      return;
+    }
+
+    const controller = new AbortController();
+    setState({ status: "loading" });
+
+    async function load() {
+      try {
+        const response = await fetch(url, { signal: controller.signal });
+        if (!response.ok) {
+          throw new Error(`Request failed (${response.status})`);
+        }
+        const data = (await response.json()) as T;
+        setState({ status: "success", data });
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        const message =
+          error instanceof Error ? error.message : "Request failed";
+        setState({ status: "error", error: message });
+      }
+    }
+
+    void load();
+    return () => controller.abort();
+  }, [url]);
+
+  return state;
+}
+```
+
+**Rules that keep this honest:**
+
+1. Discriminate `idle | loading | success | error`. Don’t encode “no data yet” as `null` plus a boolean.
+2. Treat `AbortError` as **not an error**. The next effect owns the screen now.
+3. Abort on URL change **and** unmount. That is the cleanup.
+
+On a product app with cache, retries, and shared keys, use TanStack Query (this portfolio does not — a leaf hook is enough here). The abort rule does not change.
+
+### Polling with exponential backoff
+
+A widget that hits `/metrics` every second looks live until the API is sad. Then you have a thundering herd. Backoff stays live **and** polite.
+
+```tsx
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface UsePollingOptions {
+  url: string;
+  enabled: boolean;
+  initialDelayMs?: number;
+  maxDelayMs?: number;
+}
+
+export function usePolling<T>({
+  url,
+  enabled,
+  initialDelayMs = 1_000,
+  maxDelayMs = 30_000,
+}: UsePollingOptions): FetchState<T> {
+  const [state, setState] = useState<FetchState<T>>({ status: "idle" });
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    const controller = new AbortController();
+    let delay = initialDelayMs;
+    let timer = 0;
+
+    async function tick() {
+      if (document.visibilityState === "hidden") {
+        timer = window.setTimeout(tick, delay);
+        return;
+      }
+
+      try {
+        const response = await fetch(url, { signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = (await response.json()) as T;
+        delay = initialDelayMs;
+        setState({ status: "success", data });
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        delay = Math.min(delay * 2, maxDelayMs);
+        const message =
+          error instanceof Error ? error.message : "Request failed";
+        setState({ status: "error", error: message });
+      }
+
+      timer = window.setTimeout(tick, delay);
+    }
+
+    void tick();
+
+    return () => {
+      controller.abort();
+      window.clearTimeout(timer);
+    };
+  }, [url, enabled, initialDelayMs, maxDelayMs]);
+
+  return state;
+}
+```
+
+Success **resets** the delay. Failure doubles it, capped. Hidden tabs skip the network. Unmount aborts in-flight work **and** clears the timer — missing either one is a leak.
+
+**Skip polling** when the server can push (SSE, websocket) or when a user-triggered refresh is enough.
+
+## Vanilla JS the UI still needs
+
+React does not replace the event loop or `Array.prototype`. The table under the search box is still a sort plus a slice.
+
+### The event loop, enough to debug debounce
+
+```text
+┌──────────────────────────────────┐
+│ Call stack (synchronous)         │  keydown, setState, render
+└──────────────────────────────────┘
+                 │ stack empty
+                 ▼
+┌──────────────────────────────────┐
+│ Microtasks — drain ALL           │  Promise.then, queueMicrotask
+└──────────────────────────────────┘
+                 │ queue empty
+                 ▼
+┌──────────────────────────────────┐
+│ One macrotask                    │  setTimeout (your debounce)
+│ then maybe paint                 │
+└──────────────────────────────────┘
+                 └── loop
+```
+
+Order that still surprises people: `1 → 5 → 3 → 4 → 2`.
+
+```js
+console.log("1");
+setTimeout(() => console.log("2"), 0);
+Promise.resolve().then(() => console.log("3"));
+queueMicrotask(() => console.log("4"));
+console.log("5");
+```
+
+`setTimeout(..., 0)` means “after this task **and** every microtask already queued,” not “next instant.” A long `then` chain can delay your debounce callback and paint. Full model: [How JavaScript Actually Runs](/blog/javascript-mental-models).
+
+### Sort and paginate without a grid library
+
+Copy the array, compare a key, slice a page. Mutation is the bug: `.sort()` reorders in place and will surprise every other consumer of that list.
+
+```ts
+export type SortDirection = "asc" | "desc";
+
+export function sortRows<T>(
+  rows: T[],
+  key: keyof T,
+  direction: SortDirection,
+): T[] {
+  const sign = direction === "asc" ? 1 : -1;
+
+  return [...rows].sort((a, b) => {
+    const left = a[key];
+    const right = b[key];
+    if (left == null && right == null) return 0;
+    if (left == null) return -1;
+    if (right == null) return 1;
+    if (typeof left === "number" && typeof right === "number") {
+      return (left - right) * sign;
+    }
+    return (
+      String(left).localeCompare(String(right), "en", { numeric: true }) * sign
+    );
+  });
+}
+
+export function paginate<T>(rows: T[], page: number, pageSize: number): T[] {
+  const start = Math.max(0, page) * pageSize;
+  return rows.slice(start, start + pageSize);
+}
+```
+
+Wire it to shadcn `Button` / `Badge` / `Card` and a semantic `<table>`. `aria-sort` lives on the `<th>`, not the button. Reset the page when the filter or sort key changes.
+
+```tsx
+"use client";
+
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+
+interface ShipmentRow {
+  id: string;
+  destination: string;
+  status: "In transit" | "Delayed" | "Delivered";
+  etaHours: number;
+}
+
+interface ShipmentTableProps {
+  rows: ShipmentRow[];
+  sortKey: keyof ShipmentRow;
+  sortDir: SortDirection;
+  page: number;
+  pageSize?: number;
+  onSort: (key: keyof ShipmentRow) => void;
+  onPageChange: (page: number) => void;
+}
+
+export function ShipmentTable({
+  rows,
+  sortKey,
+  sortDir,
+  page,
+  pageSize = 5,
+  onSort,
+  onPageChange,
+}: ShipmentTableProps) {
+  const pageTotal = Math.max(1, Math.ceil(rows.length / pageSize));
+  const visible = paginate(rows, page, pageSize);
+
+  return (
+    <Card className="bg-muted ring-border/40">
+      <CardHeader>
+        <CardTitle className="font-heading text-base">Shipments</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="border-border/60 overflow-x-auto rounded-lg border">
+          <table className="w-full min-w-[28rem] border-collapse text-left text-xs">
+            <thead className="bg-background/80">
+              <tr>
+                <th
+                  scope="col"
+                  aria-sort={
+                    sortKey === "id"
+                      ? sortDir === "asc"
+                        ? "ascending"
+                        : "descending"
+                      : "none"
+                  }
+                  className="p-1.5"
+                >
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="xs"
+                    onClick={() => onSort("id")}
+                    className="text-muted-foreground font-mono"
+                  >
+                    Shipment
+                    {sortKey === "id" ? (
+                      sortDir === "asc" ? (
+                        <ArrowUp className="size-3" aria-hidden />
+                      ) : (
+                        <ArrowDown className="size-3" aria-hidden />
+                      )
+                    ) : null}
+                  </Button>
+                </th>
+                <th scope="col" className="px-3 py-2">
+                  Destination
+                </th>
+                <th scope="col" className="px-3 py-2">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {visible.map((row) => (
+                <tr key={row.id} className="border-border/50 border-t">
+                  <td className="px-3 py-2 font-mono">{row.id}</td>
+                  <td className="px-3 py-2">{row.destination}</td>
+                  <td className="px-3 py-2">
+                    <Badge
+                      variant="secondary"
+                      className={cn(
+                        "font-mono text-[10px] tracking-wider uppercase",
+                        row.status === "Delayed" && "text-destructive",
+                        row.status === "Delivered" && "text-[#6ffbbe]",
+                        row.status === "In transit" && "text-[#4cd7f6]",
+                      )}
+                    >
+                      {row.status}
+                    </Badge>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CardContent>
+      <CardFooter className="justify-between">
+        <p className="text-muted-foreground font-mono text-[11px]">
+          Page {page + 1} / {pageTotal}
+        </p>
+        <div className="flex gap-1.5">
+          <Button
+            type="button"
+            variant="outline"
+            size="xs"
+            disabled={page === 0}
+            onClick={() => onPageChange(page - 1)}
+          >
+            <ChevronLeft className="size-3.5" aria-hidden />
+            Prev
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="xs"
+            disabled={page >= pageTotal - 1}
+            onClick={() => onPageChange(page + 1)}
+          >
+            Next
+            <ChevronRight className="size-3.5" aria-hidden />
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
+  );
+}
+```
+
+Key rows by `row.id`, not index. After a sort, React can move nodes instead of remounting them.
+
+## How React applies the tree
+
+You wrote JSX. React still has to **compute** the next tree, then **touch the DOM**. Those are different phases, and they explain why a search box can feel frozen next to a heavy list.
+
+### Render vs commit (Fiber)
+
+```text
+Render phase     interruptible
+  walk the Fiber tree, compute next UI
+  pause / restart allowed — DOM not touched
+        │
+        ▼
+Commit phase     synchronous
+  apply DOM updates, refs, layout effects
+        │
+        ▼
+Paint, then useEffect
+```
+
+**Render** is “what should the UI be?” **Commit** is “make the document match.” `useLayoutEffect` runs after DOM mutations, before paint. `useEffect` runs after paint.
+
+Fiber’s practical API is `startTransition` / `useDeferredValue`: keep the **input** urgent, let the **list** catch up. Do not put the characters the user typed inside a transition — that makes the field lag. Walkthrough: [What React Fiber Actually Does](/blog/react-fiber).
+
+### Reconciliation heuristics
+
+Commit is cheap only if React can reuse DOM nodes.
+
+| Change                         | What React does                         |
+| ------------------------------ | --------------------------------------- |
+| Different element type         | Tear down the subtree, lose local state |
+| Same type, props changed       | Update in place, recurse into children  |
+| List with stable `key`         | Move / insert / remove the right row    |
+| List keyed by index, then sort | Reuse the wrong row — state jumps       |
+
+That last row is why the table keys by shipment id. Deep dive: [How React Reconciliation Works](/blog/react-reconciliation).
+
+### `memo`, `useMemo`, `useCallback` as a set
+
+They remember **different things**. Using one without the others is why `memo` “does nothing.”
+
+| Tool          | Remembers            | Use when                                      |
+| ------------- | -------------------- | --------------------------------------------- |
+| `React.memo`  | A component’s output | Heavy child, props are stable                 |
+| `useMemo`     | A value              | Expensive calc, or a stable object/array prop |
+| `useCallback` | A function reference | Handler passed into a `memo` child            |
+
+```tsx
+const sorted = useMemo(
+  () => sortRows(filtered, sortKey, sortDir),
+  [filtered, sortKey, sortDir],
+);
+
+const handleSort = useCallback((key: keyof ShipmentRow) => {
+  setSortKey(key);
+}, []);
+
+return <ShipmentTable rows={sorted} onSort={handleSort} />;
+// ShipmentTable = memo(...)
+```
+
+If `ShipmentTable` is not memoized, `useCallback` buys nothing. If `rows` is a new array every render, `memo` loses every time.
+
+**Order:** fix where state lives, then stabilize props, then memoize. Profiler first. See [unnecessary re-renders](/blog/prevent-unnecessary-rerenders) and the [memo trio](/blog/memo-usememo-usecallback).
+
+## Architecture
+
+Hooks and Fiber do not pick your state store, your list strategy, or your bundle.
+
+### State management matrix
+
+Match the **lifetime** of the data, not the trend.
+
+| Data                           | Lifetime                  | Reach for                                    |
+| ------------------------------ | ------------------------- | -------------------------------------------- |
+| Page content, MDX, copy        | Request / build           | Server Component + `lib/` (this site)        |
+| Search query you want to share | The URL                   | `searchParams`                               |
+| Debounced input, sort, page    | This session, this widget | `useState` on the client leaf                |
+| Server records the UI edits    | Across reloads            | Server fetch; Query at product scale         |
+| Theme, locale                  | App-wide, rare writes     | Narrow context, or CSS + a cookie            |
+| Form fields                    | Until submit              | Native form, or RHF + Valibot if it is large |
+
+**Default on this portfolio:** data in `lib/`, pages compose, client only where a leaf must run in the browser. A Zustand store for 12 shipment rows would be a costume.
+
+**Default on a product dashboard:** Server Components for first paint, TanStack Query for client cache and retries, URL for filters you can paste, local state for animation. Reach for Redux/Zustand when independent subtrees write the same client state **and** prop-drilling is already worse than the store.
+
+Context is not a store. Recreating one big context value every render — user, flags, and theme together — wakes every consumer. Split contexts or memoize the value. Multi-part widgets that share local state: [compound components](/blog/compound-components-with-context).
+
+### Windowed lists (virtualization)
+
+Reconciliation cannot save you from 2,000 `<tr>`s. The DOM cost is the nodes, not the diff. Virtualization renders **only the visible slice**, plus a few rows of overscan so scrolling does not flash empty space.
+
+```ts
+export function getVisibleWindow({
+  scrollTop,
+  viewportHeight,
+  itemHeight,
+  count,
+  overscan = 4,
+}: {
+  scrollTop: number;
+  viewportHeight: number;
+  itemHeight: number;
+  count: number;
+  overscan?: number;
+}) {
+  const firstVisible = Math.floor(Math.max(0, scrollTop) / itemHeight);
+  const visibleCount = Math.ceil(viewportHeight / itemHeight);
+  const start = Math.max(0, firstVisible - overscan);
+  const end = Math.min(count, firstVisible + visibleCount + overscan);
+
+  return {
+    start,
+    end,
+    offsetY: start * itemHeight,
+    totalHeight: count * itemHeight,
+  };
+}
+```
+
+The scroller’s inner element is `totalHeight` tall (so the scrollbar is honest). The mounted rows are `translateY(offsetY)`. React sees ~15 nodes, not 2,000.
+
+```tsx
+"use client";
+
+import { useMemo, useState } from "react";
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+interface VirtualListProps {
+  items: { id: string; label: string }[];
+}
+
+const ITEM_HEIGHT = 36;
+const VIEWPORT_HEIGHT = 216;
+
+export function VirtualList({ items }: VirtualListProps) {
+  const [scrollTop, setScrollTop] = useState(0);
+  const window = useMemo(
+    () =>
+      getVisibleWindow({
+        scrollTop,
+        viewportHeight: VIEWPORT_HEIGHT,
+        itemHeight: ITEM_HEIGHT,
+        count: items.length,
+      }),
+    [scrollTop, items.length],
+  );
+  const visible = items.slice(window.start, window.end);
+
+  return (
+    <Card className="bg-muted ring-border/40">
+      <CardHeader className="flex-row items-center justify-between">
+        <CardTitle className="font-heading text-base">All shipments</CardTitle>
+        <Badge variant="secondary" className="font-mono text-[10px] uppercase">
+          {visible.length} / {items.length} mounted
+        </Badge>
+      </CardHeader>
+      <CardContent>
+        <div
+          tabIndex={0}
+          role="list"
+          aria-label="Virtualized rows"
+          onScroll={(event) => setScrollTop(event.currentTarget.scrollTop)}
+          className="border-border/60 h-[216px] overflow-auto rounded-lg border"
+        >
+          <div
+            className="relative w-full"
+            style={{ height: window.totalHeight }}
+          >
+            <ul
+              className="absolute right-0 left-0 m-0 list-none p-0"
+              style={{ transform: `translateY(${window.offsetY}px)` }}
+            >
+              {visible.map((item) => (
+                <li
+                  key={item.id}
+                  role="listitem"
+                  className="border-border/40 flex items-center border-b px-3 font-mono text-[11px]"
+                  style={{ height: ITEM_HEIGHT }}
+                >
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+**Use a window** when the list is long **and** each row is roughly the same height. Variable heights need measurement (or a library). **Skip it** under a few hundred cheap rows — the extra math is noise.
+
+Libraries (`@tanstack/react-virtual`) earn their keep for nested scrolls, sticky headers, and dynamic row height. The prototype above is the mechanic those wrap.
+
+### Bundling: what ships, when
+
+Architecture that stays on the server costs the user **zero** JS. The moment you add `"use client"`, everything that module imports is in the client graph.
+
+Practical rules, the same ones this site uses:
+
+1. **Client at the leaf.** A page that composes a table should not mark the page itself as client.
+2. **Dynamic-import heavy UI.** Home already splits `FsmLab` / `TokenEngine` with `next/dynamic`. Motion stays off `/about`.
+3. **Barrels leak.** `optimizePackageImports` on `lucide-react` stops a single icon from pulling the set. It does not replace keeping Motion out of the first paint.
+4. **Lighthouse unused JS is coverage**, not a dead-code finder. Cold first visit to `/` still downloads runtime you will use later. Details: [PageSpeed unused JS](/blog/pagespeed-unused-js-nextjs).
+
+```tsx
+const Chart = dynamic(() =>
+  import("@/components/ops/OrdersChart").then((mod) => ({
+    default: mod.OrdersChart,
+  })),
+);
+```
+
+No `loading` fallback that renders a different tree than the island — that is a hydration mismatch that looks like “the Button is broken.”
+
+## One screen, all the pieces
+
+A shipment ops view is the whole article in one place:
+
+```text
+Search  [ jakarta| ]     ← live state, urgent
+            │ debounce 300ms (macrotask)
+            ▼
+     abort previous fetch
+            │
+            ▼
+   filter → sort copy → page slice
+            │
+            ▼
+   virtualize if the page is still huge
+            │
+            ▼
+   React render (may pause) → commit → paint
+```
+
+| Piece                   | Tool                                   |
+| ----------------------- | -------------------------------------- |
+| Letters in the box      | `useState` — never inside a transition |
+| Query used to fetch     | `useDebounce`                          |
+| In-flight request       | `AbortController` in effect cleanup    |
+| Rows                    | `sortRows` + `paginate` (copy, slice)  |
+| Heavy child             | `memo` + stable `useCallback`          |
+| 2,000+ same-height rows | `getVisibleWindow`                     |
+| First paint             | Server Component; widget stays client  |
+
+If the list is still janky after that, measure. The next fix is usually **state too high** or **too many DOM nodes**, not another library.
+
+## Checklist
+
+- Debounce the **work**, not the keystrokes the user has to see
+- Abort on param change and unmount; ignore `AbortError`
+- Backoff on poll failure; pause when `document.visibilityState` is hidden
+- Copy before `sort`; key lists by id; `aria-sort` on the column header
+- Stack → all microtasks → one timer. `setTimeout(0)` is not “now”
+- Input urgent, list deferred. Render can pause; commit cannot
+- `memo` needs stable props; `useCallback` needs a memoized child
+- State follows lifetime: server, URL, widget — not “one global store”
+- Virtualize long, even rows; skip it for short lists
+- `"use client"` is a bundle boundary — keep it small, load it late
+
+## Takeaway
+
+Frontend systems are **when work starts**, **when React is allowed to paint**, and **what the browser has to download**. The hooks in this post are small because the rules are small: wait, cancel, retry slower, copy then slice, window the DOM, ship less JS.
+
+Use the snippets as a reference implementation. Use the linked notes when you need the engine, not another abstraction.

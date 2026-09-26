@@ -78,13 +78,11 @@ Skip the Tailwind plugin if the project does not use Tailwind.
 
 ```txt
 node_modules
-.yarn
 .next
 out
 build
 coverage
 dist
-yarn.lock
 package-lock.json
 pnpm-lock.yaml
 next-env.d.ts
@@ -97,7 +95,7 @@ public
 ## .husky/pre-commit
 
 ```sh
-yarn lint-staged
+pnpm lint-staged
 ```
 
 ## .vscode/settings.json
@@ -130,11 +128,11 @@ yarn lint-staged
 ## Sanity commands
 
 ```bash
-yarn lint
-yarn lint:fix
-yarn format
-yarn format:check
-yarn typecheck
+pnpm lint
+pnpm lint:fix
+pnpm format
+pnpm format:check
+pnpm typecheck
 ```
 
 ## GitHub Actions (`.github/workflows/ci.yml`)
@@ -152,12 +150,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: yarn
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
-      - run: yarn format:check
-      - run: yarn typecheck
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm typecheck
 ```

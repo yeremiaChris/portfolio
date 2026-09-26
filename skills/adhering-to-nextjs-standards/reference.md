@@ -45,115 +45,27 @@ export function SettingsForm({ initial }: SettingsFormProps) {
 }
 ```
 
-## Valibot schema + inferred type
-
-```ts
-import * as v from "valibot";
-
-export const contactSchema = v.object({
-  email: v.pipe(v.string(), v.email()),
-  message: v.pipe(v.string(), v.minLength(10)),
-});
-
-export type ContactInput = v.InferOutput<typeof contactSchema>;
-```
-
-## React Hook Form + Valibot (non-trivial form)
-
-```tsx
-"use client";
-
-import { valibotResolver } from "@hookform/resolvers/valibot";
-import { useForm } from "react-hook-form";
-
-import { contactSchema, type ContactInput } from "@/lib/contact";
-
-export function ContactForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ContactInput>({
-    resolver: valibotResolver(contactSchema),
-  });
-
-  function onSubmit(data: ContactInput) {
-    // call server action or mutation
-  }
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-        type="email"
-        aria-invalid={!!errors.email}
-        {...register("email")}
-      />
-      {errors.email ? <p role="alert">{errors.email.message}</p> : null}
-      <textarea {...register("message")} />
-      <button type="submit">Send</button>
-    </form>
-  );
-}
-```
-
-## Server Action (validated, focused)
+## Server Action (focused)
 
 ```ts
 "use server";
 
 import { revalidatePath } from "next/cache";
-import * as v from "valibot";
 
-import { contactSchema } from "@/lib/contact";
+export async function submitContact(formData: FormData) {
+  const email = formData.get("email");
+  const message = formData.get("message");
 
-export async function submitContact(raw: unknown) {
-  const parsed = v.safeParse(contactSchema, raw);
-  if (!parsed.success) {
-    return { ok: false as const, error: "Invalid input" };
+  // validate input
+  if (!email || !message) {
+    return { ok: false as const, error: "Missing required fields" };
   }
 
-  // persist parsed.output — one job only
+  // persist data — one job only
   revalidatePath("/contact");
   return { ok: true as const };
 }
 ```
-
-## Day.js in UI
-
-```ts
-import dayjs from "dayjs";
-
-export function formatPostDate(iso: string): string {
-  return dayjs(iso).format("MMM D, YYYY");
-}
-```
-
-Avoid `new Date(...).getMonth()` chains in components when Day.js is available.
-
-## TanStack Query (client cache / mutations)
-
-Prefer Server Components + `fetch` for the first paint. Use Query when the project already has it and you need client refetch, stale-while-revalidate, or shared cache:
-
-```tsx
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
-
-import { fetchNotifications } from "@/lib/notifications";
-
-export function NotificationBell() {
-  const { data, isPending, isError } = useQuery({
-    queryKey: ["notifications"],
-    queryFn: fetchNotifications,
-  });
-
-  if (isPending) return <span aria-busy="true">…</span>;
-  if (isError) return <span role="alert">Could not load</span>;
-  return <span>{data.length}</span>;
-}
-```
-
-Keep query keys stable arrays: `["resource"]`, `["resource", id]`.
 
 ## Recoverable client async
 

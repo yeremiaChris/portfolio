@@ -33,8 +33,8 @@ Read **only the skills that apply**. Do not dump every file into context.
 ```
 - [ ] Folder: page composes; no domain logic in app/ or components/ui/
 - [ ] Next: Server Component unless a leaf needs client; named exports; @/ imports
-- [ ] Quality: yarn lint, yarn format:check, yarn typecheck
-- [ ] Tests: yarn test if lib/ helpers or test files changed
+- [ ] Quality: pnpm lint, pnpm format:check, pnpm typecheck
+- [ ] Tests: pnpm test if lib/ helpers or test files changed
 - [ ] No src/, features/, empty hooks/api folders, no Jest
 ```
 

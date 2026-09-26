@@ -75,6 +75,7 @@ export function buildPersonJsonLd() {
     "@type": "Person",
     "@id": `${url}/#person`,
     name: site.fullName,
+    alternateName: site.name,
     url,
     jobTitle: "Software Engineer",
     description: site.bio,
@@ -82,6 +83,22 @@ export function buildPersonJsonLd() {
     email: site.links.email.replace(/^mailto:/, ""),
     sameAs: [site.links.github, site.links.linkedin],
     knowsAbout: [...PERSON_KNOWS_ABOUT],
+  };
+}
+
+export function buildProfilePageJsonLd(path = "/") {
+  const origin = getSiteUrl();
+  const canonical = toCanonicalPath(path);
+  const pageUrl = canonical === "/" ? origin : toAbsoluteUrl(canonical, origin);
+  const { "@context": _context, ...mainEntity } = buildPersonJsonLd();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": canonical === "/" ? `${origin}/#profile` : `${pageUrl}#profile`,
+    url: pageUrl,
+    name: site.fullName,
+    mainEntity,
   };
 }
 
@@ -94,12 +111,12 @@ export function buildWebSiteJsonLd() {
     "@id": `${url}/#website`,
     name: `${site.fullName} | Software Engineer`,
     url,
-    description: site.bio,
+    description: site.tagline,
     inLanguage: "en",
     publisher: { "@id": `${url}/#person` },
   };
 }
 
 export function buildHomeJsonLd() {
-  return [buildPersonJsonLd(), buildWebSiteJsonLd()];
+  return [buildProfilePageJsonLd("/"), buildWebSiteJsonLd()];
 }

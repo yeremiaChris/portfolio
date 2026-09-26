@@ -6,6 +6,7 @@ import {
   buildHomeJsonLd,
   buildPageMetadata,
   buildPersonJsonLd,
+  buildProfilePageJsonLd,
   buildWebSiteJsonLd,
   toAbsoluteUrl,
   toCanonicalPath,
@@ -89,6 +90,7 @@ describe("JSON-LD", () => {
 
     expect(person["@type"]).toBe("Person");
     expect(person.name).toBe(site.fullName);
+    expect(person.alternateName).toBe(site.name);
     expect(person.sameAs).toEqual([site.links.github, site.links.linkedin]);
     expect(person.sameAs).not.toContain("https://twitter.com/");
     expect(person.email).toBe("yeremia997@gmail.com");
@@ -96,13 +98,33 @@ describe("JSON-LD", () => {
     expect(person.knowsAbout).toEqual([...PERSON_KNOWS_ABOUT]);
   });
 
-  it("pairs Person and WebSite on the home graph", () => {
+  it("wraps Person as ProfilePage mainEntity on the home graph", () => {
+    const profile = buildProfilePageJsonLd("/");
+    const website = buildWebSiteJsonLd();
+
     expect(buildHomeJsonLd().map((entry) => entry["@type"])).toEqual([
-      "Person",
+      "ProfilePage",
       "WebSite",
     ]);
-    expect(buildWebSiteJsonLd().publisher).toEqual({
+    expect(profile.mainEntity).toMatchObject({
+      "@type": "Person",
+      "@id": buildPersonJsonLd()["@id"],
+      name: site.fullName,
+      alternateName: site.name,
+    });
+    expect(profile.mainEntity).not.toHaveProperty("@context");
+    expect(website.publisher).toEqual({
       "@id": buildPersonJsonLd()["@id"],
     });
+    expect(website.description).toBe(site.tagline);
+  });
+
+  it("points an about ProfilePage at the same person", () => {
+    const page = buildProfilePageJsonLd("/about");
+
+    expect(page["@type"]).toBe("ProfilePage");
+    expect(page.url).toBe(`${getSiteUrl()}/about`);
+    expect(page["@id"]).toBe(`${getSiteUrl()}/about#profile`);
+    expect(page.mainEntity["@id"]).toBe(buildPersonJsonLd()["@id"]);
   });
 });

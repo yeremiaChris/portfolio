@@ -11,12 +11,12 @@ pnpm dev
 
 [http://localhost:3000](http://localhost:3000)
 
-| Script                                                   | What                  |
-| -------------------------------------------------------- | --------------------- |
-| `pnpm dev`                                               | Turbopack dev server  |
-| `pnpm lint` / `pnpm format:check` / `pnpm typecheck`     | Quality gates         |
-| `pnpm test`                                              | Vitest (`vitest run`) |
-| `pnpm build`                                             | Production build      |
+| Script                                               | What                  |
+| ---------------------------------------------------- | --------------------- |
+| `pnpm dev`                                           | Turbopack dev server  |
+| `pnpm lint` / `pnpm format:check` / `pnpm typecheck` | Quality gates         |
+| `pnpm test`                                          | Vitest (`vitest run`) |
+| `pnpm build`                                         | Production build      |
 
 CI runs lint → format → typecheck → test → build.
 

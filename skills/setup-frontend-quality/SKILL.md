@@ -16,14 +16,14 @@ This guide lives in `skills/setup-frontend-quality/` so anyone can follow the **
 
 ## Defaults (best practice)
 
-| Concern         | Choice                                               |
-| --------------- | ---------------------------------------------------- |
-| Linter          | ESLint **9.x** + `eslint-config-next` (flat config)  |
-| Formatter       | Prettier 3 + `eslint-config-prettier/flat` last      |
-| Tailwind        | `prettier-plugin-tailwindcss` (must be last plugin)  |
-| Hooks           | Husky 9 + lint-staged (staged files only)            |
-| TypeScript      | **5.9.x** until typescript-eslint supports TS 7      |
-| Package manager | Match the repo (`pnpm` / `yarn` / `npm`)             |
+| Concern         | Choice                                              |
+| --------------- | --------------------------------------------------- |
+| Linter          | ESLint **9.x** + `eslint-config-next` (flat config) |
+| Formatter       | Prettier 3 + `eslint-config-prettier/flat` last     |
+| Tailwind        | `prettier-plugin-tailwindcss` (must be last plugin) |
+| Hooks           | Husky 9 + lint-staged (staged files only)           |
+| TypeScript      | **5.9.x** until typescript-eslint supports TS 7     |
+| Package manager | Match the repo (`pnpm` / `yarn` / `npm`)            |
 
 Do **not** use `next lint` on Next.js 16+ — use the ESLint CLI (`eslint .`).
 

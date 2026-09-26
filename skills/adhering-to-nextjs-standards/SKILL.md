@@ -2,10 +2,9 @@
 name: adhering-to-nextjs-standards
 description: >-
   Applies professional Next.js App Router standards: Server Components by
-  default, "use client" as deep as possible, @/ imports, typed props, Valibot,
-  React Hook Form, Day.js, TanStack Query, and detected UI kits (shadcn or
-  HeroUI). Use when writing or reviewing Next.js/React UI, forms, server
-  actions, data fetching, or App Router components.
+  default, "use client" as deep as possible, @/ imports, typed props, detected
+  UI kits (@base-ui/react or shadcn). Use when writing or reviewing Next.js/React
+  UI, App Router components, or MDX content.
 ---
 
 # Adhering to Next.js Standards
@@ -17,16 +16,13 @@ Do not add libraries this repo does not already use unless the task needs them.
 
 Read `package.json` and `components.json` before generating code.
 
-| If present                                       | Use                                                 |
-| ------------------------------------------------ | --------------------------------------------------- |
-| `components.json` or `shadcn` / `@base-ui/react` | **shadcn/ui** — extend existing `components/ui`     |
-| `@heroui/react`                                  | **HeroUI** — extend HeroUI                          |
-| `valibot`                                        | Valibot (`v.InferOutput`)                           |
-| `react-hook-form`                                | React Hook Form + Valibot resolver                  |
-| `@tanstack/react-query`                          | TanStack Query for **client** fetch/cache/mutations |
-| `dayjs`                                          | Day.js for date display/manipulation                |
+| If present                                       | Use                                             |
+| ------------------------------------------------ | ----------------------------------------------- |
+| `components.json` or `shadcn` / `@base-ui/react` | **shadcn/ui** — extend existing `components/ui` |
+| `next-mdx-remote` + `gray-matter`                | MDX with frontmatter (see `lib/blog.ts`)        |
+| `lucide-react`                                   | Icons from Lucide only                          |
 
-Do **not** introduce a competing UI kit, Zod next to Valibot, a second date library, or a second data-fetching client.
+Do **not** introduce a competing UI kit, form library, data-fetching client, or validation library that is not already in `package.json`.
 
 If a library is missing and the task truly needs it, add **that** library — not a substitute.
 
@@ -36,7 +32,7 @@ Also follow [setup-frontend-quality](../setup-frontend-quality/SKILL.md) for lin
 
 - Default to **Server Components**.
 - Add `"use client"` only where interactivity, browser APIs, or client hooks are required. Push it to the **smallest** leaf.
-- Fetch initial data on the server (`fetch` / DB) when you can. Use TanStack Query on the client for later cache, refetch, and mutations — if the project already has it.
+- This portfolio does server-side data fetching (`lib/blog.ts`, `lib/projects.ts`) and renders most pages on the server. Keep it that way.
 
 ## 3. File structure (every component)
 
@@ -93,14 +89,13 @@ export function Card({ title, count = 0 }: CardProps) {
 - `useMemo` / `useCallback` only when measured or when a child is actually memoized and the identity matters
 - Do not memoize by default
 
-## 6. Forms, validation, dates, data
+## 6. Content and data
 
-- **Valibot** at form, server action, and API boundaries. Types via `v.InferOutput<typeof schema>`
-- **React Hook Form** + Valibot resolver for non-trivial forms
-- Native `<form>` + Server Actions is fine for simple cases
+- MDX posts live in `content/blog/` with frontmatter (title, description, date, tags, featured, draft)
+- Blog helpers: `lib/blog.ts` — slug, draft filter, featured, RSS, reading time, heading extraction
 - Server Actions: validate input, do one job, `revalidatePath` / `revalidateTag` as needed
-- **Day.js** in UI date code — do not sprinkle raw `Date` math in components
-- **TanStack Query** for client fetching; Server Components + `fetch` for first paint
+- Native `<form>` + Server Actions for simple cases (no form library needed yet)
+- Date formatting: use native `Date` methods or add a date library **only** when needed
 
 ## 7. Async, errors, a11y, performance
 
@@ -126,11 +121,8 @@ export function Card({ title, count = 0 }: CardProps) {
 - [ ] "use client" at the leaf
 - [ ] Named export (except Next page/layout)
 - [ ] @/ imports, typed props, no PropTypes
-- [ ] Validation = Valibot when validating
-- [ ] Forms = RHF when non-trivial
-- [ ] Dates = Day.js when present / when adding date UI
-- [ ] Client cache = TanStack Query when present
-- [ ] UI = existing kit only
+- [ ] UI = existing kit only (shadcn/@base-ui/react)
+- [ ] Icons = lucide-react when present
 ```
 
 Examples: [reference.md](reference.md)

@@ -16,7 +16,7 @@ Also follow [frontend-folder-structure](../frontend-folder-structure/SKILL.md) a
 
 | Layer             | Tool                              | When                                        |
 | ----------------- | --------------------------------- | ------------------------------------------- |
-| Unit / pure logic | **Vitest** (`yarn test`)          | Functions with branches                     |
+| Unit / pure logic | **Vitest** (`pnpm test`)          | Functions with branches                     |
 | Component         | Vitest + RTL                      | Interactive client leaves only              |
 | E2E               | **Playwright** in `e2e/*.spec.ts` | App Router journeys — add when ready        |
 | Static            | TypeScript + ESLint               | Already in CI — do not duplicate with tests |
@@ -53,7 +53,7 @@ Also follow [frontend-folder-structure](../frontend-folder-structure/SKILL.md) a
 
 1. Confirm there is a branch or user-visible failure mode
 2. Put `*.test.ts` next to the module
-3. Run `yarn test`
-4. CI must keep `yarn test` after typecheck — do not rely on local runs only
+3. Run `pnpm test`
+4. CI must keep `pnpm test` after typecheck — do not rely on local runs only
 
 Examples: [reference.md](reference.md)

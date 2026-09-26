@@ -47,6 +47,9 @@ export function HeroIntro() {
             {site.name}
           </span>
         </h1>
+        <p className="text-foreground mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
+          {site.fullName}
+        </p>
         <p className="text-muted-foreground mt-1 font-mono text-[13px] tracking-normal">
           {site.pronunciation}
         </p>

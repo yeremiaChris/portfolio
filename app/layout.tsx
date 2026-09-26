@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { UmamiScript } from "@/components/UmamiScript";
 import { INTRO_BOOTSTRAP_SCRIPT } from "@/lib/intro";
-import { getSiteUrl } from "@/lib/site";
+import { getSiteUrl, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -33,8 +33,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: "Yeremia Chris Saragi | Software Engineer",
-  description:
-    "Software Engineer (frontend-heavy) — production web platforms across health-tech and logistics.",
+  description: site.tagline,
   openGraph: {
     type: "website",
     locale: "en_US",

@@ -8,12 +8,12 @@ import { TechStack } from "@/components/home/TechStack";
 import { IntroGate } from "@/components/intro/IntroGate";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildHomeJsonLd, buildPageMetadata } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   ...buildPageMetadata({
     title: "Yeremia Chris Saragi | Software Engineer",
-    description:
-      "Software Engineer (frontend-heavy) building production platforms across health-tech and logistics — product UI with real API, auth, and data ownership.",
+    description: site.tagline,
     path: "/",
   }),
   keywords: [

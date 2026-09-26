@@ -1,24 +1,24 @@
 # yeremia.dev
 
-Personal portfolio — Next.js 16 App Router, shadcn/ui, MDX blog. Yarn.
+Personal portfolio — Next.js 16 App Router, shadcn/ui, MDX blog.
 
 ## Getting started
 
 ```bash
-yarn
-yarn dev
+pnpm install
+pnpm dev
 ```
 
 [http://localhost:3000](http://localhost:3000)
 
 | Script                                               | What                  |
 | ---------------------------------------------------- | --------------------- |
-| `yarn dev`                                           | Turbopack dev server  |
-| `yarn lint` / `yarn format:check` / `yarn typecheck` | Quality gates         |
-| `yarn test`                                          | Vitest (`vitest run`) |
-| `yarn build`                                         | Production build      |
+| `pnpm dev`                                           | Turbopack dev server  |
+| `pnpm lint` / `pnpm format:check` / `pnpm typecheck` | Quality gates         |
+| `pnpm test`                                          | Vitest (`vitest run`) |
+| `pnpm build`                                         | Production build      |
 
-CI runs lint → format → typecheck → test.
+CI runs lint → format → typecheck → test → build.
 
 ## Skills (how we work with the agent)
 

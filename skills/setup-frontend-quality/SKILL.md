@@ -23,7 +23,7 @@ This guide lives in `skills/setup-frontend-quality/` so anyone can follow the **
 | Tailwind        | `prettier-plugin-tailwindcss` (must be last plugin) |
 | Hooks           | Husky 9 + lint-staged (staged files only)           |
 | TypeScript      | **5.9.x** until typescript-eslint supports TS 7     |
-| Package manager | Match the repo (`yarn` / `pnpm` / `npm`)            |
+| Package manager | Match the repo (`pnpm` / `yarn` / `npm`)            |
 
 Do **not** use `next lint` on Next.js 16+ — use the ESLint CLI (`eslint .`).
 
@@ -40,15 +40,15 @@ Copy and track:
 - [ ] Add package.json scripts + lint-staged
 - [ ] Init Husky pre-commit → lint-staged
 - [ ] Optional: .vscode/settings.json + extensions.json
-- [ ] Run format, lint, typecheck; `yarn test` if Vitest is present; fix real errors
+- [ ] Run format, lint, typecheck; `pnpm test` if Vitest is present; fix real errors
 ```
 
 ## 1. Install
 
-Yarn example (adapt for pnpm/npm):
+pnpm example (adapt for yarn/npm):
 
 ```bash
-yarn add -D eslint@^9 eslint-config-next eslint-config-prettier prettier prettier-plugin-tailwindcss husky lint-staged typescript@~5.9
+pnpm add -D eslint@^9 eslint-config-next eslint-config-prettier prettier prettier-plugin-tailwindcss husky lint-staged typescript@~5.9
 ```
 
 If the project already has `eslint-config-next`, only add the missing packages.
@@ -111,23 +111,23 @@ Add `"test": "vitest run"` only when the repo has Vitest. See [frontend-testing]
 ## 5. Husky
 
 ```bash
-yarn prepare
-# or: yarn husky init
+pnpm prepare
+# or: pnpm husky init
 ```
 
 `.husky/pre-commit`:
 
 ```sh
-yarn lint-staged
+pnpm lint-staged
 ```
 
 Use the repo’s package manager in the hook (`pnpm lint-staged` / `npx lint-staged`).
 
 ## 6. CI
 
-Run the same gates on every push/PR: `yarn lint`, `yarn format:check`, `yarn typecheck`. Lint uses `--max-warnings 0`.
+Run the same gates on every push/PR: `pnpm lint`, `pnpm format:check`, `pnpm typecheck`. Lint uses `--max-warnings 0`.
 
-If the repo has Vitest (`yarn test`), run it **after** typecheck. See [frontend-testing](../frontend-testing/SKILL.md). Do not put the full suite in lint-staged — keep hooks fast.
+If the repo has Vitest (`pnpm test`), run it **after** typecheck. See [frontend-testing](../frontend-testing/SKILL.md). Do not put the full suite in lint-staged — keep hooks fast.
 
 ## 7. Editor (recommended for guide repos)
 
@@ -137,11 +137,11 @@ If the repo has Vitest (`yarn test`), run it **after** typecheck. See [frontend-
 ## 8. Verify
 
 ```bash
-yarn format
-yarn lint
-yarn typecheck
-yarn format:check
-yarn test
+pnpm format
+pnpm lint
+pnpm typecheck
+pnpm format:check
+pnpm test
 ```
 
 Fix lint errors (do not blanket-disable rules). One format pass on first setup is expected.

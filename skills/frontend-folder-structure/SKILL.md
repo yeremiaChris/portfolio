@@ -31,6 +31,8 @@ lib/                      # Domain data + shared helpers
   blog.ts  blog.test.ts   # Vitest next to the module
   experience.ts  projects.ts  about.ts  site.ts
 content/blog/             # MDX posts (not React)
+docs/plans/               # Approved blueprints (not pages)
+docs/solutions/           # Solved problems for the next session
 e2e/                      # Playwright only (*.spec.ts) — add when E2E lands
 vitest.config.mts
 ```
@@ -48,6 +50,8 @@ Path alias: `@/*` → repo root. Prefer `@/` over `../`. Same-folder `./` is all
 | `components/ui/`           | shadcn only (`button`, `card`, `badge`)                      |
 | `lib/<domain>.ts`          | Copy, types, pure helpers (`getAllPosts`, role data)         |
 | `content/blog/*.mdx`       | Post bodies + frontmatter                                    |
+| `docs/plans/`              | Approved blueprints — not pages                              |
+| `docs/solutions/`          | Solved problems for the next session — not posts             |
 | `*.test.ts` next to source | Vitest unit/component tests                                  |
 | `e2e/*.spec.ts`            | Playwright journeys — not colocated with `app/`              |
 
@@ -60,6 +64,7 @@ Path alias: `@/*` → repo root. Prefer `@/` over `../`. Same-folder `./` is all
 - **Don't** put business logic in `components/ui/`
 - **Don't** add `features/`, `src/`, `__tests__/`, or empty `hooks/` / `api/` / `types.ts`
 - **Don't** put Playwright next to `page.tsx` or in another repository
+- **Don't** put plans or solution notes in `content/blog/` or `app/`
 
 ## Adding a page or domain
 

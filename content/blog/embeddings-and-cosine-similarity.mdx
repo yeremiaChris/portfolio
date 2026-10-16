@@ -1,0 +1,121 @@
+---
+title: "Embeddings and Cosine Similarity"
+description: "Embeddings turn text into 3072-number vectors of meaning. Cosine similarity scored two coffee sentences at 0.801 and an unrelated sentence at 0.526."
+date: "2026-10-16"
+tags: ["ai-engineering", "learning-in-public", "llm", "embeddings", "rag"]
+featured: false
+draft: true
+---
+
+This is part 3 of Learning AI Engineering in Public. Part 2 is [My First LLM API Call](/blog/my-first-llm-api-call).
+
+**One-sentence answer:** An embedding turns text into a vector of meaning, and cosine similarity tells you how aligned two of those vectors are.
+
+## Vectors of meaning
+
+An **embedding** is a long list of numbers that stands in for the meaning of a piece of text. Similar sentences land closer together in that space.
+
+A useful analogy: an embedding is like GPS coordinates for meaning. Two coffee sentences sit in the same neighborhood. A sentence about cement prices sits somewhere else on the map.
+
+I used `gemini-embedding-001`. Each vector has **3072** dimensions — 3072 numbers on that map.
+
+```ts
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+async function embed(text: string): Promise<number[]> {
+  const response = await ai.models.embedContent({
+    model: "gemini-embedding-001",
+    contents: text,
+  });
+
+  const values = response.embeddings?.[0]?.values;
+
+  if (!values) {
+    throw new Error("No embedding returned");
+  }
+
+  return values;
+}
+```
+
+What this block does:
+
+- The client is the same `@google/genai` client from part 2.
+- `embedContent` sends text and gets back one embedding per input.
+- `values` is the number list. For this model, `values.length` is 3072.
+- The early throw exists so a missing embedding fails loudly instead of becoming a silent `undefined` later.
+
+## Cosine similarity by hand
+
+I did not pull in a math library. Cosine similarity answers: do these two GPS points point the same direction?
+
+```ts
+function cosineSimilarity(a: number[], b: number[]): number {
+  let dot = 0;
+  let magA = 0;
+  let magB = 0;
+
+  for (let i = 0; i < a.length; i++) {
+    const x = a[i] ?? 0;
+    const y = b[i] ?? 0;
+    dot += x * y;
+    magA += x * x;
+    magB += y * y;
+  }
+
+  const magnitude = Math.sqrt(magA) * Math.sqrt(magB);
+  if (magnitude === 0) return 0;
+
+  return dot / magnitude;
+}
+```
+
+Walkthrough, line by line:
+
+- `dot` builds the **dot product**: multiply matching numbers from both vectors and add those products. When the vectors point the same way, this sum grows.
+- `magA` and `magB` accumulate the squared length of each vector (`x * x`, `y * y`).
+- `Math.sqrt(magA) * Math.sqrt(magB)` is the product of the two **norms** (lengths). Dividing by length removes "how long is this vector" so you compare direction.
+- If a magnitude is zero, returning `0` avoids dividing by zero.
+- The final `dot / magnitude` is the cosine similarity score. Higher means more aligned.
+
+```ts
+const coffee = await embed("I love drinking coffee");
+const hobby = await embed("My hobby is having coffee");
+const cement = await embed("Cement prices are rising");
+
+console.log(cosineSimilarity(coffee, hobby));
+console.log(cosineSimilarity(coffee, cement));
+```
+
+What this block does:
+
+- Three strings become three vectors.
+- The first comparison is two coffee sentences. The second pairs coffee with cement prices.
+- Printing the scores is how I checked whether "nearby on the map" matched my intuition.
+
+## What I measured
+
+| Text A                 | Text B                    | Score |
+| ---------------------- | ------------------------- | ----- |
+| I love drinking coffee | My hobby is having coffee | 0.801 |
+| I love drinking coffee | Cement prices are rising  | 0.526 |
+
+## Why this works (and why 0.526 is not "zero")
+
+The coffee pair scored **0.801** because both sentences are about enjoying coffee. Different words, same neighborhood on the meaning map — that is why the high score is accurate for "related."
+
+The cement sentence scored **0.526**. That is not a match, but it is also not zero. Unrelated text still lands around **~0.5** in this setup. So a raw score is not a yes-or-no label by itself. What matters is the **relative** gap: 0.801 vs 0.526.
+
+That is why a RAG threshold has to be tested on real pairs before you trust it. If you pick 0.5 as "relevant," almost everything passes. If you pick something higher, you need evidence from your own documents.
+
+## Takeaways
+
+- `gemini-embedding-001` turns text into a vector of meaning with 3072 dimensions.
+- Cosine similarity is a short loop: dot product divided by the product of the norms.
+- "I love drinking coffee" vs "My hobby is having coffee" scored 0.801.
+- The same coffee sentence vs "Cement prices are rising" scored 0.526.
+- Unrelated text can still score around 0.5. Compare scores to each other, and test a RAG cutoff before you ship one.
+
+Next up: [Semantic Search](/blog/semantic-search), where I embed seven facts about myself and ask questions by meaning.

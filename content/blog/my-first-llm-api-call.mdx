@@ -1,0 +1,140 @@
+---
+title: "My First LLM API Call"
+description: "ChatGPT is an app. The API is for programs: a streaming TypeScript call with @google/genai, a backoff retry for 503 and 429, and an API key that stays out of git."
+date: "2026-10-16"
+tags: ["ai-engineering", "learning-in-public", "llm", "typescript", "api"]
+featured: false
+draft: true
+---
+
+This is part 2 of Learning AI Engineering in Public. Part 1 is [What an LLM Actually Is](/blog/what-an-llm-actually-is).
+
+**One-sentence answer:** ChatGPT is an app. The API is how a program calls the same kind of model.
+
+## The app and the API
+
+ChatGPT gives you a text box. An API gives your code a function. I called Gemini from TypeScript with `@google/genai`, and I ran the file with `tsx`.
+
+The call uses `generateContentStream`, so tokens print as they arrive instead of waiting for the full reply. Temperature is **0.2** — low enough to stay steady. The model is `gemini-3.8-flash`.
+
+```ts
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+async function main() {
+  const stream = await ai.models.generateContentStream({
+    model: "gemini-3.8-flash",
+    contents: "Explain a token in one sentence.",
+    config: { temperature: 0.2 },
+  });
+
+  for await (const chunk of stream) {
+    if (chunk.text) process.stdout.write(chunk.text);
+  }
+
+  process.stdout.write("\n");
+}
+
+main();
+```
+
+What this block does:
+
+- `GoogleGenAI` is the client. It reads the key from `process.env.GEMINI_API_KEY` so the secret never sits in the source file.
+- `generateContentStream` asks for a streaming reply. Each `chunk` is a piece of the answer as it is produced.
+- `temperature: 0.2` keeps wording fairly consistent. That matters when you want a factual one-liner, not a creative remix.
+- Writing each `chunk.text` to stdout is why the terminal fills in live — same feel as ChatGPT typing.
+
+## Read the error, then the docs
+
+`gemini-2.5-flash` is no longer available for new users. When a model name fails, read the error, then the current docs, and only then change the string. Guessing model names from memory is how you burn an afternoon.
+
+## Retry 503 and 429
+
+I hit a **503** high-demand error. The same request can work a moment later, so I retry it. The waits are **2s**, then **4s**, then **8s**. I use that same backoff for **429**.
+
+The SDK puts the HTTP status on the error as `status`. A **400** or a **401** is not in the retry list.
+
+```ts
+const RETRY_DELAYS_MS = [2_000, 4_000, 8_000];
+
+function httpStatus(error: unknown): number | undefined {
+  if (typeof error === "object" && error !== null && "status" in error) {
+    const status = (error as { status?: unknown }).status;
+    return typeof status === "number" ? status : undefined;
+  }
+
+  return undefined;
+}
+
+async function withBackoff<T>(task: () => Promise<T>): Promise<T> {
+  let attempt = 0;
+
+  while (true) {
+    try {
+      return await task();
+    } catch (error) {
+      const delay = RETRY_DELAYS_MS[attempt];
+      const status = httpStatus(error);
+      const retryable = status === 503 || status === 429;
+
+      if (!retryable || delay === undefined) throw error;
+
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      attempt += 1;
+    }
+  }
+}
+```
+
+What this block does:
+
+- `RETRY_DELAYS_MS` is the schedule: wait longer each time. That is exponential backoff in three steps.
+- `httpStatus` only looks for a numeric `status` field. It does not invent a code.
+- `withBackoff` runs your task. On failure it checks whether the status is retryable. If yes, it sleeps and tries again. If no — or if the delays are used up — it throws.
+
+Why **400** and **401** should not be retried:
+
+- **400** means the request itself is wrong. Sending it again sends the same wrong request.
+- **401** means the key was rejected. Waiting does not create a valid key.
+- **429** means you are being rate limited. Waiting can clear that.
+- **503** means the service is under high demand. Waiting can clear that too.
+
+Retrying only when the problem might be temporary saves time and avoids hammering a request that can never succeed.
+
+## Keep the key out of git
+
+The key lives in `.env`, not in the source file. I start the script with `--env-file`, and `.env` is listed in `.gitignore`. If the key leaks, rotate it: delete that key and create a new one.
+
+```text
+GEMINI_API_KEY=your-key
+```
+
+```text
+tsx --env-file=.env first-call.ts
+```
+
+What these blocks do:
+
+- The `.env` line is the secret store. Your code reads `process.env.GEMINI_API_KEY`.
+- `--env-file=.env` loads that file into the process before `tsx` runs.
+- Gitignoring `.env` keeps the key out of commits. Rotation is the recovery plan when something still leaks.
+
+## Why this works
+
+- The app and the API talk to the same kind of model. The difference is who calls it: a person in a chat UI, or your TypeScript file.
+- Streaming shows progress and matches how chat UIs feel.
+- Low temperature keeps a short explanation from wandering.
+- Backoff only for 503 and 429 matches "this might recover" versus "this will never recover."
+- Env files plus gitignore plus rotation are three layers around one secret.
+
+## Takeaways
+
+- ChatGPT is the app. `@google/genai` is how TypeScript calls the model.
+- Stream with `generateContentStream`, temperature 0.2, model `gemini-3.8-flash`, and run it with `tsx`.
+- `gemini-2.5-flash` is no longer available for new users. Read the error and the current docs.
+- Retry 503 and 429 with waits of 2s, 4s, and 8s. Do not retry 400 or 401.
+- Store the key in `.env`, load it with `--env-file`, gitignore that file, and rotate the key if it leaks.
+
+Next up: [Embeddings and Cosine Similarity](/blog/embeddings-and-cosine-similarity), where text becomes a vector you can compare.

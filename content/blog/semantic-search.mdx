@@ -1,0 +1,186 @@
+---
+title: "Semantic Search"
+description: "Seven facts about me, embedded once, then ranked by cosine similarity. Healthcare matched without the word health. A rendang question topped out at 0.550."
+date: "2026-10-16"
+tags:
+  [
+    "ai-engineering",
+    "learning-in-public",
+    "embeddings",
+    "semantic-search",
+    "rag",
+  ]
+featured: false
+draft: true
+---
+
+This is part 4 of Learning AI Engineering in Public. Part 3 is [Embeddings and Cosine Similarity](/blog/embeddings-and-cosine-similarity).
+
+**One-sentence answer:** Semantic search embeds your documents and your question, then ranks by meaning — not by exact keywords.
+
+## The idea
+
+In part 3, cosine similarity compared two sentences. Here I keep seven short facts about myself as documents, embed them once, embed each question, score every document, sort highest first, and keep the top three.
+
+Analogy time:
+
+- Embeddings are still GPS coordinates for meaning.
+- **Top-k** is like walking into a library and picking the **3** most relevant books for your question — not the whole shelf.
+- A **threshold** later (part 5) is like a bouncer at the door: below the score, you do not get in.
+
+The code lives in `search.ts`. Below is that logic, trimmed into sections, not rewritten.
+
+## Seven fact documents
+
+```ts
+const documents = [
+  "Yeremia built clinician-facing UI on PrimaKu, a pediatric health app with 1M+ downloads.",
+  "On Mazecare, Yeremia shipped FHIR-based clinic flows and AI-assisted clinical notes.",
+  "At KiriminAja, Yeremia built high-volume logistics UI using Web Workers and virtualization.",
+  "Yeremia's main frontend stack is Next.js, React 19, TypeScript, and Tailwind CSS.",
+  "Yeremia deploys with Docker, GitHub Actions CI/CD, and Vercel.",
+  "Yeremia is building a construction project platform in Indonesia with his brother.",
+  "Yeremia is currently learning RAG, embeddings, and AI agents.",
+];
+```
+
+What this block does: it is the whole knowledge base for the demo — PrimaKu, Mazecare (FHIR + AI notes), KiriminAja, the Next.js stack, deployment (Docker / GitHub Actions / Vercel), the construction platform, and what I am learning now. Small on purpose, so every score is easy to inspect.
+
+## Setup, cosine similarity, and task types
+
+```ts
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const EMBEDDING_MODEL = "gemini-embedding-001";
+
+function cosineSimilarity(a: number[], b: number[]): number {
+  let dot = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
+  }
+  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+async function embed(texts: string[], taskType: string): Promise<number[][]> {
+  const response = await ai.models.embedContent({
+    model: EMBEDDING_MODEL,
+    contents: texts,
+    config: { taskType },
+  });
+  return response.embeddings!.map((embedding) => embedding.values!);
+}
+```
+
+What this block does:
+
+- `EMBEDDING_MODEL` pins `gemini-embedding-001` so the model string is not scattered.
+- `cosineSimilarity` is the same idea as part 3: dot product divided by the product of the norms. Higher means more aligned on the meaning map.
+- `embed` sends one or more strings and returns one vector per string.
+- `taskType` is the important new knob.
+
+Why two task types:
+
+- Documents use `RETRIEVAL_DOCUMENT`.
+- Questions use `RETRIEVAL_QUERY`.
+
+`gemini-embedding-001` is optimized differently for those two roles. A document is "what lives in the index." A query is "what someone is asking." Using the matching task type puts both sides into the space the model expects for retrieval.
+
+## Embed documents once, then search
+
+```ts
+const documentVectors = await embed(documents, "RETRIEVAL_DOCUMENT");
+
+async function search(query: string, topK = 3) {
+  const [queryVector] = await embed([query], "RETRIEVAL_QUERY");
+  return documents
+    .map((text, index) => ({
+      text,
+      score: cosineSimilarity(queryVector, documentVectors[index]),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topK);
+}
+```
+
+What this block does:
+
+- `documentVectors` runs once at startup. The seven facts are embedded as `RETRIEVAL_DOCUMENT` and reused for every question. That is cheaper and faster than re-embedding the whole set on each search.
+- `search` embeds the question as `RETRIEVAL_QUERY`.
+- It pairs each document text with its cosine score against the question.
+- `sort` puts the highest score first.
+- `slice(0, topK)` keeps only the top 3 — the three most relevant library books.
+
+## Running the three queries
+
+```ts
+const queries = [
+  "Has he worked in healthcare?",
+  "What does he use for deployment?",
+  "What is a good rendang recipe?",
+];
+
+for (const query of queries) {
+  console.log(`\nQuery: ${query}`);
+  for (const result of await search(query)) {
+    console.log(`  ${result.score.toFixed(3)}  ${result.text}`);
+  }
+}
+```
+
+What this block does: it prints each question, then the top-3 documents with scores rounded to three decimals. That is how I captured the real outputs below.
+
+## Real outputs
+
+### "Has he worked in healthcare?"
+
+| Rank | Score | Document                            |
+| ---- | ----- | ----------------------------------- |
+| 1    | 0.664 | Mazecare (FHIR + AI clinical notes) |
+| 2    | 0.652 | PrimaKu (pediatric health app)      |
+| 3    | 0.627 | KiriminAja (logistics UI)           |
+
+None of those documents needed the exact word "health" in the question to match. The question said "healthcare." Mazecare and PrimaKu are clinic / pediatric work. The search still found them. That is search by **meaning**, not by string match.
+
+KiriminAja also landed in the top 3 at 0.627. Logistics is not healthcare. The score is still high enough to appear. Remember that from part 3: unrelated text can sit around the middle of the scale. Top-k returns the best of what you have, not a guarantee of relevance.
+
+### "What does he use for deployment?"
+
+The deployment document scored **0.741** and ranked first. Docker, GitHub Actions, and Vercel are exactly what that question asks for, so the high score is accurate for this tiny dataset.
+
+### "What is a good rendang recipe?"
+
+The top score was only **0.550**. Nothing in the seven facts is about cooking. The meaning map has no nearby recipe document, so every score stays low. That gap is useful: it is a signal that the question is off-topic for this corpus.
+
+## Why this works
+
+- Embedding documents once and queries every time matches how a real index works: write path vs read path.
+- `RETRIEVAL_DOCUMENT` and `RETRIEVAL_QUERY` exist because the model treats those roles differently. Using the wrong one is like filing books under a different catalog system than the one your search desk uses.
+- Top-k limits the answer surface to three chunks. That prepares part 5, where those chunks become LLM context.
+- The healthcare question shows why semantic search beats keyword search for synonyms.
+- The rendang question shows a low top score when nothing relevant exists.
+
+## The threshold lesson (and why evals matter)
+
+A threshold around **0.6** looks like a clean line between relevant and irrelevant in this run:
+
+- Healthcare hits are above 0.6.
+- Rendang tops out at 0.550.
+
+But KiriminAja scored **0.627** on the healthcare question and would pass a 0.6 bouncer even though it is not relevant. So a threshold alone is not enough.
+
+These numbers are specific to **this** dataset of seven sentences. Another corpus, another embedding model, or longer documents would shift the scale. That is why evals are needed: you measure real questions against real documents before you trust a cutoff in production.
+
+## Takeaways
+
+- Semantic search ranks by meaning: embed documents once, embed the query, cosine similarity, sort, take top-k.
+- Use `RETRIEVAL_DOCUMENT` for documents and `RETRIEVAL_QUERY` for questions with `gemini-embedding-001`.
+- "Has he worked in healthcare?" found Mazecare 0.664 and PrimaKu 0.652 without needing the exact word "health."
+- Deployment scored 0.741. Rendang topped out at 0.550.
+- Around 0.6 separates a lot of signal here, but KiriminAja at 0.627 shows a threshold alone is not enough — and the numbers are dataset-specific, so you need evals.
+
+Next up: [A Mini RAG Pipeline](/blog/a-mini-rag-pipeline), where retrieval feeds a grounded prompt — or refuses before the LLM is called.

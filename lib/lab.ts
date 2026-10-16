@@ -3,6 +3,17 @@ export const labIntro = {
     "Ask Yeremia is a grounded chat over this portfolio — experience, projects, and writing — with cited sources.",
 } as const;
 
+/** Home-page promo linking to /lab. */
+export const labHomeCta = {
+  id: "ask-yeremia",
+  href: "/lab",
+  eyebrow: "Lab // Ask Yeremia",
+  title: "Ask my portfolio anything",
+  description:
+    "Grounded answers over experience, projects, and writing — with cited sources.",
+  ctaLabel: "Ask Yeremia",
+} as const;
+
 export const askYeremia = {
   id: "ask-yeremia",
   topBarEyebrow: "LAB // ASK YEREMIA",

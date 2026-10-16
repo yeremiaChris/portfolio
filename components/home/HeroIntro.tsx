@@ -8,10 +8,12 @@ import {
   MailIcon,
   MessageCircleIcon,
   Share2Icon,
+  SparklesIcon,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { labHomeCta } from "@/lib/lab";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -89,6 +91,18 @@ export function HeroIntro() {
           Selected work
           <ArrowRightIcon />
         </a>
+        <Link
+          href={labHomeCta.href}
+          className={cn(
+            buttonVariants({ variant: "secondary", size: "lg" }),
+            "border border-[#4cd7f6]/35 bg-[#4cd7f6]/10 text-[#4cd7f6]",
+            "hover:bg-[#4cd7f6]/15 hover:text-[#4cd7f6]",
+            "focus-visible:ring-2 focus-visible:ring-[#4cd7f6]/50",
+          )}
+        >
+          <SparklesIcon />
+          {labHomeCta.ctaLabel}
+        </Link>
         <Link
           href={site.links.experience}
           className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}

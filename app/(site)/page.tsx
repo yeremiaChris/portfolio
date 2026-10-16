@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Artifacts } from "@/components/home/Artifacts";
 import { ContactCta } from "@/components/home/ContactCta";
 import { Hero } from "@/components/home/Hero";
+import { LabCta } from "@/components/home/LabCta";
 import { Milestones } from "@/components/home/Milestones";
 import { TechStack } from "@/components/home/TechStack";
 import { IntroGate } from "@/components/intro/IntroGate";
@@ -40,6 +41,7 @@ export default function Home() {
       <Hero />
       <Milestones />
       <Artifacts />
+      <LabCta />
       <TechStack />
       <ContactCta />
     </main>

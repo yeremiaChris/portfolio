@@ -1,0 +1,222 @@
+---
+title: "A Mini RAG Pipeline"
+description: "Retrieve top-k facts, refuse below 0.6 without calling the LLM, otherwise answer from a grounded prompt with citations — plus a model fallback when flash models are overloaded."
+date: "2026-10-16"
+tags: ["ai-engineering", "learning-in-public", "rag", "embeddings", "llm"]
+featured: false
+draft: true
+---
+
+This is part 5 of Learning AI Engineering in Public. Part 4 is [Semantic Search](/blog/semantic-search).
+
+**One-sentence answer:** RAG retrieves the best documents first, then asks the LLM to answer only from that context — or refuses before generation when nothing is close enough.
+
+## The pipeline
+
+Part 4 stopped at ranked documents. This post adds generation. The code lives in `rag.ts`. Same seven facts. Same embeddings. New pieces: a threshold bouncer, a grounded prompt, citations, and a model fallback list.
+
+Analogies again:
+
+- Retrieval still picks the 3 most relevant library books.
+- The **0.6 threshold** is the bouncer at the door. If the best book is not relevant enough, we never ask the LLM.
+- The grounded prompt says: answer only from those books. If the answer is not on the page, say you do not know.
+
+## Shared pieces: documents, embed, retrieve
+
+```ts
+const documents = [
+  "Yeremia built clinician-facing UI on PrimaKu, a pediatric health app with 1M+ downloads.",
+  "On Mazecare, Yeremia shipped FHIR-based clinic flows and AI-assisted clinical notes.",
+  "At KiriminAja, Yeremia built high-volume logistics UI using Web Workers and virtualization.",
+  "Yeremia's main frontend stack is Next.js, React 19, TypeScript, and Tailwind CSS.",
+  "Yeremia deploys with Docker, GitHub Actions CI/CD, and Vercel.",
+  "Yeremia is building a construction project platform in Indonesia with his brother.",
+  "Yeremia is currently learning RAG, embeddings, and AI agents.",
+];
+
+const documentVectors = await embed(documents, "RETRIEVAL_DOCUMENT");
+
+async function retrieve(query: string) {
+  const [queryVector] = await embed([query], "RETRIEVAL_QUERY");
+  return documents
+    .map((text, index) => ({
+      id: index + 1,
+      text,
+      score: cosineSimilarity(queryVector, documentVectors[index]),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, TOP_K);
+}
+```
+
+What this block does:
+
+- Documents and `embed` / cosine similarity match part 4 (`RETRIEVAL_DOCUMENT` vs `RETRIEVAL_QUERY`).
+- `retrieve` returns `{ id, text, score }`. The `id` is `index + 1` so citations can say `[1]`, `[2]`, `[7]`.
+- `TOP_K` is 3. Only three chunks become context.
+
+## Constants for the bouncer and the chat call
+
+```ts
+const EMBEDDING_MODEL = "gemini-embedding-001";
+const CHAT_MODEL = "gemini-3.8-flash";
+const SIMILARITY_THRESHOLD = 0.6;
+const TOP_K = 3;
+```
+
+What this block does:
+
+- `SIMILARITY_THRESHOLD` is **0.6** — the bouncer's cutoff from the part 4 lesson.
+- `TOP_K` caps context size.
+- `CHAT_MODEL` names the preferred chat model. In practice the fallback list below is what kept the demo running.
+
+## When retry is not enough: model fallback
+
+I still had `withRetry` with exponential backoff for 503 and 429. That was not enough, because `gemini-3.8-flash` stayed overloaded. Waiting longer on the same busy model did not help.
+
+I listed available models with `ai.models.list()` and added `generateWithFallback()`, which tries `CHAT_MODELS` in order and moves to the next model on 503 or 429.
+
+```ts
+const CHAT_MODELS = [
+  "gemini-3.8-flash",
+  "gemini-3.7-flash",
+  "gemini-3.5-flash",
+  "gemini-3.1-flash-lite",
+];
+
+async function generateWithFallback(prompt: string) {
+  let lastError: unknown;
+  for (const model of CHAT_MODELS) {
+    try {
+      const stream = await ai.models.generateContentStream({
+        model,
+        contents: prompt,
+        config: { temperature: 0.2 },
+      });
+      console.log(`(using ${model})`);
+      return stream;
+    } catch (error: any) {
+      const isRetryable = error?.status === 503 || error?.status === 429;
+      if (!isRetryable) throw error;
+      console.log(`(${model} busy, trying next model...)`);
+      lastError = error;
+    }
+  }
+  throw lastError;
+}
+```
+
+What this block does:
+
+- Tries each model in order with `generateContentStream` and temperature **0.2**.
+- On 503 or 429, logs that the model is busy and tries the next one.
+- On any other error, throws immediately — same idea as part 2: do not retry a bad request or a bad key.
+- If every model fails with a retryable error, it throws the last error.
+
+Real run: **3.8** and **3.7** were busy, so it used **gemini-3.5-flash**.
+
+## answer(): threshold, grounded prompt, stream, sources
+
+```ts
+async function answer(question: string) {
+  console.log(`\nQuestion: ${question}`);
+  const results = await retrieve(question);
+
+  if (results[0].score < SIMILARITY_THRESHOLD) {
+    console.log(
+      "Answer: I don't have that in my portfolio yet. Feel free to contact me directly!",
+    );
+    return;
+  }
+
+  const context = results
+    .map((result) => `[${result.id}] ${result.text}`)
+    .join("\n");
+
+  const prompt = `You are "Ask Yeremia", an assistant on Yeremia's portfolio website.
+Answer the question using ONLY the context below.
+If the context does not contain the answer, say you don't know. Never make things up.
+Cite sources using their numbers, like [1] or [2].
+
+Context:
+${context}
+
+Question: ${question}`;
+
+  const stream = await generateWithFallback(prompt);
+
+  process.stdout.write("Answer: ");
+  for await (const chunk of stream) {
+    process.stdout.write(chunk.text ?? "");
+  }
+  console.log(
+    `\nSources: ${results.map((result) => `[${result.id}] ${result.score.toFixed(3)}`).join(", ")}`,
+  );
+}
+```
+
+What this block does, in order:
+
+1. `retrieve(question)` gets the top-3 `{ id, text, score }` rows.
+2. If the **best** score is below **0.6**, print a refusal and `return`. The LLM is never called. That is cheaper and safer: no tokens spent, no chance to invent a recipe.
+3. Otherwise build `context` as numbered lines like `[1] text`. Those numbers are the citation handles.
+4. Build a grounded prompt: answer using ONLY the context; if it is not there, say you do not know; never make things up; cite like `[1]`.
+5. Stream the answer through `generateWithFallback`.
+6. Print the sources with their similarity scores so a reader can check the evidence.
+
+The refusal message's tone can be made friendlier later. The important part is refusing **before** generation.
+
+## Real outputs
+
+### Healthcare
+
+Question: "Has he worked in healthcare?"
+
+The answer was **Yes** — it cited **PrimaKu [1]** and **Mazecare [2]**. KiriminAja was still in the retrieved top-k (same pattern as part 4), but the LLM ignored it for the written answer. Retrieval can surface a weak neighbor; the grounded prompt is what keeps that neighbor out of the sentence.
+
+### Learning
+
+Question: "Is he learning anything new?"
+
+The answer pointed at document **[7]**: currently learning RAG, embeddings, and AI agents.
+
+### Rendang
+
+Question: "What is a good rendang recipe?"
+
+Refused **before** the LLM was called. The top similarity score stayed under 0.6, so the bouncer stopped the request. No generation, no invented recipe.
+
+### University
+
+Question: "What university did he attend?"
+
+The top score was **0.601** — it barely passed the threshold. None of the seven facts mention a university. The LLM answered **I don't know based on the provided context**. The threshold let the question through; the grounded prompt still blocked a made-up school.
+
+## Why the answers are accurate
+
+1. **Retrieval by meaning.** Embeddings plus `RETRIEVAL_DOCUMENT` / `RETRIEVAL_QUERY` find PrimaKu and Mazecare for "healthcare" even when the wording differs. That is why the healthcare answer can cite the right jobs.
+
+2. **Top-k limits context.** Only three chunks go into the prompt. The model is not drowning in all seven facts every time — just the closest library books.
+
+3. **The threshold rejects off-topic questions before generation.** Rendang never reached the LLM. That is why there is no hallucinated recipe in that run: generation never started.
+
+4. **The grounded prompt catches threshold near-misses.** University scored 0.601 and passed the bouncer, but no document had the answer. "Say you don't know" and "never make things up" are why the reply stayed honest instead of inventing a school.
+
+5. **Low temperature (0.2)** keeps the wording factual and consistent. This is a portfolio Q and A, not a creative writing task.
+
+6. **Citations** like `[1]` and `[2]` make answers verifiable. You can map each claim back to a retrieved line and its score.
+
+7. **Two layers of protection.** A threshold alone is not enough — KiriminAja can clear 0.6 on a healthcare question, and university can clear 0.6 with no real answer. The grounded prompt is the second layer. Together they cover "wrong neighbor retrieved" and "right score, empty facts."
+
+8. **Limitation: the threshold is dataset-specific.** 0.6 worked on these seven sentences and these questions. Another corpus needs evals before you trust the same number.
+
+## Takeaways
+
+- `retrieve()` returns `{ id, text, score }` for the top-k documents.
+- If the top score is below 0.6, refuse immediately and skip the LLM.
+- If it passes, build numbered context, send a grounded prompt at temperature 0.2, stream the answer, and print sources with scores.
+- When one flash model stays on 503/429, fall through a model list. My run used `gemini-3.5-flash` after 3.8 and 3.7 were busy.
+- Healthcare cited PrimaKu and Mazecare; learning cited [7]; rendang refused pre-LLM; university barely passed 0.601 and still got "I don't know" from context.
+- Accuracy comes from stacked defenses: semantic retrieval, top-k, threshold, grounded prompt, low temperature, and citations — plus evals when the dataset changes.
+
+Next up: better evals for the 0.6 cutoff, and a friendlier refusal tone for the portfolio assistant.

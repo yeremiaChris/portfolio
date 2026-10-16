@@ -22,29 +22,60 @@ CI runs lint → format → typecheck → test → build.
 
 ## Skills (how we work with the agent)
 
-Rules live in [`skills/`](./skills). That folder is the **source of truth**. Copy a skill into `.cursor/skills/` (gitignored) if Cursor should auto-load it.
+Rules for this portfolio live in [`skills/`](./skills). Copy a skill into `.cursor/skills/` (gitignored) when Cursor should auto-load that committed copy.
 
 Start here: [`skills/follow-project-skills/SKILL.md`](./skills/follow-project-skills/SKILL.md)
 
-| Skill                                                                          | Use it for                         |
-| ------------------------------------------------------------------------------ | ---------------------------------- |
-| [follow-project-skills](./skills/follow-project-skills/SKILL.md)               | Always — catalog + ship checklist  |
-| [frontend-folder-structure](./skills/frontend-folder-structure/SKILL.md)       | New page, section, where files go  |
-| [adhering-to-nextjs-standards](./skills/adhering-to-nextjs-standards/SKILL.md) | UI, `"use client"`, props, stack   |
-| [setup-frontend-quality](./skills/setup-frontend-quality/SKILL.md)             | ESLint, Prettier, Husky, CI        |
-| [frontend-testing](./skills/frontend-testing/SKILL.md)                         | Vitest vs skip vs Playwright later |
+| Skill                                                                          | Use it for                                 |
+| ------------------------------------------------------------------------------ | ------------------------------------------ |
+| [follow-project-skills](./skills/follow-project-skills/SKILL.md)               | Always — catalog + ship checklist          |
+| [portfolio-compound-loop](./skills/portfolio-compound-loop/SKILL.md)           | This repo's additions to the personal loop |
+| [frontend-folder-structure](./skills/frontend-folder-structure/SKILL.md)       | New page, section, where files go          |
+| [adhering-to-nextjs-standards](./skills/adhering-to-nextjs-standards/SKILL.md) | UI, `"use client"`, props, stack           |
+| [setup-frontend-quality](./skills/setup-frontend-quality/SKILL.md)             | ESLint, Prettier, Husky, CI                |
+| [frontend-testing](./skills/frontend-testing/SKILL.md)                         | Vitest vs skip vs Playwright later         |
 
-**Prompting habit:** `@`-mention the skill files in the chat so they are in context even if auto-invoke misses. Use **Ask mode** for ideas; **Agent mode** + “Go” to implement.
+**Prompting habit:** `@`-mention the skill files so they are in context even if auto-invoke misses. Approve the plan, then the result.
 
-Layout reminder: thin `app/` page → `components/<domain>/` UI → `lib/<domain>.ts` copy/data. No `src/`, no `features/`, no empty `hooks/` folders.
+The generic loop is a personal skill at `~/.cursor/skills/compound-loop/` and loads in every repo. New repos get a thin `skills/project/SKILL.md` from `~/.cursor/skills/bootstrap-agent-repo/` instead of copying this portfolio. This repo's extra rules are [`portfolio-compound-loop`](./skills/portfolio-compound-loop/SKILL.md).
 
-### Add a new page
+Layout reminder: thin `app/` page → `components/<domain>/` UI → `lib/<domain>.ts` copy/data. Plans go in `docs/plans/`. Solved problems go in `docs/solutions/`. No `src/`, no `features/`, no empty `hooks/` folders.
+
+### Run a change
+
+Plan (Ask mode):
 
 ```text
+@skills/portfolio-compound-loop/SKILL.md
 @skills/follow-project-skills/SKILL.md
-@skills/frontend-folder-structure/SKILL.md
-@skills/adhering-to-nextjs-standards/SKILL.md
 
+Plan only. Do not write feature code.
+Add a /speaking page, same shape as About.
+Write docs/plans/speaking-page.md and stop.
+```
+
+After you approve the plan (Agent mode):
+
+```text
+@docs/plans/speaking-page.md
+@skills/portfolio-compound-loop/SKILL.md
+
+Implement the plan. Run the ship checklist.
+```
+
+After it works:
+
+```text
+@skills/portfolio-compound-loop/SKILL.md
+
+Compound this. Write docs/solutions only if a future session would otherwise repeat the mistake.
+```
+
+### Plan shape: new page
+
+A plan file should name the files and the pattern to copy:
+
+```text
 Add a /speaking page.
 - Copy/data in lib/speaking.ts
 - UI in components/speaking/
@@ -57,10 +88,13 @@ Add a /speaking page.
 ### Add a new section (existing page)
 
 ```text
+@skills/portfolio-compound-loop/SKILL.md
 @skills/follow-project-skills/SKILL.md
 @skills/frontend-folder-structure/SKILL.md
 
+Plan only. Do not write feature code.
 Add a section on About after the journey, same pattern as How I work.
+Write docs/plans/about-section.md and stop.
 - Copy in lib/about.ts
 - Named export in components/about/
 - Compose it from app/about/page.tsx only

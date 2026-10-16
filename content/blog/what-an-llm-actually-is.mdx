@@ -1,0 +1,65 @@
+---
+title: "What an LLM Actually Is"
+description: "An LLM is a next-token predictor. Tokens set cost and limits, temperature changes how varied the wording is, and a sourced web answer is retrieval before generation."
+date: "2026-10-16"
+tags: ["ai-engineering", "learning-in-public", "llm", "tokens", "rag"]
+featured: false
+draft: true
+---
+
+This is part 1 of Learning AI Engineering in Public. I am writing for complete beginners — frontend developers who are new to AI, including me.
+
+**One-sentence answer:** An LLM is a next-token predictor. Think of it as super-smart autocomplete.
+
+## A next-token predictor
+
+When your editor suggests the next bit of code, it is guessing from what you already typed. A large language model does the same job with ordinary language. It looks at the tokens so far, picks the next token, then repeats until the reply is finished.
+
+It is not a database. It does not "look up" a page unless some other step fetched that page first. Autocomplete can invent a plausible line of code that never existed. An LLM can invent a plausible sentence the same way.
+
+## Tokens, the prompt, and the context window
+
+A **token** is a chunk of text the model counts. It is often a word, part of a word, or punctuation. Cost and limits are counted per token — not per message, and not per word.
+
+The **prompt** is everything you send in: instructions plus the question.
+
+The **context window** is how many tokens the model can see at once. Your prompt and the tokens it has already written both have to fit. A longer prompt costs more and leaves less room for the reply.
+
+Think of tokens like seats on a bus. The prompt takes some seats. The answer takes the rest. When the bus is full, nothing else can board.
+
+## Temperature
+
+**Temperature** changes how the next token is chosen.
+
+At **0**, the model stays with the likely choice, so the output is consistent. Higher temperature lets it pick less likely tokens more often, so the wording varies.
+
+I saw this myself when regenerating a tagline in ChatGPT. Same prompt, different temperature behavior — the second version wandered more.
+
+## Hallucination
+
+A **hallucination** is text that "sounds right" even when it is not a fact. The model is still predicting the next token. Fluency is not a source. If nothing retrieved a real page first, the model is free to autocomplete a confident-looking story.
+
+## Retrieval before generation
+
+I asked ChatGPT, with web search on, "Who is Yeremia?" It answered from my website and LinkedIn, and it showed sources.
+
+That order is the point. Something retrieved the pages first. Then the model wrote the reply from those pages. Retrieval before generation is the core idea of RAG — retrieval-augmented generation.
+
+Without retrieval, you get autocomplete. With retrieval, you get autocomplete that is steered by documents you actually fetched.
+
+## Why this works
+
+- Next-token prediction explains both helpful answers and hallucinations: the model always chooses the next chunk of text.
+- Counting by token explains bills and cutoffs better than counting by words.
+- Temperature is a dial on how adventurous that next choice is.
+- A sourced ChatGPT answer is RAG in miniature: fetch first, then generate.
+
+## Takeaways
+
+- An LLM predicts the next token. Treat it like autocomplete, not like a lookup table.
+- Cost and limits are per token. The prompt is what you send. The context window is how many tokens fit at once.
+- Temperature 0 stays consistent. Higher temperature varies the wording. I saw that regenerating a tagline in ChatGPT.
+- If the text only sounds right, it can still be a hallucination.
+- A sourced answer from web search is retrieval first, then generation. That is RAG.
+
+Next up: [My First LLM API Call](/blog/my-first-llm-api-call), where ChatGPT the app becomes a TypeScript program.

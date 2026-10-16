@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 export function Header() {
   return (
     <header className="border-border/40 bg-background/80 fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md">
-      <Container className="flex h-16 items-center justify-between gap-4">
+      <Container className="flex h-[var(--nav-height)] items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-3">
             <span className="text-primary font-mono text-[13px] font-bold tracking-tight">

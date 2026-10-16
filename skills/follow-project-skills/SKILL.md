@@ -1,19 +1,21 @@
 ---
 name: follow-project-skills
 description: >-
-  Routes work through this portfolio's skills catalog (quality, Next.js
-  standards, folder structure, testing). Use when implementing, reviewing, or
-  scaffolding any change so agents follow skills/ instead of inventing process.
+  Routes work through this portfolio's skills catalog (compound loop, quality,
+  Next.js standards, folder structure, testing). Use when implementing,
+  reviewing, or scaffolding any change so agents follow skills/ and
+  docs/solutions/ instead of inventing process.
 ---
 
 # Follow Project Skills
 
-`skills/` is the **source of truth**. Copy a skill into `.cursor/skills/` (gitignored) when Cursor should auto-load it. Do not paste skill bodies into `AGENTS.md` (Next regenerates that file).
+`skills/` is the committed source for this portfolio. Copy a skill into `.cursor/skills/` (gitignored) when Cursor should auto-load it. The generic loop lives in `~/.cursor/skills/compound-loop/`. Do not paste skill bodies into `AGENTS.md` (Next regenerates that file).
 
 ## Catalog
 
 | Skill                                                                    | Open when                                                    |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| [portfolio-compound-loop](../portfolio-compound-loop/SKILL.md)           | This repo's additions to the personal compound-loop skill    |
 | [setup-frontend-quality](../setup-frontend-quality/SKILL.md)             | Lint, Prettier, Husky, CI quality gates                      |
 | [adhering-to-nextjs-standards](../adhering-to-nextjs-standards/SKILL.md) | App Router UI, `"use client"`, props, stack detection        |
 | [frontend-folder-structure](../frontend-folder-structure/SKILL.md)       | New page, component, `lib/` module, or “where does this go?” |
@@ -21,12 +23,15 @@ description: >-
 
 Read **only the skills that apply**. Do not dump every file into context.
 
+The generic loop and the Next, quality, and testing skills also live in `~/.cursor/skills/` so a new repo does not recreate them. This repo's `skills/` copies stay the committed source. `portfolio-compound-loop` belongs only here.
+
 ## Before writing code
 
-1. Read `package.json` and `components.json` — do not add a competing library
-2. Open the matching skill(s) above
-3. Keep `app/` thin; domain UI in `components/<domain>/`; data in `lib/`
-4. If you add a function with branches, add a colocated `*.test.ts`
+1. Search `docs/solutions/` for the area you are about to change
+2. Read `package.json` and `components.json` — do not add a competing library
+3. Open the matching skill(s) above
+4. Keep `app/` thin; domain UI in `components/<domain>/`; data in `lib/`
+5. If you add a function with branches, add a colocated `*.test.ts`
 
 ## Ship checklist
 

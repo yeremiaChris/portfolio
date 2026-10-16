@@ -51,6 +51,7 @@
 }
 
 :root {
+  --nav-height: 4rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -172,5 +173,13 @@ html[data-intro="playing"] [data-intro-bar] {
 @media (prefers-reduced-motion: reduce) {
   [data-intro-cover] {
     display: none;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .motion-safe\:animate-pulse {
+    animation: none !important;
   }
 }

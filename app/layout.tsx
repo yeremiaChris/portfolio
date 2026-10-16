@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
-import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { UmamiScript } from "@/components/UmamiScript";
 import { INTRO_BOOTSTRAP_SCRIPT } from "@/lib/intro";
@@ -67,8 +66,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: INTRO_BOOTSTRAP_SCRIPT }} />
         <UmamiScript />
         <Header />
-        <div className="pt-16">{children}</div>
-        <Footer />
+        <div className="pt-[var(--nav-height)]">{children}</div>
       </body>
     </html>
   );

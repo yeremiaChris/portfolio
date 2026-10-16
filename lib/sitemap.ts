@@ -8,6 +8,7 @@ export const sitemapPages = [
   { path: "/experience", changeFrequency: "monthly", priority: 0.8 },
   { path: "/projects", changeFrequency: "monthly", priority: 0.8 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
+  { path: "/lab", changeFrequency: "monthly", priority: 0.6 },
 ] as const;
 
 function toAbsoluteUrl(siteUrl: string, path: string): string {

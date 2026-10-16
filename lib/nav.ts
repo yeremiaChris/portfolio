@@ -3,6 +3,7 @@ export const HEADER_NAV = [
   { href: "/projects", label: "Projects" },
   { href: "/experience", label: "Experience" },
   { href: "/blog", label: "Blog" },
+  { href: "/lab", label: "Lab" },
   { href: "/about", label: "About" },
 ] as const;
 

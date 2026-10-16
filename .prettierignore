@@ -17,6 +17,7 @@ pnpm-lock.yaml
 # generated
 next-env.d.ts
 *.tsbuildinfo
+lab/index.json
 
 # local / misc
 .vercel

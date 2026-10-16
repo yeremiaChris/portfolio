@@ -7,7 +7,7 @@ import {
   type MessageStatus,
 } from "@/lib/lab-chat";
 import { askYeremia } from "@/lib/lab";
-import { mockTransport } from "@/lib/lab-mock";
+import { httpTransport } from "@/lib/lab-http-transport";
 import { DEFAULT_MODEL_ID, getModel } from "@/lib/lab-models";
 
 const MODEL_STORAGE_KEY = "ask-yeremia-model-id";
@@ -50,7 +50,7 @@ function writeStoredModelId(storageKey: string, nextId: string) {
 }
 
 export function useChat(options: { transport?: ChatTransport } = {}) {
-  const transport = options.transport ?? mockTransport;
+  const transport = options.transport ?? httpTransport;
   const storageKey = MODEL_STORAGE_KEY;
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -92,6 +92,14 @@ export function useChat(options: { transport?: ChatTransport } = {}) {
         const next = typeof patch === "function" ? patch(message) : patch;
         return { ...message, ...next };
       }),
+    );
+  }
+
+  function finishAssistant(id: string) {
+    updateMessage(id, (current) =>
+      current.status === "error" || current.status === "stopped"
+        ? {}
+        : { status: "done" },
     );
   }
 
@@ -143,16 +151,21 @@ export function useChat(options: { transport?: ChatTransport } = {}) {
           continue;
         }
 
+        if (event.type === "error") {
+          updateMessage(assistantId, {
+            content: event.message || askYeremia.errorMessage,
+            sources: undefined,
+            status: "error",
+          });
+          continue;
+        }
+
         if (event.type === "done") {
-          updateMessage(assistantId, { status: "done" });
+          finishAssistant(assistantId);
         }
       }
 
-      updateMessage(assistantId, (current) =>
-        current.status === "error" || current.status === "stopped"
-          ? {}
-          : { status: "done" },
-      );
+      finishAssistant(assistantId);
     } catch {
       if (controller.signal.aborted) {
         updateMessage(assistantId, { status: "stopped" });

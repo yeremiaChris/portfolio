@@ -94,31 +94,45 @@ async function defaultSleep(ms: number): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export type EmbedTaskType = "RETRIEVAL_DOCUMENT" | "RETRIEVAL_QUERY";
+
 /**
- * Embed texts with gemini-embedding-001 (RETRIEVAL_DOCUMENT).
+ * Embed texts with gemini-embedding-001.
  * Batches requests and retries 429/503 with exponential backoff.
+ * Vectors are L2-normalized (required when outputDimensionality < 3072).
  */
 export async function embedTexts(input: {
   texts: string[];
   apiKey: string;
   model?: string;
+  taskType?: EmbedTaskType;
   batchSize?: number;
+  signal?: AbortSignal;
   /** Injected for tests — embeds one batch of strings. */
   embedBatch?: (texts: string[]) => Promise<number[][]>;
   sleep?: (ms: number) => Promise<void>;
 }): Promise<number[][]> {
   const model = input.model ?? LAB_EMBEDDING_MODEL;
+  const taskType = input.taskType ?? "RETRIEVAL_DOCUMENT";
   const batchSize = input.batchSize ?? EMBED_BATCH_SIZE;
   const sleep = input.sleep ?? defaultSleep;
   const embedBatch =
-    input.embedBatch ?? createGeminiEmbedBatch({ apiKey: input.apiKey, model });
+    input.embedBatch ??
+    createGeminiEmbedBatch({
+      apiKey: input.apiKey,
+      model,
+      taskType,
+      signal: input.signal,
+    });
 
   if (input.texts.length === 0) return [];
+  input.signal?.throwIfAborted();
 
   const batches = splitIntoBatches(input.texts, batchSize);
   const vectors: number[][] = [];
 
   for (let i = 0; i < batches.length; i++) {
+    input.signal?.throwIfAborted();
     if (i > 0) await sleep(EMBED_BATCH_GAP_MS);
     const batch = batches[i]!;
     const batchVectors = await embedBatchWithRetry({
@@ -142,6 +156,8 @@ export async function embedTexts(input: {
 function createGeminiEmbedBatch(options: {
   apiKey: string;
   model: string;
+  taskType: EmbedTaskType;
+  signal?: AbortSignal;
 }): (texts: string[]) => Promise<number[][]> {
   const ai = new GoogleGenAI({ apiKey: options.apiKey });
 
@@ -150,8 +166,9 @@ function createGeminiEmbedBatch(options: {
       model: options.model,
       contents: texts,
       config: {
-        taskType: "RETRIEVAL_DOCUMENT",
+        taskType: options.taskType,
         outputDimensionality: LAB_EMBEDDING_DIMENSIONS,
+        abortSignal: options.signal,
       },
     });
 

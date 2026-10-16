@@ -31,8 +31,10 @@ export function ChatComposer({
   const trimmed = value.trim();
   const charLimit = askYeremia.charLimit;
   const nearLimit = value.length >= Math.floor(charLimit * 0.8);
+  const atLimit = value.length >= charLimit;
   const canSend = trimmed.length > 0 && !isStreaming;
   const disclaimerId = "ask-yeremia-disclaimer";
+  const counterId = "ask-yeremia-char-count";
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -85,7 +87,7 @@ export function ChatComposer({
             placeholder={askYeremia.placeholder}
             rows={1}
             maxLength={charLimit}
-            aria-describedby={disclaimerId}
+            aria-describedby={`${disclaimerId} ${counterId}`}
             className="col-start-1 row-start-1 field-sizing-content h-full max-h-52 min-h-12 resize-none overflow-y-auto border-0 bg-transparent px-4 pt-3.5 pb-2 text-base leading-normal shadow-none focus-visible:ring-0 md:text-sm dark:bg-transparent"
           />
         </div>
@@ -98,21 +100,20 @@ export function ChatComposer({
           />
 
           <div className="flex items-center gap-2">
-            {nearLimit ? (
-              <p
-                className={cn(
-                  "text-muted-foreground font-mono text-[10px]",
-                  value.length >= charLimit && "text-destructive",
-                )}
-                aria-live="polite"
-              >
-                {value.length}/{charLimit}
-              </p>
-            ) : (
-              <span className="invisible font-mono text-[10px]" aria-hidden>
-                {charLimit}/{charLimit}
-              </span>
-            )}
+            <p
+              id={counterId}
+              role={atLimit ? "status" : undefined}
+              className={cn(
+                "font-mono text-[10px]",
+                nearLimit
+                  ? "text-muted-foreground"
+                  : "text-muted-foreground invisible",
+                atLimit && "text-destructive",
+              )}
+              aria-hidden={!nearLimit}
+            >
+              {value.length}/{charLimit}
+            </p>
 
             <Button
               type="submit"

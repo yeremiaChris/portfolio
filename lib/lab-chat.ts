@@ -20,6 +20,7 @@ export type ChatEvent =
   | { type: "model"; modelId: string }
   | { type: "token"; text: string }
   | { type: "sources"; sources: Source[] }
+  | { type: "error"; message: string }
   | { type: "done" };
 
 export interface ChatTransport {

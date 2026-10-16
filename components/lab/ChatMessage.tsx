@@ -73,10 +73,7 @@ export function ChatMessage({
 
       <div className="min-w-0 flex-1">
         {isThinking && !content ? (
-          <p
-            className="text-muted-foreground min-h-5 font-mono text-xs tracking-wide"
-            aria-live="polite"
-          >
+          <p className="text-muted-foreground min-h-5 font-mono text-xs tracking-wide">
             {askYeremia.thinkingLabel}
             <span className="ml-1 inline-flex gap-0.5" aria-hidden>
               <span className="motion-safe:animate-pulse motion-reduce:animate-none">

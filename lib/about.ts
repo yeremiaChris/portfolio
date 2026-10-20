@@ -6,8 +6,7 @@ export const aboutIntro = {
   title: "About Yeremia Chris Saragi",
   description:
     "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development. He has 5+ years building production platforms across health-tech and logistics, with strong React, Next.js, and Vue work plus real API, auth, and data-aware delivery.",
-  resumeLabel: "Resume",
-  chatLabel: "Schedule a chat",
+  chatLabel: "Get in touch",
 } as const;
 
 export type AboutMetricTone = "foreground" | "primary" | "cyan";

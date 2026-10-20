@@ -67,7 +67,14 @@ export function buildPageMetadata({
   };
 }
 
-export function buildPersonJsonLd() {
+export interface PersonJsonLdOptions {
+  /** Include the contact email. Off for pages linked from platforms that forbid off-platform contact (e.g. Upwork). */
+  includeContact?: boolean;
+}
+
+export function buildPersonJsonLd({
+  includeContact = true,
+}: PersonJsonLdOptions = {}) {
   const url = getSiteUrl();
 
   return {
@@ -80,17 +87,22 @@ export function buildPersonJsonLd() {
     jobTitle: "Software Engineer",
     description: site.bio,
     image: toAbsoluteUrl(aboutProfile.image, url),
-    email: site.links.email.replace(/^mailto:/, ""),
+    ...(includeContact && {
+      email: site.links.email.replace(/^mailto:/, ""),
+    }),
     sameAs: [site.links.github, site.links.linkedin],
     knowsAbout: [...PERSON_KNOWS_ABOUT],
   };
 }
 
-export function buildProfilePageJsonLd(path = "/") {
+export function buildProfilePageJsonLd(
+  path = "/",
+  options: PersonJsonLdOptions = {},
+) {
   const origin = getSiteUrl();
   const canonical = toCanonicalPath(path);
   const pageUrl = canonical === "/" ? origin : toAbsoluteUrl(canonical, origin);
-  const { "@context": _context, ...mainEntity } = buildPersonJsonLd();
+  const { "@context": _context, ...mainEntity } = buildPersonJsonLd(options);
 
   return {
     "@context": "https://schema.org",

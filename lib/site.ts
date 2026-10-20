@@ -1,3 +1,4 @@
+import { getExperienceLabel } from "./career";
 import { UMAMI_SHARE_PATH } from "./umami";
 
 export const DEFAULT_SITE_URL = "https://yeremiachris.com";
@@ -18,7 +19,7 @@ export const site = {
   availability: "Open to exciting opportunities",
   tagline:
     "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development with React, Next.js, TypeScript, and Vue.",
-  bio: "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development, with 5+ years building production web platforms across health-tech (HIS/EMR) and logistics. Strong in React, Next.js, and Vue — with real API, auth, and data ownership. Looking for frontend-heavy roles on product platforms and clinical systems where UI quality and backend integration both matter.",
+  bio: `Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development, with ${getExperienceLabel()} years building production web platforms across health-tech (HIS/EMR) and logistics. Strong in React, Next.js, and Vue — with real API, auth, and data ownership. Looking for frontend-heavy roles on product platforms and clinical systems where UI quality and backend integration both matter.`,
   proof: [
     {
       id: "primaku",
@@ -56,7 +57,7 @@ export const site = {
   stats: [
     {
       label: "Experience",
-      value: "5+ Years",
+      value: `${getExperienceLabel()} Years`,
       detail: "Health-tech + logistics",
       icon: "award" as const,
     },

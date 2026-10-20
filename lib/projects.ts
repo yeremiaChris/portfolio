@@ -101,7 +101,7 @@ export const projects: Project[] = [
     id: "kiriminaja",
     title: "KiriminAja",
     tag: "work",
-    year: "2023",
+    year: "2023–2024",
     summary:
       "High-density logistics UI: live rates across 15+ courier partners, virtualized manifests + Web Workers. Consumer app: 100K+ Play downloads.",
     tools: ["Nuxt.js", "TypeScript", "Swiper", "Firebase"],
@@ -197,7 +197,7 @@ export const projects: Project[] = [
     id: "ukm-digital",
     title: "UKM Digital",
     tag: "work",
-    year: "2021–2022",
+    year: "2022–2023",
     summary:
       "No-code website builder for Indonesian SMEs. At ICreative Labs (Bandung), created new themes and improved existing templates for the template marketplace and visual editor.",
     tools: ["Laravel", "Vue", "JavaScript"],

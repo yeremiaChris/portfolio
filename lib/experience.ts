@@ -1,3 +1,5 @@
+import { getExperienceLabel } from "./career";
+
 export type ExperienceMetricTone = "primary" | "cyan" | "violet" | "foreground";
 
 export type ExperienceMetric = {
@@ -46,7 +48,7 @@ export const experienceIntro = {
   title: "Engineering Experience",
   description:
     "Production track record across health-tech platforms, logistics systems, and product teams. Some roles overlapped in time — each entry is the work I owned there.",
-  tenureBadge: "Career Timeline // 5+ Years",
+  tenureBadge: `Career Timeline // ${getExperienceLabel()} Years`,
 } as const;
 
 export const experienceMetricToneClass: Record<ExperienceMetricTone, string> = {
@@ -71,7 +73,7 @@ export const experienceRoleBarClass: Record<ExperienceRoleTone, string> = {
 export const experienceMetrics: ExperienceMetric[] = [
   {
     label: "Experience",
-    value: "5+ Years",
+    value: `${getExperienceLabel()} Years`,
     detail: "Continuous shipping",
     tone: "primary",
     icon: "clock",

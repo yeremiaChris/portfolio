@@ -75,9 +75,7 @@ export function AboutHeader() {
             {aboutIntro.resumeLabel}
           </Link>
           <Link
-            href={site.links.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/#contact"
             className={cn(
               buttonVariants({ variant: "secondary", size: "lg" }),
               "h-11 w-full gap-2 px-6 text-[14px] font-medium sm:w-auto",

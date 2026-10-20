@@ -127,4 +127,12 @@ describe("JSON-LD", () => {
     expect(page["@id"]).toBe(`${getSiteUrl()}/about#profile`);
     expect(page.mainEntity["@id"]).toBe(buildPersonJsonLd()["@id"]);
   });
+
+  it("omits contact details when includeContact is false", () => {
+    const page = buildProfilePageJsonLd("/about", { includeContact: false });
+
+    expect(page.mainEntity).not.toHaveProperty("email");
+    expect(JSON.stringify(page)).not.toMatch(/yeremia997|mailto:|wa\.me|6281/);
+    expect(buildProfilePageJsonLd("/").mainEntity).toHaveProperty("email");
+  });
 });

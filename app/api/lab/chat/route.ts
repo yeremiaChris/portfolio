@@ -61,8 +61,14 @@ export async function POST(request: Request) {
           if (abortController.signal.aborted) break;
           write(event);
         }
-      } catch {
+      } catch (error) {
         if (!abortController.signal.aborted) {
+          console.error(
+            JSON.stringify({
+              event: "lab_chat_unhandled",
+              error: error instanceof Error ? error.name : "unknown",
+            }),
+          );
           write({ type: "error", message: askYeremia.errorMessage });
           write({ type: "done" });
         }

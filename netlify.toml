@@ -1,0 +1,7 @@
+# Netlify secrets scanning fails the deploy when marked secret env values
+# appear in build output. NEXT_PUBLIC_* are intentionally public (client
+# bundle). GEMINI_API_KEY is server-only but Next embeds it in .next/server
+# / function output, which the scanner also checks.
+# https://docs.netlify.com/build/environment-variables/secrets-controller/
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_UMAMI_WEBSITE_ID,GEMINI_API_KEY"

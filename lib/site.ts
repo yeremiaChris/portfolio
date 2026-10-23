@@ -48,8 +48,7 @@ export const site = {
     linkedin: "https://www.linkedin.com/in/yeremia-chris-saragi-587a671a9/",
     email: "mailto:yeremia997@gmail.com",
     emailLabel: "yeremia997@gmail.com",
-    resume:
-      "https://docs.google.com/document/d/1lF9qIEuyGviopkk51BARVXWxTjCCDKeF9nBXmMWx8Is/edit?usp=sharing",
+    resume: "/Yeremia_Chris_Saragi_CV.pdf",
     about: "/about",
     experience: "/experience",
     analytics: UMAMI_SHARE_PATH,

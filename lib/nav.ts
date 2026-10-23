@@ -12,3 +12,10 @@ export function isNavActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+/** Routes linked from Upwork must not expose the resume (it carries contact details). */
+export const RESUME_HIDDEN_PATHS = ["/about"] as const;
+
+export function isResumeHidden(pathname: string): boolean {
+  return RESUME_HIDDEN_PATHS.some((path) => isNavActive(pathname, path));
+}

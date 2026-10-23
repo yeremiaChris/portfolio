@@ -1,13 +1,13 @@
+import { getExperienceLabel } from "./career";
+
 export const aboutIntro = {
   breadcrumbRoot: "sys://root/index",
   breadcrumbLeaf: "about.md",
   statusBadge: "About",
   eyebrow: "Profile",
   title: "About Yeremia Chris Saragi",
-  description:
-    "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development. He has 5+ years building production platforms across health-tech and logistics, with strong React, Next.js, and Vue work plus real API, auth, and data-aware delivery.",
-  resumeLabel: "Resume",
-  chatLabel: "Schedule a chat",
+  description: `Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development. He has ${getExperienceLabel()} years building production platforms across health-tech and logistics, with strong React, Next.js, and Vue work plus real API, auth, and data-aware delivery.`,
+  chatLabel: "Get in touch",
 } as const;
 
 export type AboutMetricTone = "foreground" | "primary" | "cyan";
@@ -106,7 +106,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
   },
   {
     id: "industry",
-    label: "2021 – 2023",
+    label: "2022 – 2024",
     period: "Entering the Industry",
     title: "React · Vue · Team Delivery",
     body: "Focused on React, Next.js, Vue, and Nuxt. Worked at iCreativeLabs and KiriminAja building dashboards, transactional interfaces, and design systems in cross-functional teams.",
@@ -114,7 +114,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
   },
   {
     id: "primaku",
-    label: "2023 – Present",
+    label: "2022 – Present",
     period: "Healthtech Focus",
     title: "PrimaKu",
     body: "At PrimaKu, working on product surfaces and integrations for a national pediatric health platform — including patient monitoring, clinician tools, REST pipelines, and authentication flows.",
@@ -213,7 +213,7 @@ export const aboutWorkflowBeats: AboutWorkflowBeat[] = [
     title: "Gate with the usual tools",
     description:
       "TypeScript, ESLint, and tests catch what a fluent diff hides. AI speeds the first pass; CI is the adult in the room.",
-    footer: "tsc · lint · yarn test",
+    footer: "tsc · lint · pnpm test",
     tone: "violet",
     icon: "gate",
   },

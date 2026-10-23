@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { ArrowLeft, Download, MessageCircle, Terminal } from "lucide-react";
+import { ArrowLeft, MessageCircle, Terminal } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { aboutIntro } from "@/lib/about";
-import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export function AboutHeader() {
@@ -63,21 +62,7 @@ export function AboutHeader() {
 
         <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
           <Link
-            href={site.links.resume}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "default", size: "lg" }),
-              "h-11 w-full gap-2 px-6 text-[14px] font-semibold shadow-[0_0_24px_rgba(78,222,163,0.28)] sm:w-auto",
-            )}
-          >
-            <Download className="size-4" aria-hidden />
-            {aboutIntro.resumeLabel}
-          </Link>
-          <Link
-            href={site.links.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/#contact"
             className={cn(
               buttonVariants({ variant: "secondary", size: "lg" }),
               "h-11 w-full gap-2 px-6 text-[14px] font-medium sm:w-auto",

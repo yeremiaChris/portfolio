@@ -2,10 +2,10 @@ import Link from "next/link";
 import { UserIcon } from "lucide-react";
 
 import { HeaderMobileMenu } from "@/components/HeaderMobileMenu";
+import { HeaderResumeLink } from "@/components/HeaderResumeLink";
 import { HeaderNav } from "@/components/HeaderNav";
 import { Container } from "@/components/Container";
 import { buttonVariants } from "@/components/ui/button";
-import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -44,17 +44,7 @@ export function Header() {
             Get in Touch
           </Link>
 
-          <Link
-            href={site.links.resume}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "ghost", size: "sm" }),
-              "text-muted-foreground font-mono text-[13px]",
-            )}
-          >
-            CV.pdf
-          </Link>
+          <HeaderResumeLink />
 
           <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-full">
             <UserIcon className="size-4" />

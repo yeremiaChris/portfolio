@@ -17,7 +17,9 @@ export const metadata: Metadata = buildPageMetadata({
 export default function AboutPage() {
   return (
     <main>
-      <JsonLd data={buildProfilePageJsonLd("/about")} />
+      <JsonLd
+        data={buildProfilePageJsonLd("/about", { includeContact: false })}
+      />
       <Container className="flex min-h-[calc(100vh-4rem)] flex-col py-6 md:py-8">
         <AboutHeader />
         <AboutStory />

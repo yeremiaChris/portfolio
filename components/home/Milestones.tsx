@@ -1,4 +1,5 @@
 import { Container } from "@/components/Container";
+import { HeroStats } from "@/components/home/HeroStats";
 import { CaseStudyCard } from "@/components/home/milestones/CaseStudyCard";
 import { FeaturedCaseStudy } from "@/components/home/milestones/FeaturedCaseStudy";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +35,8 @@ export function Milestones() {
             {milestonesIntro.description}
           </p>
         </header>
+
+        <HeroStats />
 
         <FeaturedCaseStudy study={featuredMilestone} />
 

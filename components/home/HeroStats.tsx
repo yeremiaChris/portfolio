@@ -11,7 +11,7 @@ const ICONS = {
 
 export function HeroStats() {
   return (
-    <ul className="grid w-full grid-cols-2 gap-2">
+    <ul className="grid w-full grid-cols-2 gap-3 md:grid-cols-4">
       {site.stats.map((stat) => {
         const Icon = ICONS[stat.icon];
         return (

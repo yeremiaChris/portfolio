@@ -17,10 +17,8 @@ export const site = {
   pronunciation: "/ jɛ-rə-ˈmaɪ-ə krɪs sə-ˈrɑː-ɡi /",
   role: "Software Engineer · Frontend-Heavy",
   availability: "Open to exciting opportunities",
-  heroAvailability: "Available for select engineering & advisory roles",
-  heroHeadline: "Engineering thoughtful interfaces for complex systems.",
-  heroPositioning:
-    "Frontend-heavy product work across health-tech (HIS/EMR) and logistics — React, Next.js, and Vue, with real API and data ownership.",
+  heroHeadline: "Yeremia",
+  heroPositioning: `Software Engineer specializing in frontend-heavy product development, with ${getExperienceLabel()} years building production platforms across health-tech (HIS/EMR) and logistics — React, Next.js, and Vue, with real API and data ownership.`,
   heroCta: {
     label: "View selected work",
     href: "#work",

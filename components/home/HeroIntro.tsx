@@ -16,14 +16,17 @@ export function HeroIntro() {
           <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-70" />
           <span className="bg-primary relative inline-flex size-2 rounded-full" />
         </span>
-        {site.heroAvailability}
+        {site.availability}
       </Badge>
 
       <h1
         id="hero-heading"
         className="font-heading text-foreground max-w-xl text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-[3.25rem] lg:leading-[1.12]"
       >
-        {site.heroHeadline}
+        Hi, I&apos;m{" "}
+        <span className="from-primary bg-gradient-to-r via-[#6ffbbe] to-[#4cd7f6] bg-clip-text text-transparent">
+          {site.heroHeadline}
+        </span>
       </h1>
 
       <p className="text-muted-foreground mt-5 max-w-lg text-base leading-relaxed sm:text-lg sm:leading-7">

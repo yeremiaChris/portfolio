@@ -1,0 +1,128 @@
+---
+title: "Hermes Agent Part 1: Overview to OVH VPS Ready"
+description: "Starting a Hermes Agent series — what a self-improving agent is, a DeepSeek + cheap VPS stack, why OVH VPS-1, order #23055087, and parallel prep while provisioning runs."
+date: "2026-10-26"
+tags:
+  [
+    "ai-engineering",
+    "hermes-agent",
+    "vps",
+    "deepseek",
+    "learning-in-public",
+    "devops",
+  ]
+featured: false
+draft: true
+---
+
+This is **part 1** of a Hermes Agent series on yeremiachris.com. We stop at a realistic day-one milestone: **the VPS is ordered and stuck in checking** — no Hermes install yet, no Discord gateway. Part 2 is where we SSH in, install the agent, wire up the model, and turn on the bot.
+
+If “AI agent” still sounds like “chatbot in a browser tab,” this post goes slowly on purpose. The goal is a solid foundation so the next steps are not guesswork.
+
+## What is Hermes Agent, and what does “self-improving” mean?
+
+**Hermes Agent** is an open-source AI agent from [Nous Research](https://github.com/NousResearch/hermes-agent). It is not just a chat window on a website. Here, “agent” means software that can **run tools** (read files, execute commands, schedule jobs, and more), **remember past sessions**, and **keep reusable skills** on disk.
+
+What separates Hermes from a typical chatbot is a **learning loop**: over time it can create or refine skills, nudge itself to save important facts, and search older conversations when you need context again. A classic chatbot answers and forgets. There is no “today I learned a safer redeploy flow” waiting for you tomorrow.
+
+Simple analogy: a chatbot is a receptionist with a FAQ printout. Hermes is closer to an assistant with a **notebook plus a toolbox** — and the notebook gets thicker when you reuse it for the same kind of work.
+
+Hermes also **does not lock you to one model**. You can use supported providers (OpenRouter, OpenAI, your own endpoint, and others). For this series I am using the **DeepSeek API** — more on the stack below.
+
+## What is it for? A short list of use cases
+
+Without inventing personal stories beyond this project plan, Hermes is a good fit when you want:
+
+- **An assistant that runs on a server**, not on a laptop that must stay on 24/7.
+- **One gateway** to many channels (CLI, Discord, Slack, Telegram, and more) — in this series the **gateway will be Discord**, not Telegram.
+- **Scheduled automation** (daily reports, backups, audits) via the built-in cron.
+- **Delegated work** through subagents when tasks can run in parallel.
+- **Shareable skills** (agentskills.io) so you are not rebuilding from scratch every week.
+
+For this blog arc, the first job is to prepare **a home** for the agent: a cheap VPS that will later run Hermes and the gateway process.
+
+## Stack choice: DeepSeek API + a cheap VPS
+
+A sensible first experiment: **separate brain and body**.
+
+| Layer           | Choice                                        | Why (short)                                                                   |
+| --------------- | --------------------------------------------- | ----------------------------------------------------------------------------- |
+| Model (brain)   | [DeepSeek API](https://platform.deepseek.com) | Competitive pricing, familiar API, easy to swap models in Hermes config later |
+| Compute (body)  | Low-cost Linux VPS                            | Agent + gateway stay up; your laptop does not                                 |
+| Channel (later) | Discord                                       | Team already uses a guild; Hermes docs support a Discord gateway              |
+
+Why not jump straight to serverless or a GPU cluster? You can — Hermes supports several backends. For **learning while shipping**, a ~$5 VPS is the sweet spot: cheap, straightforward SSH, and RAM/CPU upgrades are a plan change away. If you later move to Modal or Daytona, a VPS can still be useful as staging or a bastion.
+
+What we **do not** do in part 1: install `hermes-agent`, edit `config.yaml`, or paste a Discord bot token. That is explicitly **part 2**.
+
+## OVH vs Hostinger vs DigitalOcean — why OVH VPS-1?
+
+This is not a deep performance shootout. It is a **practical pick** for a small-budget personal project.
+
+| Provider         | Quick take                               | Notes for a Hermes starter                                                |
+| ---------------- | ---------------------------------------- | ------------------------------------------------------------------------- |
+| **DigitalOcean** | Polished UX, great docs, large community | ~$4–6/mo droplets; default in many tutorials                              |
+| **Hostinger**    | Aggressive promos for beginners          | Confirm the plan is real VPS (not shared hosting) and the region you want |
+| **OVH**          | Aggressive entry pricing, many DCs       | **VPS-1** fits a “small agent + gateway” footprint                        |
+
+I chose **OVH VPS-1** because:
+
+1. **Low monthly cost** for a long-running experiment (real order below).
+2. **No commitment** — fine while you are still learning; no long contract.
+3. **Ubuntu 24.04 LTS** in the order flow — aligns with Python 3.11+ that Hermes will need later.
+4. **Canada East (Beauharnois)** — reasonable latency from Indonesia for agent work (this is not a real-time game).
+
+DigitalOcean is still a strong choice if you already live in that ecosystem. Hostinger is worth a look when a promo matches the VPS specs you need. For this write-up, the decision is **OVH**.
+
+## Ordering OVH until the VPS is “ready” (steps I actually took)
+
+Here is the flow — no card numbers or credentials:
+
+1. Create or log into an OVH account and start a **VPS** order.
+2. Pick **VPS-1** (entry tier — enough for Hermes install plus a light gateway).
+3. **OS:** Ubuntu **24.04**.
+4. **Commitment:** no commitment (monthly).
+5. **Datacenter:** **Canada East — Beauharnois**.
+6. Complete payment and keep the order number.
+
+**My order:** `#23055087`  
+**Approximate cost:** about **$5.35/month** (per OVH checkout at order time; tax or FX may shift it slightly).
+
+After payment, the VPS is not always **Ready** immediately. In my case the dashboard showed **checking** — provisioning can take time, and for this order a realistic note is: **up to ~48 hours** before SSH is actually available. That wait is normal for inexpensive cloud, not a sign you did something wrong.
+
+**Part 1 stop line:** VPS purchased, OS and region chosen, still waiting on OVH — **no** `ssh root@...` yet, no hardening, no Hermes install.
+
+## Parallel prep (while the VPS is checking)
+
+Do not stare at the OVH spinner for 48 hours. Two safe tasks in parallel:
+
+### 1. DeepSeek API key
+
+1. Go to [platform.deepseek.com](https://platform.deepseek.com).
+2. Sign up or log in.
+3. Create an **API key** in the developer dashboard.
+4. Store it in a password manager or a local `.env` file — **do not** commit it to Git and **do not** paste it in a blog post or Discord.
+
+Hermes will use this key in part 2 (`hermes model` / env on the server). In part 1, the win is simply: key **exists** and stays **secret**.
+
+### 2. Gateway plan: Discord (not Telegram)
+
+Hermes docs lean on Telegram examples, but **my gateway will be Discord**. In the next part we will:
+
+- Create an app/bot in the Discord Developer Portal.
+- Store the bot token like the API key (secret, server-only).
+- Run **one Hermes gateway process** that connects DeepSeek to a Discord channel.
+
+You do not need a Discord token today if the VPS is not ready — what matters now is the decision is fixed: **Discord**, so we are not switching channels mid-series.
+
+## Part 1 recap
+
+| Done                                                      | Not yet (part 2)                      |
+| --------------------------------------------------------- | ------------------------------------- |
+| Hermes vs chatbot + self-improving loop                   | `pip install hermes-agent` on the VPS |
+| Stack: DeepSeek + OVH VPS                                 | Model and env config on the server    |
+| OVH order #23055087, ~$5.35/mo, Ubuntu 24.04, Beauharnois | SSH, firewall, deploy user            |
+| VPS status: checking (may take ~48h)                      | Hermes install, cron, skills folder   |
+| DeepSeek API key prepared (secret)                        | Live Discord gateway                  |
+
+**Next up:** once OVH marks the VPS **Ready** and the IP shows up, the series continues with **part 2 — install Hermes Agent on Ubuntu, hook up DeepSeek, and bring the Discord gateway online**. See you on the server.

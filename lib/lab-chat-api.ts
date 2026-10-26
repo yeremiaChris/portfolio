@@ -4,7 +4,18 @@ import type { ChatEvent, Message } from "./lab-chat";
 import { askYeremia } from "./lab";
 import { embedTexts } from "./lab-embed";
 import type { LabIndex } from "./lab-index";
-import { AUTO_FALLBACK_ORDER, DEFAULT_MODEL_ID, getModel } from "./lab-models";
+import { streamOpenAIChatCompletions } from "./lab-openai-chat";
+import {
+  AUTO_FALLBACK_ORDER,
+  DEFAULT_MODEL_ID,
+  getApiModelId,
+  getModel,
+  isOpenAICompatibleProvider,
+} from "./lab-models";
+import type {
+  OpenAICompatibleProvider,
+  ProviderCredentials,
+} from "./lab-provider-env";
 import {
   buildRagContext,
   parseCitedSources,
@@ -161,22 +172,82 @@ function isFallbackModelError(error: unknown): boolean {
   return status === 429 || status === 404 || status === 503;
 }
 
+export type GenerateStreamInput = {
+  modelId: string;
+  contents: Array<{ role: "user" | "model"; parts: Array<{ text: string }> }>;
+  systemInstruction: string;
+  signal: AbortSignal;
+};
+
 export type LabChatStreamDeps = {
   apiKey: string;
   index: LabIndex;
   signal: AbortSignal;
+  providers?: Partial<Record<OpenAICompatibleProvider, ProviderCredentials>>;
   embedQuery?: (
     question: string,
     signal: AbortSignal,
   ) => Promise<number[] | undefined>;
-  generateStream?: (input: {
-    modelId: string;
-    contents: Array<{ role: "user" | "model"; parts: Array<{ text: string }> }>;
-    systemInstruction: string;
-    signal: AbortSignal;
-  }) => AsyncIterable<GeneratedChunk>;
+  generateStream?: (
+    input: GenerateStreamInput,
+  ) => AsyncIterable<GeneratedChunk>;
   log?: (entry: LabChatLogEntry) => void;
 };
+
+export function createDefaultGenerateStream(deps: {
+  geminiApiKey: string;
+  providers?: Partial<Record<OpenAICompatibleProvider, ProviderCredentials>>;
+}): (input: GenerateStreamInput) => AsyncIterable<GeneratedChunk> {
+  return async function* (input) {
+    const chatModel = getModel(input.modelId);
+    if (!chatModel || chatModel.provider === "auto") {
+      throw Object.assign(new Error("Unknown model"), { status: 404 });
+    }
+
+    if (chatModel.provider === "google") {
+      const ai = new GoogleGenAI({ apiKey: deps.geminiApiKey });
+      const stream = await ai.models.generateContentStream({
+        model: input.modelId,
+        contents: input.contents,
+        config: {
+          temperature: 0.2,
+          maxOutputTokens: MAX_OUTPUT_TOKENS,
+          abortSignal: input.signal,
+          systemInstruction: input.systemInstruction,
+        },
+      });
+      for await (const chunk of stream) {
+        yield {
+          text: chunk.text,
+          inputTokens: chunk.usageMetadata?.promptTokenCount,
+          outputTokens: chunk.usageMetadata?.candidatesTokenCount,
+        };
+      }
+      return;
+    }
+
+    if (isOpenAICompatibleProvider(chatModel.provider)) {
+      const credentials = deps.providers?.[chatModel.provider];
+      if (!credentials?.apiKey) {
+        throw Object.assign(new Error("Provider not configured"), {
+          status: 503,
+        });
+      }
+      yield* streamOpenAIChatCompletions({
+        baseUrl: credentials.baseUrl,
+        apiKey: credentials.apiKey,
+        model: getApiModelId(chatModel),
+        systemInstruction: input.systemInstruction,
+        contents: input.contents,
+        maxOutputTokens: MAX_OUTPUT_TOKENS,
+        signal: input.signal,
+      });
+      return;
+    }
+
+    throw Object.assign(new Error("Model not available"), { status: 404 });
+  };
+}
 
 export type GeneratedChunk = {
   text?: string;
@@ -203,26 +274,10 @@ export async function* streamLabChat(
 
   const generateStream =
     deps.generateStream ??
-    async function* (input) {
-      const ai = new GoogleGenAI({ apiKey: deps.apiKey });
-      const stream = await ai.models.generateContentStream({
-        model: input.modelId,
-        contents: input.contents,
-        config: {
-          temperature: 0.2,
-          maxOutputTokens: MAX_OUTPUT_TOKENS,
-          abortSignal: input.signal,
-          systemInstruction: input.systemInstruction,
-        },
-      });
-      for await (const chunk of stream) {
-        yield {
-          text: chunk.text,
-          inputTokens: chunk.usageMetadata?.promptTokenCount,
-          outputTokens: chunk.usageMetadata?.candidatesTokenCount,
-        };
-      }
-    };
+    createDefaultGenerateStream({
+      geminiApiKey: deps.apiKey,
+      providers: deps.providers,
+    });
 
   const log = deps.log ?? logLabChat;
   const startedAt = Date.now();

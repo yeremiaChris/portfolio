@@ -30,6 +30,9 @@ interface ModelPickerProps {
 const PROVIDER_ORDER: ModelProvider[] = [
   "auto",
   "google",
+  "deepseek",
+  "qwen",
+  "moonshot",
   "anthropic",
   "openai",
 ];
@@ -37,6 +40,9 @@ const PROVIDER_ORDER: ModelProvider[] = [
 const PROVIDER_LABELS: Record<ModelProvider, string> = {
   auto: "Auto",
   google: "Google",
+  deepseek: "DeepSeek",
+  qwen: "Qwen",
+  moonshot: "Moonshot",
   anthropic: "Anthropic",
   openai: "OpenAI",
 };
@@ -44,6 +50,9 @@ const PROVIDER_LABELS: Record<ModelProvider, string> = {
 const PROVIDER_DOT: Record<ModelProvider, string> = {
   auto: "bg-[#4cd7f6]",
   google: "bg-[#4edea3]",
+  deepseek: "bg-[#3b82f6]",
+  qwen: "bg-[#f97316]",
+  moonshot: "bg-[#a855f7]",
   anthropic: "bg-[#bb86fc]",
   openai: "bg-[#4cd7f6]",
 };

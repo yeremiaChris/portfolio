@@ -31,6 +31,15 @@ describe("getModel", () => {
       description: "Coming soon",
     });
   });
+
+  it("includes DeepSeek and Qwen entries", () => {
+    expect(getModel("deepseek-chat")).toMatchObject({
+      provider: "deepseek",
+      enabled: true,
+      apiModel: "deepseek-chat",
+    });
+    expect(getModel("qwen-flash")?.provider).toBe("qwen");
+  });
 });
 
 describe("resolveAutoModel", () => {

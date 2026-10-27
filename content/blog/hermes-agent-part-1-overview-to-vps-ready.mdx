@@ -1,6 +1,6 @@
 ---
 title: "Hermes Agent Part 1: From Zero to VPS and Discord Ready"
-description: "Learning in public: what Hermes Agent is, why DeepSeek plus a cheap OVH VPS, order #23055087, VPS provisioned, Discord app yeremiachris live — and what we deliberately save for part 2 (Hermes install)."
+description: "Learning in public: what Hermes Agent is, DeepSeek plus Biznet GIO Cloud compute named Hermes (NEO Lite), Discord app yeremiachris live — and what we save for part 2 (Hermes install)."
 date: "2026-10-26"
 tags:
   [
@@ -66,67 +66,74 @@ Part 1 stops once the **home** (VPS) and **front door prep** (Discord applicatio
 
 ## Stack: separate brain and body
 
-| Layer                               | Choice                         | Why it fits a first build                                                                         |
-| ----------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------- |
-| Model                               | DeepSeek API                   | Competitive pricing; familiar HTTP API; easy to point Hermes at later                             |
-| Compute                             | OVH VPS-1 (Ubuntu 24.04)       | Cheap monthly burn; straightforward SSH story; room to resize                                     |
-| Chat (planned for Hermes)           | Discord gateway                | Guild channels + DMs; Hermes documents Discord as a first-class gateway                           |
-| Chat (already live, different path) | Discord bot app `yeremiachris` | Validates channels and permissions **before** Hermes — not the same integration as Hermes gateway |
+| Layer                               | Choice                                                                | Why it fits a first build                                                                         |
+| ----------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Model                               | DeepSeek API                                                          | Competitive pricing; familiar HTTP API; easy to point Hermes at later                             |
+| Compute                             | **Biznet GIO Cloud** — compute **Hermes**, plan **MS 4.2 / NEO LITE** | Indonesian provider, monthly billing in IDR; VM named after the project                           |
+| Chat (planned for Hermes)           | Discord gateway                                                       | Guild channels + DMs; Hermes documents Discord as a first-class gateway                           |
+| Chat (already live, different path) | Discord bot app `yeremiachris`                                        | Validates channels and permissions **before** Hermes — not the same integration as Hermes gateway |
 
-Why not serverless on day one? Hermes supports Docker, SSH backends, Modal, and more. A ~**$5/month** VPS is the easiest place to **learn the moving parts** without surprise bills. You can always add serverless or a bigger box once you know your RAM and tool footprint.
+Why not serverless on day one? Hermes supports Docker, SSH backends, Modal, and more. A modest **monthly VM** is the easiest place to **learn the moving parts** without surprise bills. You can always add serverless or a bigger box once you know your RAM and tool footprint.
 
-## Picking a VPS: OVH vs Hostinger vs DigitalOcean
+## Picking a VPS: what I compared, what I bought
 
-This is a **budget and learning** decision, not a benchmark medal.
+This is a **budget and learning** decision, not a benchmark medal. Early notes in this series mentioned overseas options (for example **OVH** VPS-1 in Canada or **DigitalOcean** droplets). Those are still fine defaults in tutorials. **What I actually run today** is on **Biznet GIO Cloud** in Indonesia — closer to home, IDR billing, and a control panel I can read without timezone math.
 
-| Provider         | Vibe                             | Hermes starter note                                     |
-| ---------------- | -------------------------------- | ------------------------------------------------------- |
-| **DigitalOcean** | Polished UI, excellent tutorials | ~$4–6/mo droplets; default in many blog posts           |
-| **Hostinger**    | Aggressive promos                | Confirm it is real VPS, not shared hosting              |
-| **OVH**          | Strong entry price, many regions | **VPS-1** is enough for early install + a light gateway |
+| Provider             | Vibe                                                | Hermes starter note                                              |
+| -------------------- | --------------------------------------------------- | ---------------------------------------------------------------- |
+| **DigitalOcean**     | Polished UI, excellent tutorials                    | ~$4–6/mo droplets; common in English blog posts                  |
+| **Hostinger**        | Aggressive promos                                   | Confirm it is real VPS, not shared hosting                       |
+| **OVH**              | Strong entry price in EUR/USD                       | Worth a look if you want EU/NA regions; I considered it early on |
+| **Biznet GIO Cloud** | Indonesian cloud (compute, storage, billing in IDR) | **NEO Lite** tier — active compute for this project              |
 
-I ordered **OVH VPS-1** because:
+I provisioned **Biznet GIO** compute named **Hermes** on plan **MS 4.2 / NEO LITE** because:
 
-1. **~$5.35/month** (see order below) keeps the experiment sustainable.
-2. **No long commitment** — monthly is fine while I am still learning.
-3. **Ubuntu 24.04 LTS** in the order flow — matches Python 3.11+ expectations for Hermes later.
-4. **Canada East (Beauharnois)** — acceptable latency from Indonesia for agent work (this is not a twitch shooter).
+1. **Local provider** — support and invoices in a context I already use.
+2. **Monthly cycle** — renew or resize without a long contract (see dates below).
+3. **Clear “Active” status** in the dashboard — easy to show learning-in-public progress.
+4. **Enough headroom for part 2** — install Hermes, gateway, and light tooling on a small VM before I optimize.
 
-DigitalOcean and Hostinger remain sensible alternatives. I chose OVH for this series.
+## My Biznet GIO compute — real numbers from the dashboard
 
-## Ordering OVH — real numbers, honest timeline
+High-level steps (no card numbers or passwords):
 
-Steps I followed (no payment details):
+1. Log into [Biznet GIO Cloud](https://www.biznetgio.com/) (or your existing GIO account).
+2. **Quick Create** (or equivalent) → **Compute**.
+3. Pick **NEO Lite** / **MS 4.2** (or the plan label shown in your region).
+4. Name the instance something you will recognize — I used **Hermes**.
+5. Complete payment; confirm the service shows **Active** on the dashboard.
 
-1. Log into OVH → order a **VPS**.
-2. Select **VPS-1**.
-3. **OS:** Ubuntu **24.04**.
-4. **Billing:** no commitment (monthly).
-5. **Region:** **Canada East — Beauharnois**.
-6. Pay and save the order reference.
+**From my panel (27 Oct 2026):**
 
-**Order:** `#23055087`  
-**Price at checkout:** about **$5.35/month** (tax or FX may vary).
+| Field                   | Value                              |
+| ----------------------- | ---------------------------------- |
+| Service name            | **Hermes**                         |
+| Plan                    | **MS 4.2 / NEO LITE**              |
+| Type                    | Compute                            |
+| Status                  | **Active**                         |
+| Created                 | 27 Oct 2026                        |
+| Expiry (monthly)        | 27 Nov 2026                        |
+| Paid invoice (optional) | **#730039** — **Rp154.290** (paid) |
 
-When I first paid, the panel sat in **checking** for a while. OVH can take **up to ~48 hours** before a new VPS is fully provisioned. That is normal for inexpensive cloud — not a personal failure, just queue time.
+Provisioning on Indonesian cloud is usually faster than the “48-hour checking” stories you sometimes see on budget EU providers — but your mileage depends on stock and verification. The important part for part 1: **the VM exists and is Active.**
 
-**Where I am now (author report):** my VPS is **provisioned and ready** in the OVH panel. I am **not** claiming in this post that I have already completed a documented SSH session or Hermes install — those are part 2. When we need an IP in examples below, we use a **documentation placeholder** only (for example `203.0.113.10` from [RFC 5737](https://datatracker.ietf.org/doc/html/rfc5737)) — **never** a real public address in a public write-up.
+I am **not** claiming in this post that I have already published a full SSH hardening guide or installed Hermes Agent on the box. Those are part 2. When we need an IP in examples, we use a **documentation placeholder** only (for example `203.0.113.10` from [RFC 5737](https://datatracker.ietf.org/doc/html/rfc5737)) — **never** a real public address in a public write-up, even if your panel shows one.
 
-<!-- IMAGE: OVH control panel showing VPS status Ready — blur or crop any real IP and hostname. -->
+![Biznet GIO Cloud dashboard — compute service Hermes, MS 4.2 NEO LITE, status Active (crop or blur any IP before publishing if visible in a future edit)](/blog/hermes-agent-part-1/biznet-gio-dashboard-hermes-active.png)
 
-_[Screenshot placeholder: OVH dashboard — VPS-1, Ubuntu 24.04, Beauharnois, status Ready (IP redacted)]_
+<!-- IMAGE: If the screenshot gains a visible public IP, re-export with IP blurred. -->
 
-Example only — not my server:
+Example SSH line only — not my server:
 
 ```text
 ssh ubuntu@203.0.113.10
 ```
 
-Part 1 milestone: **the VPS exists and is ready to use.** Part 2 milestone: **first successful SSH, then hardening, then Hermes.**
+Part 1 milestone: **compute is Active in Biznet GIO.** Part 2 milestone: **first documented SSH session, hardening, then Hermes.**
 
-## Parallel work while the VPS was provisioning
+## Parallel work while the VM was coming online
 
-Provisioning time is boring. I used it for keys and Discord — things that do not require the disk to exist yet.
+Setup time is a good window for keys and Discord — work that does not require the disk image to be perfect yet.
 
 ### DeepSeek API key (brain prep)
 
@@ -182,31 +189,31 @@ Stating boundaries is part of learning in public:
 - No `pip install hermes-agent` walkthrough yet.
 - No `config.yaml` or `.env` on the VPS documented line-by-line.
 - No Hermes gateway process running — Discord activity today is **not** Hermes.
-- No invented CLI transcripts or dashboard screenshots.
-- No real public IPs — placeholders only.
+- No invented CLI transcripts or Hermes UI screenshots.
+- No real public IPs in prose — placeholders only.
 
 That is intentional. Part 1 answers **why** and **what is provisioned**. Part 2 answers **how to install and wire it safely**.
 
 ## Part 1 scorecard
 
-| Done in part 1                                       | Saved for part 2                                        |
-| ---------------------------------------------------- | ------------------------------------------------------- |
-| Hermes vs chatbot mental model                       | Install Hermes on Ubuntu (Docker or install script)     |
-| Stack decision: DeepSeek + OVH VPS-1                 | Put API key on server; `hermes model` / env             |
-| OVH order `#23055087`, ~$5.35/mo, 24.04, Beauharnois | SSH, non-root user, firewall, updates                   |
-| VPS ready (author report; panel not re-audited here) | Hermes gateway + Discord via Hermes (not Composio-only) |
-| DeepSeek key secured locally                         | Cron, skills folder, tool allowlists                    |
-| Discord app `yeremiachris` live; #ai + DMs work      | End-to-end “ask agent on Discord → tool on VPS”         |
+| Done in part 1                                                           | Saved for part 2                                        |
+| ------------------------------------------------------------------------ | ------------------------------------------------------- |
+| Hermes vs chatbot mental model                                           | Install Hermes on the VM (Docker or install script)     |
+| Stack decision: DeepSeek + Biznet GIO **Hermes** (NEO Lite)              | Put API key on server; `hermes model` / env             |
+| Compute **Active** — MS 4.2 / NEO LITE; invoice #730039 paid (Rp154.290) | SSH, non-root user, firewall, updates                   |
+| Biznet GIO dashboard captured (service name Hermes)                      | Hermes gateway + Discord via Hermes (not Composio-only) |
+| DeepSeek key secured locally                                             | Cron, skills folder, tool allowlists                    |
+| Discord app `yeremiachris` live; #ai + DMs work                          | End-to-end “ask agent on Discord → tool on VPS”         |
 
 ## What comes in part 2
 
 Next post in the series:
 
-1. **SSH** into the VPS (first login, keys, basic hardening).
+1. **SSH** into the Biznet GIO VM (first login, keys, basic hardening).
 2. **Install Hermes Agent** and run initial setup.
 3. **Attach DeepSeek** on the server without leaking secrets.
 4. **Start the Hermes Discord gateway** so the same guild can talk to the agent runtime — separate from the Composio webhook path.
 
-If you are following along, you can stop after part 1 with a clear inventory: VPS ready, API key in a vault, Discord bot invited and talking. That is a respectable stopping point before touching production agent config.
+If you are following along, you can stop after part 1 with a clear inventory: VM Active, API key in a vault, Discord bot invited and talking. That is a respectable stopping point before touching production agent config.
 
 See you on the server in part 2.

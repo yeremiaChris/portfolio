@@ -105,6 +105,10 @@ ssh ubuntu@203.0.113.10
 
 I followed the **[official Hermes Agent docs](https://hermes-agent.nousresearch.com/docs/)** — two supported paths, same idea: install software, run setup, point at a model, start the **gateway**.
 
+After setup, the **Hermes TUI** is the “this is real” moment — not a bland API wrapper. On my VM it shows **Hermes Agent v0.21.5**, model **`deepseek-v4-flash`**, and a live summary of **21 tools** and **58 skills** (browser, code execution, Discord admin, GitHub, and more). Window chrome is cropped in the screenshot so no host/IP leaks into a public post.
+
+![Hermes Agent TUI welcome screen — v0.21.5, deepseek-v4-flash, tools and skills overview](/blog/hermes-agent-part-1/hermes-cli-tui.png)
+
 ### Path A — install script (what the docs recommend on Linux)
 
 1. SSH into the Ubuntu VM (placeholder IP above).

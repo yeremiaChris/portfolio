@@ -43,7 +43,7 @@ export const site = {
   ],
   links: {
     whatsapp: "https://wa.me/6281212126215",
-    whatsappLabel: "+62-812",
+    whatsappLabel: "+62 812-1212-6215",
     github: "https://github.com/yeremiaChris",
     githubHandle: "@yeremiaChris",
     linkedin: "https://www.linkedin.com/in/yeremia-chris-saragi-587a671a9/",

@@ -129,6 +129,10 @@ Docs also document a Docker image (`nousresearch/hermes-agent`): run **setup** o
 - Bot **yeremiachris** visible online in the guild.
 - A real conversation proving the gateway is live — not a mock.
 
+On the VM, **`hermes gateway status`** shows the user-level **`hermes-gateway.service`** **active (running)** since **2026-10-27 ~15:18 WIB**, with **systemd linger** enabled so the gateway survives logout. That is the boring proof the process is not just a one-off terminal session.
+
+![hermes gateway status — hermes-gateway.service active (running), linger enabled](/blog/hermes-agent-part-1/hermes-gateway-systemctl-status.png)
+
 ## DeepSeek API (brain prep + real usage)
 
 1. Create a key at [platform.deepseek.com](https://platform.deepseek.com).

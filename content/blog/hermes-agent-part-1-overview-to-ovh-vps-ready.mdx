@@ -1,6 +1,6 @@
 ---
-title: "Hermes Agent Part 1: Overview to OVH VPS Ready"
-description: "Starting a Hermes Agent series — what a self-improving agent is, a DeepSeek + cheap VPS stack, why OVH VPS-1, order #23055087, and parallel prep while provisioning runs."
+title: "Hermes Agent Part 1: From Zero to VPS and Discord Ready"
+description: "Learning in public: what Hermes Agent is, why DeepSeek plus a cheap OVH VPS, order #23055087, VPS provisioned, Discord app yeremiachris live — and what we deliberately save for part 2 (Hermes install)."
 date: "2026-10-26"
 tags:
   [
@@ -8,6 +8,7 @@ tags:
     "hermes-agent",
     "vps",
     "deepseek",
+    "discord",
     "learning-in-public",
     "devops",
   ]
@@ -15,114 +16,197 @@ featured: false
 draft: true
 ---
 
-This is **part 1** of a Hermes Agent series on yeremiachris.com. We stop at a realistic day-one milestone: **the VPS is ordered and stuck in checking** — no Hermes install yet, no Discord gateway. Part 2 is where we SSH in, install the agent, wire up the model, and turn on the bot.
+I am documenting a **Hermes Agent** build on yeremiachris.com in public. This is **part 1**.
 
-If “AI agent” still sounds like “chatbot in a browser tab,” this post goes slowly on purpose. The goal is a solid foundation so the next steps are not guesswork.
+By the end of this post you should understand what an agent is (in plain language), why I picked a small stack, and what infrastructure is already in place. What you will **not** get here yet: a step-by-step Hermes install, SSH hardening as a finished checklist, or fake terminal output. Part 2 covers SSH, installing Hermes, putting DeepSeek on the server, and turning on the **Hermes** Discord gateway.
 
-## What is Hermes Agent, and what does “self-improving” mean?
+If you are a recruiter skimming for signal: I am not just “using ChatGPT.” I am standing up a **self-hosted agent** with a real VPS, a real chat surface, and a deliberate security mindset. If you are an engineer new to agents: I wrote this the way I wish someone had explained it to me — short sections, one idea at a time.
 
-**Hermes Agent** is an open-source AI agent from [Nous Research](https://github.com/NousResearch/hermes-agent). It is not just a chat window on a website. Here, “agent” means software that can **run tools** (read files, execute commands, schedule jobs, and more), **remember past sessions**, and **keep reusable skills** on disk.
+## The one-line pitch
 
-What separates Hermes from a typical chatbot is a **learning loop**: over time it can create or refine skills, nudge itself to save important facts, and search older conversations when you need context again. A classic chatbot answers and forgets. There is no “today I learned a safer redeploy flow” waiting for you tomorrow.
+**Hermes Agent** is open-source software that runs on a machine you control, talks to a model API, uses tools, remembers context, and can improve reusable “skills” over time. **Part 1** is about choosing that machine and the front door (Discord). **Part 2** is where the agent brain actually moves in.
 
-Simple analogy: a chatbot is a receptionist with a FAQ printout. Hermes is closer to an assistant with a **notebook plus a toolbox** — and the notebook gets thicker when you reuse it for the same kind of work.
+## What is Hermes Agent — and how is it not “just a chatbot”?
 
-Hermes also **does not lock you to one model**. You can use supported providers (OpenRouter, OpenAI, your own endpoint, and others). For this series I am using the **DeepSeek API** — more on the stack below.
+A browser chatbot is a tab: you type, it replies, the session ends. An **agent** is closer to a small employee with permissions.
 
-## What is it for? A short list of use cases
+**Hermes Agent** ([Nous Research](https://github.com/NousResearch/hermes-agent)) can:
 
-Without inventing personal stories beyond this project plan, Hermes is a good fit when you want:
+- **Run tools** — read files, run commands, schedule jobs, and more (within limits you configure later).
+- **Remember** across sessions — search old conversations instead of starting from zero every morning.
+- **Accumulate skills** — reusable instructions the project can refine over time (the docs call this a self-improving loop).
 
-- **An assistant that runs on a server**, not on a laptop that must stay on 24/7.
-- **One gateway** to many channels (CLI, Discord, Slack, Telegram, and more) — in this series the **gateway will be Discord**, not Telegram.
-- **Scheduled automation** (daily reports, backups, audits) via the built-in cron.
-- **Delegated work** through subagents when tasks can run in parallel.
-- **Shareable skills** (agentskills.io) so you are not rebuilding from scratch every week.
+Picture two front desks at the same company.
 
-For this blog arc, the first job is to prepare **a home** for the agent: a cheap VPS that will later run Hermes and the gateway process.
+|         | Classic chatbot        | Hermes-style agent                        |
+| ------- | ---------------------- | ----------------------------------------- |
+| Memory  | Mostly “this tab only” | Can recall prior sessions and saved notes |
+| Actions | Answers text           | Can act on a server (tools)               |
+| Growth  | Static FAQ             | Can add or tune skills from experience    |
 
-## Stack choice: DeepSeek API + a cheap VPS
+That “self-improving” label is not magic. It means Hermes is designed to **capture what worked**, store it as a skill, and reuse it — instead of you re-prompting the same deploy checklist every week.
 
-A sensible first experiment: **separate brain and body**.
+Hermes also **does not lock you to one model vendor**. OpenRouter, OpenAI, your own endpoint — swap with configuration. For this series I am using the **[DeepSeek API](https://platform.deepseek.com)** for cost and simplicity. The VPS is only the **body**; the API is the **brain** you can change without rebuilding the server.
 
-| Layer           | Choice                                        | Why (short)                                                                   |
-| --------------- | --------------------------------------------- | ----------------------------------------------------------------------------- |
-| Model (brain)   | [DeepSeek API](https://platform.deepseek.com) | Competitive pricing, familiar API, easy to swap models in Hermes config later |
-| Compute (body)  | Low-cost Linux VPS                            | Agent + gateway stay up; your laptop does not                                 |
-| Channel (later) | Discord                                       | Team already uses a guild; Hermes docs support a Discord gateway              |
+<!-- IMAGE: Simple diagram — chatbot (browser) vs agent (VPS + tools + memory). Optional hand-drawn or Excalidraw. -->
 
-Why not jump straight to serverless or a GPU cluster? You can — Hermes supports several backends. For **learning while shipping**, a ~$5 VPS is the sweet spot: cheap, straightforward SSH, and RAM/CPU upgrades are a plan change away. If you later move to Modal or Daytona, a VPS can still be useful as staging or a bastion.
+_[Screenshot placeholder: architecture sketch — “browser chatbot” vs “VPS + Hermes + tools + Discord”]_
 
-What we **do not** do in part 1: install `hermes-agent`, edit `config.yaml`, or paste a Discord bot token. That is explicitly **part 2**.
+## What would I actually use it for?
 
-## OVH vs Hostinger vs DigitalOcean — why OVH VPS-1?
+I am not claiming production workloads on day one. These are the **use cases that motivated the project**:
 
-This is not a deep performance shootout. It is a **practical pick** for a small-budget personal project.
+- **Always-on assistant** on a VPS instead of keeping my laptop awake 24/7.
+- **One gateway, many surfaces** — Hermes supports many channels; this build targets **Discord** (not Telegram), because that is where I already collaborate.
+- **Scheduled routines** — daily digests, backups, or audits via Hermes cron (part 2+).
+- **Delegation** — subagents for parallel tasks when a job splits cleanly.
+- **Portable skills** — aligned with [agentskills.io](https://agentskills.io) so work compounds instead of resetting every Monday.
 
-| Provider         | Quick take                               | Notes for a Hermes starter                                                |
-| ---------------- | ---------------------------------------- | ------------------------------------------------------------------------- |
-| **DigitalOcean** | Polished UX, great docs, large community | ~$4–6/mo droplets; default in many tutorials                              |
-| **Hostinger**    | Aggressive promos for beginners          | Confirm the plan is real VPS (not shared hosting) and the region you want |
-| **OVH**          | Aggressive entry pricing, many DCs       | **VPS-1** fits a “small agent + gateway” footprint                        |
+Part 1 stops once the **home** (VPS) and **front door prep** (Discord application) exist. The agent runtime itself is the next chapter.
 
-I chose **OVH VPS-1** because:
+## Stack: separate brain and body
 
-1. **Low monthly cost** for a long-running experiment (real order below).
-2. **No commitment** — fine while you are still learning; no long contract.
-3. **Ubuntu 24.04 LTS** in the order flow — aligns with Python 3.11+ that Hermes will need later.
-4. **Canada East (Beauharnois)** — reasonable latency from Indonesia for agent work (this is not a real-time game).
+| Layer                               | Choice                         | Why it fits a first build                                                                         |
+| ----------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------- |
+| Model                               | DeepSeek API                   | Competitive pricing; familiar HTTP API; easy to point Hermes at later                             |
+| Compute                             | OVH VPS-1 (Ubuntu 24.04)       | Cheap monthly burn; straightforward SSH story; room to resize                                     |
+| Chat (planned for Hermes)           | Discord gateway                | Guild channels + DMs; Hermes documents Discord as a first-class gateway                           |
+| Chat (already live, different path) | Discord bot app `yeremiachris` | Validates channels and permissions **before** Hermes — not the same integration as Hermes gateway |
 
-DigitalOcean is still a strong choice if you already live in that ecosystem. Hostinger is worth a look when a promo matches the VPS specs you need. For this write-up, the decision is **OVH**.
+Why not serverless on day one? Hermes supports Docker, SSH backends, Modal, and more. A ~**$5/month** VPS is the easiest place to **learn the moving parts** without surprise bills. You can always add serverless or a bigger box once you know your RAM and tool footprint.
 
-## Ordering OVH until the VPS is “ready” (steps I actually took)
+## Picking a VPS: OVH vs Hostinger vs DigitalOcean
 
-Here is the flow — no card numbers or credentials:
+This is a **budget and learning** decision, not a benchmark medal.
 
-1. Create or log into an OVH account and start a **VPS** order.
-2. Pick **VPS-1** (entry tier — enough for Hermes install plus a light gateway).
+| Provider         | Vibe                             | Hermes starter note                                     |
+| ---------------- | -------------------------------- | ------------------------------------------------------- |
+| **DigitalOcean** | Polished UI, excellent tutorials | ~$4–6/mo droplets; default in many blog posts           |
+| **Hostinger**    | Aggressive promos                | Confirm it is real VPS, not shared hosting              |
+| **OVH**          | Strong entry price, many regions | **VPS-1** is enough for early install + a light gateway |
+
+I ordered **OVH VPS-1** because:
+
+1. **~$5.35/month** (see order below) keeps the experiment sustainable.
+2. **No long commitment** — monthly is fine while I am still learning.
+3. **Ubuntu 24.04 LTS** in the order flow — matches Python 3.11+ expectations for Hermes later.
+4. **Canada East (Beauharnois)** — acceptable latency from Indonesia for agent work (this is not a twitch shooter).
+
+DigitalOcean and Hostinger remain sensible alternatives. I chose OVH for this series.
+
+## Ordering OVH — real numbers, honest timeline
+
+Steps I followed (no payment details):
+
+1. Log into OVH → order a **VPS**.
+2. Select **VPS-1**.
 3. **OS:** Ubuntu **24.04**.
-4. **Commitment:** no commitment (monthly).
-5. **Datacenter:** **Canada East — Beauharnois**.
-6. Complete payment and keep the order number.
+4. **Billing:** no commitment (monthly).
+5. **Region:** **Canada East — Beauharnois**.
+6. Pay and save the order reference.
 
-**My order:** `#23055087`  
-**Approximate cost:** about **$5.35/month** (per OVH checkout at order time; tax or FX may shift it slightly).
+**Order:** `#23055087`  
+**Price at checkout:** about **$5.35/month** (tax or FX may vary).
 
-After payment, the VPS is not always **Ready** immediately. In my case the dashboard showed **checking** — provisioning can take time, and for this order a realistic note is: **up to ~48 hours** before SSH is actually available. That wait is normal for inexpensive cloud, not a sign you did something wrong.
+When I first paid, the panel sat in **checking** for a while. OVH can take **up to ~48 hours** before a new VPS is fully provisioned. That is normal for inexpensive cloud — not a personal failure, just queue time.
 
-**Part 1 stop line:** VPS purchased, OS and region chosen, still waiting on OVH — **no** `ssh root@...` yet, no hardening, no Hermes install.
+**Where I am now (author report):** my VPS is **provisioned and ready** in the OVH panel. I am **not** claiming in this post that I have already completed a documented SSH session or Hermes install — those are part 2. When we need an IP in examples below, we use a **documentation placeholder** only (for example `203.0.113.10` from [RFC 5737](https://datatracker.ietf.org/doc/html/rfc5737)) — **never** a real public address in a public write-up.
 
-## Parallel prep (while the VPS is checking)
+<!-- IMAGE: OVH control panel showing VPS status Ready — blur or crop any real IP and hostname. -->
 
-Do not stare at the OVH spinner for 48 hours. Two safe tasks in parallel:
+_[Screenshot placeholder: OVH dashboard — VPS-1, Ubuntu 24.04, Beauharnois, status Ready (IP redacted)]_
 
-### 1. DeepSeek API key
+Example only — not my server:
 
-1. Go to [platform.deepseek.com](https://platform.deepseek.com).
-2. Sign up or log in.
-3. Create an **API key** in the developer dashboard.
-4. Store it in a password manager or a local `.env` file — **do not** commit it to Git and **do not** paste it in a blog post or Discord.
+```text
+ssh ubuntu@203.0.113.10
+```
 
-Hermes will use this key in part 2 (`hermes model` / env on the server). In part 1, the win is simply: key **exists** and stays **secret**.
+Part 1 milestone: **the VPS exists and is ready to use.** Part 2 milestone: **first successful SSH, then hardening, then Hermes.**
 
-### 2. Gateway plan: Discord (not Telegram)
+## Parallel work while the VPS was provisioning
 
-Hermes docs lean on Telegram examples, but **my gateway will be Discord**. In the next part we will:
+Provisioning time is boring. I used it for keys and Discord — things that do not require the disk to exist yet.
 
-- Create an app/bot in the Discord Developer Portal.
-- Store the bot token like the API key (secret, server-only).
-- Run **one Hermes gateway process** that connects DeepSeek to a Discord channel.
+### DeepSeek API key (brain prep)
 
-You do not need a Discord token today if the VPS is not ready — what matters now is the decision is fixed: **Discord**, so we are not switching channels mid-series.
+1. Sign in at [platform.deepseek.com](https://platform.deepseek.com).
+2. Create an **API key** in the developer console.
+3. Store it in a password manager or a local `.env` — **never** in Git, Discord, or a blog post.
 
-## Part 1 recap
+Hermes will consume this on the server in part 2. Part 1 success = key exists and stays secret.
 
-| Done                                                      | Not yet (part 2)                      |
-| --------------------------------------------------------- | ------------------------------------- |
-| Hermes vs chatbot + self-improving loop                   | `pip install hermes-agent` on the VPS |
-| Stack: DeepSeek + OVH VPS                                 | Model and env config on the server    |
-| OVH order #23055087, ~$5.35/mo, Ubuntu 24.04, Beauharnois | SSH, firewall, deploy user            |
-| VPS status: checking (may take ~48h)                      | Hermes install, cron, skills folder   |
-| DeepSeek API key prepared (secret)                        | Live Discord gateway                  |
+<!-- IMAGE: DeepSeek platform API keys page with the key value blurred. -->
 
-**Next up:** once OVH marks the VPS **Ready** and the IP shows up, the series continues with **part 2 — install Hermes Agent on Ubuntu, hook up DeepSeek, and bring the Discord gateway online**. See you on the server.
+_[Screenshot placeholder: DeepSeek developer dashboard — “create API key” with secret blurred]_
+
+### Discord: two different paths (do not mix them up)
+
+I committed to **Discord** over Telegram for this build. Hermes docs show Telegram often; that is fine — it is just not **this** series.
+
+**Path A — Hermes Discord gateway (part 2):**
+
+- Create a Discord application and bot in the [Developer Portal](https://discord.com/developers/applications).
+- Invite the bot to your server with the right OAuth scopes.
+- Configure allowed users (Hermes defaults to **deny** strangers — good).
+- Run `hermes gateway` on the VPS so **Hermes** owns the conversation loop and tools.
+
+**Path B — what I already have live today (not Hermes):**
+
+- Discord application **`yeremiachris`** is online on my server.
+- Channels such as **#ai** work; **DMs work too**.
+- Some messages may flow through **Composio** (for example a Grok Bot or webhook-style posting). That is a **separate integration** — useful for experiments, but it is **not** the Hermes gateway and does not give you Hermes tools, skills, or cron on the VPS.
+
+Keeping that distinction straight matters for recruiters and teammates: **Discord online ≠ Hermes deployed.**
+
+High-level Discord prep I did in parallel (no tokens in this post):
+
+1. Developer Portal → New Application → Bot user enabled.
+2. Copy the bot token **once** into a secret store (server-side only).
+3. Generate an invite URL (applications → OAuth2 → URL Generator) with bot scope + permissions for the channels you need.
+4. Create or reuse channels (e.g. **#ai**) and verify the bot can read/send.
+5. Test DM allowlisting mindset early — only people you trust should talk to an agent with tools.
+
+<!-- IMAGE: Discord Developer Portal — application yeremiachris, bot tab (token hidden). -->
+
+_[Screenshot placeholder: Discord Developer Portal — app name `yeremiachris`, bot enabled, token field empty/blurred]_
+
+<!-- IMAGE: Discord server — #ai channel with bot visible online (no message content if sensitive). -->
+
+_[Screenshot placeholder: Discord guild — #ai channel, bot `yeremiachris` online indicator]_
+
+## What part 1 deliberately does not include
+
+Stating boundaries is part of learning in public:
+
+- No `pip install hermes-agent` walkthrough yet.
+- No `config.yaml` or `.env` on the VPS documented line-by-line.
+- No Hermes gateway process running — Discord activity today is **not** Hermes.
+- No invented CLI transcripts or dashboard screenshots.
+- No real public IPs — placeholders only.
+
+That is intentional. Part 1 answers **why** and **what is provisioned**. Part 2 answers **how to install and wire it safely**.
+
+## Part 1 scorecard
+
+| Done in part 1                                       | Saved for part 2                                        |
+| ---------------------------------------------------- | ------------------------------------------------------- |
+| Hermes vs chatbot mental model                       | Install Hermes on Ubuntu (Docker or install script)     |
+| Stack decision: DeepSeek + OVH VPS-1                 | Put API key on server; `hermes model` / env             |
+| OVH order `#23055087`, ~$5.35/mo, 24.04, Beauharnois | SSH, non-root user, firewall, updates                   |
+| VPS ready (author report; panel not re-audited here) | Hermes gateway + Discord via Hermes (not Composio-only) |
+| DeepSeek key secured locally                         | Cron, skills folder, tool allowlists                    |
+| Discord app `yeremiachris` live; #ai + DMs work      | End-to-end “ask agent on Discord → tool on VPS”         |
+
+## What comes in part 2
+
+Next post in the series:
+
+1. **SSH** into the VPS (first login, keys, basic hardening).
+2. **Install Hermes Agent** and run initial setup.
+3. **Attach DeepSeek** on the server without leaking secrets.
+4. **Start the Hermes Discord gateway** so the same guild can talk to the agent runtime — separate from the Composio webhook path.
+
+If you are following along, you can stop after part 1 with a clear inventory: VPS ready, API key in a vault, Discord bot invited and talking. That is a respectable stopping point before touching production agent config.
+
+See you on the server in part 2.

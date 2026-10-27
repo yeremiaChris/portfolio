@@ -160,7 +160,7 @@ I committed to **Discord** over Telegram for this build. Hermes docs show Telegr
 
 **Path B — what I already have live today (not Hermes):**
 
-- Discord application **`yeremiachris`** is online on my server.
+- Discord application **HermesYeremia** (bot **yeremiachris#8944**) is online on my server.
 - Channels such as **#ai** work; **DMs work too**.
 - Some messages may flow through **Composio** (for example a Grok Bot or webhook-style posting). That is a **separate integration** — useful for experiments, but it is **not** the Hermes gateway and does not give you Hermes tools, skills, or cron on the VPS.
 
@@ -174,9 +174,9 @@ High-level Discord prep I did in parallel (no tokens in this post):
 4. Create or reuse channels (e.g. **#ai**) and verify the bot can read/send.
 5. Test DM allowlisting mindset early — only people you trust should talk to an agent with tools.
 
-<!-- IMAGE: Discord Developer Portal — application yeremiachris, bot tab (token hidden). -->
+In the Developer Portal for **HermesYeremia**, the bot tab shows **Public Bot** on, **Server Members Intent** and **Message Content Intent** on (so the bot can see who is in the guild and read message text), and **Presence Intent** off. The token is not shown in the UI — only **Reset Token** — which is what you want before any screenshot leaves your machine.
 
-_[Screenshot placeholder: Discord Developer Portal — app name `yeremiachris`, bot enabled, token field empty/blurred]_
+![Discord Developer Portal — HermesYeremia bot settings; token hidden, only Reset Token visible](/blog/hermes-agent-part-1/discord-developer-hermesyeremia-bot.png)
 
 <!-- IMAGE: Discord server — #ai channel with bot visible online (no message content if sensitive). -->
 

@@ -23,7 +23,7 @@ export function EdgeStreaming() {
             variant="secondary"
             className="font-mono text-[10px] tracking-widest text-[#4cd7f6] uppercase"
           >
-            Edge Chunking
+            Demo · Illustrative
           </Badge>
         </div>
         <CardTitle className="font-heading text-xl font-semibold tracking-tight">

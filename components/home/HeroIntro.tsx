@@ -50,7 +50,7 @@ export function HeroIntro() {
 
       <div className="mb-10 flex w-full flex-col gap-3">
         <span className="text-muted-foreground font-mono text-[10px] tracking-[0.16em] uppercase">
-          Production
+          Production · PrimaKu / Mazecare / KiriminAja
         </span>
         <nav
           aria-label="Selected production work"

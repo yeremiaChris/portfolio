@@ -15,7 +15,7 @@ export function HeroTerminal() {
         </div>
         <div className="flex items-center gap-2">
           <span className="bg-secondary text-primary rounded px-1.5 py-0.5 font-mono text-[10px]">
-            v4.8.0-prod
+            demo
           </span>
           <TerminalIcon className="text-muted-foreground size-4" />
         </div>

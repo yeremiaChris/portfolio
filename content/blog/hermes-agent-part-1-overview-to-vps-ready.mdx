@@ -164,7 +164,9 @@ I committed to **Discord** over Telegram for this build. Hermes docs show Telegr
 - Channels such as **#ai** work; **DMs work too**.
 - Some messages may flow through **Composio** (for example a Grok Bot or webhook-style posting). That is a **separate integration** — useful for experiments, but it is **not** the Hermes gateway and does not give you Hermes tools, skills, or cron on the VPS.
 
-Keeping that distinction straight matters for recruiters and teammates: **Discord online ≠ Hermes deployed.**
+Keeping that distinction straight matters for recruiters and teammates: **a bot online in Discord is not the same as a finished, documented Hermes install on the VPS** — part 2 still walks through that on the Biznet box.
+
+That said, the gateway is already chatty enough to be useful: I @mentioned **yeremiachris** in a thread titled **Install Hermes Agent on Biznet GIO VPS** (under **#news**) with a part 1 checkpoint, and the bot replied about setting a home channel (`/sethome`). That is real proof the Discord side answers; it does not replace the install write-up.
 
 High-level Discord prep I did in parallel (no tokens in this post):
 
@@ -178,9 +180,7 @@ In the Developer Portal for **HermesYeremia**, the bot tab shows **Public Bot** 
 
 ![Discord Developer Portal — HermesYeremia bot settings; token hidden, only Reset Token visible](/blog/hermes-agent-part-1/discord-developer-hermesyeremia-bot.png)
 
-<!-- IMAGE: Discord server — #ai channel with bot visible online (no message content if sensitive). -->
-
-_[Screenshot placeholder: Discord guild — #ai channel, bot `yeremiachris` online indicator]_
+![Discord thread — Part 1 checkpoint mention and bot reply about /sethome](/blog/hermes-agent-part-1/discord-hermes-part1-checkpoint.png)
 
 ## What part 1 deliberately does not include
 
@@ -188,7 +188,7 @@ Stating boundaries is part of learning in public:
 
 - No `pip install hermes-agent` walkthrough yet.
 - No `config.yaml` or `.env` on the VPS documented line-by-line.
-- No Hermes gateway process running — Discord activity today is **not** Hermes.
+- No step-by-step Hermes **install on the Biznet VPS** in this post (gateway may already reply in Discord; install + hardening are still part 2).
 - No invented CLI transcripts or Hermes UI screenshots.
 - No real public IPs in prose — placeholders only.
 

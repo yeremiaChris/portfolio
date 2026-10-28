@@ -42,19 +42,25 @@ const DEFAULT_ACTIONS: ContactCtaAction[] = [
     primary: true,
   },
   {
-    href: site.links.whatsapp,
-    label: "Direct WhatsApp",
-    icon: "whatsapp",
+    href: site.links.linkedin,
+    label: "LinkedIn",
+    icon: "linkedin",
     variant: "secondary",
     external: true,
+  },
+  {
+    href: site.links.resume,
+    label: "CV (PDF)",
+    icon: "file",
+    variant: "secondary",
   },
 ];
 
 export function ContactCta({
   id = "contact",
-  eyebrow = "Open to the right role",
-  title = "Let's discuss product platforms, API-backed UI, or your next React / Next.js build.",
-  description = "Available for Software Engineer roles (frontend-heavy) — product platforms, design-system work, and contract work worldwide.",
+  eyebrow = "Open to full-time or scoped contracts",
+  title = "Let's talk about a full-time role or a scoped remote build.",
+  description = "Invoice or hourly is fine. Frontend-heavy work in React, Next.js, or Vue — health-tech, logistics, and product platforms. Remote-friendly (Indonesia / UTC+7).",
   actions = DEFAULT_ACTIONS,
   withContainer = true,
   className,

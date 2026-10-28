@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRightIcon, SparklesIcon } from "lucide-react";
+import { ArrowRightIcon, FileTextIcon, SparklesIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -77,6 +77,16 @@ export function HeroIntro() {
         >
           Selected work
           <ArrowRightIcon />
+        </a>
+        <a
+          href={site.links.resume}
+          className={cn(
+            buttonVariants({ variant: "secondary", size: "lg" }),
+            "border-border/60",
+          )}
+        >
+          <FileTextIcon />
+          CV (PDF)
         </a>
         <Link
           href={labHomeCta.href}

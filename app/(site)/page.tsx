@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { Artifacts } from "@/components/home/Artifacts";
 import { ContactCta } from "@/components/home/ContactCta";
 import { Hero } from "@/components/home/Hero";
 import { LabCta } from "@/components/home/LabCta";
@@ -42,7 +41,6 @@ export default function Home() {
       <Hero />
       <Stats />
       <Milestones />
-      <Artifacts />
       <LabCta />
       <TechStack />
       <ContactCta />

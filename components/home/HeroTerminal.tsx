@@ -70,7 +70,7 @@ export function HeroTerminal() {
           <span className="bg-primary inline-block size-1.5 animate-pulse rounded-full" />
           <span className="text-primary">STATUS:</span>
           <span className="text-foreground">
-            Available for hire &amp; freelance contracts
+            Open to full-time · scoped remote contracts welcome
           </span>
         </div>
         <span>1M+ downloads · FHIR</span>

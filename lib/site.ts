@@ -16,11 +16,11 @@ export const site = {
   fullName: "Yeremia Chris Saragi",
   pronunciation: "/ jɛ-rə-ˈmaɪ-ə krɪs sə-ˈrɑː-ɡi /",
   role: "Software Engineer · Frontend-Heavy",
-  availability: "Open to exciting opportunities",
+  availability: "Open to full-time · also scoped remote contracts",
   tagline:
     "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development with React, Next.js, TypeScript, and Vue.",
   bio: `Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development, with ${getExperienceLabel()} years building production web platforms across health-tech (HIS/EMR) and logistics. Strong in React, Next.js, and Vue — with real API, auth, and data ownership. Looking for frontend-heavy roles on product platforms and clinical systems where UI quality and backend integration both matter.`,
-  heroBio: `${getExperienceLabel()}-year Software Engineer specializing in frontend-heavy product platforms. Health-tech HIS/EMR and logistics background with React, Next.js, and Vue — real API and data ownership experience.`,
+  heroBio: `${getExperienceLabel()}-year Software Engineer on frontend-heavy product platforms. Health-tech (HIS/EMR) and logistics with React, Next.js, and Vue — real API, auth, and data ownership.`,
   proof: [
     {
       id: "primaku",

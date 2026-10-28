@@ -6,11 +6,36 @@ import {
 } from "@/components/home/artifacts/LazyArtifacts";
 import { Badge } from "@/components/ui/badge";
 
-export function Artifacts() {
+export type ArtifactsSectionProps = {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  showLiveBadge?: boolean;
+};
+
+const DEFAULT_FRAMING: Required<ArtifactsSectionProps> = {
+  id: "ui-demos",
+  eyebrow: "UI demos",
+  title: "Small UI demos",
+  description:
+    "Interactive sketches — not client work. Tokens, streaming layout patterns, and accessible UI state.",
+  showLiveBadge: false,
+};
+
+export function Artifacts({
+  id = DEFAULT_FRAMING.id,
+  eyebrow = DEFAULT_FRAMING.eyebrow,
+  title = DEFAULT_FRAMING.title,
+  description = DEFAULT_FRAMING.description,
+  showLiveBadge = DEFAULT_FRAMING.showLiveBadge,
+}: ArtifactsSectionProps = {}) {
+  const headingId = `${id}-heading`;
+
   return (
     <section
-      id="lab"
-      aria-labelledby="artifacts-heading"
+      id={id}
+      aria-labelledby={headingId}
       className="w-full py-16 md:py-24"
     >
       <Container className="flex flex-col gap-8">
@@ -24,26 +49,27 @@ export function Artifacts() {
                 className="size-2.5 rounded-full bg-[#4cd7f6]"
                 aria-hidden
               />
-              Interactive Laboratory
+              {eyebrow}
             </Badge>
             <h2
-              id="artifacts-heading"
+              id={headingId}
               className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
             >
-              Engineering Artifacts
+              {title}
             </h2>
             <p className="text-muted-foreground max-w-xl text-[15px] leading-6">
-              Supporting proof-of-craft: interactive demos for tokens, streaming
-              patterns, and accessible UI state.
+              {description}
             </p>
           </div>
-          <Badge
-            variant="secondary"
-            className="text-muted-foreground w-fit gap-2 font-mono text-[13px] font-normal tracking-normal normal-case"
-          >
-            <span className="bg-primary size-2 animate-pulse rounded-full" />
-            Interactive canvas live
-          </Badge>
+          {showLiveBadge ? (
+            <Badge
+              variant="secondary"
+              className="text-muted-foreground w-fit gap-2 font-mono text-[13px] font-normal tracking-normal normal-case"
+            >
+              <span className="bg-primary size-2 animate-pulse rounded-full" />
+              Interactive canvas live
+            </Badge>
+          ) : null}
         </header>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

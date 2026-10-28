@@ -54,9 +54,8 @@ export function EdgeStreaming() {
         </div>
       </CardContent>
 
-      <CardFooter className="text-muted-foreground justify-between border-t-0 bg-transparent font-mono text-[10px]">
-        <span>Target: 98 Lighthouse performance</span>
-        <span className="text-[#4cd7f6]">0ms main-thread lock</span>
+      <CardFooter className="text-muted-foreground border-t-0 bg-transparent font-mono text-[10px]">
+        Illustrative timing bars — not measured on this site.
       </CardFooter>
     </Card>
   );

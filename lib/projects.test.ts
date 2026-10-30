@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import {
   getArchiveProjects,
   getFeaturedProjects,
+  getProjectToolChips,
+  maxProjectToolChips,
   type Project,
   projects,
 } from "./projects";
@@ -43,6 +45,27 @@ describe("getFeaturedProjects", () => {
       "kiriminaja",
       "primacare",
     ]);
+  });
+});
+
+describe("getProjectToolChips", () => {
+  it("caps visible chips at four", () => {
+    expect(
+      getProjectToolChips([
+        "Next.js",
+        "TypeScript",
+        "React Hook Form",
+        "Valibot",
+        "TanStack Query",
+      ]),
+    ).toHaveLength(maxProjectToolChips);
+  });
+
+  it("keeps live featured projects within the chip limit", () => {
+    for (const project of getFeaturedProjects()) {
+      expect(project.tools.length).toBeLessThanOrEqual(maxProjectToolChips);
+      expect(getProjectToolChips(project.tools)).toEqual(project.tools);
+    }
   });
 });
 

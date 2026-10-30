@@ -45,6 +45,8 @@ export const projectsRibbon: ProjectRibbonMetric[] = [
 
 export type ProjectTag = "work" | "personal";
 
+export const maxProjectToolChips = 4;
+
 export type Project = {
   id: string;
   title: string;
@@ -59,6 +61,10 @@ export type Project = {
   ctaLabel?: "Open Site" | "Webview";
 };
 
+export function getProjectToolChips(tools: readonly string[]): string[] {
+  return tools.slice(0, maxProjectToolChips);
+}
+
 export const projects: Project[] = [
   {
     id: "mazecare",
@@ -67,7 +73,7 @@ export const projects: Project[] = [
     year: "2025–2026",
     summary:
       "Visit, queue, teleconsult, and billing UI on a FHIR-compliant clinic/hospital OS — GraphQL + FHIR, plus AI-assisted notes used in real clinic workflows.",
-    tools: ["Vue 3", "Nuxt 3", "TypeScript", "GraphQL", "FHIR"],
+    tools: ["Vue 3", "Nuxt 3", "GraphQL", "FHIR"],
     image: "/projects/mazecare.png",
     imageAlt: "Mazecare receptionist dashboard and queue management",
     featured: true,
@@ -81,14 +87,7 @@ export const projects: Project[] = [
     year: "2022–Present",
     summary:
       "Web platform for clinician and family UI — design system, REST + auth. PrimaKu's consumer app has 1M+ Play downloads; primaku.com is the parent-facing catalog I ship on SSR, separate from the clinical product.",
-    tools: [
-      "Next.js",
-      "TypeScript",
-      "React Hook Form",
-      "Valibot",
-      "TanStack Query",
-      "Framer Motion",
-    ],
+    tools: ["Next.js", "TypeScript", "React Hook Form", "TanStack Query"],
     image: "/projects/primaku.png",
     imageAlt: "PrimaKu parent-facing vaccine and medical services catalog",
     featured: true,
@@ -102,7 +101,7 @@ export const projects: Project[] = [
     year: "2023–2024",
     summary:
       "High-density logistics web UI: live rate UI across 15+ couriers, virtualized manifests + Web Workers. KiriminAja's consumer app has 100K+ Play downloads; I own the control-room web platform.",
-    tools: ["Nuxt.js", "TypeScript", "Swiper", "Firebase"],
+    tools: ["Nuxt.js", "TypeScript", "Swiper"],
     image: "/projects/kiriminaja.jpg",
     imageAlt: "KiriminAja logistics platform",
     featured: true,
@@ -116,13 +115,7 @@ export const projects: Project[] = [
     year: "2024",
     summary:
       "Clinician-facing medical records and SatuSehat flows — forms, data pipelines, and day-to-day clinic UI.",
-    tools: [
-      "Next.js",
-      "TypeScript",
-      "React Hook Form",
-      "TanStack Query",
-      "Valibot",
-    ],
+    tools: ["Next.js", "TypeScript", "React Hook Form", "TanStack Query"],
     image: "/projects/primacare.jpg",
     imageAlt: "PrimaCare clinic management",
     featured: true,
@@ -136,13 +129,7 @@ export const projects: Project[] = [
     year: "2025",
     summary:
       "Built the program site for PrimaKu’s annual parenting classes and rewards system, including registration flows and point collection features.",
-    tools: [
-      "Next.js",
-      "TypeScript",
-      "React Hook Form",
-      "TanStack Query",
-      "Valibot",
-    ],
+    tools: ["Next.js", "TypeScript", "React Hook Form", "TanStack Query"],
     image: "/projects/parenthood.jpg",
     imageAlt: "Parenthood Institute",
     featured: false,

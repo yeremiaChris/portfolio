@@ -155,23 +155,29 @@ function ContactActionLink({ action }: { action: ContactCtaAction }) {
 export function experienceContactActions(): ContactCtaAction[] {
   return [
     {
-      href: site.links.whatsapp,
-      label: `WhatsApp (${site.links.whatsappLabel})`,
-      icon: "whatsapp",
-      variant: "default",
-      external: true,
-      primary: true,
-    },
-    {
       href: site.links.email,
       label: site.links.emailLabel,
       icon: "mail",
-      variant: "secondary",
+      variant: "default",
+      primary: true,
     },
     {
       href: site.links.linkedin,
       label: "LinkedIn",
       icon: "linkedin",
+      variant: "secondary",
+      external: true,
+    },
+    {
+      href: site.links.resume,
+      label: "CV (PDF)",
+      icon: "file",
+      variant: "secondary",
+    },
+    {
+      href: site.links.whatsapp,
+      label: "WhatsApp",
+      icon: "whatsapp",
       variant: "secondary",
       external: true,
     },
@@ -181,18 +187,31 @@ export function experienceContactActions(): ContactCtaAction[] {
 export function projectsContactActions(): ContactCtaAction[] {
   return [
     {
-      href: site.links.whatsapp,
-      label: `WhatsApp (${site.links.whatsappLabel})`,
-      icon: "whatsapp",
-      variant: "default",
-      external: true,
-      primary: true,
-    },
-    {
       href: site.links.email,
       label: site.links.emailLabel,
       icon: "mail",
+      variant: "default",
+      primary: true,
+    },
+    {
+      href: site.links.linkedin,
+      label: "LinkedIn",
+      icon: "linkedin",
       variant: "secondary",
+      external: true,
+    },
+    {
+      href: site.links.resume,
+      label: "CV (PDF)",
+      icon: "file",
+      variant: "secondary",
+    },
+    {
+      href: site.links.whatsapp,
+      label: "WhatsApp",
+      icon: "whatsapp",
+      variant: "secondary",
+      external: true,
     },
   ];
 }
@@ -200,23 +219,29 @@ export function projectsContactActions(): ContactCtaAction[] {
 export function blogContactActions(): ContactCtaAction[] {
   return [
     {
-      href: site.links.whatsapp,
-      label: `WhatsApp (${site.links.whatsappLabel})`,
-      icon: "whatsapp",
-      variant: "default",
-      external: true,
-      primary: true,
-    },
-    {
       href: site.links.email,
       label: site.links.emailLabel,
       icon: "mail",
-      variant: "secondary",
+      variant: "default",
+      primary: true,
     },
     {
       href: site.links.linkedin,
       label: "LinkedIn",
       icon: "linkedin",
+      variant: "secondary",
+      external: true,
+    },
+    {
+      href: site.links.resume,
+      label: "CV (PDF)",
+      icon: "file",
+      variant: "secondary",
+    },
+    {
+      href: site.links.whatsapp,
+      label: "WhatsApp",
+      icon: "whatsapp",
       variant: "secondary",
       external: true,
     },

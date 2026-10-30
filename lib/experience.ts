@@ -284,5 +284,5 @@ export const experienceContactCta = {
   eyebrow: "Open to the right opportunity",
   title: "Want to talk about a role or a product problem?",
   description:
-    "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Feel free to reach out via WhatsApp, email, or LinkedIn.",
+    "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Feel free to reach out by email or LinkedIn (WhatsApp works too).",
 } as const;

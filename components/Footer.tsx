@@ -8,19 +8,9 @@ import { cn } from "@/lib/utils";
 
 const footerLinks = [
   {
-    href: site.links.whatsapp,
-    label: `WhatsApp ${site.links.whatsappLabel}`,
-    external: true,
-  },
-  {
     href: site.links.email,
     label: site.links.emailLabel,
     external: false,
-  },
-  {
-    href: site.links.github,
-    label: "GitHub",
-    external: true,
   },
   {
     href: site.links.linkedin,
@@ -28,10 +18,20 @@ const footerLinks = [
     external: true,
   },
   {
+    href: site.links.github,
+    label: "GitHub",
+    external: true,
+  },
+  {
     href: site.links.resume,
     label: "Resume",
     external: true,
     accent: true,
+  },
+  {
+    href: site.links.whatsapp,
+    label: `WhatsApp ${site.links.whatsappLabel}`,
+    external: true,
   },
 ] as const;
 

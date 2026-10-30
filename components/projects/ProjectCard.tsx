@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
-import type { Project } from "@/lib/projects";
+import { getProjectToolChips, type Project } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -24,6 +24,7 @@ export function ProjectCard({
   variant = "default",
 }: ProjectCardProps) {
   const isLead = variant === "lead";
+  const toolChips = getProjectToolChips(project.tools);
 
   const media = (
     <div
@@ -118,7 +119,7 @@ export function ProjectCard({
             <span className="text-foreground text-[12px] font-semibold">
               Tools:
             </span>
-            {project.tools.map((tool) => (
+            {toolChips.map((tool) => (
               <Badge
                 key={tool}
                 variant="default"

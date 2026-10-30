@@ -24,15 +24,10 @@ export function ProjectCard({
   variant = "default",
 }: ProjectCardProps) {
   const isLead = variant === "lead";
-  const toolChips = getProjectToolChips(project.tools);
+  const toolChips = getProjectToolChips(project.tools, project.featured);
 
   const media = (
-    <div
-      className={cn(
-        "ring-border/40 relative w-full overflow-hidden rounded-xl bg-[#0a0e14] ring-1",
-        isLead ? "h-52 lg:h-full lg:min-h-[20rem]" : "h-44",
-      )}
-    >
+    <div className="ring-border/40 relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-[#0a0e14] ring-1">
       <Image
         src={project.image}
         alt={project.imageAlt}
@@ -42,7 +37,7 @@ export function ProjectCard({
             ? "(max-width: 1024px) 100vw, 42vw"
             : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         }
-        className="object-cover transition duration-300 group-hover:scale-[1.03] group-hover:brightness-110"
+        className="object-cover object-top transition duration-300 group-hover:scale-[1.03] group-hover:brightness-110"
       />
     </div>
   );
@@ -98,12 +93,11 @@ export function ProjectCard({
             >
               <h3>{project.title}</h3>
             </CardTitle>
-            <Badge
-              variant="outline"
-              className="text-muted-foreground rounded-md font-mono text-[11px] font-normal tracking-normal normal-case"
-            >
-              #{project.tag}
-            </Badge>
+            {project.tag === "personal" ? (
+              <span className="text-muted-foreground text-[11px] font-medium">
+                Personal
+              </span>
+            ) : null}
           </div>
 
           <CardDescription
@@ -138,7 +132,7 @@ export function ProjectCard({
           )}
         >
           <span className="text-muted-foreground inline-flex items-center gap-2 font-mono text-[12px]">
-            <Calendar className="size-3.5 shrink-0" aria-hidden />#
+            <Calendar className="size-3.5 shrink-0" aria-hidden />
             {project.year}
           </span>
 

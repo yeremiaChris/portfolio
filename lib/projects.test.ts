@@ -4,7 +4,10 @@ import {
   getArchiveProjects,
   getFeaturedProjects,
   getProjectToolChips,
+  maxArchiveProjectToolChips,
+  maxFeaturedProjectToolChips,
   maxProjectToolChips,
+  projectsArchiveIntro,
   type Project,
   projects,
 } from "./projects";
@@ -23,6 +26,15 @@ function makeProject(overrides: Partial<Project> = {}): Project {
     ...overrides,
   };
 }
+
+describe("projectsArchiveIntro", () => {
+  it("uses career-focused archive copy without the old hiring-signal line", () => {
+    expect(projectsArchiveIntro.description).toBe(
+      "Client sites and UI I shipped earlier in my career.",
+    );
+    expect(projectsArchiveIntro.description).not.toMatch(/hiring signal/i);
+  });
+});
 
 describe("getFeaturedProjects", () => {
   it("keeps featured items in the original order", () => {
@@ -49,22 +61,41 @@ describe("getFeaturedProjects", () => {
 });
 
 describe("getProjectToolChips", () => {
-  it("caps visible chips at four", () => {
-    expect(
-      getProjectToolChips([
-        "Next.js",
-        "TypeScript",
-        "React Hook Form",
-        "Valibot",
-        "TanStack Query",
-      ]),
-    ).toHaveLength(maxProjectToolChips);
+  const fiveTools = [
+    "Next.js",
+    "TypeScript",
+    "React Hook Form",
+    "Valibot",
+    "TanStack Query",
+  ];
+
+  it("caps featured chips at four", () => {
+    expect(getProjectToolChips(fiveTools, true)).toHaveLength(
+      maxFeaturedProjectToolChips,
+    );
+    expect(maxFeaturedProjectToolChips).toBe(maxProjectToolChips);
   });
 
-  it("keeps live featured projects within the chip limit", () => {
+  it("caps archive chips at three", () => {
+    expect(getProjectToolChips(fiveTools, false)).toHaveLength(
+      maxArchiveProjectToolChips,
+    );
+  });
+
+  it("keeps live featured projects within the featured chip limit", () => {
     for (const project of getFeaturedProjects()) {
-      expect(project.tools.length).toBeLessThanOrEqual(maxProjectToolChips);
-      expect(getProjectToolChips(project.tools)).toEqual(project.tools);
+      expect(project.tools.length).toBeLessThanOrEqual(
+        maxFeaturedProjectToolChips,
+      );
+      expect(getProjectToolChips(project.tools, true)).toEqual(project.tools);
+    }
+  });
+
+  it("limits live archive projects to three visible chips when they have more", () => {
+    for (const project of getArchiveProjects()) {
+      expect(
+        getProjectToolChips(project.tools, false).length,
+      ).toBeLessThanOrEqual(maxArchiveProjectToolChips);
     }
   });
 });

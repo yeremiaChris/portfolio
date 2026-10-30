@@ -7,8 +7,6 @@ import { labHomeCta } from "@/lib/lab";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const platformStat = site.stats.find((stat) => stat.label === "Platform");
-
 export function HeroIntro() {
   return (
     <div className="flex w-full flex-col items-start text-left">
@@ -62,9 +60,7 @@ export function HeroIntro() {
                 {item.label}
               </span>
               <span className="text-muted-foreground group-hover:text-foreground text-sm leading-snug sm:text-[15px]">
-                {item.id === "primaku" && platformStat
-                  ? `${platformStat.value} ${platformStat.detail}`
-                  : item.meta}
+                {item.meta}
               </span>
             </a>
           ))}

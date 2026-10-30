@@ -1,5 +1,6 @@
 import { ArrowRightIcon, FileTextIcon } from "lucide-react";
 
+import { HeroProofCard } from "@/components/home/HeroProofCard";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { site } from "@/lib/site";
@@ -8,13 +9,14 @@ import { cn } from "@/lib/utils";
 export function HeroIntro() {
   return (
     <div className="flex w-full flex-col items-start text-left">
-      <div className="w-full max-w-[900px]">
+      <div className="hero-signal-headline relative w-full max-w-[900px]">
         <Badge
           variant="secondary"
-          className="bg-secondary text-primary mb-10 h-auto gap-1.5 px-3 py-1.5 text-[11px] font-medium tracking-[0.08em] uppercase md:mb-12"
+          className={cn(
+            "hero-enter hero-enter--0 bg-secondary/80 text-primary mb-12 h-auto gap-1.5 border border-white/10 px-3 py-1.5 text-[11px] font-medium tracking-[0.08em] uppercase backdrop-blur-sm md:mb-14",
+          )}
         >
           <span className="relative flex size-2">
-            <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-80" />
             <span className="bg-primary relative inline-flex size-2 rounded-full" />
           </span>
           {site.availability}
@@ -22,26 +24,33 @@ export function HeroIntro() {
 
         <h1
           id="hero-heading"
-          className="font-heading text-foreground text-left text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl md:leading-[1.08]"
+          className={cn(
+            "hero-enter hero-enter--1 font-heading text-left text-5xl font-bold tracking-[-0.03em] text-balance md:text-7xl md:leading-[1.05]",
+            "bg-linear-to-br from-[#4cd7f6] to-[#2dd4bf] bg-clip-text text-transparent",
+          )}
         >
-          {site.heroTitle}
+          {site.fullName}
         </h1>
 
-        <p className="text-muted-foreground mt-4 text-left text-xl font-medium tracking-tight text-balance sm:text-2xl md:mt-5">
-          {site.heroSubtitle}
+        <p
+          className={cn(
+            "hero-enter hero-enter--2 text-muted-foreground mt-5 text-left text-lg font-medium tracking-tight md:mt-6 md:text-xl md:whitespace-nowrap",
+          )}
+        >
+          {site.role}
         </p>
 
-        <p className="mt-5 text-left text-xl font-semibold tracking-tight text-[#4cd7f6] sm:text-2xl md:mt-6">
-          {site.fullName}
-        </p>
-
-        <p className="text-muted-foreground mt-8 text-left text-lg leading-relaxed sm:text-xl sm:leading-8 md:mt-10">
+        <p
+          className={cn(
+            "hero-enter hero-enter--3 text-muted-foreground mt-8 line-clamp-2 max-w-2xl text-left text-lg leading-relaxed sm:text-xl sm:leading-8 md:mt-10",
+          )}
+        >
           {site.heroBio}
         </p>
       </div>
 
-      <div className="mt-10 w-full md:mt-12">
-        <p className="text-muted-foreground mb-4 text-left font-mono text-[11px] tracking-[0.16em] uppercase">
+      <div className="hero-enter hero-enter--4 mt-12 w-full md:mt-16">
+        <p className="text-muted-foreground mb-5 text-left font-mono text-[11px] tracking-[0.16em] uppercase">
           Production
         </p>
         <nav
@@ -49,28 +58,22 @@ export function HeroIntro() {
           className="grid w-full grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 md:gap-6"
         >
           {site.proof.map((item) => (
-            <a
+            <HeroProofCard
               key={item.id}
               href={item.href}
-              className="border-border/50 bg-muted/50 hover:bg-muted group flex flex-col items-start gap-2 rounded-xl border px-4 py-4 text-left transition-colors sm:px-5 sm:py-5"
-            >
-              <span className="text-foreground font-mono text-[15px] font-semibold sm:text-base">
-                {item.label}
-              </span>
-              <span className="text-muted-foreground group-hover:text-foreground text-sm leading-snug sm:text-[15px]">
-                {item.meta}
-              </span>
-            </a>
+              label={item.label}
+              meta={item.meta}
+            />
           ))}
         </nav>
       </div>
 
-      <div className="mt-12 flex w-full flex-wrap items-start justify-start gap-3 sm:mt-14 md:gap-4">
+      <div className="hero-enter hero-enter--5 mt-14 flex w-full flex-wrap items-start justify-start gap-3 sm:mt-16 md:gap-4">
         <a
           href="#work"
           className={cn(
             buttonVariants({ size: "lg" }),
-            "hover:bg-primary h-12 bg-[#10b981] px-6 text-base text-[#00422b]",
+            "h-12 bg-[#4cd7f6] px-6 text-base text-[#042028] hover:bg-[#3bc4e3]",
           )}
         >
           Selected work

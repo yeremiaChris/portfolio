@@ -85,7 +85,7 @@ export function ContactCta({
           variant="secondary"
           className="text-primary mb-3 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
         >
-          <span className="bg-primary size-2 animate-ping rounded-full" />
+          <span className="bg-primary size-2 shrink-0 rounded-full" />
           {eyebrow}
         </Badge>
         <h2

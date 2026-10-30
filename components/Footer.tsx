@@ -45,11 +45,8 @@ export function Footer() {
               variant="secondary"
               className="text-primary w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
             >
-              <span className="relative flex size-2">
-                <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
-                <span className="bg-primary relative inline-flex size-2 rounded-full" />
-              </span>
-              Status: All Systems Operational
+              <span className="bg-primary size-2 shrink-0 rounded-full" />
+              Based in Batam · Remote
             </Badge>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Engineering production web platforms — frontend craft and API

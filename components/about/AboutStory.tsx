@@ -40,7 +40,7 @@ export function AboutStory() {
                 variant="secondary"
                 className="text-primary gap-2 font-mono text-xs tracking-widest uppercase"
               >
-                <span className="bg-primary size-2.5 animate-ping rounded-full" />
+                <span className="bg-primary size-2.5 shrink-0 rounded-full" />
                 {aboutProfile.status}
               </Badge>
               <span className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
@@ -150,9 +150,8 @@ export function AboutStory() {
                     >
                       <span
                         className={cn(
-                          "size-1.5 rounded-full",
+                          "size-1.5 shrink-0 rounded-full",
                           aboutStoryDotClass[era.tone],
-                          era.current && "animate-ping",
                         )}
                       />
                       {era.label}

@@ -1,4 +1,4 @@
-import { BadgeCheck, CircleCheck } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,15 +9,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  experienceRoleBarClass,
   experienceRoleToneClass,
+  formatExperienceStackLine,
   type ExperienceRole,
 } from "@/lib/experience";
 import { cn } from "@/lib/utils";
 
 export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
   const toneClass = experienceRoleToneClass[role.tone];
-  const barClass = experienceRoleBarClass[role.tone];
 
   return (
     <Card
@@ -76,85 +75,27 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
         </div>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-6">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <div className="flex flex-col gap-3 lg:col-span-8">
-            <p className="text-foreground/75 text-xs font-semibold tracking-wide uppercase">
-              What I owned
-            </p>
-            <ul className="text-muted-foreground space-y-3 text-[14px] leading-relaxed">
-              {role.highlights.map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <CircleCheck
-                    className={cn("mt-0.5 size-4.5 shrink-0", toneClass)}
-                    aria-hidden
-                  />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <aside className="flex flex-col justify-between gap-3 rounded-xl bg-[#0a0e14] p-4 lg:col-span-4">
-            <div>
-              <div className="text-foreground/70 mb-2 flex items-center justify-between gap-2 text-xs tracking-wide uppercase">
-                <span>{role.panel.title}</span>
-                <span className={cn("normal-case", toneClass)}>
-                  {role.panel.score}
-                </span>
-              </div>
-              {role.panel.progressPct != null ? (
-                <div className="bg-secondary mb-3 h-1.5 w-full overflow-hidden rounded-full">
-                  <div
-                    className={cn("h-full rounded-full", barClass)}
-                    style={{ width: `${role.panel.progressPct}%` }}
-                  />
-                </div>
-              ) : null}
-              <div className="space-y-1.5 font-mono text-[12px]">
-                {role.panel.rows.map((row) => (
-                  <dl
-                    key={row.label}
-                    className="text-muted-foreground flex justify-between gap-3"
-                  >
-                    <dt>{row.label}</dt>
-                    <dd
-                      className={cn(
-                        "shrink-0 text-right",
-                        row.emphasize ? toneClass : "text-foreground",
-                        row.emphasize && "font-semibold",
-                      )}
-                    >
-                      {row.value}
-                    </dd>
-                  </dl>
-                ))}
-              </div>
-            </div>
-            <p className="bg-muted text-muted-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-xs">
-              <BadgeCheck
-                className={cn("size-3.5 shrink-0", toneClass)}
-                aria-hidden
-              />
-              <span className="tracking-normal normal-case">
-                {role.panel.footnote}
-              </span>
-            </p>
-          </aside>
+      <CardContent className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
+          <p className="text-foreground/75 text-xs font-semibold tracking-wide uppercase">
+            What I owned
+          </p>
+          <ul className="text-muted-foreground space-y-3 text-[14px] leading-relaxed">
+            {role.highlights.map((item) => (
+              <li key={item} className="flex items-start gap-2">
+                <CircleCheck
+                  className={cn("mt-0.5 size-4.5 shrink-0", toneClass)}
+                  aria-hidden
+                />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <ul className="flex flex-wrap gap-2">
-          {role.stack.map((tech) => (
-            <li key={tech}>
-              <Badge
-                variant="secondary"
-                className="text-foreground rounded-md font-mono text-[11px] font-normal tracking-normal normal-case"
-              >
-                {tech}
-              </Badge>
-            </li>
-          ))}
-        </ul>
+        <p className="text-muted-foreground font-mono text-[12px] leading-relaxed">
+          {formatExperienceStackLine(role.stack)}
+        </p>
       </CardContent>
     </Card>
   );

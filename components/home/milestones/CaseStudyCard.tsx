@@ -37,7 +37,9 @@ export function CaseStudyCard({ study }: { study: MilestoneCaseStudy }) {
       </CardHeader>
 
       <CardContent className="mt-auto">
-        <CaseStudyMetrics metrics={study.metrics} columns={2} />
+        {study.metrics.length > 0 ? (
+          <CaseStudyMetrics metrics={study.metrics} columns={2} />
+        ) : null}
       </CardContent>
     </Card>
   );

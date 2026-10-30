@@ -44,7 +44,12 @@ export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
             </CardDescription>
           </CardHeader>
 
-          <CaseStudyMetrics metrics={study.metrics} columns={3} />
+          {study.metrics.length > 0 ? (
+            <CaseStudyMetrics
+              metrics={study.metrics}
+              columns={study.metrics.length >= 3 ? 3 : 2}
+            />
+          ) : null}
         </div>
 
         {study.chart ? (

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { UserIcon } from "lucide-react";
 
 import { HeaderMobileMenu } from "@/components/HeaderMobileMenu";
 import { HeaderResumeLink } from "@/components/HeaderResumeLink";
@@ -23,10 +22,7 @@ export function Header() {
           </Link>
 
           <span className="bg-muted text-primary hidden items-center gap-1.5 rounded-lg px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] uppercase xl:inline-flex">
-            <span className="relative flex size-2">
-              <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
-              <span className="bg-primary relative inline-flex size-2 rounded-full" />
-            </span>
+            <span className="bg-primary size-2 shrink-0 rounded-full" />
             Available for work
           </span>
         </div>
@@ -45,10 +41,6 @@ export function Header() {
           </Link>
 
           <HeaderResumeLink />
-
-          <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-full">
-            <UserIcon className="size-4" />
-          </span>
 
           <HeaderMobileMenu />
         </div>

@@ -36,7 +36,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
                 )}
               >
                 {role.current ? (
-                  <span className="bg-primary size-1.5 animate-ping rounded-full" />
+                  <span className="bg-primary size-1.5 shrink-0 rounded-full" />
                 ) : null}
                 {role.status}
               </Badge>

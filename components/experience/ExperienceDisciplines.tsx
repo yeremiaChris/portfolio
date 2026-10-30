@@ -28,7 +28,7 @@ export function ExperienceDisciplines() {
       className="mb-12 w-full md:mb-16"
     >
       <header className="mb-6">
-        <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
           {experienceDisciplinesIntro.eyebrow}
         </p>
         <h2

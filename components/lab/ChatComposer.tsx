@@ -104,7 +104,7 @@ export function ChatComposer({
               id={counterId}
               role={atLimit ? "status" : undefined}
               className={cn(
-                "font-mono text-[10px]",
+                "font-mono text-xs",
                 nearLimit
                   ? "text-muted-foreground"
                   : "text-muted-foreground invisible",

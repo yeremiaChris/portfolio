@@ -66,7 +66,7 @@ export function ChatMessage({
   return (
     <div className="group flex w-full gap-3">
       <Avatar size="sm" className="mt-0.5 shrink-0" aria-hidden>
-        <AvatarFallback className="bg-muted text-foreground font-mono text-[10px]">
+        <AvatarFallback className="bg-muted text-foreground font-mono text-xs">
           YC
         </AvatarFallback>
       </Avatar>
@@ -140,7 +140,7 @@ export function ChatMessage({
         ) : null}
 
         {isDone && resolvedLabel ? (
-          <p className="text-muted-foreground mt-2 font-mono text-[10px] tracking-wide">
+          <p className="text-muted-foreground mt-2 font-mono text-xs tracking-wide">
             via {resolvedLabel}
           </p>
         ) : null}

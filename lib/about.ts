@@ -1,9 +1,6 @@
 import { getExperienceLabel } from "./career";
 
 export const aboutIntro = {
-  breadcrumbRoot: "sys://root/index",
-  breadcrumbLeaf: "about.md",
-  statusBadge: "About",
   eyebrow: "Profile",
   title: "About Yeremia Chris Saragi",
   description: `Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development. He has ${getExperienceLabel()} years building production platforms across health-tech and logistics, with strong React, Next.js, and Vue work plus real API, auth, and data-aware delivery.`,

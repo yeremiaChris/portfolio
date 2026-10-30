@@ -38,12 +38,12 @@ export function AboutStory() {
             <div className="flex items-center justify-between gap-3">
               <Badge
                 variant="secondary"
-                className="text-primary gap-2 font-mono text-[10px] tracking-widest uppercase"
+                className="text-primary gap-2 font-mono text-xs tracking-widest uppercase"
               >
                 <span className="bg-primary size-2.5 animate-ping rounded-full" />
                 {aboutProfile.status}
               </Badge>
-              <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+              <span className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
                 {aboutProfile.nodeId}
               </span>
             </div>
@@ -64,7 +64,7 @@ export function AboutStory() {
               <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
                 <Badge
                   variant="secondary"
-                  className="gap-1 bg-[#0a0e14]/80 font-mono text-[10px] backdrop-blur-md"
+                  className="gap-1 bg-[#0a0e14]/80 font-mono text-xs backdrop-blur-md"
                 >
                   <MapPin className="text-primary size-3" aria-hidden />
                   {aboutProfile.location}
@@ -144,7 +144,7 @@ export function AboutStory() {
                     <Badge
                       variant="secondary"
                       className={cn(
-                        "gap-1.5 font-mono text-[10px] tracking-widest uppercase",
+                        "gap-1.5 font-mono text-xs tracking-widest uppercase",
                         aboutStoryToneClass[era.tone],
                       )}
                     >
@@ -159,7 +159,7 @@ export function AboutStory() {
                     </Badge>
                     <span
                       className={cn(
-                        "font-mono text-[10px] tracking-wider uppercase",
+                        "font-mono text-xs tracking-wider uppercase",
                         era.current ? "text-primary" : "text-muted-foreground",
                       )}
                     >

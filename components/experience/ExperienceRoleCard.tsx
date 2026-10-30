@@ -31,16 +31,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
               <Badge
                 variant="secondary"
                 className={cn(
-                  "rounded-md font-mono text-[11px] tracking-wide",
-                  toneClass,
-                )}
-              >
-                {role.roleCode}
-              </Badge>
-              <Badge
-                variant="secondary"
-                className={cn(
-                  "gap-1.5 rounded-md font-mono text-[10px] tracking-wider uppercase",
+                  "gap-1.5 rounded-md font-mono text-xs tracking-wide uppercase",
                   toneClass,
                 )}
               >
@@ -88,8 +79,8 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
       <CardContent className="flex flex-col gap-6">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           <div className="flex flex-col gap-3 lg:col-span-8">
-            <p className="text-muted-foreground font-mono text-[10px] font-semibold tracking-widest uppercase">
-              {"// What I owned"}
+            <p className="text-foreground/75 text-xs font-semibold tracking-wide uppercase">
+              What I owned
             </p>
             <ul className="text-muted-foreground space-y-3 text-[14px] leading-relaxed">
               {role.highlights.map((item) => (
@@ -106,7 +97,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
 
           <aside className="flex flex-col justify-between gap-3 rounded-xl bg-[#0a0e14] p-4 lg:col-span-4">
             <div>
-              <div className="text-muted-foreground mb-2 flex items-center justify-between gap-2 font-mono text-[10px] tracking-wider uppercase">
+              <div className="text-foreground/70 mb-2 flex items-center justify-between gap-2 text-xs tracking-wide uppercase">
                 <span>{role.panel.title}</span>
                 <span className={cn("normal-case", toneClass)}>
                   {role.panel.score}
@@ -140,7 +131,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
                 ))}
               </div>
             </div>
-            <p className="bg-muted text-muted-foreground flex items-center gap-2 rounded-md px-2 py-1.5 font-mono text-[10px] tracking-wider uppercase">
+            <p className="bg-muted text-muted-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-xs">
               <BadgeCheck
                 className={cn("size-3.5 shrink-0", toneClass)}
                 aria-hidden

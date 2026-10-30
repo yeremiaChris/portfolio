@@ -31,7 +31,7 @@ export function LabCta() {
             <div className="flex max-w-2xl flex-col">
               <Badge
                 variant="secondary"
-                className="mb-3 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest text-[#4cd7f6] uppercase"
+                className="text-foreground/75 mb-3 w-fit gap-2 bg-transparent px-0 text-xs font-medium tracking-wide text-[#4cd7f6] uppercase"
               >
                 <span
                   className="size-2 animate-pulse rounded-full bg-[#4cd7f6]"
@@ -67,7 +67,7 @@ export function LabCta() {
           </div>
 
           <div className="relative z-10 flex flex-col gap-3">
-            <span className="text-muted-foreground font-mono text-[10px] tracking-[0.16em] uppercase">
+            <span className="text-foreground/70 text-xs font-medium tracking-wide uppercase">
               Try asking
             </span>
             <ul className="flex flex-wrap gap-2">

@@ -41,9 +41,6 @@ export type BlogRibbonMetric = {
 };
 
 export const blogIntro = {
-  breadcrumbRoot: "sys://root/blog",
-  breadcrumbLeaf: "writing.log",
-  statusBadge: "Writing // Active",
   title: "Notes & Essays",
   description:
     "Practical notes on React, Next.js, Vue, product UI, and shipping reliable software across health-tech and logistics.",

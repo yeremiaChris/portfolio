@@ -40,7 +40,7 @@ export const site = {
       id: "kiriminaja",
       label: "KiriminAja",
       href: "/projects#kiriminaja",
-      meta: "Live rate UI · 15+ couriers",
+      meta: "Virtualized manifests · tracking",
     },
   ],
   links: {
@@ -64,22 +64,16 @@ export const site = {
       icon: "award" as const,
     },
     {
-      label: "Design System",
-      value: "Tokens",
-      detail: "Multi-brand Figma → UI",
-      icon: "users" as const,
-    },
-    {
       label: "Logistics UI",
       value: "15+",
-      detail: "Live rate UI · 15+ couriers",
+      detail: "Couriers in live rate UI",
       icon: "gauge" as const,
     },
     {
-      label: "Domain",
-      value: "FHIR",
-      detail: "Clinic / hospital OS",
-      icon: "heart" as const,
+      label: "Companies",
+      value: "4",
+      detail: "PrimaKu · Mazecare · KiriminAja · iCreativeLabs",
+      icon: "users" as const,
     },
   ],
 } as const;

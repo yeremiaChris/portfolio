@@ -83,7 +83,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     key={tag}
                     variant="secondary"
                     className={cn(
-                      "text-muted-foreground font-mono text-[10px] tracking-wider uppercase",
+                      "text-muted-foreground font-mono text-xs tracking-wider uppercase",
                     )}
                   >
                     {tag}

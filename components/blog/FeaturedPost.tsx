@@ -25,7 +25,7 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
           <BadgeCheck className="text-primary size-4" aria-hidden />
           <p
             id="featured-post-heading"
-            className="text-primary font-mono text-[10px] font-semibold tracking-widest uppercase"
+            className="text-primary font-mono text-xs font-semibold tracking-widest uppercase"
           >
             Featured
           </p>
@@ -45,7 +45,7 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
                   <span className="size-2.5 rounded-full bg-[#4cd7f6]/60" />
                   <span className="bg-primary/60 size-2.5 rounded-full" />
                 </div>
-                <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+                <span className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
                   post.preview
                 </span>
               </div>
@@ -88,7 +88,7 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
                 {primaryTag ? (
                   <Badge
                     variant="secondary"
-                    className="bg-muted rounded-md px-2 py-0.5 font-mono text-[10px] tracking-wider text-[#4cd7f6] uppercase"
+                    className="bg-muted rounded-md px-2 py-0.5 font-mono text-xs tracking-wider text-[#4cd7f6] uppercase"
                   >
                     {primaryTag}
                   </Badge>

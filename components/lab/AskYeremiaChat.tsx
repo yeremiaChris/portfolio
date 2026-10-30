@@ -68,7 +68,7 @@ export function AskYeremiaChat() {
       <h1 className="sr-only">{askYeremia.title}</h1>
 
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
-        <p className="font-mono text-[10px] tracking-widest text-[#4cd7f6] uppercase">
+        <p className="text-foreground/75 text-xs font-medium tracking-wide text-[#4cd7f6] uppercase">
           {askYeremia.topBarEyebrow}
         </p>
         {!isEmpty ? (

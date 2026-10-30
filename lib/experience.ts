@@ -20,7 +20,6 @@ export type ExperienceRolePanelRow = {
 
 export type ExperienceRole = {
   id: string;
-  roleCode: string;
   status: string;
   current?: boolean;
   locationPeriod: string;
@@ -42,13 +41,11 @@ export type ExperienceRole = {
 };
 
 export const experienceIntro = {
-  breadcrumbRoot: "sys://root/index",
-  breadcrumbLeaf: "career_trajectory.log",
-  eyebrow: "// CAREER TIMELINE · PRODUCTION TRACK RECORD",
+  eyebrow: "Career timeline",
   title: "Engineering Experience",
   description:
     "Production track record across health-tech platforms, logistics systems, and product teams. Some roles overlapped in time — each entry is the work I owned there.",
-  tenureBadge: `Career Timeline // ${getExperienceLabel()} Years`,
+  tenureBadge: `${getExperienceLabel()} years of experience`,
 } as const;
 
 export const experienceMetricToneClass: Record<ExperienceMetricTone, string> = {
@@ -104,7 +101,6 @@ export const experienceMetrics: ExperienceMetric[] = [
 export const experienceRoles: ExperienceRole[] = [
   {
     id: "primaku",
-    roleCode: "ROLE:01",
     status: "PRESENT",
     current: true,
     locationPeriod: "Jakarta, ID (Remote) · Dec 2022 — Present",
@@ -145,7 +141,6 @@ export const experienceRoles: ExperienceRole[] = [
   },
   {
     id: "mazecare",
-    roleCode: "ROLE:02",
     status: "COMPLETED",
     locationPeriod: "Indonesia (Remote) · Jun 2025 — Jul 2026",
     title: "Frontend Engineer",
@@ -174,7 +169,6 @@ export const experienceRoles: ExperienceRole[] = [
   },
   {
     id: "kiriminaja",
-    roleCode: "ROLE:03",
     status: "COMPLETED",
     locationPeriod: "Yogyakarta, ID (Onsite) · Jan 2023 — Apr 2024",
     title: "Frontend Web Developer",
@@ -207,7 +201,6 @@ export const experienceRoles: ExperienceRole[] = [
   },
   {
     id: "icreativelabs",
-    roleCode: "ROLE:04",
     status: "FOUNDATIONAL",
     locationPeriod: "Bandung, ID (Hybrid) · Jan 2022 — May 2023",
     title: "Frontend Web Developer",
@@ -246,7 +239,7 @@ export type ExperienceDiscipline = {
 };
 
 export const experienceDisciplinesIntro = {
-  eyebrow: "EXECUTION HABITS",
+  eyebrow: "Execution habits",
   title: "How I Work",
 } as const;
 

@@ -7,7 +7,7 @@ export const labIntro = {
 export const labHomeCta = {
   id: "ask-yeremia",
   href: "/lab",
-  eyebrow: "Lab // Ask Yeremia",
+  eyebrow: "Lab · Ask Yeremia",
   title: "Ask my portfolio anything",
   description:
     "Grounded answers over experience, projects, and writing — with cited sources.",
@@ -16,7 +16,7 @@ export const labHomeCta = {
 
 export const askYeremia = {
   id: "ask-yeremia",
-  topBarEyebrow: "LAB // ASK YEREMIA",
+  topBarEyebrow: "Lab · Ask Yeremia",
   title: "Ask Yeremia",
   newChatLabel: "New chat",
   greeting: "What would you like to know about Yeremia?",

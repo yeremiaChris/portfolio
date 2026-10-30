@@ -32,7 +32,7 @@ export function ExperienceMetrics() {
               className="bg-muted flex flex-col gap-1 rounded-lg p-4"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+                <span className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
                   {metric.label}
                 </span>
                 <Icon

@@ -74,7 +74,7 @@ export function BlogTocHeader({ count }: { count: number }) {
     <div className="flex items-center justify-between gap-2">
       <Badge
         variant="secondary"
-        className="text-primary w-fit gap-1.5 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+        className="text-primary w-fit gap-1.5 bg-transparent px-0 font-mono text-xs tracking-widest uppercase"
       >
         <List className="size-3.5" aria-hidden />
         On this page

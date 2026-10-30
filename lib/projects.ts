@@ -7,8 +7,6 @@ export type ProjectRibbonMetric = {
 };
 
 export const projectsIntro = {
-  breadcrumbRoot: "sys://root/index",
-  breadcrumbLeaf: "architectural_deployments.log",
   title: "Featured Projects",
   description:
     "Four production stories with ownership and outcomes — health-tech and logistics first. Earlier shipped work sits in the archive below.",

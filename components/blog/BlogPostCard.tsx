@@ -22,7 +22,7 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
         <div className="flex items-center justify-between gap-2">
           <Badge
             variant="secondary"
-            className="bg-muted text-primary rounded-md px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
+            className="bg-muted text-primary rounded-md px-2 py-0.5 font-mono text-xs tracking-wider uppercase"
           >
             {primaryTag}
           </Badge>

@@ -1,9 +1,7 @@
-import Link from "next/link";
-import { ArrowRightIcon, FileTextIcon, SparklesIcon } from "lucide-react";
+import { ArrowRightIcon, FileTextIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { labHomeCta } from "@/lib/lab";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -81,25 +79,13 @@ export function HeroIntro() {
         <a
           href={site.links.resume}
           className={cn(
-            buttonVariants({ variant: "secondary", size: "lg" }),
-            "border-border/60 h-12 px-6 text-base",
+            buttonVariants({ variant: "outline", size: "lg" }),
+            "h-12 px-6 text-base",
           )}
         >
           <FileTextIcon className="size-5" />
           CV (PDF)
         </a>
-        <Link
-          href={labHomeCta.href}
-          className={cn(
-            buttonVariants({ variant: "secondary", size: "lg" }),
-            "h-12 border border-[#4cd7f6]/35 bg-[#4cd7f6]/10 px-6 text-base text-[#4cd7f6]",
-            "hover:bg-[#4cd7f6]/15 hover:text-[#4cd7f6]",
-            "focus-visible:ring-2 focus-visible:ring-[#4cd7f6]/50",
-          )}
-        >
-          <SparklesIcon className="size-5" />
-          {labHomeCta.ctaLabel}
-        </Link>
       </div>
     </div>
   );

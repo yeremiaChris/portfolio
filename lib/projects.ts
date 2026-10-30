@@ -82,7 +82,7 @@ export const projects: Project[] = [
     tag: "work",
     year: "2022–Present",
     summary:
-      "Clinician and family product UI — design system, REST + auth, telemetry. Consumer app: 1M+ Play downloads. primaku.com is the parent-facing catalog, not the clinical product.",
+      "Web platform for clinician and family UI — design system, REST + auth, telemetry. PrimaKu's consumer app has 1M+ Play downloads; primaku.com is the parent-facing catalog I ship on SSR, separate from the clinical product.",
     tools: [
       "Next.js",
       "TypeScript",
@@ -103,7 +103,7 @@ export const projects: Project[] = [
     tag: "work",
     year: "2023–2024",
     summary:
-      "High-density logistics UI: live rates across 15+ courier partners, virtualized manifests + Web Workers. Consumer app: 100K+ Play downloads.",
+      "High-density logistics web UI: live rate UI across 15+ couriers, virtualized manifests + Web Workers. KiriminAja's consumer app has 100K+ Play downloads; I own the control-room web platform.",
     tools: ["Nuxt.js", "TypeScript", "Swiper", "Firebase"],
     image: "/projects/kiriminaja.jpg",
     imageAlt: "KiriminAja logistics platform",

@@ -93,9 +93,9 @@ export const experienceMetrics: ExperienceMetric[] = [
     icon: "package",
   },
   {
-    label: "Scale",
-    value: "1M+",
-    detail: "PrimaKu app downloads",
+    label: "Clinical",
+    value: "FHIR · EMR",
+    detail: "Hospital OS integrations",
     tone: "cyan",
     icon: "gauge",
   },
@@ -113,9 +113,9 @@ export const experienceRoles: ExperienceRole[] = [
     companyLegal: "(PT Cipta Medika Informasi)",
     summary:
       "National health-tech platform endorsed by the Indonesian Pediatric Society (IDAI), supporting early childhood health monitoring for clinicians and families.",
-    sideStats: ["1M+ Play downloads", "Jest / RTL coverage"],
+    sideStats: ["Design system · Jest / RTL"],
     highlights: [
-      "Owned frontend architecture for PrimaKu product and clinical portals in React/Next.js — shared UI, REST + auth, and telemetry. The consumer parenting app has 1M+ Google Play downloads.",
+      "Owned frontend architecture for PrimaKu's web platform — clinician and family portals in React/Next.js with shared UI, REST + auth, and telemetry. PrimaKu's consumer app has 1M+ Google Play downloads; I build the web surfaces, not the mobile app.",
       "Shipped accessible design-system components synced to multi-brand Figma tokens, used across clinician and family-facing product surfaces.",
       "Delivered primaku.com as the parent-facing growth catalog (location-priced vaccines and medical services) on SSR — a different surface from the clinician product.",
     ],
@@ -184,7 +184,7 @@ export const experienceRoles: ExperienceRole[] = [
       "Multi-courier parcel aggregation platform handling bulk cargo, instant delivery, and e-commerce fulfillment across Indonesia.",
     sideStats: ["15+ courier partners", "High-density UI"],
     highlights: [
-      "Owned logistics control-room UI in Vue/Nuxt, including live shipping rates across 15+ domestic courier partners. The consumer app has 100K+ Google Play downloads.",
+      "Owned logistics control-room UI in Vue/Nuxt, including live rate UI across 15+ domestic courier partners. KiriminAja's consumer app has 100K+ Google Play downloads; I build the web platform.",
       "Built high-density manifest and batch barcode flows with Web Workers and virtualized lists so ops could process high daily label volume without the UI locking up.",
       "Implemented Pinia/Vuex caching for courier calculation and live shipment tracking, working with ops and QA on performance and incidents.",
     ],

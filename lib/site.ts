@@ -28,7 +28,7 @@ export const site = {
       id: "primaku",
       label: "PrimaKu",
       href: "/projects#primaku",
-      meta: "1M+ downloads",
+      meta: "Clinical + family web UI",
     },
     {
       id: "mazecare",
@@ -40,7 +40,7 @@ export const site = {
       id: "kiriminaja",
       label: "KiriminAja",
       href: "/projects#kiriminaja",
-      meta: "100K+ downloads",
+      meta: "Live rate UI · 15+ couriers",
     },
   ],
   links: {
@@ -64,15 +64,15 @@ export const site = {
       icon: "award" as const,
     },
     {
-      label: "Platform",
-      value: "1M+",
-      detail: "PrimaKu app downloads",
+      label: "Design System",
+      value: "Tokens",
+      detail: "Multi-brand Figma → UI",
       icon: "users" as const,
     },
     {
-      label: "Logistics",
-      value: "100K+",
-      detail: "KiriminAja app downloads",
+      label: "Logistics UI",
+      value: "15+",
+      detail: "Live rate UI · 15+ couriers",
       icon: "gauge" as const,
     },
     {

@@ -43,9 +43,13 @@ export const featuredMilestone: MilestoneCaseStudy = {
   summary:
     "Owned clinician and family-facing product surfaces on PrimaKu — shared UI from multi-brand Figma tokens, REST + auth, and realtime telemetry. The consumer app has 1M+ Google Play downloads; primaku.com is the separate parent-facing growth catalog (vaccines, services, geo-priced SKUs), not the clinical app.",
   metrics: [
-    { value: "1M+", label: "App Downloads (Play)", tone: "primary" },
-    { value: "Tokens", label: "Multi-brand design system", tone: "cyan" },
-    { value: "REST + auth", label: "Product integrations", tone: "foreground" },
+    { value: "Tokens", label: "Multi-brand design system", tone: "primary" },
+    { value: "REST + auth", label: "Product integrations", tone: "cyan" },
+    {
+      value: "Telemetry",
+      label: "Realtime product signals",
+      tone: "foreground",
+    },
   ],
 };
 
@@ -74,10 +78,18 @@ export const secondaryMilestones: MilestoneCaseStudy[] = [
     stack: "Vue · Nuxt · Web Workers · Virtualization",
     title: "High-density logistics UI under real operational load",
     summary:
-      "Owned pricing, manifest, and tracking interfaces for a multi-courier aggregator. The consumer app has 100K+ Google Play downloads. Virtualized lists and Web Workers kept batch barcode and high-volume label flows responsive.",
+      "Owned pricing, manifest, and tracking interfaces for a multi-courier aggregator — live rate UI across 15+ couriers, with virtualized lists and Web Workers for batch barcode and high-volume label flows. The consumer app has 100K+ Google Play downloads.",
     metrics: [
-      { value: "100K+", label: "App Downloads (Play)", tone: "violet" },
-      { value: "15+", label: "Courier partners (live rates)", tone: "primary" },
+      {
+        value: "15+",
+        label: "Live rate UI across couriers",
+        tone: "violet",
+      },
+      {
+        value: "Workers",
+        label: "Virtualized manifest flows",
+        tone: "primary",
+      },
     ],
   },
 ];

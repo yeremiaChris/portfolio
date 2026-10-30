@@ -1,11 +1,3 @@
-export type ProjectRibbonTone = "foreground" | "primary" | "cyan";
-
-export type ProjectRibbonMetric = {
-  label: string;
-  value: string;
-  tone: ProjectRibbonTone;
-};
-
 export const projectsIntro = {
   title: "Featured Projects",
   description:
@@ -15,37 +7,14 @@ export const projectsIntro = {
 export const projectsArchiveIntro = {
   eyebrow: "Archive",
   title: "Earlier work",
-  description:
-    "Additional shipped sites and UI. Real work — just not the hiring signal.",
+  description: "Client sites and UI I shipped earlier in my career.",
 } as const;
-
-export const projectRibbonToneClass: Record<ProjectRibbonTone, string> = {
-  foreground: "text-foreground",
-  primary: "text-primary",
-  cyan: "text-[#4cd7f6]",
-};
-
-export const projectsRibbon: ProjectRibbonMetric[] = [
-  {
-    label: "Featured",
-    value: "4 Production",
-    tone: "foreground",
-  },
-  {
-    label: "Domains",
-    value: "Health · Logistics",
-    tone: "primary",
-  },
-  {
-    label: "Stack Focus",
-    value: "React · Vue · APIs",
-    tone: "cyan",
-  },
-];
 
 export type ProjectTag = "work" | "personal";
 
-export const maxProjectToolChips = 4;
+export const maxFeaturedProjectToolChips = 4;
+export const maxArchiveProjectToolChips = 3;
+export const maxProjectToolChips = maxFeaturedProjectToolChips;
 
 export type Project = {
   id: string;
@@ -61,8 +30,14 @@ export type Project = {
   ctaLabel?: "Open Site" | "Webview";
 };
 
-export function getProjectToolChips(tools: readonly string[]): string[] {
-  return tools.slice(0, maxProjectToolChips);
+export function getProjectToolChips(
+  tools: readonly string[],
+  featured: boolean,
+): string[] {
+  const limit = featured
+    ? maxFeaturedProjectToolChips
+    : maxArchiveProjectToolChips;
+  return tools.slice(0, limit);
 }
 
 export const projects: Project[] = [

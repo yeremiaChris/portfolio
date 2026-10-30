@@ -64,7 +64,7 @@ export const blogContactCta = {
   eyebrow: "Open to opportunities",
   title: "Want to talk about a role or a product problem?",
   description:
-    "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Reach out via WhatsApp, email, or LinkedIn.",
+    "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Reach out by email or LinkedIn (WhatsApp works too).",
 } as const;
 
 export const blogRibbonToneClass: Record<BlogRibbonTone, string> = {

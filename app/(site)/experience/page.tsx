@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Container } from "@/components/Container";
 import { ExperienceDisciplines } from "@/components/experience/ExperienceDisciplines";
 import { ExperienceHeader } from "@/components/experience/ExperienceHeader";
-import { ExperienceMetrics } from "@/components/experience/ExperienceMetrics";
 import { ExperienceTimeline } from "@/components/experience/ExperienceTimeline";
 import {
   ContactCta,
@@ -24,7 +23,6 @@ export default function ExperiencePage() {
     <main>
       <Container className="flex min-h-[calc(100vh-4rem)] flex-col py-6 md:py-8">
         <ExperienceHeader />
-        <ExperienceMetrics />
         <ExperienceTimeline />
         <ExperienceDisciplines />
         <ContactCta

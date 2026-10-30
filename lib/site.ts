@@ -22,7 +22,7 @@ export const site = {
   tagline:
     "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development with React, Next.js, TypeScript, and Vue.",
   bio: `Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development, with ${getExperienceLabel()} years building production web platforms across health-tech (HIS/EMR) and logistics. Strong in React, Next.js, and Vue — with real API, auth, and data ownership. Looking for frontend-heavy roles on product platforms and clinical systems where UI quality and backend integration both matter.`,
-  heroBio: `${getExperienceLabel()}-year Software Engineer on frontend-heavy product platforms. Health-tech (HIS/EMR) and logistics with React, Next.js, and Vue — real API, auth, and data ownership.`,
+  heroBio: `${getExperienceLabel()} years on frontend-heavy platforms across health-tech (HIS/EMR) and logistics — React, Next.js, and Vue.`,
   proof: [
     {
       id: "primaku",

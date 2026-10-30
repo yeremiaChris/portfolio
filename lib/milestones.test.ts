@@ -33,6 +33,12 @@ describe("home Selected Work metrics", () => {
     }
   });
 
+  it("renders home case studies without metric rows", () => {
+    for (const study of homeMilestoneCaseStudies()) {
+      expect(study.metrics).toHaveLength(0);
+    }
+  });
+
   it("drops non-numeric PrimaKu metrics in favor of stack and summary copy", () => {
     expect(featuredMilestone.metrics).toHaveLength(0);
     expect(featuredMilestone.stack).toMatch(
@@ -51,17 +57,12 @@ describe("home Selected Work metrics", () => {
     expect(mazecare?.summary).toMatch(/AI-assisted documentation/);
   });
 
-  it("keeps KiriminAja courier count numeric and Workers in copy", () => {
+  it("keeps KiriminAja 15+ couriers and Workers in summary only", () => {
     const kiriminaja = secondaryMilestones.find(
       (study) => study.id === "kiriminaja",
     );
-    expect(kiriminaja?.metrics).toEqual([
-      {
-        value: "15+",
-        label: "Live rate UI across couriers",
-        tone: "violet",
-      },
-    ]);
+    expect(kiriminaja?.metrics).toHaveLength(0);
+    expect(kiriminaja?.summary).toMatch(/15\+ couriers/);
     expect(kiriminaja?.summary).toMatch(/Web Workers/);
   });
 });

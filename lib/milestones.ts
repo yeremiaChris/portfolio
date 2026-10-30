@@ -68,13 +68,7 @@ export const secondaryMilestones: MilestoneCaseStudy[] = [
     title: "High-density logistics UI under real operational load",
     summary:
       "Owned pricing, manifest, and tracking interfaces for a multi-courier aggregator — live rate UI across 15+ couriers, with virtualized lists and Web Workers for batch barcode and high-volume label flows. The consumer app has 100K+ Google Play downloads.",
-    metrics: [
-      {
-        value: "15+",
-        label: "Live rate UI across couriers",
-        tone: "violet",
-      },
-    ],
+    metrics: [],
   },
 ];
 

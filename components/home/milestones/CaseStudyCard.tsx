@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 export function CaseStudyCard({ study }: { study: MilestoneCaseStudy }) {
   return (
     <Card className="bg-muted ring-border/20 flex h-full flex-col rounded-3xl">
-      <CardHeader className="gap-2">
+      <CardHeader className="flex flex-1 flex-col gap-2">
         <div className="flex flex-wrap items-center gap-2">
           <Badge
             variant="secondary"
@@ -36,11 +36,11 @@ export function CaseStudyCard({ study }: { study: MilestoneCaseStudy }) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="mt-auto">
-        {study.metrics.length > 0 ? (
+      {study.metrics.length > 0 ? (
+        <CardContent className="pt-0">
           <CaseStudyMetrics metrics={study.metrics} columns={2} />
-        ) : null}
-      </CardContent>
+        </CardContent>
+      ) : null}
     </Card>
   );
 }

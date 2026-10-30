@@ -41,13 +41,13 @@ export const featuredMilestone: MilestoneCaseStudy = {
   stack: "React · Next.js · Design tokens",
   title: "Product UI on a national pediatric health platform",
   summary:
-    "Owned clinician and family-facing product surfaces on PrimaKu — shared UI from multi-brand Figma tokens, REST + auth, and realtime telemetry. The consumer app has 1M+ Google Play downloads; primaku.com is the separate parent-facing growth catalog (vaccines, services, geo-priced SKUs), not the clinical app.",
+    "Owned clinician and family-facing product surfaces on PrimaKu — shared UI from multi-brand Figma tokens and REST + auth. The consumer app has 1M+ Google Play downloads; primaku.com is the separate parent-facing growth catalog (vaccines, services, geo-priced SKUs), not the clinical app.",
   metrics: [
     { value: "Tokens", label: "Multi-brand design system", tone: "primary" },
     { value: "REST + auth", label: "Product integrations", tone: "cyan" },
     {
-      value: "Telemetry",
-      label: "Realtime product signals",
+      value: "SSR",
+      label: "primaku.com catalog",
       tone: "foreground",
     },
   ],

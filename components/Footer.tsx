@@ -49,11 +49,11 @@ export function Footer() {
                 <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
                 <span className="bg-primary relative inline-flex size-2 rounded-full" />
               </span>
-              Telemetry: All Systems Operational
+              Status: All Systems Operational
             </Badge>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Engineering production web platforms — frontend craft, API
-              integration, and low-latency product interfaces.
+              Engineering production web platforms — frontend craft and API
+              integration.
             </p>
           </div>
 

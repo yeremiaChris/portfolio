@@ -115152,8 +115152,8 @@
       "sourceTitle": "Featured Projects",
       "url": "/projects",
       "heading": "PrimaKu",
-      "text": "work · 2022–Present\nWeb platform for clinician and family UI — design system, REST + auth, telemetry. PrimaKu's consumer app has 1M+ Play downloads; primaku.com is the parent-facing catalog I ship on SSR, separate from the clinical product.\nTools: Next.js, TypeScript, React Hook Form, Valibot, TanStack Query, Framer Motion",
-      "hash": "ff248359e0d8b4f6ac6fba3d6292783829eb628a61c857148f119fe84c762682",
+      "text": "work · 2022–Present\nWeb platform for clinician and family UI — design system, REST + auth. PrimaKu's consumer app has 1M+ Play downloads; primaku.com is the parent-facing catalog I ship on SSR, separate from the clinical product.\nTools: Next.js, TypeScript, React Hook Form, Valibot, TanStack Query, Framer Motion",
+      "hash": "c613915ea4e1cc4446c263d0dee1fc612b5d6971be11316ad9e0aa6fab2d12a4",
       "embedding": [
         -0.0204354,
         -0.00841179,
@@ -123710,8 +123710,8 @@
       "sourceTitle": "Engineering Experience",
       "url": "/experience",
       "heading": "Frontend Web Developer at PrimaKu",
-      "text": "Jakarta, ID (Remote) · Dec 2022 — Present\nNational health-tech platform endorsed by the Indonesian Pediatric Society (IDAI), supporting early childhood health monitoring for clinicians and families.\n- Owned frontend architecture for PrimaKu's web platform — clinician and family portals in React/Next.js with shared UI, REST + auth, and telemetry. PrimaKu's consumer app has 1M+ Google Play downloads; I build the web surfaces, not the mobile app.\n- Shipped accessible design-system components synced to multi-brand Figma tokens, used across clinician and family-facing product surfaces.\n- Delivered primaku.com as the parent-facing growth catalog (location-priced vaccines and medical services) on SSR — a different surface from the clinician product.\nStack: React, Next.js, TypeScript, Tailwind CSS, REST APIs, Jest / RTL",
-      "hash": "6fd8e4838b059aab9cfa49ce7628702893ad1db6678d38fbde3e8d581625bdd6",
+      "text": "Jakarta, ID (Remote) · Dec 2022 — Present\nNational health-tech platform endorsed by the Indonesian Pediatric Society (IDAI), supporting early childhood health monitoring for clinicians and families.\n- Owned frontend architecture for PrimaKu's web platform in React/Next.js with shared UI, REST + auth. PrimaKu's consumer app has 1M+ Google Play downloads; I build the web surfaces, not the mobile app.\n- Shipped accessible design-system components synced to multi-brand Figma tokens, used across clinician and family-facing product surfaces.\n- Delivered primaku.com as the parent-facing growth catalog (location-priced vaccines and medical services) on SSR — a different surface from the clinician product.\nStack: React, Next.js, TypeScript, Tailwind CSS, REST APIs, Jest / RTL",
+      "hash": "9ede611d03f1e1988afd41fece396c3b8adca3ecdd614cfd5de77b99a1ca0ba0",
       "embedding": [
         -0.020531,
         -0.00161648,

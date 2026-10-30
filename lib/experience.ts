@@ -115,7 +115,7 @@ export const experienceRoles: ExperienceRole[] = [
       "National health-tech platform endorsed by the Indonesian Pediatric Society (IDAI), supporting early childhood health monitoring for clinicians and families.",
     sideStats: ["Design system · Jest / RTL"],
     highlights: [
-      "Owned frontend architecture for PrimaKu's web platform — clinician and family portals in React/Next.js with shared UI, REST + auth, and telemetry. PrimaKu's consumer app has 1M+ Google Play downloads; I build the web surfaces, not the mobile app.",
+      "Owned frontend architecture for PrimaKu's web platform in React/Next.js with shared UI, REST + auth. PrimaKu's consumer app has 1M+ Google Play downloads; I build the web surfaces, not the mobile app.",
       "Shipped accessible design-system components synced to multi-brand Figma tokens, used across clinician and family-facing product surfaces.",
       "Delivered primaku.com as the parent-facing growth catalog (location-priced vaccines and medical services) on SSR — a different surface from the clinician product.",
     ],
@@ -128,7 +128,7 @@ export const experienceRoles: ExperienceRole[] = [
           value: "React · Next.js",
           emphasize: true,
         },
-        { label: "Integrations:", value: "REST · Auth · Telemetry" },
+        { label: "Integrations:", value: "REST · Auth" },
         { label: "Quality:", value: "Design system · Jest / RTL" },
       ],
       footnote: "IDAI-endorsed pediatric health platform",

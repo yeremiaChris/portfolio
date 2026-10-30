@@ -82,7 +82,7 @@ export const projects: Project[] = [
     tag: "work",
     year: "2022–Present",
     summary:
-      "Web platform for clinician and family UI — design system, REST + auth, telemetry. PrimaKu's consumer app has 1M+ Play downloads; primaku.com is the parent-facing catalog I ship on SSR, separate from the clinical product.",
+      "Web platform for clinician and family UI — design system, REST + auth. PrimaKu's consumer app has 1M+ Play downloads; primaku.com is the parent-facing catalog I ship on SSR, separate from the clinical product.",
     tools: [
       "Next.js",
       "TypeScript",

@@ -60,6 +60,7 @@ export const techCategories: TechCategory[] = [
       { name: "HeroUI (NextUI)", tone: "cyan" },
       { name: "React Hook Form", tone: "primary" },
       { name: "Valibot", tone: "primary" },
+      { name: "Redux", tone: "primary" },
       { name: "Zustand / TanStack Query", tone: "cyan" },
       { name: "Core Web Vitals", tone: "primary" },
       { name: "Micro-Frontends", tone: "primary" },
@@ -74,7 +75,6 @@ export const techCategories: TechCategory[] = [
     tone: "cyan",
     icon: "database",
     items: [
-      { name: "PostgreSQL", tone: "cyan" },
       { name: "MySQL", tone: "cyan" },
       { name: "SQLite", tone: "cyan" },
       { name: "Supabase", tone: "primary" },

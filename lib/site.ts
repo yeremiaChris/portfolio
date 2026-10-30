@@ -16,6 +16,8 @@ export const site = {
   fullName: "Yeremia Chris Saragi",
   pronunciation: "/ jɛ-rə-ˈmaɪ-ə krɪs sə-ˈrɑː-ɡi /",
   role: "Software Engineer · Frontend-Heavy",
+  heroTitle: "Software Engineer",
+  heroSubtitle: "Frontend-heavy · health-tech & logistics",
   availability: "Open to full-time · also scoped remote contracts",
   tagline:
     "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development with React, Next.js, TypeScript, and Vue.",

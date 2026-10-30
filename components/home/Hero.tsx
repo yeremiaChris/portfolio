@@ -6,7 +6,7 @@ export function Hero() {
     <section
       id="overview"
       aria-labelledby="hero-heading"
-      className="hero-signal relative min-h-[82vh] w-full overflow-hidden py-16 md:py-24 lg:py-28"
+      className="hero-signal relative w-full overflow-hidden py-10 md:py-14 lg:py-16"
     >
       <Container className="relative items-start">
         <HeroIntro />

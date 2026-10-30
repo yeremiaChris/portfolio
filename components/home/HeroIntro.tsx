@@ -1,31 +1,20 @@
 import { ArrowRightIcon, FileTextIcon } from "lucide-react";
 
 import { HeroProofCard } from "@/components/home/HeroProofCard";
-import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
+
+const accentButtonClassName = "bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3]";
 
 export function HeroIntro() {
   return (
     <div className="flex w-full flex-col items-start text-left">
       <div className="hero-signal-headline relative w-full max-w-[900px]">
-        <Badge
-          variant="secondary"
-          className={cn(
-            "hero-enter hero-enter--0 bg-secondary/80 text-primary mb-12 h-auto gap-1.5 border border-white/10 px-3 py-1.5 text-[11px] font-medium tracking-[0.08em] uppercase backdrop-blur-sm md:mb-14",
-          )}
-        >
-          <span className="relative flex size-2">
-            <span className="bg-primary relative inline-flex size-2 rounded-full" />
-          </span>
-          {site.availability}
-        </Badge>
-
         <h1
           id="hero-heading"
           className={cn(
-            "hero-enter hero-enter--1 font-heading text-left text-5xl font-bold tracking-[-0.03em] text-balance md:text-7xl md:leading-[1.05]",
+            "hero-enter hero-enter--0 font-heading text-left text-5xl font-bold tracking-[-0.03em] text-balance sm:text-6xl md:leading-[1.05] lg:text-7xl",
             "bg-linear-to-br from-[#4cd7f6] to-[#2dd4bf] bg-clip-text text-transparent",
           )}
         >
@@ -34,7 +23,7 @@ export function HeroIntro() {
 
         <p
           className={cn(
-            "hero-enter hero-enter--2 text-muted-foreground mt-5 text-left text-lg font-medium tracking-tight md:mt-6 md:text-xl md:whitespace-nowrap",
+            "hero-enter hero-enter--1 text-muted-foreground mt-3 text-left text-lg font-medium tracking-tight md:mt-4 md:text-xl md:whitespace-nowrap",
           )}
         >
           {site.role}
@@ -42,15 +31,39 @@ export function HeroIntro() {
 
         <p
           className={cn(
-            "hero-enter hero-enter--3 text-muted-foreground mt-8 line-clamp-2 max-w-2xl text-left text-lg leading-relaxed sm:text-xl sm:leading-8 md:mt-10",
+            "hero-enter hero-enter--2 text-muted-foreground mt-5 max-w-2xl text-left text-lg leading-relaxed sm:text-xl sm:leading-8 md:mt-6",
           )}
         >
           {site.heroBio}
         </p>
+
+        <div className="hero-enter hero-enter--3 mt-6 flex w-full flex-wrap items-start justify-start gap-3 md:mt-8 md:gap-4">
+          <a
+            href="#work"
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              accentButtonClassName,
+              "h-12 px-6 text-base",
+            )}
+          >
+            Selected work
+            <ArrowRightIcon className="size-5" />
+          </a>
+          <a
+            href={site.links.resume}
+            className={cn(
+              buttonVariants({ variant: "outline", size: "lg" }),
+              "h-12 px-6 text-base",
+            )}
+          >
+            <FileTextIcon className="size-5" />
+            CV (PDF)
+          </a>
+        </div>
       </div>
 
-      <div className="hero-enter hero-enter--4 mt-12 w-full md:mt-16">
-        <p className="text-muted-foreground mb-5 text-left font-mono text-[11px] tracking-[0.16em] uppercase">
+      <div className="hero-enter hero-enter--4 mt-10 w-full md:mt-12">
+        <p className="text-muted-foreground mb-4 text-left font-mono text-[11px] tracking-[0.16em] uppercase">
           Production
         </p>
         <nav
@@ -66,29 +79,6 @@ export function HeroIntro() {
             />
           ))}
         </nav>
-      </div>
-
-      <div className="hero-enter hero-enter--5 mt-14 flex w-full flex-wrap items-start justify-start gap-3 sm:mt-16 md:gap-4">
-        <a
-          href="#work"
-          className={cn(
-            buttonVariants({ size: "lg" }),
-            "h-12 bg-[#4cd7f6] px-6 text-base text-[#042028] hover:bg-[#3bc4e3]",
-          )}
-        >
-          Selected work
-          <ArrowRightIcon className="size-5" />
-        </a>
-        <a
-          href={site.links.resume}
-          className={cn(
-            buttonVariants({ variant: "outline", size: "lg" }),
-            "h-12 px-6 text-base",
-          )}
-        >
-          <FileTextIcon className="size-5" />
-          CV (PDF)
-        </a>
       </div>
     </div>
   );

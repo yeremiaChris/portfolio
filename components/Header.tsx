@@ -38,7 +38,7 @@ export function Header() {
             href="/#contact"
             className={cn(
               buttonVariants({ size: "sm" }),
-              "hover:bg-primary hidden bg-[#10b981] text-[#00422b] sm:inline-flex",
+              "hidden bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3] sm:inline-flex",
             )}
           >
             Get in Touch

@@ -11,22 +11,23 @@ import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-sans",
-  preload: false,
-  display: "optional",
+  variable: "--font-geist-sans",
+  preload: true,
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
-  preload: false,
-  display: "optional",
+  variable: "--font-jetbrains-mono",
+  preload: true,
+  display: "swap",
 });
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-heading",
+  variable: "--font-space-grotesk",
   preload: true,
+  display: "swap",
 });
 
 export const metadata: Metadata = {

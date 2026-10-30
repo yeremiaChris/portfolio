@@ -140,7 +140,8 @@ function ContactActionLink({ action }: { action: ContactCtaAction }) {
           size: "lg",
         }),
         "h-11 w-full max-w-full gap-2 px-5 text-[15px] font-medium sm:w-auto",
-        isPrimary && "font-semibold shadow-[0_0_20px_rgba(78,222,163,0.3)]",
+        isPrimary &&
+          "bg-[#4cd7f6] font-semibold text-[#042028] shadow-[0_0_20px_rgba(76,215,246,0.25)] hover:bg-[#3bc4e3]",
       )}
     >
       <Icon

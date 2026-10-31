@@ -1,6 +1,12 @@
 import { ImageResponse } from "next/og";
 
-import { BRAND_ACCENT } from "@/lib/colors";
+import {
+  BACKGROUND,
+  BRAND_ACCENT,
+  FOREGROUND,
+  MUTED_FOREGROUND,
+} from "@/lib/colors";
+import { ogImageFonts } from "@/lib/og/fonts";
 
 export const alt = "Yeremia Chris Saragi — Software Engineer";
 export const size = {
@@ -19,53 +25,79 @@ export default function OpenGraphImage() {
         flexDirection: "column",
         justifyContent: "center",
         padding: 80,
-        backgroundColor: "#10141a",
-        color: "#dfe2eb",
+        backgroundColor: BACKGROUND,
+        color: FOREGROUND,
+        position: "relative",
       }}
     >
       <div
         style={{
-          display: "flex",
-          fontSize: 28,
-          color: BRAND_ACCENT,
-          fontFamily: "monospace",
-          letterSpacing: 1,
+          position: "absolute",
+          top: -80,
+          left: -40,
+          width: 720,
+          height: 520,
+          background:
+            "radial-gradient(closest-side, rgba(76, 215, 246, 0.12), transparent 70%)",
         }}
-      >
-        {"<YC />"}
-      </div>
+      />
       <div
         style={{
           display: "flex",
-          fontSize: 64,
-          fontWeight: 700,
-          marginTop: 28,
-          lineHeight: 1.1,
+          flexDirection: "column",
+          position: "relative",
         }}
       >
-        Yeremia Chris Saragi
-      </div>
-      <div
-        style={{
-          display: "flex",
-          fontSize: 28,
-          color: "#bbcabf",
-          marginTop: 20,
-        }}
-      >
-        Software Engineer · Frontend-Heavy
-      </div>
-      <div
-        style={{
-          display: "flex",
-          fontSize: 22,
-          color: BRAND_ACCENT,
-          marginTop: 36,
-        }}
-      >
-        Health-tech · Logistics · React · Next.js · Vue
+        <div
+          style={{
+            display: "flex",
+            fontSize: 28,
+            color: BRAND_ACCENT,
+            fontFamily: "Geist Mono",
+            letterSpacing: 1,
+          }}
+        >
+          {"<YC />"}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 64,
+            fontWeight: 700,
+            marginTop: 28,
+            lineHeight: 1.1,
+            fontFamily: "Rethink Sans",
+          }}
+        >
+          Yeremia Chris Saragi
+        </div>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 28,
+            color: MUTED_FOREGROUND,
+            marginTop: 20,
+            fontFamily: "Geist",
+          }}
+        >
+          Software Engineer · Frontend-Heavy
+        </div>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 22,
+            color: BRAND_ACCENT,
+            marginTop: 36,
+            fontFamily: "Geist",
+          }}
+        >
+          Health-tech · Logistics · React · Next.js · Vue
+        </div>
       </div>
     </div>,
-    size,
+    {
+      ...size,
+      fonts: ogImageFonts,
+    },
   );
 }

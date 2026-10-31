@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { aboutProfile } from "./about";
 import {
   PERSON_KNOWS_ABOUT,
+  buildBlogPostingJsonLd,
   buildHomeJsonLd,
   buildPageMetadata,
   buildPersonJsonLd,
@@ -134,5 +135,42 @@ describe("JSON-LD", () => {
     expect(page.mainEntity).not.toHaveProperty("email");
     expect(JSON.stringify(page)).not.toMatch(/yeremia997|mailto:|wa\.me|6281/);
     expect(buildProfilePageJsonLd("/").mainEntity).toHaveProperty("email");
+  });
+
+  it("describes a blog post with author linked to the person entity", () => {
+    const posting = buildBlogPostingJsonLd({
+      title: "React Fiber",
+      description: "How reconciliation works.",
+      slug: "react-fiber",
+      datePublished: "2026-01-15",
+    });
+    const url = `${getSiteUrl()}/blog/react-fiber`;
+
+    expect(posting["@type"]).toBe("BlogPosting");
+    expect(posting.headline).toBe("React Fiber");
+    expect(posting.description).toBe("How reconciliation works.");
+    expect(posting.url).toBe(url);
+    expect(posting.mainEntityOfPage).toEqual({
+      "@type": "WebPage",
+      "@id": url,
+    });
+    expect(posting.datePublished).toBe("2026-01-15");
+    expect(posting).not.toHaveProperty("dateModified");
+    expect(posting.author).toEqual({ "@id": buildPersonJsonLd()["@id"] });
+    expect(posting).not.toHaveProperty("image");
+  });
+
+  it("includes dateModified and absolute image when provided", () => {
+    const posting = buildBlogPostingJsonLd({
+      title: "Updated post",
+      description: "Revised.",
+      slug: "updated-post",
+      datePublished: "2026-01-01",
+      dateModified: "2026-02-01",
+      image: "/blog/cover.jpg",
+    });
+
+    expect(posting.dateModified).toBe("2026-02-01");
+    expect(posting.image).toBe(`${getSiteUrl()}/blog/cover.jpg`);
   });
 });

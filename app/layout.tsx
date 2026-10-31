@@ -39,6 +39,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: "Yeremia Chris Saragi | Software Engineer",
   description: site.tagline,
+  alternates: {
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",

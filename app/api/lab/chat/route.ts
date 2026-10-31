@@ -3,6 +3,7 @@ import { ipAddress } from "@vercel/functions";
 import type { ChatEvent } from "@/lib/lab-chat";
 import { askYeremia } from "@/lib/lab";
 import { streamLabChat, validateChatBody } from "@/lib/lab-chat-api";
+import { readOpenAICompatibleProviders } from "@/lib/lab-provider-env";
 import { parseLabIndex } from "@/lib/lab-index";
 import { checkLabChatRateLimit } from "@/lib/lab-rate-limit";
 import labIndexJson from "@/lab/index.json";
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
       try {
         for await (const event of streamLabChat(validated, {
           apiKey,
+          providers: readOpenAICompatibleProviders(),
           index: labIndex,
           signal: abortController.signal,
         })) {

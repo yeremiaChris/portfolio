@@ -28,7 +28,7 @@ export function ExperienceDisciplines() {
       className="mb-12 w-full md:mb-16"
     >
       <header className="mb-6">
-        <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
           {experienceDisciplinesIntro.eyebrow}
         </p>
         <h2
@@ -73,7 +73,7 @@ function DisciplineCard({ item }: { item: ExperienceDiscipline }) {
         </div>
       </CardHeader>
       <CardFooter className="border-t-0 bg-transparent">
-        <p className={cn("font-mono text-[12px]", toneClass)}>{item.footer}</p>
+        <p className={cn("text-[12px]", toneClass)}>{item.footer}</p>
       </CardFooter>
     </Card>
   );

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Terminal } from "lucide-react";
 
 import { Container } from "@/components/Container";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function NotFound() {
 
         <Container className="relative flex min-h-[calc(100vh-4rem)] flex-col justify-center py-16 md:py-24">
           <div className="flex max-w-xl flex-col gap-6">
-            <p className="text-muted-foreground inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase">
+            <p className="text-foreground/75 inline-flex items-center gap-1.5 text-xs font-medium tracking-wide uppercase">
               <Terminal className="text-primary size-3.5" aria-hidden />
               Error 404
             </p>
@@ -43,7 +43,7 @@ export default function NotFound() {
               </p>
               <h1
                 id="not-found-heading"
-                className="font-heading text-foreground text-3xl font-semibold tracking-tight sm:text-4xl"
+                className="font-heading text-foreground text-3xl sm:text-4xl"
               >
                 Page not found
               </h1>
@@ -76,8 +76,8 @@ export default function NotFound() {
               </Link>
             </div>
 
-            <p className="text-muted-foreground font-mono text-[12px]">
-              <span className="text-border">{"//"}</span> try{" "}
+            <p className="text-muted-foreground text-xs">
+              Also try{" "}
               <Link
                 href="/projects"
                 className="text-primary hover:text-primary/80 transition-colors"

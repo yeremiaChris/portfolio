@@ -4,29 +4,48 @@ import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatBlogDate, type BlogPost } from "@/lib/blog";
+import { formatBlogDate, type BlogPostSummary } from "@/lib/blog-shared";
+import { getTopicsForPost } from "@/lib/blog-topics";
+import { cn } from "@/lib/utils";
 
-export function BlogPostCard({ post }: { post: BlogPost }) {
+export function BlogPostCard({ post }: { post: BlogPostSummary }) {
   const href = `/blog/${post.slug}`;
-  const primaryTag = post.tags[0] ?? "Article";
+  const topicChips = getTopicsForPost(post).slice(0, 2);
 
   return (
-    <Card className="group bg-muted ring-border/40 hover:bg-muted/80 flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-xl py-0 transition-colors">
+    <Card className="group bg-muted ring-border/40 hover:bg-muted/80 flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-xl py-0 transition-colors motion-reduce:transition-none">
       <CardHeader className="gap-3 p-4 pb-0">
         <div className="flex items-center justify-between gap-2">
-          <Badge
-            variant="secondary"
-            className="bg-muted text-primary rounded-md px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
-          >
-            {primaryTag}
-          </Badge>
-          <span className="text-muted-foreground shrink-0 font-mono text-[11px]">
+          <div className="flex min-w-0 flex-wrap gap-1.5">
+            {topicChips.length > 0 ? (
+              topicChips.map((topic) => (
+                <Badge
+                  key={topic.slug}
+                  variant="secondary"
+                  render={<Link href={`/blog/tag/${topic.slug}`} />}
+                  className={cn(
+                    "bg-muted text-primary label-caps rounded-md px-2 py-0.5 tracking-wider transition-colors hover:text-[#4cd7f6]",
+                    "motion-reduce:transition-none",
+                  )}
+                >
+                  {topic.label}
+                </Badge>
+              ))
+            ) : (
+              <Badge
+                variant="secondary"
+                className="bg-muted text-primary label-caps rounded-md px-2 py-0.5 tracking-wider"
+              >
+                Article
+              </Badge>
+            )}
+          </div>
+          <span className="text-muted-foreground shrink-0 text-[11px]">
             {post.readingTime}
           </span>
         </div>
@@ -34,7 +53,7 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
         <CardTitle className="font-heading text-foreground text-base leading-snug font-semibold tracking-tight sm:text-lg">
           <Link
             href={href}
-            className="group-hover:text-primary transition-colors"
+            className="group-hover:text-primary transition-colors motion-reduce:transition-none"
           >
             {post.title}
           </Link>
@@ -45,32 +64,16 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="mt-auto flex flex-col gap-3 px-4 pt-4 pb-0">
-        {post.tags.length > 0 ? (
-          <div className="flex min-w-0 flex-wrap gap-1.5">
-            {post.tags.map((tag) => (
-              <Badge
-                key={tag}
-                variant="secondary"
-                className="text-muted-foreground rounded-md px-1.5 py-0.5 font-mono text-[11px] font-normal"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        ) : null}
-      </CardContent>
-
-      <CardFooter className="flex items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4">
+      <CardFooter className="mt-auto flex items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4">
         <time
           dateTime={post.date}
-          className="text-muted-foreground font-mono text-[11px] tracking-wider uppercase"
+          className="text-muted-foreground label-caps text-[11px] tracking-wider"
         >
           {formatBlogDate(post.date)}
         </time>
         <Link
           href={href}
-          className="text-primary inline-flex items-center gap-0.5 font-mono text-[12px] transition-transform group-hover:translate-x-0.5"
+          className="text-primary inline-flex items-center gap-0.5 text-[12px] transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none"
         >
           Read article
           <ArrowRight className="size-3.5" aria-hidden />

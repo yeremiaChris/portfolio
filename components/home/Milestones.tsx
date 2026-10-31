@@ -19,7 +19,7 @@ export function Milestones() {
         <header className="flex max-w-2xl flex-col gap-1">
           <Badge
             variant="secondary"
-            className="text-primary mb-1 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+            className="text-primary label-caps mb-1 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
           >
             <span className="bg-primary size-2.5 rounded-full" aria-hidden />
             {milestonesIntro.eyebrow}
@@ -37,7 +37,7 @@ export function Milestones() {
 
         <FeaturedCaseStudy study={featuredMilestone} />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8">
           {secondaryMilestones.map((study) => (
             <CaseStudyCard key={study.id} study={study} />
           ))}

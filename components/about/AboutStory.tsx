@@ -38,12 +38,12 @@ export function AboutStory() {
             <div className="flex items-center justify-between gap-3">
               <Badge
                 variant="secondary"
-                className="text-primary gap-2 font-mono text-[10px] tracking-widest uppercase"
+                className="text-primary label-caps gap-2 tracking-widest"
               >
-                <span className="bg-primary size-2.5 animate-ping rounded-full" />
+                <span className="bg-primary size-2.5 shrink-0 rounded-full" />
                 {aboutProfile.status}
               </Badge>
-              <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+              <span className="text-muted-foreground label-caps tracking-wider">
                 {aboutProfile.nodeId}
               </span>
             </div>
@@ -64,14 +64,14 @@ export function AboutStory() {
               <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
                 <Badge
                   variant="secondary"
-                  className="gap-1 bg-[#0a0e14]/80 font-mono text-[10px] backdrop-blur-md"
+                  className="gap-1 bg-[#0a0e14]/80 text-xs backdrop-blur-md"
                 >
                   <MapPin className="text-primary size-3" aria-hidden />
                   {aboutProfile.location}
                 </Badge>
                 <Badge
                   variant="secondary"
-                  className="bg-[#0a0e14]/80 font-mono text-[11px] text-[#4cd7f6] backdrop-blur-md"
+                  className="bg-[#0a0e14]/80 text-[11px] text-[#4cd7f6] backdrop-blur-md"
                 >
                   {aboutProfile.ageLabel}
                 </Badge>
@@ -90,7 +90,7 @@ export function AboutStory() {
                 </span>
                 <span
                   className={cn(
-                    "text-right font-mono text-[12px] font-medium",
+                    "text-right text-[12px] font-medium",
                     aboutProfileMetricToneClass[metric.tone],
                   )}
                 >
@@ -125,7 +125,7 @@ export function AboutStory() {
               {aboutStoryIntro.title}
             </h2>
           </div>
-          <span className="text-muted-foreground font-mono text-[12px]">
+          <span className="text-muted-foreground text-[12px]">
             {aboutStoryIntro.meta}
           </span>
         </div>
@@ -144,22 +144,21 @@ export function AboutStory() {
                     <Badge
                       variant="secondary"
                       className={cn(
-                        "gap-1.5 font-mono text-[10px] tracking-widest uppercase",
+                        "label-caps gap-1.5 tracking-widest",
                         aboutStoryToneClass[era.tone],
                       )}
                     >
                       <span
                         className={cn(
-                          "size-1.5 rounded-full",
+                          "size-1.5 shrink-0 rounded-full",
                           aboutStoryDotClass[era.tone],
-                          era.current && "animate-ping",
                         )}
                       />
                       {era.label}
                     </Badge>
                     <span
                       className={cn(
-                        "font-mono text-[10px] tracking-wider uppercase",
+                        "label-caps tracking-wider",
                         era.current ? "text-primary" : "text-muted-foreground",
                       )}
                     >

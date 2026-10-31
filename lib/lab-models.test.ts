@@ -4,7 +4,9 @@ import {
   AUTO_FALLBACK_ORDER,
   CHAT_MODELS,
   DEFAULT_MODEL_ID,
+  chatModelsForRuntime,
   getModel,
+  modelRuntimeEnabled,
   resolveAutoModel,
 } from "./lab-models";
 
@@ -31,18 +33,53 @@ describe("getModel", () => {
       description: "Coming soon",
     });
   });
+
+  it("includes DeepSeek and Qwen entries", () => {
+    expect(getModel("deepseek-chat")).toMatchObject({
+      provider: "deepseek",
+      enabled: true,
+      apiModel: "deepseek-chat",
+    });
+    expect(getModel("qwen-flash")?.provider).toBe("qwen");
+  });
+});
+
+describe("modelRuntimeEnabled", () => {
+  it("requires provider keys for OpenAI-compatible models", () => {
+    const deepseek = getModel("deepseek-chat")!;
+    expect(modelRuntimeEnabled(deepseek, {})).toBe(false);
+    expect(
+      modelRuntimeEnabled(deepseek, {
+        deepseek: { apiKey: "ds-key", baseUrl: "https://api.deepseek.com" },
+      }),
+    ).toBe(true);
+    expect(modelRuntimeEnabled(getModel("gemini-3.8-flash")!, {})).toBe(true);
+  });
 });
 
 describe("resolveAutoModel", () => {
-  it("returns the first enabled id in AUTO_FALLBACK_ORDER", () => {
-    expect(resolveAutoModel()).toBe(AUTO_FALLBACK_ORDER[0]);
-    expect(getModel(resolveAutoModel()!)?.enabled).toBe(true);
+  it("prefers DeepSeek when configured, otherwise Gemini", () => {
+    expect(resolveAutoModel()).toBe("gemini-3.8-flash");
+    expect(
+      resolveAutoModel({
+        deepseek: { apiKey: "ds-key", baseUrl: "https://api.deepseek.com" },
+      }),
+    ).toBe("deepseek-chat");
   });
 
-  it("skips disabled entries in the fallback order", () => {
-    for (const id of AUTO_FALLBACK_ORDER) {
-      expect(getModel(id)?.enabled).toBe(true);
+  it("lists DeepSeek first in AUTO_FALLBACK_ORDER", () => {
+    expect(AUTO_FALLBACK_ORDER[0]).toBe("deepseek-chat");
+    for (const id of AUTO_FALLBACK_ORDER.slice(1)) {
+      expect(getModel(id)?.provider).toBe("google");
     }
+  });
+});
+
+describe("chatModelsForRuntime", () => {
+  it("disables DeepSeek in the picker when the key is missing", () => {
+    const models = chatModelsForRuntime({});
+    expect(models.find((m) => m.id === "deepseek-chat")?.enabled).toBe(false);
+    expect(models.find((m) => m.id === "gemini-3.8-flash")?.enabled).toBe(true);
   });
 });
 

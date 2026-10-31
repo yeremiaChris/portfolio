@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import {
   Card,
   CardContent,
@@ -11,11 +11,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatBlogDate, type BlogPost } from "@/lib/blog";
+import { formatBlogDate, type BlogPostSummary } from "@/lib/blog-shared";
+import { getTopicsForPost } from "@/lib/blog-topics";
 import { cn } from "@/lib/utils";
 
-export function FeaturedPost({ post }: { post: BlogPost }) {
-  const primaryTag = post.tags[0];
+export function FeaturedPost({ post }: { post: BlogPostSummary }) {
+  const topicChips = getTopicsForPost(post).slice(0, 2);
+  const primaryTopic = topicChips[0];
   const href = `/blog/${post.slug}`;
 
   return (
@@ -25,14 +27,12 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
           <BadgeCheck className="text-primary size-4" aria-hidden />
           <p
             id="featured-post-heading"
-            className="text-primary font-mono text-[10px] font-semibold tracking-widest uppercase"
+            className="text-primary label-caps font-semibold tracking-widest"
           >
             Featured
           </p>
         </div>
-        <span className="text-muted-foreground font-mono text-[11px]">
-          {post.slug}
-        </span>
+        <span className="text-muted-foreground text-[11px]">{post.slug}</span>
       </div>
 
       <Card className="bg-muted ring-border/40 hover:bg-muted/80 overflow-hidden rounded-xl py-0 transition-colors">
@@ -45,14 +45,16 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
                   <span className="size-2.5 rounded-full bg-[#4cd7f6]/60" />
                   <span className="bg-primary/60 size-2.5 rounded-full" />
                 </div>
-                <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+                <span className="text-muted-foreground label-caps tracking-wider">
                   post.preview
                 </span>
               </div>
 
               <div className="flex flex-col gap-2 py-2">
-                <p className="text-muted-foreground font-mono text-[11px]">
-                  {primaryTag ? `topic · ${primaryTag}` : "featured article"}
+                <p className="text-muted-foreground text-[11px]">
+                  {primaryTopic
+                    ? `topic · ${primaryTopic.label}`
+                    : "featured article"}
                 </p>
                 <div className="bg-primary/70 h-2 w-3/4 rounded-sm" />
                 <div className="bg-primary/40 h-2 w-1/2 rounded-sm" />
@@ -66,16 +68,17 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
               <div className="flex flex-wrap gap-2">
                 <Badge
                   variant="secondary"
-                  className="bg-primary/10 text-primary rounded-md px-2 py-0.5 font-mono text-[11px] font-semibold"
+                  className="bg-primary/10 text-primary rounded-md px-2 py-0.5 text-[11px] font-semibold"
                 >
                   {post.readingTime}
                 </Badge>
-                {primaryTag ? (
+                {primaryTopic ? (
                   <Badge
                     variant="secondary"
-                    className="text-muted-foreground rounded-md px-2 py-0.5 font-mono text-[11px]"
+                    render={<Link href={`/blog/tag/${primaryTopic.slug}`} />}
+                    className="text-muted-foreground rounded-md px-2 py-0.5 text-[11px] transition-colors hover:text-[#4cd7f6] motion-reduce:transition-none"
                   >
-                    {primaryTag}
+                    {primaryTopic.label}
                   </Badge>
                 ) : null}
               </div>
@@ -85,18 +88,19 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
           <div className="flex min-w-0 flex-1 flex-col xl:w-7/12">
             <CardContent className="flex flex-1 flex-col gap-4 p-4 sm:p-5">
               <div className="flex flex-wrap items-center gap-2">
-                {primaryTag ? (
+                {primaryTopic ? (
                   <Badge
                     variant="secondary"
-                    className="bg-muted rounded-md px-2 py-0.5 font-mono text-[10px] tracking-wider text-[#4cd7f6] uppercase"
+                    render={<Link href={`/blog/tag/${primaryTopic.slug}`} />}
+                    className="bg-muted rounded-md px-2 py-0.5 text-xs tracking-wider text-[#4cd7f6] uppercase transition-opacity hover:opacity-90 motion-reduce:transition-none"
                   >
-                    {primaryTag}
+                    {primaryTopic.label}
                   </Badge>
                 ) : null}
-                <span className="text-muted-foreground font-mono text-[11px]">
+                <span className="text-muted-foreground text-[11px]">
                   · {formatBlogDate(post.date)}
                 </span>
-                <span className="text-muted-foreground font-mono text-[11px]">
+                <span className="text-muted-foreground text-[11px]">
                   · {post.readingTime}
                 </span>
               </div>
@@ -117,13 +121,14 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
 
             <CardFooter className="border-border/40 mt-auto flex flex-col items-start justify-between gap-4 border-t px-4 py-4 sm:flex-row sm:items-center sm:px-5">
               <div className="flex min-w-0 flex-wrap gap-1.5">
-                {post.tags.map((tag) => (
+                {topicChips.map((topic) => (
                   <Badge
-                    key={tag}
+                    key={topic.slug}
                     variant="secondary"
-                    className="text-foreground rounded-md px-2 py-0.5 font-mono text-[11px] font-normal"
+                    render={<Link href={`/blog/tag/${topic.slug}`} />}
+                    className="text-foreground rounded-md px-2 py-0.5 text-[11px] font-normal transition-colors hover:text-[#4cd7f6] motion-reduce:transition-none"
                   >
-                    {tag}
+                    {topic.label}
                   </Badge>
                 ))}
               </div>

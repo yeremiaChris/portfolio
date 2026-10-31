@@ -2,7 +2,7 @@ import { FileText, Link2, Mail, MessageCircle } from "lucide-react";
 
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -71,7 +71,7 @@ export function ContactCta({
   const panel = (
     <div
       className={cn(
-        "bg-muted ring-border/20 relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl p-8 shadow-xl ring-1 md:flex-row md:items-center md:gap-10 md:p-12",
+        "border-gradient bg-muted relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl p-8 shadow-xl md:flex-row md:items-center md:gap-10 md:p-12",
         panelClassName,
       )}
     >
@@ -83,9 +83,9 @@ export function ContactCta({
       <div className="relative z-10 flex max-w-2xl flex-col">
         <Badge
           variant="secondary"
-          className="text-primary mb-3 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+          className="text-primary label-caps mb-3 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
         >
-          <span className="bg-primary size-2 animate-ping rounded-full" />
+          <span className="bg-primary size-2 shrink-0 rounded-full" />
           {eyebrow}
         </Badge>
         <h2
@@ -140,7 +140,8 @@ function ContactActionLink({ action }: { action: ContactCtaAction }) {
           size: "lg",
         }),
         "h-11 w-full max-w-full gap-2 px-5 text-[15px] font-medium sm:w-auto",
-        isPrimary && "font-semibold shadow-[0_0_20px_rgba(78,222,163,0.3)]",
+        isPrimary &&
+          "bg-[#4cd7f6] font-semibold text-[#042028] shadow-[0_0_20px_rgba(76,215,246,0.25)] hover:bg-[#3bc4e3]",
       )}
     >
       <Icon
@@ -155,23 +156,29 @@ function ContactActionLink({ action }: { action: ContactCtaAction }) {
 export function experienceContactActions(): ContactCtaAction[] {
   return [
     {
-      href: site.links.whatsapp,
-      label: `WhatsApp (${site.links.whatsappLabel})`,
-      icon: "whatsapp",
-      variant: "default",
-      external: true,
-      primary: true,
-    },
-    {
       href: site.links.email,
       label: site.links.emailLabel,
       icon: "mail",
-      variant: "secondary",
+      variant: "default",
+      primary: true,
     },
     {
       href: site.links.linkedin,
       label: "LinkedIn",
       icon: "linkedin",
+      variant: "secondary",
+      external: true,
+    },
+    {
+      href: site.links.resume,
+      label: "CV (PDF)",
+      icon: "file",
+      variant: "secondary",
+    },
+    {
+      href: site.links.whatsapp,
+      label: "WhatsApp",
+      icon: "whatsapp",
       variant: "secondary",
       external: true,
     },
@@ -181,18 +188,31 @@ export function experienceContactActions(): ContactCtaAction[] {
 export function projectsContactActions(): ContactCtaAction[] {
   return [
     {
-      href: site.links.whatsapp,
-      label: `WhatsApp (${site.links.whatsappLabel})`,
-      icon: "whatsapp",
-      variant: "default",
-      external: true,
-      primary: true,
-    },
-    {
       href: site.links.email,
       label: site.links.emailLabel,
       icon: "mail",
+      variant: "default",
+      primary: true,
+    },
+    {
+      href: site.links.linkedin,
+      label: "LinkedIn",
+      icon: "linkedin",
       variant: "secondary",
+      external: true,
+    },
+    {
+      href: site.links.resume,
+      label: "CV (PDF)",
+      icon: "file",
+      variant: "secondary",
+    },
+    {
+      href: site.links.whatsapp,
+      label: "WhatsApp",
+      icon: "whatsapp",
+      variant: "secondary",
+      external: true,
     },
   ];
 }
@@ -200,23 +220,29 @@ export function projectsContactActions(): ContactCtaAction[] {
 export function blogContactActions(): ContactCtaAction[] {
   return [
     {
-      href: site.links.whatsapp,
-      label: `WhatsApp (${site.links.whatsappLabel})`,
-      icon: "whatsapp",
-      variant: "default",
-      external: true,
-      primary: true,
-    },
-    {
       href: site.links.email,
       label: site.links.emailLabel,
       icon: "mail",
-      variant: "secondary",
+      variant: "default",
+      primary: true,
     },
     {
       href: site.links.linkedin,
       label: "LinkedIn",
       icon: "linkedin",
+      variant: "secondary",
+      external: true,
+    },
+    {
+      href: site.links.resume,
+      label: "CV (PDF)",
+      icon: "file",
+      variant: "secondary",
+    },
+    {
+      href: site.links.whatsapp,
+      label: "WhatsApp",
+      icon: "whatsapp",
       variant: "secondary",
       external: true,
     },

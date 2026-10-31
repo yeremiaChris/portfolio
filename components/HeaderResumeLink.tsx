@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { isResumeHidden } from "@/lib/nav";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -20,7 +20,7 @@ export function HeaderResumeLink() {
       rel="noopener noreferrer"
       className={cn(
         buttonVariants({ variant: "ghost", size: "sm" }),
-        "text-muted-foreground font-mono text-[13px]",
+        "text-muted-foreground text-[13px]",
       )}
     >
       CV.pdf

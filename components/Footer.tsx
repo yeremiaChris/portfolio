@@ -2,25 +2,15 @@ import Link from "next/link";
 
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const footerLinks = [
   {
-    href: site.links.whatsapp,
-    label: `WhatsApp ${site.links.whatsappLabel}`,
-    external: true,
-  },
-  {
     href: site.links.email,
     label: site.links.emailLabel,
     external: false,
-  },
-  {
-    href: site.links.github,
-    label: "GitHub",
-    external: true,
   },
   {
     href: site.links.linkedin,
@@ -28,10 +18,20 @@ const footerLinks = [
     external: true,
   },
   {
+    href: site.links.github,
+    label: "GitHub",
+    external: true,
+  },
+  {
     href: site.links.resume,
     label: "Resume",
     external: true,
     accent: true,
+  },
+  {
+    href: site.links.whatsapp,
+    label: `WhatsApp ${site.links.whatsappLabel}`,
+    external: true,
   },
 ] as const;
 
@@ -43,17 +43,14 @@ export function Footer() {
           <div className="flex max-w-md flex-col gap-2">
             <Badge
               variant="secondary"
-              className="text-primary w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+              className="text-primary label-caps w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
             >
-              <span className="relative flex size-2">
-                <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
-                <span className="bg-primary relative inline-flex size-2 rounded-full" />
-              </span>
-              Telemetry: All Systems Operational
+              <span className="bg-primary size-2 shrink-0 rounded-full" />
+              Based in Batam · Remote
             </Badge>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Engineering production web platforms — frontend craft, API
-              integration, and low-latency product interfaces.
+              Engineering production web platforms — frontend craft and API
+              integration.
             </p>
           </div>
 
@@ -83,7 +80,7 @@ export function Footer() {
         </div>
 
         <div className="border-border/40 flex flex-col items-center justify-between gap-3 border-t pt-6 sm:flex-row">
-          <span className="text-muted-foreground font-mono text-[12px]">
+          <span className="text-muted-foreground text-[12px]">
             © {new Date().getFullYear()} {site.fullName}. Software Engineer ·
             Frontend-Heavy.
           </span>
@@ -92,7 +89,7 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             prefetch={false}
-            className="text-muted-foreground hover:text-foreground font-mono text-[10px] tracking-widest uppercase"
+            className="text-muted-foreground hover:text-foreground label-caps text-[10px] tracking-widest"
           >
             Analytics
           </Link>

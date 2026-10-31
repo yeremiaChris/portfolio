@@ -35,7 +35,7 @@ export function ProjectsGrid() {
           className="mb-8 md:mb-12"
         >
           <header className="mb-6 flex max-w-2xl flex-col gap-1">
-            <p className="font-mono text-[10px] tracking-widest text-[#4cd7f6] uppercase">
+            <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
               {projectsArchiveIntro.eyebrow}
             </p>
             <h2

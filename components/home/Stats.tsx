@@ -1,4 +1,4 @@
-import { AwardIcon, GaugeIcon, HeartPulseIcon, UsersIcon } from "lucide-react";
+import { AwardIcon, GaugeIcon, UsersIcon } from "lucide-react";
 
 import { Container } from "@/components/Container";
 import { site } from "@/lib/site";
@@ -7,7 +7,6 @@ const ICONS = {
   award: AwardIcon,
   gauge: GaugeIcon,
   users: UsersIcon,
-  heart: HeartPulseIcon,
 } as const;
 
 export function Stats() {
@@ -20,7 +19,7 @@ export function Stats() {
         <h2 id="stats-heading" className="sr-only">
           Key statistics
         </h2>
-        <ul className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
           {site.stats.map((stat) => {
             const Icon = ICONS[stat.icon];
             return (
@@ -29,12 +28,12 @@ export function Stats() {
                 className="bg-card border-border/40 flex flex-col rounded-lg border p-4 shadow-sm"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+                  <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
                     {stat.label}
                   </span>
                   <Icon
                     className={
-                      stat.icon === "gauge" || stat.icon === "heart"
+                      stat.icon === "gauge"
                         ? "size-4 text-[#4cd7f6]"
                         : "text-primary size-4"
                     }

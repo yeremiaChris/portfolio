@@ -7,24 +7,17 @@ import readingTime from "reading-time";
 
 import { site } from "@/lib/site";
 
+import type { BlogPost, BlogPostMeta } from "@/lib/blog-shared";
+
+export {
+  formatBlogDate,
+  toBlogPostSummary,
+  type BlogPost,
+  type BlogPostMeta,
+  type BlogPostSummary,
+} from "@/lib/blog-shared";
+
 const BLOG_DIR = path.join(process.cwd(), "content/blog");
-
-export type BlogPostMeta = {
-  title: string;
-  description: string;
-  date: string;
-  updated?: string;
-  tags: string[];
-  featured?: boolean;
-  draft?: boolean;
-};
-
-export type BlogPost = BlogPostMeta & {
-  slug: string;
-  content: string;
-  readingTime: string;
-  readingMinutes: number;
-};
 
 export type BlogHeading = {
   depth: 2 | 3;
@@ -41,9 +34,6 @@ export type BlogRibbonMetric = {
 };
 
 export const blogIntro = {
-  breadcrumbRoot: "sys://root/blog",
-  breadcrumbLeaf: "writing.log",
-  statusBadge: "Writing // Active",
   title: "Notes & Essays",
   description:
     "Practical notes on React, Next.js, Vue, product UI, and shipping reliable software across health-tech and logistics.",
@@ -64,7 +54,7 @@ export const blogContactCta = {
   eyebrow: "Open to opportunities",
   title: "Want to talk about a role or a product problem?",
   description:
-    "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Reach out via WhatsApp, email, or LinkedIn.",
+    "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Reach out by email or LinkedIn (WhatsApp works too).",
 } as const;
 
 export const blogRibbonToneClass: Record<BlogRibbonTone, string> = {
@@ -123,6 +113,10 @@ function assertMeta(data: Record<string, unknown>, slug: string): BlogPostMeta {
     description: description.trim(),
     date: date.trim(),
     updated: typeof data.updated === "string" ? data.updated : undefined,
+    image:
+      typeof data.image === "string" && data.image.trim()
+        ? data.image.trim()
+        : undefined,
     tags,
     featured: Boolean(data.featured),
     draft: Boolean(data.draft),
@@ -217,15 +211,6 @@ export function getPostHeadings(content: string): BlogHeading[] {
 export function getFeaturedPost(posts: BlogPost[]): BlogPost | null {
   if (posts.length === 0) return null;
   return posts.find((post) => post.featured) ?? posts[0] ?? null;
-}
-
-export function formatBlogDate(date: string): string {
-  const parsed = new Date(`${date}T00:00:00`);
-  if (Number.isNaN(parsed.getTime())) return date;
-
-  return parsed
-    .toLocaleDateString("en-US", { month: "short", year: "numeric" })
-    .toUpperCase();
 }
 
 function escapeXml(value: string): string {

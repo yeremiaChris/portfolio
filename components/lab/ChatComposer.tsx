@@ -5,6 +5,7 @@ import { ModelPicker } from "@/components/lab/ModelPicker";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { askYeremia } from "@/lib/lab";
+import type { ChatModel } from "@/lib/lab-models";
 import { cn } from "@/lib/utils";
 
 interface ChatComposerProps {
@@ -15,6 +16,7 @@ interface ChatComposerProps {
   isStreaming: boolean;
   modelId: string;
   onModelChange: (modelId: string) => void;
+  models: ChatModel[];
   className?: string;
 }
 
@@ -26,6 +28,7 @@ export function ChatComposer({
   isStreaming,
   modelId,
   onModelChange,
+  models,
   className,
 }: ChatComposerProps) {
   const trimmed = value.trim();
@@ -97,6 +100,7 @@ export function ChatComposer({
             modelId={modelId}
             onModelChange={onModelChange}
             disabled={isStreaming}
+            models={models}
           />
 
           <div className="flex items-center gap-2">
@@ -104,7 +108,7 @@ export function ChatComposer({
               id={counterId}
               role={atLimit ? "status" : undefined}
               className={cn(
-                "font-mono text-[10px]",
+                "font-mono text-xs",
                 nearLimit
                   ? "text-muted-foreground"
                   : "text-muted-foreground invisible",
@@ -140,12 +144,15 @@ export function ChatComposer({
         </div>
       </div>
 
-      <p
+      <div
         id={disclaimerId}
-        className="text-muted-foreground px-1 text-center text-[11px] leading-relaxed"
+        className="text-muted-foreground flex flex-col gap-1 px-1 text-center text-[11px] leading-relaxed"
       >
-        {askYeremia.disclaimer}
-      </p>
+        <p>{askYeremia.disclaimer}</p>
+        <p className="text-muted-foreground/80 text-[10px] leading-relaxed sm:text-[11px]">
+          {askYeremia.usageNotice}
+        </p>
+      </div>
     </form>
   );
 }

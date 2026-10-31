@@ -13,18 +13,18 @@ import { cn } from "@/lib/utils";
 export function CaseStudyCard({ study }: { study: MilestoneCaseStudy }) {
   return (
     <Card className="bg-muted ring-border/20 flex h-full flex-col rounded-3xl">
-      <CardHeader className="gap-2">
+      <CardHeader className="flex flex-1 flex-col gap-2">
         <div className="flex flex-wrap items-center gap-2">
           <Badge
             variant="secondary"
             className={cn(
-              "font-mono text-[11px] tracking-wider uppercase",
+              "label-caps text-[11px] tracking-wider",
               tagToneClass[study.tagTone],
             )}
           >
             {study.tag}
           </Badge>
-          <span className="text-muted-foreground font-mono text-[13px]">
+          <span className="text-muted-foreground text-[13px]">
             {study.stack}
           </span>
         </div>
@@ -36,9 +36,11 @@ export function CaseStudyCard({ study }: { study: MilestoneCaseStudy }) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="mt-auto">
-        <CaseStudyMetrics metrics={study.metrics} columns={2} />
-      </CardContent>
+      {study.metrics.length > 0 ? (
+        <CardContent className="pt-0">
+          <CaseStudyMetrics metrics={study.metrics} columns={2} />
+        </CardContent>
+      ) : null}
     </Card>
   );
 }

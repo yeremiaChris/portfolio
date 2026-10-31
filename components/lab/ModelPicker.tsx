@@ -12,9 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  CHAT_MODELS,
   DEFAULT_MODEL_ID,
-  getModel,
   type ChatModel,
   type ModelProvider,
 } from "@/lib/lab-models";
@@ -23,6 +21,7 @@ import { cn } from "@/lib/utils";
 interface ModelPickerProps {
   modelId: string;
   onModelChange: (modelId: string) => void;
+  models: ChatModel[];
   disabled?: boolean;
   className?: string;
 }
@@ -30,6 +29,9 @@ interface ModelPickerProps {
 const PROVIDER_ORDER: ModelProvider[] = [
   "auto",
   "google",
+  "deepseek",
+  "qwen",
+  "moonshot",
   "anthropic",
   "openai",
 ];
@@ -37,6 +39,9 @@ const PROVIDER_ORDER: ModelProvider[] = [
 const PROVIDER_LABELS: Record<ModelProvider, string> = {
   auto: "Auto",
   google: "Google",
+  deepseek: "DeepSeek",
+  qwen: "Qwen",
+  moonshot: "Moonshot",
   anthropic: "Anthropic",
   openai: "OpenAI",
 };
@@ -44,21 +49,30 @@ const PROVIDER_LABELS: Record<ModelProvider, string> = {
 const PROVIDER_DOT: Record<ModelProvider, string> = {
   auto: "bg-[#4cd7f6]",
   google: "bg-[#4edea3]",
+  deepseek: "bg-[#3b82f6]",
+  qwen: "bg-[#f97316]",
+  moonshot: "bg-[#a855f7]",
   anthropic: "bg-[#bb86fc]",
   openai: "bg-[#4cd7f6]",
 };
 
-function modelsByProvider(provider: ModelProvider): ChatModel[] {
-  return CHAT_MODELS.filter((model) => model.provider === provider);
+function modelsByProvider(
+  models: ChatModel[],
+  provider: ModelProvider,
+): ChatModel[] {
+  return models.filter((model) => model.provider === provider);
 }
 
 export function ModelPicker({
   modelId,
   onModelChange,
+  models,
   disabled = false,
   className,
 }: ModelPickerProps) {
-  const selected = getModel(modelId) ?? getModel(DEFAULT_MODEL_ID);
+  const selected =
+    models.find((model) => model.id === modelId) ??
+    models.find((model) => model.id === DEFAULT_MODEL_ID);
   const label = selected?.label ?? "Auto";
   const provider = selected?.provider ?? "auto";
   const labelId = "ask-yeremia-model-label";
@@ -97,8 +111,8 @@ export function ModelPicker({
           }}
         >
           {PROVIDER_ORDER.map((providerKey, index) => {
-            const models = modelsByProvider(providerKey);
-            if (models.length === 0) return null;
+            const groupModels = modelsByProvider(models, providerKey);
+            if (groupModels.length === 0) return null;
 
             return (
               <DropdownMenuGroup key={providerKey}>
@@ -106,7 +120,7 @@ export function ModelPicker({
                 <DropdownMenuLabel>
                   {PROVIDER_LABELS[providerKey]}
                 </DropdownMenuLabel>
-                {models.map((model) => (
+                {groupModels.map((model) => (
                   <DropdownMenuRadioItem
                     key={model.id}
                     value={model.id}
@@ -117,7 +131,7 @@ export function ModelPicker({
                       <span className="text-foreground flex items-center gap-1.5 text-sm font-medium">
                         {model.label}
                         {!model.enabled ? (
-                          <span className="font-mono text-[9px] tracking-wide uppercase">
+                          <span className="label-caps text-[9px] tracking-wide">
                             Coming soon
                           </span>
                         ) : null}

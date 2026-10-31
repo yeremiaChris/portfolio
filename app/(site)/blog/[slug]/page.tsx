@@ -6,17 +6,19 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 
 import { BlogToc } from "@/components/blog/BlogToc";
 import { BlogTocMobile } from "@/components/blog/BlogTocMobile";
+import { BlogTagBadge } from "@/components/blog/BlogTagBadge";
+import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { Container } from "@/components/Container";
-import { Badge } from "@/components/ui/badge";
 import {
   formatBlogDate,
   getAllPosts,
   getPost,
   getPostHeadings,
 } from "@/lib/blog";
+import { getRelatedPosts } from "@/lib/blog-topics";
 import { mdxOptions } from "@/lib/mdx";
-import { buildPageMetadata } from "@/lib/seo";
-import { cn } from "@/lib/utils";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildBlogPostingJsonLd, buildPageMetadata } from "@/lib/seo";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -51,43 +53,47 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!post) notFound();
 
   const headings = getPostHeadings(post.content);
+  const allPosts = getAllPosts();
+  const relatedPosts = getRelatedPosts(post, allPosts, 3);
 
   return (
     <main>
+      <JsonLd
+        data={buildBlogPostingJsonLd({
+          title: post.title,
+          description: post.description,
+          slug: post.slug,
+          datePublished: post.date,
+          dateModified: post.updated,
+          image: post.image,
+        })}
+      />
       <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col gap-8 py-6 md:py-8">
         <div className="flex flex-col gap-4">
           <Link
             href="/blog"
-            className="text-muted-foreground hover:text-primary inline-flex w-fit items-center gap-1.5 font-mono text-[12px] transition-colors"
+            className="text-muted-foreground hover:text-primary inline-flex w-fit items-center gap-1.5 text-[12px] font-medium transition-colors"
           >
             <ArrowLeft className="text-primary size-3.5" aria-hidden />
             Back to blog
           </Link>
 
           <header className="flex flex-col gap-3">
-            <div className="text-muted-foreground flex flex-wrap items-center gap-2 font-mono text-[11px]">
+            <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-[11px] font-medium">
               <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
               <span aria-hidden>·</span>
               <span>{post.readingTime}</span>
             </div>
-            <h1 className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+            <h1 className="font-heading text-foreground text-3xl sm:text-4xl">
               {post.title}
             </h1>
-            <p className="text-muted-foreground max-w-2xl text-[15px] leading-6">
+            <p className="text-muted-foreground max-w-2xl text-[15px] leading-[1.7]">
               {post.description}
             </p>
             {post.tags.length > 0 ? (
               <div className="flex flex-wrap gap-1.5">
                 {post.tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant="secondary"
-                    className={cn(
-                      "text-muted-foreground font-mono text-[10px] tracking-wider uppercase",
-                    )}
-                  >
-                    {tag}
-                  </Badge>
+                  <BlogTagBadge key={tag} tag={tag} />
                 ))}
               </div>
             ) : null}
@@ -97,7 +103,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <BlogTocMobile headings={headings} />
 
         <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-          <article className="prose prose-invert prose-headings:scroll-mt-24 prose-headings:font-heading prose-a:text-primary prose-code:font-mono prose-pre:border prose-pre:border-border/60 prose-pre:bg-muted max-w-none min-w-0 lg:col-span-8">
+          <article className="prose prose-invert prose-headings:scroll-mt-24 prose-headings:font-heading prose-p:leading-[1.7] prose-li:leading-[1.7] prose-a:text-primary prose-code:font-mono prose-pre:border prose-pre:border-border/60 prose-pre:bg-muted max-w-none min-w-0 lg:col-span-8">
             <MDXRemote source={post.content} options={mdxOptions} />
           </article>
 
@@ -107,6 +113,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </aside>
         </div>
+
+        <RelatedPosts posts={relatedPosts} />
       </Container>
     </main>
   );

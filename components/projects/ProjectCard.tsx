@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Calendar, ExternalLink } from "lucide-react";
+import { ArrowUpRight, Calendar, ExternalLink } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -10,8 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { buttonVariants } from "@/components/ui/button";
-import type { Project } from "@/lib/projects";
+import { buttonVariants } from "@/components/ui/button-variants";
+import { getProjectToolChips, type Project } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -24,14 +24,10 @@ export function ProjectCard({
   variant = "default",
 }: ProjectCardProps) {
   const isLead = variant === "lead";
+  const toolChips = getProjectToolChips(project.tools, project.featured);
 
   const media = (
-    <div
-      className={cn(
-        "ring-border/40 relative w-full overflow-hidden rounded-xl bg-[#0a0e14] ring-1",
-        isLead ? "h-52 lg:h-full lg:min-h-[20rem]" : "h-44",
-      )}
-    >
+    <div className="project-card-media ring-border/40 relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-[#0a0e14] ring-1">
       <Image
         src={project.image}
         alt={project.imageAlt}
@@ -41,7 +37,7 @@ export function ProjectCard({
             ? "(max-width: 1024px) 100vw, 42vw"
             : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         }
-        className="object-cover transition duration-300 group-hover:scale-[1.03] group-hover:brightness-110"
+        className="project-card-media-image object-cover object-top"
       />
     </div>
   );
@@ -50,7 +46,7 @@ export function ProjectCard({
     <Card
       id={project.id}
       className={cn(
-        "group bg-muted ring-border/20 flex min-w-0 scroll-mt-24 overflow-hidden rounded-3xl py-0 transition-transform duration-300 hover:-translate-y-0.5",
+        "project-card border-gradient group bg-muted flex min-w-0 scroll-mt-24 overflow-hidden rounded-3xl py-0",
         isLead ? "flex-col lg:flex-row" : "h-full flex-col",
       )}
     >
@@ -95,14 +91,21 @@ export function ProjectCard({
                 isLead ? "text-xl sm:text-2xl" : "text-lg",
               )}
             >
-              <h3>{project.title}</h3>
+              <h3 className="inline-flex min-w-0 items-center gap-1.5">
+                <span className="project-card-title">{project.title}</span>
+                {project.href ? (
+                  <ArrowUpRight
+                    className="project-card-arrow text-primary size-4 shrink-0"
+                    aria-hidden
+                  />
+                ) : null}
+              </h3>
             </CardTitle>
-            <Badge
-              variant="outline"
-              className="text-muted-foreground rounded-md font-mono text-[11px] font-normal tracking-normal normal-case"
-            >
-              #{project.tag}
-            </Badge>
+            {project.tag === "personal" ? (
+              <span className="text-muted-foreground text-[11px] font-medium">
+                Personal
+              </span>
+            ) : null}
           </div>
 
           <CardDescription
@@ -118,7 +121,7 @@ export function ProjectCard({
             <span className="text-foreground text-[12px] font-semibold">
               Tools:
             </span>
-            {project.tools.map((tool) => (
+            {toolChips.map((tool) => (
               <Badge
                 key={tool}
                 variant="default"
@@ -136,8 +139,8 @@ export function ProjectCard({
             isLead ? "lg:mt-6 lg:px-6" : "mt-auto",
           )}
         >
-          <span className="text-muted-foreground inline-flex items-center gap-2 font-mono text-[12px]">
-            <Calendar className="size-3.5 shrink-0" aria-hidden />#
+          <span className="text-muted-foreground inline-flex items-center gap-2 text-[12px]">
+            <Calendar className="size-3.5 shrink-0" aria-hidden />
             {project.year}
           </span>
 

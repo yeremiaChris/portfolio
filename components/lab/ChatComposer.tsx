@@ -146,10 +146,11 @@ export function ChatComposer({
 
       <div
         id={disclaimerId}
-        className="text-muted-foreground flex flex-col gap-1 px-1 text-center text-[11px] leading-relaxed"
+        role="note"
+        className="flex flex-col gap-1 px-1 text-center leading-relaxed"
       >
-        <p>{askYeremia.disclaimer}</p>
-        <p className="text-muted-foreground/80 text-[10px] leading-relaxed sm:text-[11px]">
+        <p className="text-foreground/70 text-xs">{askYeremia.disclaimer}</p>
+        <p className="text-muted-foreground text-[11px] leading-relaxed">
           {askYeremia.usageNotice}
         </p>
       </div>

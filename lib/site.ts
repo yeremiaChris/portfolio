@@ -1,5 +1,4 @@
 import { getExperienceLabel } from "./career";
-import { UMAMI_SHARE_PATH } from "./umami";
 
 export const DEFAULT_SITE_URL = "https://yeremiachris.com";
 
@@ -54,7 +53,6 @@ export const site = {
     resume: "/Yeremia_Chris_Saragi_CV.pdf",
     about: "/about",
     experience: "/experience",
-    analytics: UMAMI_SHARE_PATH,
   },
   stats: [
     {

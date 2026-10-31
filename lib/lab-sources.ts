@@ -4,10 +4,12 @@ import {
   aboutProfileMetrics,
   aboutStoryEras,
   aboutStoryIntro,
-  aboutWorkflowBeats,
   aboutWorkflowClosing,
+  aboutWorkflowExample,
   aboutWorkflowIntro,
-  aboutWorkflowToolLink,
+  aboutWorkflowSplit,
+  aboutWorkflowSteps,
+  aboutWorkflowToolGroups,
 } from "./about";
 import { getAllPosts } from "./blog";
 import { cleanMarkdownSource } from "./lab-clean";
@@ -70,14 +72,30 @@ function collectAboutSource(): LabSourceDocument {
     `## ${aboutWorkflowIntro.title}`,
     aboutWorkflowIntro.description,
     "",
-    `- ${aboutWorkflowToolLink.name}: ${aboutWorkflowToolLink.href}`,
+    "### Toolchain",
+    ...aboutWorkflowToolGroups.flatMap((group) => [
+      `- ${group.label}: ${group.items
+        .map((item) =>
+          item.href ? `${item.label} (${item.href})` : item.label,
+        )
+        .join(", ")}`,
+    ]),
     "",
-    ...aboutWorkflowBeats.flatMap((beat) => [
-      `### ${beat.title}`,
-      beat.description,
-      beat.footer,
+    "### Workflow",
+    ...aboutWorkflowSteps.flatMap((step) => [
+      `#### ${step.step} · ${step.title}`,
+      step.description,
+      step.footer,
       "",
     ]),
+    `### ${aboutWorkflowSplit.ai.title}`,
+    ...aboutWorkflowSplit.ai.items.map((item) => `- ${item}`),
+    "",
+    `### ${aboutWorkflowSplit.me.title}`,
+    ...aboutWorkflowSplit.me.items.map((item) => `- ${item}`),
+    "",
+    `${aboutWorkflowExample.beforeLink}${aboutWorkflowExample.linkLabel}${aboutWorkflowExample.afterLink}`,
+    "",
     aboutWorkflowClosing,
     "",
   ];

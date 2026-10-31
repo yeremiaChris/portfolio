@@ -121,9 +121,20 @@ export const aboutStoryEras: AboutStoryEra[] = [
   },
 ];
 
-export type AboutWorkflowIcon = "ticket" | "decide" | "checks";
+export type AboutWorkflowToolItem = {
+  label: string;
+  href?: string;
+};
 
-export type AboutWorkflowBeat = {
+export type AboutWorkflowToolGroup = {
+  id: string;
+  label: string;
+  items: AboutWorkflowToolItem[];
+};
+
+export type AboutWorkflowIcon = "plan" | "ticket" | "agent" | "review" | "ship";
+
+export type AboutWorkflowStep = {
   id: string;
   step: string;
   title: string;
@@ -133,51 +144,129 @@ export type AboutWorkflowBeat = {
   icon: AboutWorkflowIcon;
 };
 
-export const aboutWorkflowToolLink = {
-  name: "Cursor · Vim",
-  detail: "Editor",
-  href: "https://cursor.com/@yeremia",
-} as const;
+export const aboutWorkflowToolGroups: AboutWorkflowToolGroup[] = [
+  {
+    id: "editor",
+    label: "Editor",
+    items: [
+      { label: "Cursor", href: "https://cursor.com/@yeremia" },
+      { label: "Vim" },
+    ],
+  },
+  {
+    id: "agents",
+    label: "AI agents",
+    items: [
+      { label: "Cursor cloud agents" },
+      { label: "Grok Bot" },
+      { label: "Hermes Agent" },
+    ],
+  },
+  {
+    id: "planning",
+    label: "Planning",
+    items: [{ label: "Linear" }, { label: "Jira" }],
+  },
+  {
+    id: "ship",
+    label: "Ship",
+    items: [{ label: "GitHub" }, { label: "Vercel preview deploys" }],
+  },
+  {
+    id: "quality",
+    label: "Quality",
+    items: [
+      { label: "lint" },
+      { label: "typecheck" },
+      { label: "tests" },
+      { label: "Lighthouse" },
+    ],
+  },
+];
 
 export const aboutWorkflowIntro = {
   eyebrow: "Process",
   title: "How I work",
   description:
-    "I work in an AI-era loop: ticket first, agent-built PR, my review, then green checks before merge.",
+    "I work in an AI-era loop: research and plan with AI, track work in Linear or Jira, review agent PRs on Vercel previews, then merge when quality checks pass.",
 } as const;
 
-export const aboutWorkflowBeats: AboutWorkflowBeat[] = [
+export const aboutWorkflowSteps: AboutWorkflowStep[] = [
+  {
+    id: "plan",
+    step: "01",
+    title: "Research and plan with AI",
+    description:
+      "I sketch scope, constraints, and approach with AI before anything hits a backlog — so tickets start with context, not guesswork.",
+    footer: "Context before code",
+    tone: "accent",
+    icon: "plan",
+  },
   {
     id: "ticket",
-    step: "01",
-    title: "Start from a ticket",
+    step: "02",
+    title: "Capture as a ticket",
     description:
-      "Every change begins as a Linear ticket. An AI agent implements it on its own branch, and the result is always a PR — never a direct push to main.",
-    footer: "Linear → branch → PR",
+      "The plan becomes a Linear or Jira ticket with clear acceptance criteria. That ticket is the source of truth for humans and agents.",
+    footer: "Linear · Jira",
     tone: "primary",
     icon: "ticket",
   },
   {
-    id: "decide",
-    step: "02",
-    title: "I review and decide",
+    id: "agent",
+    step: "03",
+    title: "Agent builds the PR",
     description:
-      "Every PR carries a logic summary: what changed, why, the alternatives, and the risky parts. I read it and merge it myself. AI speeds up the work, but I own the decisions.",
-    footer: "Logic summary · I merge",
+      "A Cursor cloud agent (or Grok Bot / Hermes Agent when it fits) implements on its own branch and opens a PR with a logic summary — never a direct push to main.",
+    footer: "Branch · PR · logic summary",
     tone: "accent",
-    icon: "decide",
+    icon: "agent",
   },
   {
-    id: "checks",
-    step: "03",
-    title: "Checks guard quality",
+    id: "review",
+    step: "04",
+    title: "Review on the preview",
     description:
-      "Lint, typecheck, tests, build, and Lighthouse must pass before merge, so moving fast stays measurable.",
-    footer: "lint · typecheck · test · build · Lighthouse",
+      "I read the logic summary, exercise the Vercel preview, and request changes until the UX and architecture match what I want.",
+    footer: "Vercel preview · I decide",
     tone: "accent",
-    icon: "checks",
+    icon: "review",
+  },
+  {
+    id: "merge",
+    step: "05",
+    title: "Merge and promote",
+    description:
+      "When lint, typecheck, tests, and Lighthouse are green, I merge to development and promote to main for production.",
+    footer: "Checks · development → main",
+    tone: "primary",
+    icon: "ship",
   },
 ];
 
+export const aboutWorkflowSplit = {
+  ai: {
+    title: "AI does",
+    items: ["Drafting code", "Refactors", "Tests", "Research", "PR summaries"],
+  },
+  me: {
+    title: "I do",
+    items: [
+      "Scope and priorities",
+      "Architecture and UX decisions",
+      "Review",
+      "Merging",
+    ],
+  },
+} as const;
+
+export const aboutWorkflowExample = {
+  beforeLink: "The ",
+  linkLabel: "/lab",
+  linkHref: "/lab",
+  afterLink:
+    " chat redesign went from a phone screenshot to a ticket, an agent-built PR with before/after screenshots, my review, and a merge the same evening.",
+} as const;
+
 export const aboutWorkflowClosing =
-  "AI handles the repetitive work, so I focus on design, review, and product decisions." as const;
+  "AI handles repetitive drafting; I focus on scope, architecture, review, and product decisions." as const;

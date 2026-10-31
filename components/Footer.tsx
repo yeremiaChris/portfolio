@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
@@ -79,20 +77,11 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="border-border/40 flex flex-col items-center justify-between gap-3 border-t pt-6 sm:flex-row">
+        <div className="border-border/40 border-t pt-6">
           <span className="text-muted-foreground text-[12px]">
             © {new Date().getFullYear()} {site.fullName}. Software Engineer ·
             Frontend-Heavy.
           </span>
-          <Link
-            href={site.links.analytics}
-            target="_blank"
-            rel="noopener noreferrer"
-            prefetch={false}
-            className="text-muted-foreground hover:text-foreground label-caps text-[10px] tracking-widest"
-          >
-            Analytics
-          </Link>
         </div>
       </Container>
     </footer>

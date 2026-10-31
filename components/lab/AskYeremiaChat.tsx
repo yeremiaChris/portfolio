@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDownIcon, SquarePenIcon } from "lucide-react";
-import { useRef, useState, type UIEvent } from "react";
+import { useRef, useState, type ReactNode, type UIEvent } from "react";
 
 import { ChatComposer } from "@/components/lab/ChatComposer";
 import { ChatMessage } from "@/components/lab/ChatMessage";
@@ -13,7 +13,11 @@ import { cn } from "@/lib/utils";
 
 const NEAR_BOTTOM_PX = 96;
 
-export function AskYeremiaChat() {
+type AskYeremiaChatProps = {
+  emptyStateHeading: ReactNode;
+};
+
+export function AskYeremiaChat({ emptyStateHeading }: AskYeremiaChatProps) {
   const {
     messages,
     isStreaming,
@@ -63,7 +67,7 @@ export function AskYeremiaChat() {
   return (
     <div
       id={askYeremia.id}
-      className="bg-background flex h-full min-h-0 flex-col overflow-hidden"
+      className="bg-background flex h-[calc(100dvh-var(--nav-height))] flex-col overflow-hidden"
     >
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
         <p className="text-foreground/75 text-xs font-medium tracking-wide text-[#4cd7f6] uppercase">
@@ -95,14 +99,7 @@ export function AskYeremiaChat() {
                     YC
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex max-w-lg flex-col gap-2">
-                  <h2 className="font-heading text-foreground text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-                    {askYeremia.greeting}
-                  </h2>
-                  <p className="text-muted-foreground text-sm leading-relaxed sm:text-[15px]">
-                    {askYeremia.greetingSubline}
-                  </p>
-                </div>
+                {emptyStateHeading}
               </div>
               <ul
                 className="flex flex-wrap justify-center gap-2"

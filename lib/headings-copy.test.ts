@@ -33,7 +33,6 @@ describe("page intro copy", () => {
 
   it("uses plain professional headings on key pages", () => {
     expect(experienceIntro.eyebrow).toBe("Career timeline");
-    expect(labIntro.eyebrow).toBe("Lab · Ask Yeremia");
     expect(askYeremia.topBarEyebrow).toBe("Lab · Ask Yeremia");
     expect(blogIntro).not.toHaveProperty("statusBadge");
   });

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { askYeremia } from "./lab";
 import {
   buildSystemInstruction,
+  modelCandidates,
   type LabChatLogEntry,
   MAX_HISTORY_MESSAGES,
   streamLabChat,
@@ -89,6 +90,31 @@ describe("validateChatBody", () => {
   });
 });
 
+describe("modelCandidates", () => {
+  it("caps generation budget for cost control", async () => {
+    const { MAX_OUTPUT_TOKENS } = await import("./lab-chat-api");
+    expect(MAX_OUTPUT_TOKENS).toBe(700);
+  });
+
+  it("orders Auto with DeepSeek first when configured", () => {
+    expect(modelCandidates("auto")).toEqual([
+      "gemini-3.8-flash",
+      "gemini-3.5-flash",
+      "gemini-3.1-flash-lite",
+    ]);
+    expect(
+      modelCandidates("auto", {
+        deepseek: { apiKey: "ds-key", baseUrl: "https://api.deepseek.com" },
+      }),
+    ).toEqual([
+      "deepseek-chat",
+      "gemini-3.8-flash",
+      "gemini-3.5-flash",
+      "gemini-3.1-flash-lite",
+    ]);
+  });
+});
+
 describe("streamLabChat", () => {
   it("streams a happy-path answer with sources", async () => {
     const query = unitQuery();
@@ -146,6 +172,38 @@ describe("streamLabChat", () => {
     ]);
   });
 
+  it("falls back when DeepSeek errors before any token", async () => {
+    const query = unitQuery();
+    const attempted: string[] = [];
+    const events = [];
+
+    for await (const event of streamLabChat(body({ modelId: "auto" }), {
+      apiKey: "test",
+      index: indexWithChunk(query),
+      signal: new AbortController().signal,
+      embedQuery: async () => query,
+      providers: {
+        deepseek: { apiKey: "ds-key", baseUrl: "https://api.deepseek.com" },
+      },
+      generateStream: async function* ({ modelId }) {
+        attempted.push(modelId);
+        if (modelId === "deepseek-chat") {
+          throw Object.assign(new Error("rate limited"), { status: 429 });
+        }
+        yield { text: "Gemini fallback [1]." };
+      },
+    })) {
+      events.push(event);
+    }
+
+    expect(attempted[0]).toBe("deepseek-chat");
+    expect(attempted[1]).toBe("gemini-3.8-flash");
+    expect(events[0]).toEqual({
+      type: "model",
+      modelId: "gemini-3.8-flash",
+    });
+  });
+
   it("falls back when the first model returns 429 before any token", async () => {
     const query = unitQuery();
     const attempted: string[] = [];
@@ -167,8 +225,7 @@ describe("streamLabChat", () => {
       events.push(event);
     }
 
-    expect(attempted[0]).toBe("gemini-3.8-flash");
-    expect(attempted[1]).toBe("gemini-3.5-flash");
+    expect(attempted).toEqual(["gemini-3.8-flash", "gemini-3.5-flash"]);
     expect(events[0]).toEqual({
       type: "model",
       modelId: "gemini-3.5-flash",

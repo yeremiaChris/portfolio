@@ -5,6 +5,7 @@ import { ModelPicker } from "@/components/lab/ModelPicker";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { askYeremia } from "@/lib/lab";
+import type { ChatModel } from "@/lib/lab-models";
 import { cn } from "@/lib/utils";
 
 interface ChatComposerProps {
@@ -15,6 +16,7 @@ interface ChatComposerProps {
   isStreaming: boolean;
   modelId: string;
   onModelChange: (modelId: string) => void;
+  models: ChatModel[];
   className?: string;
 }
 
@@ -26,6 +28,7 @@ export function ChatComposer({
   isStreaming,
   modelId,
   onModelChange,
+  models,
   className,
 }: ChatComposerProps) {
   const trimmed = value.trim();
@@ -97,6 +100,7 @@ export function ChatComposer({
             modelId={modelId}
             onModelChange={onModelChange}
             disabled={isStreaming}
+            models={models}
           />
 
           <div className="flex items-center gap-2">

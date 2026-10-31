@@ -1,3 +1,8 @@
+import type {
+  OpenAICompatibleProvider,
+  ProviderCredentials,
+} from "./lab-provider-env";
+
 export type ModelProvider =
   "auto" | "google" | "anthropic" | "openai" | "deepseek" | "qwen" | "moonshot";
 
@@ -84,6 +89,7 @@ export const CHAT_MODELS: ChatModel[] = [
 
 /** Kept exported for tests that assert Auto fallback order. */
 export const AUTO_FALLBACK_ORDER = [
+  "deepseek-chat",
   "gemini-3.8-flash",
   "gemini-3.5-flash",
   "gemini-3.1-flash-lite",
@@ -99,17 +105,41 @@ export function getApiModelId(model: ChatModel): string {
 
 export function isOpenAICompatibleProvider(
   provider: ModelProvider,
-): provider is "deepseek" | "qwen" | "moonshot" {
+): provider is OpenAICompatibleProvider {
   return (
     provider === "deepseek" || provider === "qwen" || provider === "moonshot"
   );
 }
 
+export function modelRuntimeEnabled(
+  model: ChatModel,
+  providers: Partial<Record<OpenAICompatibleProvider, ProviderCredentials>>,
+): boolean {
+  if (!model.enabled) return false;
+  if (isOpenAICompatibleProvider(model.provider)) {
+    return Boolean(providers[model.provider]?.apiKey);
+  }
+  return true;
+}
+
+export function chatModelsForRuntime(
+  providers: Partial<Record<OpenAICompatibleProvider, ProviderCredentials>>,
+): ChatModel[] {
+  return CHAT_MODELS.map((model) => ({
+    ...model,
+    enabled: modelRuntimeEnabled(model, providers),
+  }));
+}
+
 /** First enabled model id in AUTO_FALLBACK_ORDER, or undefined if none. */
-export function resolveAutoModel(): string | undefined {
+export function resolveAutoModel(
+  providers: Partial<
+    Record<OpenAICompatibleProvider, ProviderCredentials>
+  > = {},
+): string | undefined {
   for (const id of AUTO_FALLBACK_ORDER) {
     const model = getModel(id);
-    if (model?.enabled) return model.id;
+    if (model && modelRuntimeEnabled(model, providers)) return model.id;
   }
   return undefined;
 }

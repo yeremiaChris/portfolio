@@ -8,7 +8,7 @@ import {
 } from "@/lib/lab-chat";
 import { askYeremia } from "@/lib/lab";
 import { httpTransport } from "@/lib/lab-http-transport";
-import { DEFAULT_MODEL_ID, getModel } from "@/lib/lab-models";
+import { DEFAULT_MODEL_ID, type ChatModel } from "@/lib/lab-models";
 
 const MODEL_STORAGE_KEY = "ask-yeremia-model-id";
 
@@ -16,10 +16,18 @@ function modelChangeEventName(storageKey: string) {
   return `ask-yeremia-model:${storageKey}`;
 }
 
-function readStoredModelId(storageKey: string): string {
+function findEnabledModel(
+  models: ChatModel[],
+  id: string,
+): ChatModel | undefined {
+  const model = models.find((entry) => entry.id === id);
+  return model?.enabled ? model : undefined;
+}
+
+function readStoredModelId(storageKey: string, models: ChatModel[]): string {
   try {
     const stored = window.localStorage.getItem(storageKey);
-    if (stored && getModel(stored)?.enabled) return stored;
+    if (stored && findEnabledModel(models, stored)) return stored;
   } catch {
     // localStorage can be unavailable.
   }
@@ -49,15 +57,19 @@ function writeStoredModelId(storageKey: string, nextId: string) {
   window.dispatchEvent(new Event(modelChangeEventName(storageKey)));
 }
 
-export function useChat(options: { transport?: ChatTransport } = {}) {
+export function useChat(options: {
+  transport?: ChatTransport;
+  models: ChatModel[];
+}) {
   const transport = options.transport ?? httpTransport;
+  const models = options.models;
   const storageKey = MODEL_STORAGE_KEY;
 
   const [messages, setMessages] = useState<Message[]>([]);
 
   const modelId = useSyncExternalStore(
     (onStoreChange) => subscribeToModelId(storageKey, onStoreChange),
-    () => readStoredModelId(storageKey),
+    () => readStoredModelId(storageKey, models),
     () => DEFAULT_MODEL_ID,
   );
 
@@ -77,8 +89,7 @@ export function useChat(options: { transport?: ChatTransport } = {}) {
     lastAssistant?.status === "streaming";
 
   function setModelId(nextId: string) {
-    const model = getModel(nextId);
-    if (!model?.enabled) return;
+    if (!findEnabledModel(models, nextId)) return;
     writeStoredModelId(storageKey, nextId);
   }
 

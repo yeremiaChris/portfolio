@@ -6,7 +6,7 @@ export type ProviderCredentials = {
 };
 
 const DEFAULT_BASE_URLS: Record<OpenAICompatibleProvider, string> = {
-  deepseek: "https://api.deepseek.com/v1",
+  deepseek: "https://api.deepseek.com",
   qwen: "https://dashscope.aliyuncs.com/compatible-mode/v1",
   moonshot: "https://api.moonshot.cn/v1",
 };

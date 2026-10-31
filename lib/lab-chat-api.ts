@@ -11,6 +11,7 @@ import {
   getApiModelId,
   getModel,
   isOpenAICompatibleProvider,
+  modelRuntimeEnabled,
 } from "./lab-models";
 import type {
   OpenAICompatibleProvider,
@@ -27,7 +28,7 @@ export const MAX_MESSAGE_CHARS = 2000;
 /** Last N messages sent to the model (≈ 6 user/assistant turns). */
 export const MAX_HISTORY_MESSAGES = 12;
 /** Hard cap on generated tokens per answer (cost + abuse guard). */
-export const MAX_OUTPUT_TOKENS = 1024;
+export const MAX_OUTPUT_TOKENS = 700;
 
 export type ValidatedChatBody = {
   messages: Message[];
@@ -99,14 +100,20 @@ export function validateChatBody(value: unknown): ValidatedChatBody | string {
   return { messages, modelId, question };
 }
 
-const enabledFallbacks = AUTO_FALLBACK_ORDER.filter(
-  (id) => getModel(id)?.enabled,
-);
-
-export function modelCandidates(modelId: string): string[] {
+export function modelCandidates(
+  modelId: string,
+  providers: Partial<
+    Record<OpenAICompatibleProvider, ProviderCredentials>
+  > = {},
+): string[] {
+  const isAvailable = (id: string) => {
+    const model = getModel(id);
+    return model ? modelRuntimeEnabled(model, providers) : false;
+  };
+  const enabledFallbacks = AUTO_FALLBACK_ORDER.filter(isAvailable);
   if (modelId === DEFAULT_MODEL_ID) return enabledFallbacks;
   const selected = getModel(modelId);
-  if (selected?.enabled) return [selected.id];
+  if (selected && isAvailable(selected.id)) return [selected.id];
   return enabledFallbacks;
 }
 
@@ -321,7 +328,7 @@ export async function* streamLabChat(
       parts: [{ text: message.content }],
     }));
 
-  const candidates = modelCandidates(body.modelId);
+  const candidates = modelCandidates(body.modelId, deps.providers ?? {});
   if (candidates.length === 0) {
     finish({ outcome: "error", errorStatus: "no-model" });
     yield { type: "error", message: askYeremia.errorMessage };

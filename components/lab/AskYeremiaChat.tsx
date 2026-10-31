@@ -9,11 +9,16 @@ import { useChat } from "@/components/lab/useChat";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { askYeremia } from "@/lib/lab";
+import type { ChatModel } from "@/lib/lab-models";
 import { cn } from "@/lib/utils";
+
+interface AskYeremiaChatProps {
+  models: ChatModel[];
+}
 
 const NEAR_BOTTOM_PX = 96;
 
-export function AskYeremiaChat() {
+export function AskYeremiaChat({ models }: AskYeremiaChatProps) {
   const {
     messages,
     isStreaming,
@@ -23,7 +28,7 @@ export function AskYeremiaChat() {
     stop,
     regenerate,
     reset,
-  } = useChat();
+  } = useChat({ models });
 
   const [input, setInput] = useState("");
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -204,6 +209,7 @@ export function AskYeremiaChat() {
               isStreaming={isStreaming}
               modelId={modelId}
               onModelChange={setModelId}
+              models={models}
             />
           </div>
         </div>

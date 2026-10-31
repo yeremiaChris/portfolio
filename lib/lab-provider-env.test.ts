@@ -14,7 +14,7 @@ describe("readOpenAICompatibleProviders", () => {
     expect(providers).toEqual({
       deepseek: {
         apiKey: "ds-key",
-        baseUrl: "https://api.deepseek.com/v1",
+        baseUrl: "https://api.deepseek.com",
       },
     });
   });

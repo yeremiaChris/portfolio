@@ -26,13 +26,13 @@ export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
               <Badge
                 variant="secondary"
                 className={cn(
-                  "font-mono text-[11px] tracking-wider uppercase",
+                  "label-caps text-[11px] tracking-wider",
                   tagToneClass[study.tagTone],
                 )}
               >
                 {study.tag}
               </Badge>
-              <span className="text-muted-foreground font-mono text-[13px]">
+              <span className="text-muted-foreground text-[13px]">
                 {study.stack}
               </span>
             </div>
@@ -44,7 +44,12 @@ export function FeaturedCaseStudy({ study }: { study: MilestoneCaseStudy }) {
             </CardDescription>
           </CardHeader>
 
-          <CaseStudyMetrics metrics={study.metrics} columns={3} />
+          {study.metrics.length > 0 ? (
+            <CaseStudyMetrics
+              metrics={study.metrics}
+              columns={study.metrics.length >= 3 ? 3 : 2}
+            />
+          ) : null}
         </div>
 
         {study.chart ? (

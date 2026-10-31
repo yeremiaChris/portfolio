@@ -1,118 +1,108 @@
-import Link from "next/link";
-import { ArrowRightIcon, SparklesIcon } from "lucide-react";
+import { ArrowRightIcon, FileTextIcon, MailIcon } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { HeroProofCard } from "@/components/home/HeroProofCard";
 import { buttonVariants } from "@/components/ui/button";
-import { labHomeCta } from "@/lib/lab";
+import { heroCtas } from "@/lib/hero";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export function HeroIntro() {
+const accentButtonClassName = "bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3]";
+
+export function HeroHeadline() {
   return (
-    <div className="flex flex-col items-start">
-      <div className="mb-4 flex flex-wrap items-center gap-3">
-        <Badge
-          variant="secondary"
-          className="bg-secondary text-primary h-auto gap-1.5 px-3 py-1 text-[10px] font-medium tracking-[0.08em] uppercase"
-        >
-          <span className="relative flex size-2">
-            <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-80" />
-            <span className="bg-primary relative inline-flex size-2 rounded-full" />
-          </span>
-          {site.availability}
-        </Badge>
-        <Badge
-          variant="secondary"
-          className="bg-muted text-foreground h-auto gap-1.5 px-3 py-1 font-mono text-[13px] font-medium tracking-normal normal-case"
-        >
-          {site.role}
-        </Badge>
-      </div>
+    <div className="hero-signal-headline relative w-full min-w-0 text-left">
+      <h1
+        id="hero-heading"
+        className={cn(
+          "hero-enter hero-enter--0 font-heading text-left text-[2.65rem] font-bold text-balance sm:text-6xl xl:text-7xl",
+          "bg-linear-to-br from-[#4cd7f6] to-[#2dd4bf] bg-clip-text text-transparent",
+          "max-w-[16ch] sm:max-w-none",
+        )}
+      >
+        {site.fullName}
+      </h1>
 
-      <div className="mb-4 flex flex-col">
-        <h1
-          id="hero-heading"
-          className="font-heading text-foreground text-4xl font-bold tracking-tight sm:text-5xl lg:text-[4rem] lg:leading-[1.1]"
-        >
-          Hi, I&apos;m{" "}
-          <span className="from-primary bg-linear-to-r via-[#6ffbbe] to-[#4cd7f6] bg-clip-text text-transparent">
-            {site.name}
-          </span>
-        </h1>
-        <p className="text-foreground mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
-          {site.fullName}
-        </p>
-      </div>
+      <p
+        className={cn(
+          "hero-enter hero-enter--1 text-muted-foreground mt-3 text-left text-lg font-medium tracking-tight md:mt-4 md:text-xl md:whitespace-nowrap",
+        )}
+      >
+        {site.role}
+      </p>
 
-      <p className="text-muted-foreground mb-8 max-w-2xl text-base leading-relaxed sm:text-lg sm:leading-7">
+      <p
+        className={cn(
+          "hero-enter hero-enter--2 text-foreground/80 mt-5 max-w-[65ch] text-left text-lg leading-[1.7] sm:text-xl md:mt-6",
+        )}
+      >
         {site.heroBio}
       </p>
 
-      <div className="mb-10 flex w-full flex-col gap-3">
-        <span className="text-muted-foreground font-mono text-[10px] tracking-[0.16em] uppercase">
-          Production
-        </span>
-        <nav
-          aria-label="Selected production work"
-          className="flex flex-wrap items-center gap-2"
-        >
-          {site.proof.map((item) => (
-            <ProofLink
-              key={item.id}
-              href={item.href}
-              label={item.label}
-              meta={item.meta}
-            />
-          ))}
-        </nav>
-      </div>
-
-      <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto">
+      <div className="hero-enter hero-enter--3 mt-6 flex w-full flex-wrap items-start justify-start gap-3 md:mt-8 md:gap-4">
         <a
-          href="#work"
+          href={heroCtas.primary.href}
           className={cn(
             buttonVariants({ size: "lg" }),
-            "hover:bg-primary bg-[#10b981] text-[#00422b]",
+            accentButtonClassName,
+            "h-12 px-6 text-base",
           )}
         >
-          Selected work
-          <ArrowRightIcon />
+          <MailIcon className="size-5" />
+          {heroCtas.primary.label}
         </a>
-        <Link
-          href={labHomeCta.href}
+        <a
+          href={heroCtas.secondary.href}
           className={cn(
-            buttonVariants({ variant: "secondary", size: "lg" }),
-            "border border-[#4cd7f6]/35 bg-[#4cd7f6]/10 text-[#4cd7f6]",
-            "hover:bg-[#4cd7f6]/15 hover:text-[#4cd7f6]",
-            "focus-visible:ring-2 focus-visible:ring-[#4cd7f6]/50",
+            buttonVariants({ variant: "outline", size: "lg" }),
+            "h-12 px-6 text-base",
           )}
         >
-          <SparklesIcon />
-          {labHomeCta.ctaLabel}
-        </Link>
+          {heroCtas.secondary.label}
+          <ArrowRightIcon className="size-5" />
+        </a>
+        <a
+          href={heroCtas.resume.href}
+          className={cn(
+            buttonVariants({ variant: "outline", size: "lg" }),
+            "h-12 px-6 text-base",
+          )}
+        >
+          <FileTextIcon className="size-5" />
+          {heroCtas.resume.label}
+        </a>
       </div>
     </div>
   );
 }
 
-function ProofLink({
-  href,
-  label,
-  meta,
-}: {
-  href: string;
-  label: string;
-  meta: string;
-}) {
+export function HeroProduction() {
   return (
-    <a
-      href={href}
-      className="group bg-muted text-muted-foreground hover:bg-secondary hover:text-foreground inline-flex items-center gap-2 rounded-lg px-3 py-2 transition-colors"
-    >
-      <span className="text-foreground font-mono text-[13px]">{label}</span>
-      <span className="text-muted-foreground group-hover:text-primary font-mono text-[10px] tracking-wider uppercase">
-        {meta}
-      </span>
-    </a>
+    <div className="hero-enter hero-enter--4 mt-10 w-full md:mt-12">
+      <p className="text-muted-foreground mb-4 text-left font-mono text-[11px] tracking-[0.16em] uppercase">
+        Production
+      </p>
+      <nav
+        aria-label="Selected production work"
+        className="grid w-full grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4 md:gap-6"
+      >
+        {site.proof.map((item) => (
+          <HeroProofCard
+            key={item.id}
+            href={item.href}
+            label={item.label}
+            meta={item.meta}
+          />
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+export function HeroIntro() {
+  return (
+    <div className="flex w-full flex-col items-start text-left">
+      <HeroHeadline />
+      <HeroProduction />
+    </div>
   );
 }

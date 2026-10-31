@@ -22,11 +22,11 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
         <div className="flex items-center justify-between gap-2">
           <Badge
             variant="secondary"
-            className="bg-muted text-primary rounded-md px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase"
+            className="bg-muted text-primary label-caps rounded-md px-2 py-0.5 tracking-wider"
           >
             {primaryTag}
           </Badge>
-          <span className="text-muted-foreground shrink-0 font-mono text-[11px]">
+          <span className="text-muted-foreground shrink-0 text-[11px]">
             {post.readingTime}
           </span>
         </div>
@@ -52,7 +52,7 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
               <Badge
                 key={tag}
                 variant="secondary"
-                className="text-muted-foreground rounded-md px-1.5 py-0.5 font-mono text-[11px] font-normal"
+                className="text-muted-foreground rounded-md px-1.5 py-0.5 text-[11px] font-normal"
               >
                 {tag}
               </Badge>
@@ -64,13 +64,13 @@ export function BlogPostCard({ post }: { post: BlogPost }) {
       <CardFooter className="flex items-center justify-between gap-3 border-t-0 bg-transparent px-4 py-4">
         <time
           dateTime={post.date}
-          className="text-muted-foreground font-mono text-[11px] tracking-wider uppercase"
+          className="text-muted-foreground label-caps text-[11px] tracking-wider"
         >
           {formatBlogDate(post.date)}
         </time>
         <Link
           href={href}
-          className="text-primary inline-flex items-center gap-0.5 font-mono text-[12px] transition-transform group-hover:translate-x-0.5"
+          className="text-primary inline-flex items-center gap-0.5 text-[12px] transition-transform group-hover:translate-x-0.5"
         >
           Read article
           <ArrowRight className="size-3.5" aria-hidden />

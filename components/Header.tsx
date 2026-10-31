@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { UserIcon } from "lucide-react";
 
 import { HeaderMobileMenu } from "@/components/HeaderMobileMenu";
 import { HeaderResumeLink } from "@/components/HeaderResumeLink";
@@ -14,7 +13,7 @@ export function Header() {
       <Container className="flex h-[var(--nav-height)] items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <span className="text-primary font-mono text-[13px] font-bold tracking-tight">
+            <span className="text-primary text-[13px] font-bold tracking-tight">
               {"<YC />"}
             </span>
             <span className="font-heading text-foreground hidden font-semibold tracking-tight sm:inline-block">
@@ -23,10 +22,7 @@ export function Header() {
           </Link>
 
           <span className="bg-muted text-primary hidden items-center gap-1.5 rounded-lg px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] uppercase xl:inline-flex">
-            <span className="relative flex size-2">
-              <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
-              <span className="bg-primary relative inline-flex size-2 rounded-full" />
-            </span>
+            <span className="bg-primary size-2 shrink-0 rounded-full" />
             Available for work
           </span>
         </div>
@@ -38,17 +34,13 @@ export function Header() {
             href="/#contact"
             className={cn(
               buttonVariants({ size: "sm" }),
-              "hover:bg-primary hidden bg-[#10b981] text-[#00422b] sm:inline-flex",
+              "hidden bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3] sm:inline-flex",
             )}
           >
             Get in Touch
           </Link>
 
           <HeaderResumeLink />
-
-          <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-full">
-            <UserIcon className="size-4" />
-          </span>
 
           <HeaderMobileMenu />
         </div>

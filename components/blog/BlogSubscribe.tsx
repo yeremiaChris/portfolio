@@ -17,7 +17,7 @@ export function BlogSubscribe() {
         <div className="flex max-w-xl flex-col gap-2">
           <Badge
             variant="secondary"
-            className="text-primary w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+            className="text-primary label-caps w-fit gap-2 bg-transparent px-0 tracking-widest"
           >
             <span className="bg-primary size-2 animate-pulse rounded-full" />
             {blogSubscribe.eyebrow}
@@ -57,7 +57,7 @@ export function BlogSubscribe() {
         </div>
       </div>
 
-      <div className="border-border/40 text-muted-foreground mt-5 flex flex-wrap items-center gap-4 border-t pt-4 font-mono text-[11px]">
+      <div className="border-border/40 text-muted-foreground mt-5 flex flex-wrap items-center gap-4 border-t pt-4 text-[11px]">
         <span className="inline-flex items-center gap-1.5">
           <Lock className="text-primary size-3.5" aria-hidden />
           {blogSubscribe.privacyNote}

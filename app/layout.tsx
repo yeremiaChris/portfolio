@@ -1,38 +1,49 @@
-import type { Metadata } from "next";
-import { Geist, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono, Rethink_Sans } from "next/font/google";
 
 import { Header } from "@/components/Header";
 import { UmamiScript } from "@/components/UmamiScript";
 import { INTRO_BOOTSTRAP_SCRIPT } from "@/lib/intro";
 import { getSiteUrl, site } from "@/lib/site";
+import { WEB_APP_BACKGROUND_COLOR } from "@/lib/web-manifest";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-sans",
-  preload: false,
-  display: "optional",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  preload: false,
-  display: "optional",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-heading",
+  variable: "--font-geist-sans",
   preload: true,
+  display: "swap",
 });
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  preload: true,
+  display: "swap",
+});
+
+const rethinkSans = Rethink_Sans({
+  subsets: ["latin"],
+  variable: "--font-rethink-sans",
+  preload: true,
+  display: "swap",
+});
+
+export const viewport: Viewport = {
+  themeColor: WEB_APP_BACKGROUND_COLOR,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: "Yeremia Chris Saragi | Software Engineer",
   description: site.tagline,
+  alternates: {
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -55,8 +66,8 @@ export default function RootLayout({
       className={cn(
         "dark font-sans",
         geist.variable,
-        jetbrainsMono.variable,
-        spaceGrotesk.variable,
+        geistMono.variable,
+        rethinkSans.variable,
       )}
     >
       <body

@@ -1,14 +1,4 @@
-export type ProjectRibbonTone = "foreground" | "primary" | "cyan";
-
-export type ProjectRibbonMetric = {
-  label: string;
-  value: string;
-  tone: ProjectRibbonTone;
-};
-
 export const projectsIntro = {
-  breadcrumbRoot: "sys://root/index",
-  breadcrumbLeaf: "architectural_deployments.log",
   title: "Featured Projects",
   description:
     "Four production stories with ownership and outcomes — health-tech and logistics first. Earlier shipped work sits in the archive below.",
@@ -17,35 +7,14 @@ export const projectsIntro = {
 export const projectsArchiveIntro = {
   eyebrow: "Archive",
   title: "Earlier work",
-  description:
-    "Additional shipped sites and UI. Real work — just not the hiring signal.",
+  description: "Client sites and UI I shipped earlier in my career.",
 } as const;
 
-export const projectRibbonToneClass: Record<ProjectRibbonTone, string> = {
-  foreground: "text-foreground",
-  primary: "text-primary",
-  cyan: "text-[#4cd7f6]",
-};
-
-export const projectsRibbon: ProjectRibbonMetric[] = [
-  {
-    label: "Featured",
-    value: "4 Production",
-    tone: "foreground",
-  },
-  {
-    label: "Domains",
-    value: "Health · Logistics",
-    tone: "primary",
-  },
-  {
-    label: "Stack Focus",
-    value: "React · Vue · APIs",
-    tone: "cyan",
-  },
-];
-
 export type ProjectTag = "work" | "personal";
+
+export const maxFeaturedProjectToolChips = 4;
+export const maxArchiveProjectToolChips = 3;
+export const maxProjectToolChips = maxFeaturedProjectToolChips;
 
 export type Project = {
   id: string;
@@ -61,6 +30,16 @@ export type Project = {
   ctaLabel?: "Open Site" | "Webview";
 };
 
+export function getProjectToolChips(
+  tools: readonly string[],
+  featured: boolean,
+): string[] {
+  const limit = featured
+    ? maxFeaturedProjectToolChips
+    : maxArchiveProjectToolChips;
+  return tools.slice(0, limit);
+}
+
 export const projects: Project[] = [
   {
     id: "mazecare",
@@ -69,7 +48,7 @@ export const projects: Project[] = [
     year: "2025–2026",
     summary:
       "Visit, queue, teleconsult, and billing UI on a FHIR-compliant clinic/hospital OS — GraphQL + FHIR, plus AI-assisted notes used in real clinic workflows.",
-    tools: ["Vue 3", "Nuxt 3", "TypeScript", "GraphQL", "FHIR"],
+    tools: ["Vue 3", "Nuxt 3", "GraphQL", "FHIR"],
     image: "/projects/mazecare.png",
     imageAlt: "Mazecare receptionist dashboard and queue management",
     featured: true,
@@ -82,15 +61,8 @@ export const projects: Project[] = [
     tag: "work",
     year: "2022–Present",
     summary:
-      "Clinician and family product UI — design system, REST + auth, telemetry. Consumer app: 1M+ Play downloads. primaku.com is the parent-facing catalog, not the clinical product.",
-    tools: [
-      "Next.js",
-      "TypeScript",
-      "React Hook Form",
-      "Valibot",
-      "TanStack Query",
-      "Framer Motion",
-    ],
+      "Web platform for clinician and family UI — design system, REST + auth. PrimaKu's consumer app has 1M+ Play downloads; primaku.com is the parent-facing catalog I ship on SSR, separate from the clinical product.",
+    tools: ["Next.js", "TypeScript", "React Hook Form", "TanStack Query"],
     image: "/projects/primaku.png",
     imageAlt: "PrimaKu parent-facing vaccine and medical services catalog",
     featured: true,
@@ -103,8 +75,8 @@ export const projects: Project[] = [
     tag: "work",
     year: "2023–2024",
     summary:
-      "High-density logistics UI: live rates across 15+ courier partners, virtualized manifests + Web Workers. Consumer app: 100K+ Play downloads.",
-    tools: ["Nuxt.js", "TypeScript", "Swiper", "Firebase"],
+      "High-density logistics web UI: live rate UI across 15+ couriers, virtualized manifests + Web Workers. KiriminAja's consumer app has 100K+ Play downloads; I own the control-room web platform.",
+    tools: ["Nuxt.js", "TypeScript", "Swiper"],
     image: "/projects/kiriminaja.jpg",
     imageAlt: "KiriminAja logistics platform",
     featured: true,
@@ -118,13 +90,7 @@ export const projects: Project[] = [
     year: "2024",
     summary:
       "Clinician-facing medical records and SatuSehat flows — forms, data pipelines, and day-to-day clinic UI.",
-    tools: [
-      "Next.js",
-      "TypeScript",
-      "React Hook Form",
-      "TanStack Query",
-      "Valibot",
-    ],
+    tools: ["Next.js", "TypeScript", "React Hook Form", "TanStack Query"],
     image: "/projects/primacare.jpg",
     imageAlt: "PrimaCare clinic management",
     featured: true,
@@ -138,13 +104,7 @@ export const projects: Project[] = [
     year: "2025",
     summary:
       "Built the program site for PrimaKu’s annual parenting classes and rewards system, including registration flows and point collection features.",
-    tools: [
-      "Next.js",
-      "TypeScript",
-      "React Hook Form",
-      "TanStack Query",
-      "Valibot",
-    ],
+    tools: ["Next.js", "TypeScript", "React Hook Form", "TanStack Query"],
     image: "/projects/parenthood.jpg",
     imageAlt: "Parenthood Institute",
     featured: false,
@@ -253,5 +213,5 @@ export const projectsContactCta = {
   eyebrow: "Available for Software Engineer roles (frontend-heavy)",
   title: "Interested in hiring or discussing a product build?",
   description:
-    "Open for full-time remote or hybrid opportunities. Feel free to reach out via WhatsApp or email.",
+    "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Feel free to reach out by email or LinkedIn (WhatsApp works too).",
 } as const;

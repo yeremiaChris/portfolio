@@ -1,7 +1,7 @@
 {
   "model": "gemini-embedding-001",
   "dimensions": 768,
-  "createdAt": "2026-10-20T04:05:33.047Z",
+  "createdAt": "2026-10-30T08:37:29.447Z",
   "chunks": [
     {
       "id": "blog-react-frontend-systems#0",
@@ -105816,8 +105816,8 @@
       "sourceTitle": "About Yeremia Chris Saragi",
       "url": "/about",
       "heading": "Profile",
-      "text": "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development. He has 4+ years building production platforms across health-tech and logistics, with strong React, Next.js, and Vue work plus real API, auth, and data-aware delivery.\nOpen to Software Engineer roles (frontend-heavy) — product platforms, clinical systems, or teams that value clean frontend work with real API and data ownership.\nIndonesia (Remote Worldwide)\n\n- Core Strength: Frontend Craft + API / Data Integration\n- Healthcare Impact: 1M+ app downloads (PrimaKu)\n- Logistics: Multi-carrier shipping (KiriminAja)\n- Target Role: Software Engineer · Frontend-Heavy",
-      "hash": "7c32ffadd232276ad9bcbfa61e7935ea2047ecfcf46e5998f415b66eb842ba18",
+      "text": "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development. He has 4+ years building production platforms across health-tech and logistics, with strong React, Next.js, and Vue work plus real API, auth, and data-aware delivery.\nOpen to Software Engineer roles (frontend-heavy) — product platforms, clinical systems, or teams that value clean frontend work with real API and data ownership.\nIndonesia (Remote Worldwide)\n\n- Core Strength: Frontend Craft + API / Data Integration\n- Healthcare: PrimaKu web platform (clinical + catalog)\n- Logistics: Multi-carrier shipping (KiriminAja)\n- Target Role: Software Engineer · Frontend-Heavy",
+      "hash": "89a681a4d5379e34728f3d12665a8ca3feee228f4e406c065b08f719afc1c948",
       "embedding": [
         -0.00568022,
         -0.000379967,
@@ -115152,8 +115152,8 @@
       "sourceTitle": "Featured Projects",
       "url": "/projects",
       "heading": "PrimaKu",
-      "text": "work · 2022–Present\nClinician and family product UI — design system, REST + auth, telemetry. Consumer app: 1M+ Play downloads. primaku.com is the parent-facing catalog, not the clinical product.\nTools: Next.js, TypeScript, React Hook Form, Valibot, TanStack Query, Framer Motion",
-      "hash": "014064fdd86bdc9d17592a8396f2d5948e9ae17cc0fe39b311fe8978f20b969b",
+      "text": "work · 2022–Present\nWeb platform for clinician and family UI — design system, REST + auth. PrimaKu's consumer app has 1M+ Play downloads; primaku.com is the parent-facing catalog I ship on SSR, separate from the clinical product.\nTools: Next.js, TypeScript, React Hook Form, Valibot, TanStack Query, Framer Motion",
+      "hash": "c613915ea4e1cc4446c263d0dee1fc612b5d6971be11316ad9e0aa6fab2d12a4",
       "embedding": [
         -0.0204354,
         -0.00841179,
@@ -115930,8 +115930,8 @@
       "sourceTitle": "Featured Projects",
       "url": "/projects",
       "heading": "KiriminAja",
-      "text": "work · 2023–2024\nHigh-density logistics UI: live rates across 15+ courier partners, virtualized manifests + Web Workers. Consumer app: 100K+ Play downloads.\nTools: Nuxt.js, TypeScript, Swiper, Firebase",
-      "hash": "df2708cb626f1c4f6cc126be388af495e79d3f3f0318ba088b55fda34d0731ac",
+      "text": "work · 2023–2024\nHigh-density logistics web UI: live rate UI across 15+ couriers, virtualized manifests + Web Workers. KiriminAja's consumer app has 100K+ Play downloads; I own the control-room web platform.\nTools: Nuxt.js, TypeScript, Swiper, Firebase",
+      "hash": "1d7e06e05e3ceb0d7d07c2784f0508fd3641a87cfe5537ddb310816f600e09d5",
       "embedding": [
         0.0120079,
         -0.0252348,
@@ -123710,8 +123710,8 @@
       "sourceTitle": "Engineering Experience",
       "url": "/experience",
       "heading": "Frontend Web Developer at PrimaKu",
-      "text": "Jakarta, ID (Remote) · Dec 2022 — Present\nNational health-tech platform endorsed by the Indonesian Pediatric Society (IDAI), supporting early childhood health monitoring for clinicians and families.\n- Owned frontend architecture for PrimaKu product and clinical portals in React/Next.js — shared UI, REST + auth, and telemetry. The consumer parenting app has 1M+ Google Play downloads.\n- Shipped accessible design-system components synced to multi-brand Figma tokens, used across clinician and family-facing product surfaces.\n- Delivered primaku.com as the parent-facing growth catalog (location-priced vaccines and medical services) on SSR — a different surface from the clinician product.\nStack: React, Next.js, TypeScript, Tailwind CSS, REST APIs, Jest / RTL",
-      "hash": "74e2fb0f4fc4f7cea733c8f013e862f10082d05d7f72a00f29cb149c58603413",
+      "text": "Jakarta, ID (Remote) · Dec 2022 — Present\nNational health-tech platform endorsed by the Indonesian Pediatric Society (IDAI), supporting early childhood health monitoring for clinicians and families.\n- Owned frontend architecture for PrimaKu's web platform in React/Next.js with shared UI, REST + auth. PrimaKu's consumer app has 1M+ Google Play downloads; I build the web surfaces, not the mobile app.\n- Shipped accessible design-system components synced to multi-brand Figma tokens, used across clinician and family-facing product surfaces.\n- Delivered primaku.com as the parent-facing growth catalog (location-priced vaccines and medical services) on SSR — a different surface from the clinician product.\nStack: React, Next.js, TypeScript, Tailwind CSS, REST APIs, Jest / RTL",
+      "hash": "9ede611d03f1e1988afd41fece396c3b8adca3ecdd614cfd5de77b99a1ca0ba0",
       "embedding": [
         -0.020531,
         -0.00161648,
@@ -125266,8 +125266,8 @@
       "sourceTitle": "Engineering Experience",
       "url": "/experience",
       "heading": "Frontend Web Developer at KiriminAja",
-      "text": "Yogyakarta, ID (Onsite) · Jan 2023 — Apr 2024\nMulti-courier parcel aggregation platform handling bulk cargo, instant delivery, and e-commerce fulfillment across Indonesia.\n- Owned logistics control-room UI in Vue/Nuxt, including live shipping rates across 15+ domestic courier partners. The consumer app has 100K+ Google Play downloads.\n- Built high-density manifest and batch barcode flows with Web Workers and virtualized lists so ops could process high daily label volume without the UI locking up.\n- Implemented Pinia/Vuex caching for courier calculation and live shipment tracking, working with ops and QA on performance and incidents.\nStack: Vue.js, Nuxt.js, Pinia / Vuex, Tailwind CSS, REST APIs",
-      "hash": "706bb7d95ee3402c5b16c6acfcac9ce7b0ab4804901529b156da50dba72a516d",
+      "text": "Yogyakarta, ID (Onsite) · Jan 2023 — Apr 2024\nMulti-courier parcel aggregation platform handling bulk cargo, instant delivery, and e-commerce fulfillment across Indonesia.\n- Owned logistics control-room UI in Vue/Nuxt, including live rate UI across 15+ domestic courier partners. KiriminAja's consumer app has 100K+ Google Play downloads; I build the web platform.\n- Built high-density manifest and batch barcode flows with Web Workers and virtualized lists so ops could process high daily label volume without the UI locking up.\n- Implemented Pinia/Vuex caching for courier calculation and live shipment tracking, working with ops and QA on performance and incidents.\nStack: Vue.js, Nuxt.js, Pinia / Vuex, Tailwind CSS, REST APIs",
+      "hash": "77cb9bde2e2e9e471517ad97d90171ad2aa555970a923638e6a0d61fd786af50",
       "embedding": [
         0.002269,
         -0.0195842,

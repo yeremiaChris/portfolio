@@ -46,7 +46,7 @@ export function BlogTocNav({
 
         const children = (
           <>
-            <span className="text-muted-foreground/80 shrink-0 font-mono text-[11px]">
+            <span className="text-muted-foreground/80 shrink-0 text-[11px]">
               {String(index + 1).padStart(2, "0")}
             </span>
             <span className="text-left leading-snug">{heading.text}</span>
@@ -74,12 +74,12 @@ export function BlogTocHeader({ count }: { count: number }) {
     <div className="flex items-center justify-between gap-2">
       <Badge
         variant="secondary"
-        className="text-primary w-fit gap-1.5 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+        className="text-primary label-caps w-fit gap-1.5 bg-transparent px-0 tracking-widest"
       >
         <List className="size-3.5" aria-hidden />
         On this page
       </Badge>
-      <span className="text-muted-foreground font-mono text-[11px]">
+      <span className="text-muted-foreground text-[11px]">
         {String(count).padStart(2, "0")} sections
       </span>
     </div>

@@ -29,7 +29,7 @@ export function HeaderMobileSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-[min(100%,20rem)]">
         <SheetHeader>
-          <SheetTitle className="text-primary font-mono">{"<YC />"}</SheetTitle>
+          <SheetTitle className="text-primary">{"<YC />"}</SheetTitle>
         </SheetHeader>
         <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 pb-4">
           {HEADER_NAV.map((item) => {
@@ -61,7 +61,7 @@ export function HeaderMobileSheet({
                 href="/#contact"
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "hover:bg-primary mt-2 justify-start bg-[#10b981] text-[#00422b]",
+                  "mt-2 justify-start bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3]",
                 )}
               />
             }

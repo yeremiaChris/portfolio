@@ -24,6 +24,17 @@ describe("buildSitemap", () => {
     expect(urls).not.toContain(`${SITE_URL}/analytics`);
   });
 
+  it("assigns a lower sitemap priority to the lab chat page", () => {
+    const lab = buildSitemap(SITE_URL).find(
+      (entry) => entry.url === `${SITE_URL}/lab`,
+    );
+
+    expect(lab).toMatchObject({
+      changeFrequency: "monthly",
+      priority: 0.4,
+    });
+  });
+
   it("includes published posts with lastModified from the post date", () => {
     vi.stubEnv("NODE_ENV", "production");
 

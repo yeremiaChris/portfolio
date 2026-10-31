@@ -108,7 +108,7 @@ export function ChatComposer({
               id={counterId}
               role={atLimit ? "status" : undefined}
               className={cn(
-                "font-mono text-[10px]",
+                "font-mono text-xs",
                 nearLimit
                   ? "text-muted-foreground"
                   : "text-muted-foreground invisible",
@@ -144,12 +144,15 @@ export function ChatComposer({
         </div>
       </div>
 
-      <p
+      <div
         id={disclaimerId}
-        className="text-muted-foreground px-1 text-center text-[11px] leading-relaxed"
+        className="text-muted-foreground flex flex-col gap-1 px-1 text-center text-[11px] leading-relaxed"
       >
-        {askYeremia.disclaimer}
-      </p>
+        <p>{askYeremia.disclaimer}</p>
+        <p className="text-muted-foreground/80 text-[10px] leading-relaxed sm:text-[11px]">
+          {askYeremia.usageNotice}
+        </p>
+      </div>
     </form>
   );
 }

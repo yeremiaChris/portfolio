@@ -47,7 +47,7 @@ export function AboutWorkflow() {
       className="mb-8 w-full md:mb-12"
     >
       <header className="mb-6 max-w-2xl">
-        <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+        <p className="text-muted-foreground label-caps tracking-widest">
           {aboutWorkflowIntro.eyebrow}
         </p>
         <h2
@@ -88,7 +88,7 @@ function DriverChip({ driver }: { driver: AboutDriver }) {
           <Icon className="size-4" aria-hidden />
         </div>
         <div className="space-y-1">
-          <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+          <p className="text-muted-foreground label-caps tracking-widest">
             {driver.detail}
           </p>
           <p className="text-foreground text-[13px] leading-snug font-medium">
@@ -118,7 +118,7 @@ function WorkflowBeatCard({ beat }: { beat: AboutWorkflowBeat }) {
           </div>
           <Badge
             variant="secondary"
-            className={cn("font-mono text-[10px] tracking-widest", toneClass)}
+            className={cn("text-xs tracking-widest", toneClass)}
           >
             {beat.step}
           </Badge>
@@ -133,7 +133,7 @@ function WorkflowBeatCard({ beat }: { beat: AboutWorkflowBeat }) {
         </div>
       </CardHeader>
       <CardFooter className="border-t-0 bg-transparent">
-        <p className={cn("font-mono text-[12px]", toneClass)}>{beat.footer}</p>
+        <p className={cn("text-[12px]", toneClass)}>{beat.footer}</p>
       </CardFooter>
     </Card>
   );

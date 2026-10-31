@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, MessageCircle, Terminal } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { aboutIntro } from "@/lib/about";
 import { cn } from "@/lib/utils";
@@ -15,47 +13,15 @@ export function AboutHeader() {
         aria-hidden
       />
 
-      <Card className="bg-muted ring-border/40 rounded-xl py-0">
-        <CardContent className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5">
-          <nav
-            aria-label="Breadcrumb"
-            className="text-muted-foreground flex min-w-0 items-center gap-2 truncate font-mono text-[12px]"
-          >
-            <Link
-              href="/"
-              className="text-primary hover:text-primary/80 inline-flex items-center gap-1.5 font-semibold transition-colors"
-            >
-              <ArrowLeft className="size-3.5 shrink-0" aria-hidden />
-              <span className="truncate">{aboutIntro.breadcrumbRoot}</span>
-            </Link>
-            <span className="text-border" aria-hidden>
-              /
-            </span>
-            <span className="text-foreground truncate">
-              {aboutIntro.breadcrumbLeaf}
-            </span>
-          </nav>
-
-          <Badge
-            variant="secondary"
-            className="text-primary gap-2 rounded-full px-3 py-1 font-mono text-[10px] tracking-widest uppercase"
-          >
-            <span className="bg-primary size-2 animate-pulse rounded-full" />
-            {aboutIntro.statusBadge}
-          </Badge>
-        </CardContent>
-      </Card>
-
       <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
         <div className="max-w-3xl">
-          <p className="text-muted-foreground mb-2 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase">
-            <Terminal className="text-primary size-3.5" aria-hidden />
+          <p className="text-foreground/75 mb-2 text-xs font-medium tracking-wide uppercase">
             {aboutIntro.eyebrow}
           </p>
-          <h1 className="font-heading text-foreground text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+          <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-5xl">
             {aboutIntro.title}
           </h1>
-          <p className="text-muted-foreground mt-4 max-w-2xl text-[15px] leading-relaxed sm:text-base">
+          <p className="text-muted-foreground mt-4 max-w-2xl text-[15px] leading-[1.7] sm:text-base">
             {aboutIntro.description}
           </p>
         </div>

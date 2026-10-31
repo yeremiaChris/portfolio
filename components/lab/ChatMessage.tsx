@@ -66,14 +66,14 @@ export function ChatMessage({
   return (
     <div className="group flex w-full gap-3">
       <Avatar size="sm" className="mt-0.5 shrink-0" aria-hidden>
-        <AvatarFallback className="bg-muted text-foreground font-mono text-[10px]">
+        <AvatarFallback className="bg-muted text-foreground text-xs">
           YC
         </AvatarFallback>
       </Avatar>
 
       <div className="min-w-0 flex-1">
         {isThinking && !content ? (
-          <p className="text-muted-foreground min-h-5 font-mono text-xs tracking-wide">
+          <p className="text-muted-foreground min-h-5 text-xs tracking-wide">
             {askYeremia.thinkingLabel}
             <span className="ml-1 inline-flex gap-0.5" aria-hidden>
               <span className="motion-safe:animate-pulse motion-reduce:animate-none">
@@ -119,7 +119,7 @@ export function ChatMessage({
         ) : null}
 
         {isStopped ? (
-          <p className="text-muted-foreground mt-2 font-mono text-[11px] tracking-wide uppercase">
+          <p className="text-muted-foreground mt-2 text-[11px] tracking-wide uppercase">
             {askYeremia.stoppedLabel}
           </p>
         ) : null}
@@ -130,7 +130,7 @@ export function ChatMessage({
               <li key={`${source.id}-${source.url}`}>
                 <Link
                   href={source.url}
-                  className="border-border/50 bg-muted/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring inline-flex min-h-9 items-center rounded-full border px-2.5 py-1 font-mono text-[11px] transition-colors hover:border-[#4cd7f6]/40 focus-visible:ring-2 focus-visible:outline-none sm:min-h-0"
+                  className="border-border/50 bg-muted/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring inline-flex min-h-9 items-center rounded-full border px-2.5 py-1 text-[11px] transition-colors hover:border-[#4cd7f6]/40 focus-visible:ring-2 focus-visible:outline-none sm:min-h-0"
                 >
                   [{source.id}] {source.title}
                 </Link>
@@ -140,7 +140,7 @@ export function ChatMessage({
         ) : null}
 
         {isDone && resolvedLabel ? (
-          <p className="text-muted-foreground mt-2 font-mono text-[10px] tracking-wide">
+          <p className="text-muted-foreground mt-2 text-xs tracking-wide">
             via {resolvedLabel}
           </p>
         ) : null}

@@ -25,14 +25,12 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
           <BadgeCheck className="text-primary size-4" aria-hidden />
           <p
             id="featured-post-heading"
-            className="text-primary font-mono text-[10px] font-semibold tracking-widest uppercase"
+            className="text-primary label-caps font-semibold tracking-widest"
           >
             Featured
           </p>
         </div>
-        <span className="text-muted-foreground font-mono text-[11px]">
-          {post.slug}
-        </span>
+        <span className="text-muted-foreground text-[11px]">{post.slug}</span>
       </div>
 
       <Card className="bg-muted ring-border/40 hover:bg-muted/80 overflow-hidden rounded-xl py-0 transition-colors">
@@ -45,13 +43,13 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
                   <span className="size-2.5 rounded-full bg-[#4cd7f6]/60" />
                   <span className="bg-primary/60 size-2.5 rounded-full" />
                 </div>
-                <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+                <span className="text-muted-foreground label-caps tracking-wider">
                   post.preview
                 </span>
               </div>
 
               <div className="flex flex-col gap-2 py-2">
-                <p className="text-muted-foreground font-mono text-[11px]">
+                <p className="text-muted-foreground text-[11px]">
                   {primaryTag ? `topic · ${primaryTag}` : "featured article"}
                 </p>
                 <div className="bg-primary/70 h-2 w-3/4 rounded-sm" />
@@ -66,14 +64,14 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
               <div className="flex flex-wrap gap-2">
                 <Badge
                   variant="secondary"
-                  className="bg-primary/10 text-primary rounded-md px-2 py-0.5 font-mono text-[11px] font-semibold"
+                  className="bg-primary/10 text-primary rounded-md px-2 py-0.5 text-[11px] font-semibold"
                 >
                   {post.readingTime}
                 </Badge>
                 {primaryTag ? (
                   <Badge
                     variant="secondary"
-                    className="text-muted-foreground rounded-md px-2 py-0.5 font-mono text-[11px]"
+                    className="text-muted-foreground rounded-md px-2 py-0.5 text-[11px]"
                   >
                     {primaryTag}
                   </Badge>
@@ -88,15 +86,15 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
                 {primaryTag ? (
                   <Badge
                     variant="secondary"
-                    className="bg-muted rounded-md px-2 py-0.5 font-mono text-[10px] tracking-wider text-[#4cd7f6] uppercase"
+                    className="bg-muted rounded-md px-2 py-0.5 text-xs tracking-wider text-[#4cd7f6] uppercase"
                   >
                     {primaryTag}
                   </Badge>
                 ) : null}
-                <span className="text-muted-foreground font-mono text-[11px]">
+                <span className="text-muted-foreground text-[11px]">
                   · {formatBlogDate(post.date)}
                 </span>
-                <span className="text-muted-foreground font-mono text-[11px]">
+                <span className="text-muted-foreground text-[11px]">
                   · {post.readingTime}
                 </span>
               </div>
@@ -121,7 +119,7 @@ export function FeaturedPost({ post }: { post: BlogPost }) {
                   <Badge
                     key={tag}
                     variant="secondary"
-                    className="text-foreground rounded-md px-2 py-0.5 font-mono text-[11px] font-normal"
+                    className="text-foreground rounded-md px-2 py-0.5 text-[11px] font-normal"
                   >
                     {tag}
                   </Badge>

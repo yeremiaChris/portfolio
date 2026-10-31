@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDownIcon, SquarePenIcon } from "lucide-react";
-import { useRef, useState, type UIEvent } from "react";
+import { useRef, useState, type ReactNode, type UIEvent } from "react";
 
 import { ChatComposer } from "@/components/lab/ChatComposer";
 import { ChatMessage } from "@/components/lab/ChatMessage";
@@ -12,13 +12,17 @@ import { askYeremia } from "@/lib/lab";
 import type { ChatModel } from "@/lib/lab-models";
 import { cn } from "@/lib/utils";
 
-interface AskYeremiaChatProps {
-  models: ChatModel[];
-}
-
 const NEAR_BOTTOM_PX = 96;
 
-export function AskYeremiaChat({ models }: AskYeremiaChatProps) {
+type AskYeremiaChatProps = {
+  models: ChatModel[];
+  emptyStateHeading: ReactNode;
+};
+
+export function AskYeremiaChat({
+  models,
+  emptyStateHeading,
+}: AskYeremiaChatProps) {
   const {
     messages,
     isStreaming,
@@ -70,10 +74,8 @@ export function AskYeremiaChat({ models }: AskYeremiaChatProps) {
       id={askYeremia.id}
       className="bg-background flex h-[calc(100dvh-var(--nav-height))] flex-col overflow-hidden"
     >
-      <h1 className="sr-only">{askYeremia.title}</h1>
-
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
-        <p className="font-mono text-[10px] tracking-widest text-[#4cd7f6] uppercase">
+        <p className="text-foreground/75 text-xs font-medium tracking-wide text-[#4cd7f6] uppercase">
           {askYeremia.topBarEyebrow}
         </p>
         {!isEmpty ? (
@@ -98,18 +100,11 @@ export function AskYeremiaChat({ models }: AskYeremiaChatProps) {
             <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6 py-4 sm:gap-8 sm:py-6">
               <div className="flex flex-col items-center gap-4 text-center">
                 <Avatar size="lg" aria-hidden>
-                  <AvatarFallback className="bg-muted text-foreground font-mono text-sm tracking-wide">
+                  <AvatarFallback className="bg-muted text-foreground text-sm tracking-wide">
                     YC
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex max-w-lg flex-col gap-2">
-                  <h2 className="font-heading text-foreground text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-                    {askYeremia.greeting}
-                  </h2>
-                  <p className="text-muted-foreground text-sm leading-relaxed sm:text-[15px]">
-                    {askYeremia.greetingSubline}
-                  </p>
-                </div>
+                {emptyStateHeading}
               </div>
               <ul
                 className="flex flex-wrap justify-center gap-2"

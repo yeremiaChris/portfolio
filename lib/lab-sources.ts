@@ -1,5 +1,4 @@
 import {
-  aboutDrivers,
   aboutIntro,
   aboutProfile,
   aboutProfileMetrics,
@@ -68,8 +67,6 @@ function collectAboutSource(): LabSourceDocument {
     ]),
     `## ${aboutWorkflowIntro.title}`,
     aboutWorkflowIntro.description,
-    "",
-    ...aboutDrivers.map((driver) => `- ${driver.name}: ${driver.detail}`),
     "",
     ...aboutWorkflowBeats.flatMap((beat) => [
       `### ${beat.title}`,

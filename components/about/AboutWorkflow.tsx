@@ -1,11 +1,7 @@
 import {
   FolderGit2,
   GitCompare,
-  Keyboard,
-  Laptop,
   ShieldCheck,
-  Sparkles,
-  SquareTerminal,
   type LucideIcon,
 } from "lucide-react";
 
@@ -18,21 +14,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  aboutDrivers,
   aboutStoryToneClass,
   aboutWorkflowBeats,
   aboutWorkflowIntro,
-  type AboutDriver,
   type AboutWorkflowBeat,
 } from "@/lib/about";
 import { cn } from "@/lib/utils";
-
-const DRIVER_ICONS: Record<AboutDriver["icon"], LucideIcon> = {
-  laptop: Laptop,
-  keyboard: Keyboard,
-  cursor: Sparkles,
-  terminal: SquareTerminal,
-};
 
 const BEAT_ICONS: Record<AboutWorkflowBeat["icon"], LucideIcon> = {
   plan: FolderGit2,
@@ -61,42 +48,12 @@ export function AboutWorkflow() {
         </p>
       </header>
 
-      <ul className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {aboutDrivers.map((driver) => (
-          <li key={driver.id}>
-            <DriverChip driver={driver} />
-          </li>
-        ))}
-      </ul>
-
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
         {aboutWorkflowBeats.map((beat) => (
           <WorkflowBeatCard key={beat.id} beat={beat} />
         ))}
       </div>
     </section>
-  );
-}
-
-function DriverChip({ driver }: { driver: AboutDriver }) {
-  const Icon = DRIVER_ICONS[driver.icon];
-
-  return (
-    <Card className="bg-muted ring-border/20 h-full rounded-2xl">
-      <CardHeader className="gap-3">
-        <div className="bg-secondary text-primary flex size-9 items-center justify-center rounded-lg">
-          <Icon className="size-4" aria-hidden />
-        </div>
-        <div className="space-y-1">
-          <p className="text-muted-foreground label-caps tracking-widest">
-            {driver.detail}
-          </p>
-          <p className="text-foreground text-[13px] leading-snug font-medium">
-            {driver.name}
-          </p>
-        </div>
-      </CardHeader>
-    </Card>
   );
 }
 

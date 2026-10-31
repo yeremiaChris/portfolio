@@ -24,7 +24,7 @@ export default function NotFound() {
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute top-1/3 right-0 size-72 rounded-full bg-[#4cd7f6]/8 blur-3xl"
+          className="bg-brand-accent/8 pointer-events-none absolute top-1/3 right-0 size-72 rounded-full blur-3xl"
         />
 
         <Container className="relative flex min-h-[calc(100vh-4rem)] flex-col justify-center py-16 md:py-24">
@@ -37,7 +37,7 @@ export default function NotFound() {
             <div className="flex flex-col gap-3">
               <p
                 aria-hidden
-                className="font-heading from-primary/40 bg-linear-to-r via-[#6ffbbe]/25 to-[#4cd7f6]/30 bg-clip-text text-6xl font-bold tracking-tighter text-transparent sm:text-7xl"
+                className="font-heading from-brand-accent/40 via-brand-accent/25 to-brand-accent/30 bg-linear-to-r bg-clip-text text-6xl font-bold tracking-tighter text-transparent sm:text-7xl"
               >
                 404
               </p>

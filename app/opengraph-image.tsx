@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 
+import { BRAND_ACCENT } from "@/lib/colors";
+
 export const alt = "Yeremia Chris Saragi — Software Engineer";
 export const size = {
   width: 1200,
@@ -25,7 +27,7 @@ export default function OpenGraphImage() {
         style={{
           display: "flex",
           fontSize: 28,
-          color: "#4edea3",
+          color: BRAND_ACCENT,
           fontFamily: "monospace",
           letterSpacing: 1,
         }}
@@ -57,7 +59,7 @@ export default function OpenGraphImage() {
         style={{
           display: "flex",
           fontSize: 22,
-          color: "#4cd7f6",
+          color: BRAND_ACCENT,
           marginTop: 36,
         }}
       >

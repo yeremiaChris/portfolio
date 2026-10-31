@@ -1,12 +1,13 @@
 import {
-  aboutDrivers,
   aboutIntro,
   aboutProfile,
   aboutProfileMetrics,
   aboutStoryEras,
   aboutStoryIntro,
   aboutWorkflowBeats,
+  aboutWorkflowClosing,
   aboutWorkflowIntro,
+  aboutWorkflowToolLink,
 } from "./about";
 import { getAllPosts } from "./blog";
 import { cleanMarkdownSource } from "./lab-clean";
@@ -69,7 +70,7 @@ function collectAboutSource(): LabSourceDocument {
     `## ${aboutWorkflowIntro.title}`,
     aboutWorkflowIntro.description,
     "",
-    ...aboutDrivers.map((driver) => `- ${driver.name}: ${driver.detail}`),
+    `- ${aboutWorkflowToolLink.name}: ${aboutWorkflowToolLink.href}`,
     "",
     ...aboutWorkflowBeats.flatMap((beat) => [
       `### ${beat.title}`,
@@ -77,6 +78,8 @@ function collectAboutSource(): LabSourceDocument {
       beat.footer,
       "",
     ]),
+    aboutWorkflowClosing,
+    "",
   ];
 
   return {

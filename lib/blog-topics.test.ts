@@ -60,7 +60,13 @@ describe("filterPostsByTopicSlug", () => {
   });
 
   it("ignores unknown topic slugs", () => {
-    expect(filterPostsByTopicSlug(posts, "learning-in-public")).toHaveLength(3);
+    expect(filterPostsByTopicSlug(posts, "unknown-topic")).toHaveLength(3);
+  });
+
+  it("filters learning-in-public posts", () => {
+    expect(
+      filterPostsByTopicSlug(posts, "learning-in-public").map((p) => p.slug),
+    ).toEqual(["b"]);
   });
 });
 
@@ -137,8 +143,12 @@ describe("getTopicsForPost and card labels", () => {
 
     expect(getTopicsForPost(post).map((t) => t.slug)).toEqual([
       "ai-engineering",
+      "learning-in-public",
     ]);
-    expect(getCardTopicLabels(post)).toEqual(["AI Engineering"]);
+    expect(getCardTopicLabels(post)).toEqual([
+      "AI Engineering",
+      "Learning in public",
+    ]);
   });
 
   it("returns up to two topic labels", () => {
@@ -148,12 +158,24 @@ describe("getTopicsForPost and card labels", () => {
 
     expect(getCardTopicLabels(post, 2)).toEqual(["React", "JS & TypeScript"]);
   });
+
+  it("prioritizes side project labels on cards", () => {
+    const post = makePost({
+      tags: ["ai-engineering", "hermes-agent", "learning-in-public"],
+    });
+
+    expect(getCardTopicLabels(post, 2)).toEqual([
+      "Side project",
+      "AI Engineering",
+    ]);
+  });
 });
 
 describe("getTopicSlugForTag", () => {
   it("links raw tags to curated topic pages", () => {
     expect(getTopicSlugForTag("rag")).toBe("ai-engineering");
-    expect(getTopicSlugForTag("learning-in-public")).toBeUndefined();
+    expect(getTopicSlugForTag("learning-in-public")).toBe("learning-in-public");
+    expect(getTopicSlugForTag("hermes-agent")).toBe("side-projects");
   });
 });
 

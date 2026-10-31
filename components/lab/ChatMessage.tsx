@@ -130,7 +130,7 @@ export function ChatMessage({
               <li key={`${source.id}-${source.url}`}>
                 <Link
                   href={source.url}
-                  className="border-border/50 bg-muted/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring inline-flex min-h-9 items-center rounded-full border px-2.5 py-1 text-[11px] transition-colors hover:border-[#4cd7f6]/40 focus-visible:ring-2 focus-visible:outline-none sm:min-h-0"
+                  className="border-border/50 bg-muted/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring hover:border-brand-accent/40 inline-flex min-h-9 items-center rounded-full border px-2.5 py-1 text-[11px] transition-colors focus-visible:ring-2 focus-visible:outline-none sm:min-h-0"
                 >
                   [{source.id}] {source.title}
                 </Link>

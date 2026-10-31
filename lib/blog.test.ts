@@ -8,6 +8,8 @@ import {
   getFeaturedPost,
   getPost,
   getPostHeadings,
+  isBlogIndexDeprioritized,
+  sortBlogPostsForIndex,
   type BlogPost,
 } from "./blog";
 import { site } from "./site";
@@ -90,6 +92,41 @@ describe("getFeaturedPost", () => {
 
     expect(getFeaturedPost([first, second])).toBe(first);
   });
+
+  it("skips deprioritized posts when choosing a fallback", () => {
+    const sideProject = makePost({
+      slug: "hermes",
+      tags: ["hermes-agent"],
+      date: "2026-10-26",
+    });
+    const core = makePost({ slug: "core", date: "2026-01-01" });
+
+    expect(getFeaturedPost([sideProject, core])).toBe(core);
+  });
+});
+
+describe("sortBlogPostsForIndex", () => {
+  it("keeps core posts above deprioritized side projects", () => {
+    const sideProject = makePost({
+      slug: "hermes",
+      tags: ["hermes-agent"],
+      date: "2026-10-26",
+    });
+    const core = makePost({ slug: "core", date: "2026-01-01" });
+
+    expect(
+      sortBlogPostsForIndex([sideProject, core]).map((post) => post.slug),
+    ).toEqual(["core", "hermes"]);
+  });
+});
+
+describe("isBlogIndexDeprioritized", () => {
+  it("marks hermes-agent posts as lower priority on the index", () => {
+    expect(isBlogIndexDeprioritized(makePost({ tags: ["hermes-agent"] }))).toBe(
+      true,
+    );
+    expect(isBlogIndexDeprioritized(makePost({ tags: ["react"] }))).toBe(false);
+  });
 });
 
 describe("getPost", () => {
@@ -106,12 +143,12 @@ describe("getPost", () => {
 });
 
 describe("getAllPosts", () => {
-  it("returns posts newest-first and includes the testing article", () => {
+  it("returns posts with deprioritized side projects after core notes", () => {
     const posts = getAllPosts();
-    const dates = posts.map((post) => post.date);
+    const hermesSlug = "hermes-agent-part-1-overview-to-vps-ready";
 
     expect(posts.some((post) => post.slug === TESTING_SLUG)).toBe(true);
-    expect(dates).toEqual([...dates].sort((a, b) => b.localeCompare(a)));
+    expect(posts.at(-1)?.slug).toBe(hermesSlug);
   });
 });
 

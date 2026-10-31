@@ -40,7 +40,7 @@ export function AboutStory() {
                 variant="secondary"
                 className="text-primary label-caps gap-2 tracking-widest"
               >
-                <span className="bg-primary size-2.5 shrink-0 rounded-full" />
+                <span className="bg-status-available size-2.5 shrink-0 rounded-full" />
                 {aboutProfile.status}
               </Badge>
               <span className="text-muted-foreground label-caps tracking-wider">
@@ -61,19 +61,13 @@ export function AboutStory() {
                 className="absolute inset-0 bg-linear-to-t from-[#0a0e14] via-[#0a0e14]/20 to-transparent"
                 aria-hidden
               />
-              <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
+              <div className="absolute inset-x-3 bottom-3">
                 <Badge
                   variant="secondary"
                   className="gap-1 bg-[#0a0e14]/80 text-xs backdrop-blur-md"
                 >
                   <MapPin className="text-primary size-3" aria-hidden />
                   {aboutProfile.location}
-                </Badge>
-                <Badge
-                  variant="secondary"
-                  className="bg-[#0a0e14]/80 text-[11px] text-[#4cd7f6] backdrop-blur-md"
-                >
-                  {aboutProfile.ageLabel}
                 </Badge>
               </div>
             </div>
@@ -117,7 +111,7 @@ export function AboutStory() {
       <div className="flex flex-col gap-6 lg:col-span-7">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <GitBranch className="size-5 text-[#4cd7f6]" aria-hidden />
+            <GitBranch className="text-brand-accent size-5" aria-hidden />
             <h2
               id="about-story-heading"
               className="font-heading text-foreground text-2xl font-semibold tracking-tight"

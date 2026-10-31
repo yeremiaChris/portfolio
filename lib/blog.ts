@@ -25,19 +25,24 @@ export type BlogHeading = {
   id: string;
 };
 
-export type BlogRibbonTone = "foreground" | "primary" | "cyan";
-
-export type BlogRibbonMetric = {
-  label: string;
-  value: string;
-  tone: BlogRibbonTone;
-};
-
 export const blogIntro = {
   title: "Notes & Essays",
   description:
     "Practical notes on React, Next.js, Vue, product UI, and shipping reliable software across health-tech and logistics.",
 } as const;
+
+export function isBlogIndexDeprioritized(post: BlogPostMeta): boolean {
+  return post.tags.some((tag) => tag === "hermes-agent");
+}
+
+export function sortBlogPostsForIndex(posts: BlogPost[]): BlogPost[] {
+  return [...posts].sort((a, b) => {
+    const aLow = isBlogIndexDeprioritized(a);
+    const bLow = isBlogIndexDeprioritized(b);
+    if (aLow !== bLow) return aLow ? 1 : -1;
+    return b.date.localeCompare(a.date);
+  });
+}
 
 export const blogSubscribe = {
   eyebrow: "Stay in the loop",
@@ -56,38 +61,6 @@ export const blogContactCta = {
   description:
     "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Reach out by email or LinkedIn (WhatsApp works too).",
 } as const;
-
-export const blogRibbonToneClass: Record<BlogRibbonTone, string> = {
-  foreground: "text-foreground",
-  primary: "text-primary",
-  cyan: "text-[#4cd7f6]",
-};
-
-export function getBlogRibbon(posts: BlogPost[]): BlogRibbonMetric[] {
-  const totalMinutes = posts.reduce(
-    (sum, post) => sum + Math.max(1, Math.ceil(post.readingMinutes)),
-    0,
-  );
-  const tagCount = new Set(posts.flatMap((post) => post.tags)).size;
-
-  return [
-    {
-      label: "Posts",
-      value: String(posts.length).padStart(2, "0"),
-      tone: "primary",
-    },
-    {
-      label: "Topics",
-      value: String(tagCount).padStart(2, "0"),
-      tone: "cyan",
-    },
-    {
-      label: "Read time",
-      value: `${totalMinutes} min`,
-      tone: "foreground",
-    },
-  ];
-}
 
 function assertMeta(data: Record<string, unknown>, slug: string): BlogPostMeta {
   const title = data.title;
@@ -160,11 +133,13 @@ export function getPostSlugs(): string[] {
 }
 
 export function getAllPosts(): BlogPost[] {
-  return listMdxSlugs()
+  const posts = listMdxSlugs()
     .map((slug) => readPostFile(slug))
     .filter((post): post is BlogPost => post !== null)
     .filter(isPublished)
     .sort((a, b) => b.date.localeCompare(a.date));
+
+  return sortBlogPostsForIndex(posts);
 }
 
 export function getPost(slug: string): BlogPost | null {
@@ -210,7 +185,11 @@ export function getPostHeadings(content: string): BlogHeading[] {
 
 export function getFeaturedPost(posts: BlogPost[]): BlogPost | null {
   if (posts.length === 0) return null;
-  return posts.find((post) => post.featured) ?? posts[0] ?? null;
+
+  const eligible = posts.filter((post) => !isBlogIndexDeprioritized(post));
+  const pool = eligible.length > 0 ? eligible : posts;
+
+  return pool.find((post) => post.featured) ?? pool[0] ?? null;
 }
 
 function escapeXml(value: string): string {

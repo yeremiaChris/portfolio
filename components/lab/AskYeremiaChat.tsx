@@ -1,12 +1,17 @@
 "use client";
 
 import { ArrowDownIcon, SquarePenIcon } from "lucide-react";
-import { useRef, useState, type ReactNode, type UIEvent } from "react";
+import {
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type UIEvent,
+} from "react";
 
 import { ChatComposer } from "@/components/lab/ChatComposer";
 import { ChatMessage } from "@/components/lab/ChatMessage";
 import { useChat } from "@/components/lab/useChat";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { askYeremia } from "@/lib/lab";
 import type { ChatModel } from "@/lib/lab-models";
@@ -54,20 +59,46 @@ export function AskYeremiaChat({
     const trimmed = question.trim();
     if (!trimmed || isStreaming) return;
     setInput("");
+    setShowScrollButton(false);
     send(trimmed);
   }
 
   function handleScroll(event: UIEvent<HTMLDivElement>) {
-    const awayFromBottom = event.currentTarget.scrollTop > NEAR_BOTTOM_PX;
+    const element = event.currentTarget;
+    const distanceFromBottom =
+      element.scrollHeight - element.scrollTop - element.clientHeight;
+    const awayFromBottom = distanceFromBottom > NEAR_BOTTOM_PX;
     setShowScrollButton((current) =>
       current === awayFromBottom ? current : awayFromBottom,
     );
   }
 
   function handleScrollToBottom() {
-    viewportRef.current?.scrollTo({ top: 0 });
+    const element = viewportRef.current;
+    if (!element) return;
+    element.scrollTo({ top: element.scrollHeight, behavior: "smooth" });
     setShowScrollButton(false);
   }
+
+  useLayoutEffect(() => {
+    if (isEmpty || showScrollButton) return;
+    const element = viewportRef.current;
+    if (!element) return;
+    element.scrollTop = element.scrollHeight;
+  }, [messages, isEmpty, showScrollButton]);
+
+  const composer = (
+    <ChatComposer
+      value={input}
+      onChange={setInput}
+      onSubmit={() => ask(input)}
+      onStop={stop}
+      isStreaming={isStreaming}
+      modelId={modelId}
+      onModelChange={setModelId}
+      models={models}
+    />
+  );
 
   return (
     <div
@@ -75,7 +106,7 @@ export function AskYeremiaChat({
       className="bg-background flex h-[calc(100dvh-var(--nav-height))] flex-col overflow-hidden"
     >
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
-        <p className="text-foreground/75 text-xs font-medium tracking-wide text-[#4cd7f6] uppercase">
+        <p className="text-foreground/75 text-brand-accent text-xs font-medium tracking-wide uppercase">
           {askYeremia.topBarEyebrow}
         </p>
         {!isEmpty ? (
@@ -94,92 +125,80 @@ export function AskYeremiaChat({
         )}
       </header>
 
-      <div className="relative mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-4 sm:px-6">
-        <div className="flex min-h-0 flex-1 flex-col">
-          {isEmpty ? (
-            <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6 py-4 sm:gap-8 sm:py-6">
-              <div className="flex flex-col items-center gap-4 text-center">
-                <Avatar size="lg" aria-hidden>
-                  <AvatarFallback className="bg-muted text-foreground text-sm tracking-wide">
-                    YC
-                  </AvatarFallback>
-                </Avatar>
-                {emptyStateHeading}
-              </div>
-              <ul
-                className="flex flex-wrap justify-center gap-2"
-                aria-label="Suggested questions"
-              >
-                {askYeremia.suggestions.map((suggestion) => (
-                  <li key={suggestion}>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      disabled={isStreaming}
-                      onClick={() => ask(suggestion)}
-                      className="border-border/60 h-auto min-h-11 max-w-full px-3 py-2 text-left text-xs leading-snug whitespace-normal hover:border-[#4cd7f6]/35 focus-visible:ring-[#4cd7f6]/40 sm:min-h-9"
-                    >
-                      {suggestion}
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <div
-              ref={viewportRef}
-              onScroll={handleScroll}
-              className={cn(
-                "flex min-h-0 flex-1 flex-col-reverse overflow-y-auto overscroll-contain px-1 py-4 motion-safe:scroll-smooth sm:px-0",
-                "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
-              )}
-            >
-              <div className="flex flex-col gap-5">
-                <div
-                  role="log"
-                  aria-live="off"
-                  aria-busy={isStreaming}
-                  className="flex flex-col gap-5"
-                >
-                  {messages.map((message) => (
-                    <ChatMessage
-                      key={message.id}
-                      role={message.role}
-                      content={message.content}
-                      status={message.status}
-                      sources={message.sources}
-                      modelId={message.modelId}
-                      onRetry={
-                        message.status === "error" ? regenerate : undefined
-                      }
-                      onRegenerate={
-                        message.role === "assistant" &&
-                        message.id === lastAssistant?.id &&
-                        (message.status === "done" ||
-                          message.status === "stopped") &&
-                        !isStreaming
-                          ? regenerate
-                          : undefined
-                      }
-                    />
+      <div className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col overflow-hidden px-4 sm:px-6">
+        {isEmpty ? (
+          <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto overscroll-contain py-6">
+            <div className="flex w-full max-w-lg flex-col items-center gap-6 text-center">
+              {emptyStateHeading}
+              <nav aria-label="Suggested questions" className="w-full">
+                <ul className="flex flex-wrap justify-center gap-2">
+                  {askYeremia.suggestions.map((suggestion) => (
+                    <li key={suggestion} className="max-w-full">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={isStreaming}
+                        onClick={() => ask(suggestion)}
+                        className="border-border/60 hover:border-brand-accent/35 focus-visible:ring-brand-accent/40 h-auto min-h-11 max-w-full px-3 py-2 text-left text-xs leading-snug whitespace-normal sm:min-h-9"
+                      >
+                        {suggestion}
+                      </Button>
+                    </li>
                   ))}
-                </div>
-                <div className="sr-only" aria-live="polite" aria-atomic="true">
-                  {liveAnnouncement}
-                </div>
-              </div>
+                </ul>
+              </nav>
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div
+            ref={viewportRef}
+            onScroll={handleScroll}
+            className={cn(
+              "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain py-4 motion-safe:scroll-smooth",
+              "[scrollbar-width:thin] [-ms-overflow-style:auto] [&::-webkit-scrollbar]:w-1.5",
+            )}
+          >
+            <div
+              role="log"
+              aria-live="off"
+              aria-busy={isStreaming}
+              className="flex flex-col gap-5"
+            >
+              {messages.map((message) => (
+                <ChatMessage
+                  key={message.id}
+                  role={message.role}
+                  content={message.content}
+                  status={message.status}
+                  sources={message.sources}
+                  modelId={message.modelId}
+                  onRetry={message.status === "error" ? regenerate : undefined}
+                  onRegenerate={
+                    message.role === "assistant" &&
+                    message.id === lastAssistant?.id &&
+                    (message.status === "done" ||
+                      message.status === "stopped") &&
+                    !isStreaming
+                      ? regenerate
+                      : undefined
+                  }
+                />
+              ))}
+            </div>
+            <div className="sr-only" aria-live="polite" aria-atomic="true">
+              {liveAnnouncement}
+            </div>
+          </div>
+        )}
 
         <div
           className={cn(
-            "from-background via-background/95 relative shrink-0 bg-gradient-to-t to-transparent pt-2",
-            "pb-[max(1rem,env(safe-area-inset-bottom))]",
+            "border-border/40 bg-background relative shrink-0 overflow-visible border-t pt-3",
+            "pb-[max(0.75rem,env(safe-area-inset-bottom))]",
           )}
         >
-          {!isEmpty && showScrollButton ? (
+          {showScrollButton ? (
             <div className="pointer-events-none absolute inset-x-0 -top-14 flex justify-center">
               <div className="pointer-events-auto">
                 <Button
@@ -195,18 +214,7 @@ export function AskYeremiaChat({
               </div>
             </div>
           ) : null}
-          <div className="mx-auto w-full max-w-3xl">
-            <ChatComposer
-              value={input}
-              onChange={setInput}
-              onSubmit={() => ask(input)}
-              onStop={stop}
-              isStreaming={isStreaming}
-              modelId={modelId}
-              onModelChange={setModelId}
-              models={models}
-            />
-          </div>
+          {composer}
         </div>
       </div>
     </div>

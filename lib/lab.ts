@@ -23,7 +23,6 @@ export const askYeremia = {
   charLimit: 500,
   suggestions: [
     "Has he worked in healthcare?",
-    "What's his tech stack?",
     "Tell me about Mazecare",
     "What is he learning now?",
   ],

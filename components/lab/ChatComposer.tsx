@@ -63,8 +63,8 @@ export function ChatComposer({
     >
       <div
         className={cn(
-          "bg-muted ring-border/40 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.18)] ring-1 transition-[box-shadow,ring-color] duration-200 motion-reduce:transition-none",
-          "focus-within:ring-2 focus-within:ring-[#4cd7f6]/40",
+          "bg-muted border-border/60 rounded-3xl border shadow-[0_8px_30px_rgba(0,0,0,0.18)] transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none",
+          "focus-within:border-brand-accent/45 focus-within:ring-brand-accent/40 focus-within:ring-2",
         )}
       >
         <label htmlFor="ask-yeremia-composer" className="sr-only">
@@ -128,10 +128,10 @@ export function ChatComposer({
               }
               className={cn(
                 "size-11 shrink-0 rounded-full sm:size-9",
-                "focus-visible:ring-2 focus-visible:ring-[#4cd7f6]/50",
+                "focus-visible:ring-brand-accent/50 focus-visible:ring-2",
                 isStreaming
                   ? "bg-foreground text-background hover:bg-foreground/90"
-                  : "bg-[#4cd7f6] text-[#0a0e14] hover:bg-[#4cd7f6]/90 disabled:bg-[#4cd7f6]/40",
+                  : "bg-brand-accent hover:bg-brand-accent/90 disabled:bg-brand-accent/40 text-[#0a0e14]",
               )}
             >
               {isStreaming ? (
@@ -144,15 +144,14 @@ export function ChatComposer({
         </div>
       </div>
 
-      <div
+      <p
         id={disclaimerId}
-        className="text-muted-foreground flex flex-col gap-1 px-1 text-center text-[11px] leading-relaxed"
+        role="note"
+        title={askYeremia.usageNotice}
+        className="text-muted-foreground px-1 text-center text-[11px] leading-snug sm:text-xs"
       >
-        <p>{askYeremia.disclaimer}</p>
-        <p className="text-muted-foreground/80 text-[10px] leading-relaxed sm:text-[11px]">
-          {askYeremia.usageNotice}
-        </p>
-      </div>
+        {askYeremia.disclaimer}
+      </p>
     </form>
   );
 }

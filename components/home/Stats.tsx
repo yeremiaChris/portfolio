@@ -34,7 +34,7 @@ export function Stats() {
                   <Icon
                     className={
                       stat.icon === "gauge"
-                        ? "size-4 text-[#4cd7f6]"
+                        ? "text-brand-accent size-4"
                         : "text-primary size-4"
                     }
                   />

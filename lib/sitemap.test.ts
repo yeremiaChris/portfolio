@@ -53,4 +53,13 @@ describe("buildSitemap", () => {
       entries.some((entry) => entry.url.endsWith(`/blog/${DRAFT_SLUG}`)),
     ).toBe(false);
   });
+
+  it("includes curated blog tag index pages", () => {
+    vi.stubEnv("NODE_ENV", "production");
+
+    const urls = buildSitemap(SITE_URL).map((entry) => entry.url);
+
+    expect(urls).toContain(`${SITE_URL}/blog/tag/ai-engineering`);
+    expect(urls).toContain(`${SITE_URL}/blog/tag/react`);
+  });
 });

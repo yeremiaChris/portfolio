@@ -7,25 +7,17 @@ import readingTime from "reading-time";
 
 import { site } from "@/lib/site";
 
+import type { BlogPost, BlogPostMeta } from "@/lib/blog-shared";
+
+export {
+  formatBlogDate,
+  toBlogPostSummary,
+  type BlogPost,
+  type BlogPostMeta,
+  type BlogPostSummary,
+} from "@/lib/blog-shared";
+
 const BLOG_DIR = path.join(process.cwd(), "content/blog");
-
-export type BlogPostMeta = {
-  title: string;
-  description: string;
-  date: string;
-  updated?: string;
-  image?: string;
-  tags: string[];
-  featured?: boolean;
-  draft?: boolean;
-};
-
-export type BlogPost = BlogPostMeta & {
-  slug: string;
-  content: string;
-  readingTime: string;
-  readingMinutes: number;
-};
 
 export type BlogHeading = {
   depth: 2 | 3;
@@ -219,15 +211,6 @@ export function getPostHeadings(content: string): BlogHeading[] {
 export function getFeaturedPost(posts: BlogPost[]): BlogPost | null {
   if (posts.length === 0) return null;
   return posts.find((post) => post.featured) ?? posts[0] ?? null;
-}
-
-export function formatBlogDate(date: string): string {
-  const parsed = new Date(`${date}T00:00:00`);
-  if (Number.isNaN(parsed.getTime())) return date;
-
-  return parsed
-    .toLocaleDateString("en-US", { month: "short", year: "numeric" })
-    .toUpperCase();
 }
 
 function escapeXml(value: string): string {

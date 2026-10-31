@@ -1,6 +1,8 @@
 export const labIntro = {
   description:
-    "Ask Yeremia is a grounded chat over this portfolio — experience, projects, and writing — with cited sources.",
+    "Grounded portfolio chat over Yeremia Chris Saragi’s experience, projects, and writing — with cited sources from this site.",
+  emptyStateSummary:
+    "It searches my experience, projects, and blog posts for relevant excerpts, then answers with source links when it can.",
 } as const;
 
 export const askYeremia = {
@@ -9,8 +11,6 @@ export const askYeremia = {
   title: "Ask Yeremia",
   newChatLabel: "New chat",
   greeting: "What would you like to know about Yeremia?",
-  greetingSubline:
-    "Ask about experience, projects, stack, or what I’m learning.",
   placeholder: "Ask anything about Yeremia...",
   sendLabel: "Send",
   stopLabel: "Stop",
@@ -31,4 +31,6 @@ export const askYeremia = {
   refusalMessage:
     "I don't have that in my portfolio yet. Feel free to contact me directly!",
   disclaimer: "AI answers from my portfolio content and can make mistakes.",
+  usageNotice:
+    "Your messages are processed on the server to retrieve portfolio content and generate a reply. Usage is rate-limited per IP so the demo stays available for everyone.",
 } as const;

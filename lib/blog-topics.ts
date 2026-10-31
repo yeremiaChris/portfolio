@@ -80,7 +80,13 @@ export function filterBlogPosts<T extends BlogPostListItem>(
 }
 
 export function getTopicsForPost(post: BlogPostListItem): BlogTopic[] {
-  return BLOG_TOPICS.filter((topic) => postMatchesTopic(post, topic));
+  const topics = BLOG_TOPICS.filter((topic) => postMatchesTopic(post, topic));
+
+  return topics.sort((a, b) => {
+    if (a.slug === "side-projects") return -1;
+    if (b.slug === "side-projects") return 1;
+    return 0;
+  });
 }
 
 export function getCardTopicLabels(

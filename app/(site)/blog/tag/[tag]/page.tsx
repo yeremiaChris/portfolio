@@ -10,7 +10,6 @@ import {
   blogContactCta,
   blogIntro,
   getAllPosts,
-  getBlogRibbon,
   getFeaturedPost,
   toBlogPostSummary,
 } from "@/lib/blog";
@@ -58,13 +57,12 @@ export default async function BlogTagPage({ params }: BlogTagPageProps) {
   const posts = getAllPosts();
   const topicPosts = filterPostsByTopicSlug(posts, tag);
   const summaries = topicPosts.map(toBlogPostSummary);
-  const metrics = getBlogRibbon(topicPosts);
   const featured = getFeaturedPost(topicPosts);
 
   return (
     <main>
       <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
-        <BlogHeader metrics={metrics} />
+        <BlogHeader />
 
         <p className="text-muted-foreground label-caps -mt-4 mb-2 tracking-wider">
           Topic · {topic.label}

@@ -6,18 +6,19 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 
 import { BlogToc } from "@/components/blog/BlogToc";
 import { BlogTocMobile } from "@/components/blog/BlogTocMobile";
+import { BlogTagBadge } from "@/components/blog/BlogTagBadge";
+import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { Container } from "@/components/Container";
-import { Badge } from "@/components/ui/badge";
 import {
   formatBlogDate,
   getAllPosts,
   getPost,
   getPostHeadings,
 } from "@/lib/blog";
+import { getRelatedPosts } from "@/lib/blog-topics";
 import { mdxOptions } from "@/lib/mdx";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBlogPostingJsonLd, buildPageMetadata } from "@/lib/seo";
-import { cn } from "@/lib/utils";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -52,6 +53,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!post) notFound();
 
   const headings = getPostHeadings(post.content);
+  const allPosts = getAllPosts();
+  const relatedPosts = getRelatedPosts(post, allPosts, 3);
 
   return (
     <main>
@@ -90,15 +93,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {post.tags.length > 0 ? (
               <div className="flex flex-wrap gap-1.5">
                 {post.tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant="secondary"
-                    className={cn(
-                      "label-caps text-muted-foreground tracking-wider",
-                    )}
-                  >
-                    {tag}
-                  </Badge>
+                  <BlogTagBadge key={tag} tag={tag} />
                 ))}
               </div>
             ) : null}
@@ -118,6 +113,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </aside>
         </div>
+
+        <RelatedPosts posts={relatedPosts} />
       </Container>
     </main>
   );

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { getAllPosts } from "@/lib/blog";
+import { getBlogTopicSlugs } from "@/lib/blog-topics.constants";
 
 export const sitemapPages = [
   { path: "", changeFrequency: "weekly", priority: 1 },
@@ -37,5 +38,11 @@ export function buildSitemap(siteUrl: string): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...pages, ...posts];
+  const tagPages: MetadataRoute.Sitemap = getBlogTopicSlugs().map((tag) => ({
+    url: toAbsoluteUrl(origin, `/blog/tag/${tag}`),
+    changeFrequency: "weekly",
+    priority: 0.5,
+  }));
+
+  return [...pages, ...posts, ...tagPages];
 }

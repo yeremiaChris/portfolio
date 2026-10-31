@@ -14,6 +14,7 @@ export type BlogPostMeta = {
   description: string;
   date: string;
   updated?: string;
+  image?: string;
   tags: string[];
   featured?: boolean;
   draft?: boolean;
@@ -120,6 +121,10 @@ function assertMeta(data: Record<string, unknown>, slug: string): BlogPostMeta {
     description: description.trim(),
     date: date.trim(),
     updated: typeof data.updated === "string" ? data.updated : undefined,
+    image:
+      typeof data.image === "string" && data.image.trim()
+        ? data.image.trim()
+        : undefined,
     tags,
     featured: Boolean(data.featured),
     draft: Boolean(data.draft),

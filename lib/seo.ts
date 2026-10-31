@@ -132,3 +132,42 @@ export function buildWebSiteJsonLd() {
 export function buildHomeJsonLd() {
   return [buildProfilePageJsonLd("/"), buildWebSiteJsonLd()];
 }
+
+export type BlogPostingJsonLdInput = {
+  title: string;
+  description: string;
+  slug: string;
+  datePublished: string;
+  dateModified?: string;
+  image?: string;
+};
+
+export function buildBlogPostingJsonLd({
+  title,
+  description,
+  slug,
+  datePublished,
+  dateModified,
+  image,
+}: BlogPostingJsonLdInput) {
+  const origin = getSiteUrl();
+  const path = toCanonicalPath(`/blog/${slug}`);
+  const url = toAbsoluteUrl(path, origin);
+  const personId = buildPersonJsonLd()["@id"];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    url,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    datePublished,
+    ...(dateModified ? { dateModified } : {}),
+    author: { "@id": personId },
+    ...(image ? { image: toAbsoluteUrl(image, origin) } : {}),
+  };
+}

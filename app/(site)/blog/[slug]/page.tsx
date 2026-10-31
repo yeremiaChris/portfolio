@@ -15,7 +15,8 @@ import {
   getPostHeadings,
 } from "@/lib/blog";
 import { mdxOptions } from "@/lib/mdx";
-import { buildPageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildBlogPostingJsonLd, buildPageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 type BlogPostPageProps = {
@@ -54,6 +55,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <main>
+      <JsonLd
+        data={buildBlogPostingJsonLd({
+          title: post.title,
+          description: post.description,
+          slug: post.slug,
+          datePublished: post.date,
+          dateModified: post.updated,
+          image: post.image,
+        })}
+      />
       <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col gap-8 py-6 md:py-8">
         <div className="flex flex-col gap-4">
           <Link

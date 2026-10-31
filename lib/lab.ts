@@ -27,9 +27,9 @@ export const askYeremia = {
     "What is he learning now?",
   ],
   sampleExchange: {
-    question: "What's his tech stack?",
+    question: "What's your tech stack?",
     answer:
-      "He builds product UIs with React, Next.js, and TypeScript, with Vue and Nuxt in past roles. He ships API-backed dashboards, auth flows, and design systems—not just static pages.",
+      "I build product UIs with React, Next.js, and TypeScript, with Vue and Nuxt in past roles. I ship API-backed dashboards, auth flows, and design systems—not just static pages.",
   },
   errorMessage: "Something went wrong. You can retry that question.",
   refusalMessage:

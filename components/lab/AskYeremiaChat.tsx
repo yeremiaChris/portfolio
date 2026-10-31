@@ -5,8 +5,8 @@ import { useRef, useState, type ReactNode, type UIEvent } from "react";
 
 import { ChatComposer } from "@/components/lab/ChatComposer";
 import { ChatMessage } from "@/components/lab/ChatMessage";
+import { LabSampleExchange } from "@/components/lab/LabSampleExchange";
 import { useChat } from "@/components/lab/useChat";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { askYeremia } from "@/lib/lab";
 import type { ChatModel } from "@/lib/lab-models";
@@ -69,6 +69,19 @@ export function AskYeremiaChat({
     setShowScrollButton(false);
   }
 
+  const composer = (
+    <ChatComposer
+      value={input}
+      onChange={setInput}
+      onSubmit={() => ask(input)}
+      onStop={stop}
+      isStreaming={isStreaming}
+      modelId={modelId}
+      onModelChange={setModelId}
+      models={models}
+    />
+  );
+
   return (
     <div
       id={askYeremia.id}
@@ -97,19 +110,13 @@ export function AskYeremiaChat({
       <div className="relative mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-4 sm:px-6">
         <div className="flex min-h-0 flex-1 flex-col">
           {isEmpty ? (
-            <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6 py-4 sm:gap-8 sm:py-6">
-              <div className="flex flex-col items-center gap-4 text-center">
-                <Avatar size="lg" aria-hidden>
-                  <AvatarFallback className="bg-muted text-foreground text-sm tracking-wide">
-                    YC
-                  </AvatarFallback>
-                </Avatar>
+            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain pt-1 pb-[max(1rem,env(safe-area-inset-bottom))] sm:gap-5 sm:pt-2">
+              <div className="flex flex-col items-center gap-2 text-center">
                 {emptyStateHeading}
               </div>
-              <ul
-                className="flex flex-wrap justify-center gap-2"
-                aria-label="Suggested questions"
-              >
+              {composer}
+              <LabSampleExchange />
+              <ul className="flex flex-wrap justify-center gap-2">
                 {askYeremia.suggestions.map((suggestion) => (
                   <li key={suggestion}>
                     <Button
@@ -173,41 +180,32 @@ export function AskYeremiaChat({
           )}
         </div>
 
-        <div
-          className={cn(
-            "from-background via-background/95 relative shrink-0 bg-gradient-to-t to-transparent pt-2",
-            "pb-[max(1rem,env(safe-area-inset-bottom))]",
-          )}
-        >
-          {!isEmpty && showScrollButton ? (
-            <div className="pointer-events-none absolute inset-x-0 -top-14 flex justify-center">
-              <div className="pointer-events-auto">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="icon"
-                  onClick={handleScrollToBottom}
-                  aria-label="Scroll to bottom"
-                  className="border-border/50 bg-muted/95 text-foreground size-11 rounded-full border shadow-lg backdrop-blur-sm sm:size-9"
-                >
-                  <ArrowDownIcon className="size-4" />
-                </Button>
+        {!isEmpty ? (
+          <div
+            className={cn(
+              "from-background via-background/95 relative shrink-0 bg-gradient-to-t to-transparent pt-2",
+              "pb-[max(1rem,env(safe-area-inset-bottom))]",
+            )}
+          >
+            {showScrollButton ? (
+              <div className="pointer-events-none absolute inset-x-0 -top-14 flex justify-center">
+                <div className="pointer-events-auto">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="icon"
+                    onClick={handleScrollToBottom}
+                    aria-label="Scroll to bottom"
+                    className="border-border/50 bg-muted/95 text-foreground size-11 rounded-full border shadow-lg backdrop-blur-sm sm:size-9"
+                  >
+                    <ArrowDownIcon className="size-4" />
+                  </Button>
+                </div>
               </div>
-            </div>
-          ) : null}
-          <div className="mx-auto w-full max-w-3xl">
-            <ChatComposer
-              value={input}
-              onChange={setInput}
-              onSubmit={() => ask(input)}
-              onStop={stop}
-              isStreaming={isStreaming}
-              modelId={modelId}
-              onModelChange={setModelId}
-              models={models}
-            />
+            ) : null}
+            <div className="mx-auto w-full max-w-3xl">{composer}</div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );

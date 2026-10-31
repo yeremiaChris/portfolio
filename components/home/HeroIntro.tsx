@@ -1,7 +1,8 @@
-import { ArrowRightIcon, FileTextIcon } from "lucide-react";
+import { ArrowRightIcon, FileTextIcon, MailIcon } from "lucide-react";
 
 import { HeroProofCard } from "@/components/home/HeroProofCard";
 import { buttonVariants } from "@/components/ui/button";
+import { heroCtas } from "@/lib/hero";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -39,25 +40,35 @@ export function HeroIntro() {
 
         <div className="hero-enter hero-enter--3 mt-6 flex w-full flex-wrap items-start justify-start gap-3 md:mt-8 md:gap-4">
           <a
-            href="#work"
+            href={heroCtas.primary.href}
             className={cn(
               buttonVariants({ size: "lg" }),
               accentButtonClassName,
               "h-12 px-6 text-base",
             )}
           >
-            Selected work
+            <MailIcon className="size-5" />
+            {heroCtas.primary.label}
+          </a>
+          <a
+            href={heroCtas.secondary.href}
+            className={cn(
+              buttonVariants({ variant: "outline", size: "lg" }),
+              "h-12 px-6 text-base",
+            )}
+          >
+            {heroCtas.secondary.label}
             <ArrowRightIcon className="size-5" />
           </a>
           <a
-            href={site.links.resume}
+            href={heroCtas.resume.href}
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
               "h-12 px-6 text-base",
             )}
           >
             <FileTextIcon className="size-5" />
-            CV (PDF)
+            {heroCtas.resume.label}
           </a>
         </div>
       </div>

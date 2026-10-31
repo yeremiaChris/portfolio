@@ -189,6 +189,14 @@ html[data-intro="playing"] [data-intro-bar] {
     opacity: 1 !important;
     transform: none !important;
   }
+
+  .hero-visual-card {
+    transform: none !important;
+  }
+
+  .hero-visual-card span {
+    transform: none !important;
+  }
 }
 
 @keyframes hero-fade-up {
@@ -208,16 +216,48 @@ html[data-intro="playing"] [data-intro-bar] {
   }
 }
 
-.hero-signal::before {
+.border-gradient {
+  position: relative;
+  isolation: isolate;
+}
+
+.border-gradient::after {
   content: "";
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    600px at 15% 10%,
-    rgb(76 215 246 / 0.15),
+  z-index: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgb(76 215 246 / 0.4),
+    rgb(76 215 246 / 0.12) 35%,
     transparent 65%
   );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.hero-signal::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  top: -20%;
+  left: -5%;
+  z-index: 0;
+  height: min(520px, 70vh);
+  width: min(680px, 85vw);
+  border-radius: 50%;
+  background: rgb(76 215 246 / 0.15);
+  filter: blur(120px);
+  transform: rotate(-14deg);
 }
 
 .hero-signal::after {

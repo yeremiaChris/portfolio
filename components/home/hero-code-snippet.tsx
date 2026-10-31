@@ -9,7 +9,7 @@ type SnippetLine = {
 };
 
 const TONE_CLASS = {
-  kw: "text-[#4cd7f6]",
+  kw: "text-brand-accent",
   fn: "text-[#7ee8fc]",
   str: "text-[#6ecfb8]",
   type: "text-[#9ae6ff]",

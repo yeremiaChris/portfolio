@@ -141,7 +141,7 @@ function ContactActionLink({ action }: { action: ContactCtaAction }) {
         }),
         "h-11 w-full max-w-full gap-2 px-5 text-[15px] font-medium sm:w-auto",
         isPrimary &&
-          "bg-[#4cd7f6] font-semibold text-[#042028] shadow-[0_0_20px_rgba(76,215,246,0.25)] hover:bg-[#3bc4e3]",
+          "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover font-semibold shadow-[0_0_20px_rgba(76,215,246,0.25)]",
       )}
     >
       <Icon

@@ -6,7 +6,8 @@ import { heroCtas } from "@/lib/hero";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const accentButtonClassName = "bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3]";
+const accentButtonClassName =
+  "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover";
 
 export function HeroHeadline() {
   return (
@@ -15,7 +16,7 @@ export function HeroHeadline() {
         id="hero-heading"
         className={cn(
           "hero-enter hero-enter--0 font-heading text-left text-[2.65rem] font-bold text-balance sm:text-6xl xl:text-7xl",
-          "bg-linear-to-br from-[#4cd7f6] to-[#2dd4bf] bg-clip-text text-transparent",
+          "from-brand-accent to-brand-accent/70 bg-linear-to-br bg-clip-text text-transparent",
           "max-w-[16ch] sm:max-w-none",
         )}
       >

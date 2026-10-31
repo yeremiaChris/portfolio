@@ -29,7 +29,7 @@ export function BlogPostCard({ post }: { post: BlogPostSummary }) {
                   variant="secondary"
                   render={<Link href={`/blog/tag/${topic.slug}`} />}
                   className={cn(
-                    "bg-muted text-primary label-caps rounded-md px-2 py-0.5 tracking-wider transition-colors hover:text-[#4cd7f6]",
+                    "bg-muted text-primary label-caps hover:text-brand-accent rounded-md px-2 py-0.5 tracking-wider transition-colors",
                     "motion-reduce:transition-none",
                   )}
                 >

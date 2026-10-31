@@ -1,7 +1,7 @@
 export type MilestoneMetric = {
   value: string;
   label: string;
-  tone?: "primary" | "cyan" | "violet" | "foreground";
+  tone?: "primary" | "accent" | "foreground";
 };
 
 export function isNumericMetricValue(value: string): boolean {
@@ -17,7 +17,7 @@ export type MilestoneChartBar = {
 export type MilestoneCaseStudy = {
   id: string;
   tag: string;
-  tagTone: "primary" | "cyan" | "violet";
+  tagTone: "primary" | "accent";
   stack: string;
   title: string;
   summary: string;
@@ -53,7 +53,7 @@ export const secondaryMilestones: MilestoneCaseStudy[] = [
   {
     id: "mazecare",
     tag: "Mazecare",
-    tagTone: "cyan",
+    tagTone: "accent",
     stack: "Vue 3 · Nuxt 3 · GraphQL · FHIR",
     title: "FHIR clinic & hospital OS — full patient lifecycle",
     summary:
@@ -63,7 +63,7 @@ export const secondaryMilestones: MilestoneCaseStudy[] = [
   {
     id: "kiriminaja",
     tag: "KiriminAja",
-    tagTone: "violet",
+    tagTone: "accent",
     stack: "Vue · Nuxt · Web Workers · Virtualization",
     title: "High-density logistics UI under real operational load",
     summary:
@@ -77,15 +77,13 @@ export const metricToneClass: Record<
   string
 > = {
   primary: "text-primary",
-  cyan: "text-[#4cd7f6]",
-  violet: "text-[#7bd0ff]",
+  accent: "text-brand-accent",
   foreground: "text-foreground",
 };
 
 export const tagToneClass: Record<MilestoneCaseStudy["tagTone"], string> = {
   primary: "text-primary",
-  cyan: "text-[#4cd7f6]",
-  violet: "text-[#7bd0ff]",
+  accent: "text-brand-accent",
 };
 
 export function homeMilestoneCaseStudies(): MilestoneCaseStudy[] {

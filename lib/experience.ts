@@ -1,6 +1,6 @@
 import { getExperienceLabel } from "./career";
 
-export type ExperienceRoleTone = "primary" | "cyan" | "violet";
+export type ExperienceRoleTone = "primary" | "accent";
 
 export type ExperienceRole = {
   id: string;
@@ -27,8 +27,7 @@ export const experienceIntro = {
 
 export const experienceRoleToneClass: Record<ExperienceRoleTone, string> = {
   primary: "text-primary",
-  cyan: "text-[#4cd7f6]",
-  violet: "text-[#bb86fc]",
+  accent: "text-brand-accent",
 };
 
 export const experienceRoles: ExperienceRole[] = [
@@ -67,7 +66,7 @@ export const experienceRoles: ExperienceRole[] = [
       "Integrated FHIR and GraphQL APIs with standardized clinical coding for third-party and payor systems.",
     ],
     stack: ["Vue 3", "Nuxt 3", "GraphQL", "FHIR"],
-    tone: "cyan",
+    tone: "accent",
   },
   {
     id: "kiriminaja",
@@ -85,7 +84,7 @@ export const experienceRoles: ExperienceRole[] = [
       "Implemented Pinia/Vuex caching for courier calculation and live shipment tracking, working with ops and QA on performance and incidents.",
     ],
     stack: ["Vue", "Nuxt", "Pinia / Vuex", "REST"],
-    tone: "violet",
+    tone: "accent",
   },
   {
     id: "icreativelabs",
@@ -103,7 +102,7 @@ export const experienceRoles: ExperienceRole[] = [
       "Handed off production-ready, pixel-accurate interfaces from complex Figma designs to internal teams.",
     ],
     stack: ["React", "Next.js", "Vue", "Nuxt", "React Native"],
-    tone: "cyan",
+    tone: "accent",
   },
 ];
 
@@ -137,7 +136,7 @@ export const experienceDisciplines: ExperienceDiscipline[] = [
     description:
       "Careful attention to Core Web Vitals, payload size, and main-thread work so product UI stays responsive under real usage.",
     footer: "CWV · Smooth interaction",
-    tone: "cyan",
+    tone: "accent",
     icon: "network",
   },
   {
@@ -146,7 +145,7 @@ export const experienceDisciplines: ExperienceDiscipline[] = [
     description:
       "Type-safe TypeScript and solid testing habits — unit/integration coverage and CI checks that keep releases safer.",
     footer: "TS Strict · Jest / RTL · Smoke tests",
-    tone: "violet",
+    tone: "accent",
     icon: "code",
   },
 ];

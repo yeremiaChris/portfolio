@@ -20,6 +20,10 @@ pnpm dev
 
 CI runs lint → format → typecheck → test → build.
 
+## Design tokens
+
+Dark-theme accent and semantic colors live in [`app/globals.css`](./app/globals.css) and are summarized in [`docs/design-tokens.md`](./docs/design-tokens.md). Use Tailwind `brand-accent` utilities (or shadcn `primary` on `.dark`) instead of hard-coded hex.
+
 ## Skills (how we work with the agent)
 
 Rules for this portfolio live in [`skills/`](./skills). Copy a skill into `.cursor/skills/` (gitignored) when Cursor should auto-load that committed copy.
@@ -128,7 +132,7 @@ Stay in **Ask mode**. Ask for options, then implement in Agent mode.
 @components/about/AboutWorkflow.tsx
 
 Don't write files. Propose 2 layouts for a tools/AI-workflow section on About.
-Match the existing dark + green language. Say what you'd skip.
+Match the existing dark + cyan accent language. Say what you'd skip.
 ```
 
 ```text

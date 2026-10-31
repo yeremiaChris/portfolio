@@ -15,7 +15,7 @@ export function HeaderInteractiveFallback() {
           href="/#contact"
           className={cn(
             buttonVariants({ size: "sm" }),
-            "hidden bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3] sm:inline-flex",
+            "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover hidden sm:inline-flex",
           )}
         >
           Get in Touch

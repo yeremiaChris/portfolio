@@ -34,7 +34,7 @@ export function BlogSearchInput({
         placeholder="Search title, description, or tags"
         className={cn(
           "border-border/60 bg-muted/40 text-foreground placeholder:text-muted-foreground w-full min-w-0 rounded-xl border py-2.5 pr-3 pl-10 text-sm",
-          "focus-visible:border-[#4cd7f6]/50 focus-visible:ring-2 focus-visible:ring-[#4cd7f6]/20 focus-visible:outline-none",
+          "focus-visible:border-brand-accent/50 focus-visible:ring-brand-accent/20 focus-visible:ring-2 focus-visible:outline-none",
         )}
       />
     </div>

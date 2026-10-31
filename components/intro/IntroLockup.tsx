@@ -12,14 +12,14 @@ export function IntroLockup() {
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute right-[12%] bottom-1/4 hidden size-72 rounded-full bg-[#4cd7f6]/10 blur-3xl md:block"
+        className="bg-brand-accent/10 pointer-events-none absolute right-[12%] bottom-1/4 hidden size-72 rounded-full blur-3xl md:block"
       />
       <div className="relative flex flex-col items-center gap-7 px-6">
         <p className="text-primary text-[13px] font-bold tracking-tight">
           {"<YC />"}
         </p>
         <p className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
-          <span className="from-primary bg-linear-to-r via-[#6ffbbe] to-[#4cd7f6] bg-clip-text text-transparent">
+          <span className="from-brand-accent/80 via-brand-accent to-brand-accent/60 bg-linear-to-r bg-clip-text text-transparent">
             {site.name}
           </span>
         </p>
@@ -32,7 +32,7 @@ export function IntroLockup() {
         >
           <div
             data-intro-bar=""
-            className="from-primary h-full w-full origin-left bg-linear-to-r via-[#6ffbbe] to-[#4cd7f6]"
+            className="from-brand-accent/80 via-brand-accent to-brand-accent/60 h-full w-full origin-left bg-linear-to-r"
           />
         </div>
       </div>

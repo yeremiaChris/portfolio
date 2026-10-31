@@ -13,7 +13,7 @@ export function BlogHeader({ metrics }: { metrics: BlogRibbonMetric[] }) {
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute top-1/3 right-0 -z-10 size-[24rem] rounded-full bg-[#4cd7f6]/5 blur-[160px]"
+        className="bg-brand-accent/5 pointer-events-none absolute top-1/3 right-0 -z-10 size-[24rem] rounded-full blur-[160px]"
         aria-hidden
       />
 

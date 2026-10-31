@@ -7,7 +7,7 @@ export const aboutIntro = {
   chatLabel: "Get in touch",
 } as const;
 
-export type AboutMetricTone = "foreground" | "primary" | "cyan";
+export type AboutMetricTone = "foreground" | "primary" | "accent";
 
 export type AboutProfileMetric = {
   label: string;
@@ -15,7 +15,7 @@ export type AboutProfileMetric = {
   tone: AboutMetricTone;
 };
 
-export type AboutStoryTone = "cyan" | "violet" | "primary";
+export type AboutStoryTone = "accent" | "primary";
 
 export type AboutStoryEra = {
   id: string;
@@ -41,7 +41,7 @@ export const aboutProfile = {
 export const aboutProfileMetricToneClass: Record<AboutMetricTone, string> = {
   foreground: "text-foreground",
   primary: "text-primary",
-  cyan: "text-[#4cd7f6]",
+  accent: "text-brand-accent",
 };
 
 export const aboutProfileMetrics: AboutProfileMetric[] = [
@@ -58,7 +58,7 @@ export const aboutProfileMetrics: AboutProfileMetric[] = [
   {
     label: "Logistics",
     value: "Multi-carrier shipping (KiriminAja)",
-    tone: "cyan",
+    tone: "accent",
   },
   {
     label: "Target Role",
@@ -73,14 +73,12 @@ export const aboutStoryIntro = {
 } as const;
 
 export const aboutStoryToneClass: Record<AboutStoryTone, string> = {
-  cyan: "text-[#4cd7f6]",
-  violet: "text-[#bb86fc]",
+  accent: "text-brand-accent",
   primary: "text-primary",
 };
 
 export const aboutStoryDotClass: Record<AboutStoryTone, string> = {
-  cyan: "bg-[#4cd7f6]",
-  violet: "bg-[#bb86fc]",
+  accent: "bg-brand-accent",
   primary: "bg-primary",
 };
 
@@ -91,7 +89,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
     period: "Kabanjahe, North Sumatra",
     title: "Curiosity & Logic",
     body: "Grew up in Kabanjahe, North Sumatra. Developed an early interest in logic, systems, and structured problem-solving that later shaped how I approach engineering.",
-    tone: "cyan",
+    tone: "accent",
   },
   {
     id: "pandemic",
@@ -99,7 +97,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
     period: "Self-Taught Foundation",
     title: "Learning the Stack",
     body: "Used the pandemic period to learn web development seriously. Started with HTML, CSS, and JavaScript, then explored backend with Python (Django/Flask) and PHP (Laravel). This gave me a practical understanding of HTTP, data, and full request lifecycles.",
-    tone: "violet",
+    tone: "accent",
   },
   {
     id: "industry",
@@ -107,7 +105,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
     period: "Entering the Industry",
     title: "React · Vue · Team Delivery",
     body: "Focused on React, Next.js, Vue, and Nuxt. Worked at iCreativeLabs and KiriminAja building dashboards, transactional interfaces, and design systems in cross-functional teams.",
-    tone: "cyan",
+    tone: "accent",
   },
   {
     id: "primaku",
@@ -124,7 +122,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
     period: "Clinic & Hospital Systems",
     title: "Mazecare",
     body: "At Mazecare, built end-to-end patient lifecycle features for an AI-native EMR/HIS: clinical visits, queues, teleconsultation, billing, and AI-assisted documentation tools using Vue 3, Nuxt 3, GraphQL, and FHIR.",
-    tone: "violet",
+    tone: "accent",
   },
 ];
 
@@ -201,7 +199,7 @@ export const aboutWorkflowBeats: AboutWorkflowBeat[] = [
     description:
       "Vim motions to jump hunks. Nothing merges unread — the model is a draft, not a merge button.",
     footer: "hjkl · read every hunk",
-    tone: "cyan",
+    tone: "accent",
     icon: "review",
   },
   {
@@ -211,7 +209,7 @@ export const aboutWorkflowBeats: AboutWorkflowBeat[] = [
     description:
       "TypeScript, ESLint, and tests catch what a fluent diff hides. AI speeds the first pass; CI is the adult in the room.",
     footer: "tsc · lint · pnpm test",
-    tone: "violet",
+    tone: "accent",
     icon: "gate",
   },
 ];

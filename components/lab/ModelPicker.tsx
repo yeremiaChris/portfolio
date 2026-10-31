@@ -47,13 +47,13 @@ const PROVIDER_LABELS: Record<ModelProvider, string> = {
 };
 
 const PROVIDER_DOT: Record<ModelProvider, string> = {
-  auto: "bg-[#4cd7f6]",
-  google: "bg-[#4edea3]",
+  auto: "bg-brand-accent",
+  google: "bg-brand-accent",
   deepseek: "bg-[#3b82f6]",
   qwen: "bg-[#f97316]",
-  moonshot: "bg-[#a855f7]",
-  anthropic: "bg-[#bb86fc]",
-  openai: "bg-[#4cd7f6]",
+  moonshot: "bg-brand-accent/60",
+  anthropic: "bg-brand-accent/80",
+  openai: "bg-brand-accent",
 };
 
 function modelsByProvider(

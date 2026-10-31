@@ -42,7 +42,7 @@ export function FeaturedPost({ post }: { post: BlogPostSummary }) {
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-1.5" aria-hidden>
                   <span className="bg-destructive/60 size-2.5 rounded-full" />
-                  <span className="size-2.5 rounded-full bg-[#4cd7f6]/60" />
+                  <span className="bg-brand-accent/60 size-2.5 rounded-full" />
                   <span className="bg-primary/60 size-2.5 rounded-full" />
                 </div>
                 <span className="text-muted-foreground label-caps tracking-wider">
@@ -58,7 +58,7 @@ export function FeaturedPost({ post }: { post: BlogPostSummary }) {
                 </p>
                 <div className="bg-primary/70 h-2 w-3/4 rounded-sm" />
                 <div className="bg-primary/40 h-2 w-1/2 rounded-sm" />
-                <div className="h-2 w-5/6 rounded-sm bg-[#4cd7f6]/50" />
+                <div className="bg-brand-accent/50 h-2 w-5/6 rounded-sm" />
                 <div className="mt-2 flex gap-1">
                   <div className="bg-muted/80 h-8 flex-1 rounded-md" />
                   <div className="bg-primary/20 h-8 w-10 rounded-md" />
@@ -76,7 +76,7 @@ export function FeaturedPost({ post }: { post: BlogPostSummary }) {
                   <Badge
                     variant="secondary"
                     render={<Link href={`/blog/tag/${primaryTopic.slug}`} />}
-                    className="text-muted-foreground rounded-md px-2 py-0.5 text-[11px] transition-colors hover:text-[#4cd7f6] motion-reduce:transition-none"
+                    className="text-muted-foreground hover:text-brand-accent rounded-md px-2 py-0.5 text-[11px] transition-colors motion-reduce:transition-none"
                   >
                     {primaryTopic.label}
                   </Badge>
@@ -92,7 +92,7 @@ export function FeaturedPost({ post }: { post: BlogPostSummary }) {
                   <Badge
                     variant="secondary"
                     render={<Link href={`/blog/tag/${primaryTopic.slug}`} />}
-                    className="bg-muted rounded-md px-2 py-0.5 text-xs tracking-wider text-[#4cd7f6] uppercase transition-opacity hover:opacity-90 motion-reduce:transition-none"
+                    className="bg-muted text-brand-accent rounded-md px-2 py-0.5 text-xs tracking-wider uppercase transition-opacity hover:opacity-90 motion-reduce:transition-none"
                   >
                     {primaryTopic.label}
                   </Badge>
@@ -126,7 +126,7 @@ export function FeaturedPost({ post }: { post: BlogPostSummary }) {
                     key={topic.slug}
                     variant="secondary"
                     render={<Link href={`/blog/tag/${topic.slug}`} />}
-                    className="text-foreground rounded-md px-2 py-0.5 text-[11px] font-normal transition-colors hover:text-[#4cd7f6] motion-reduce:transition-none"
+                    className="text-foreground hover:text-brand-accent rounded-md px-2 py-0.5 text-[11px] font-normal transition-colors motion-reduce:transition-none"
                   >
                     {topic.label}
                   </Badge>

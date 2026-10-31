@@ -63,10 +63,10 @@ export function BlogSubscribe() {
           {blogSubscribe.privacyNote}
         </span>
         <span className="inline-flex items-center gap-1.5">
-          <Rss className="size-3.5 text-[#4cd7f6]" aria-hidden />
+          <Rss className="text-brand-accent size-3.5" aria-hidden />
           <Link
             href={blogSubscribe.rssHref}
-            className="text-[#4cd7f6] transition-colors hover:underline"
+            className="text-brand-accent transition-colors hover:underline"
           >
             {blogSubscribe.rssHref}
           </Link>

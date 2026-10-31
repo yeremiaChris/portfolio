@@ -75,7 +75,7 @@ export function AskYeremiaChat({
       className="bg-background flex h-[calc(100dvh-var(--nav-height))] flex-col overflow-hidden"
     >
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
-        <p className="text-foreground/75 text-xs font-medium tracking-wide text-[#4cd7f6] uppercase">
+        <p className="text-foreground/75 text-brand-accent text-xs font-medium tracking-wide uppercase">
           {askYeremia.topBarEyebrow}
         </p>
         {!isEmpty ? (
@@ -118,7 +118,7 @@ export function AskYeremiaChat({
                       size="sm"
                       disabled={isStreaming}
                       onClick={() => ask(suggestion)}
-                      className="border-border/60 h-auto min-h-11 max-w-full px-3 py-2 text-left text-xs leading-snug whitespace-normal hover:border-[#4cd7f6]/35 focus-visible:ring-[#4cd7f6]/40 sm:min-h-9"
+                      className="border-border/60 hover:border-brand-accent/35 focus-visible:ring-brand-accent/40 h-auto min-h-11 max-w-full px-3 py-2 text-left text-xs leading-snug whitespace-normal sm:min-h-9"
                     >
                       {suggestion}
                     </Button>

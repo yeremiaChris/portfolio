@@ -422,8 +422,8 @@ export function ShipmentTable({
                       className={cn(
                         "font-mono text-[10px] tracking-wider uppercase",
                         row.status === "Delayed" && "text-destructive",
-                        row.status === "Delivered" && "text-[#6ffbbe]",
-                        row.status === "In transit" && "text-[#4cd7f6]",
+                        row.status === "Delivered" && "text-status-available",
+                        row.status === "In transit" && "text-brand-accent",
                       )}
                     >
                       {row.status}

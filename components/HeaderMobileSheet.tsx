@@ -61,7 +61,7 @@ export function HeaderMobileSheet({
                 href="/#contact"
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "mt-2 justify-start bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3]",
+                  "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover mt-2 justify-start",
                 )}
               />
             }

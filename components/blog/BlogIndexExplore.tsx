@@ -72,7 +72,7 @@ export function BlogIndexExplore({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span
-              className="size-2 shrink-0 rounded-full bg-[#4cd7f6]"
+              className="bg-brand-accent size-2 shrink-0 rounded-full"
               aria-hidden
             />
             <h2

@@ -40,7 +40,7 @@ export function AboutStory() {
                 variant="secondary"
                 className="text-primary label-caps gap-2 tracking-widest"
               >
-                <span className="bg-primary size-2.5 shrink-0 rounded-full" />
+                <span className="bg-status-available size-2.5 shrink-0 rounded-full" />
                 {aboutProfile.status}
               </Badge>
               <span className="text-muted-foreground label-caps tracking-wider">
@@ -71,7 +71,7 @@ export function AboutStory() {
                 </Badge>
                 <Badge
                   variant="secondary"
-                  className="bg-[#0a0e14]/80 text-[11px] text-[#4cd7f6] backdrop-blur-md"
+                  className="text-brand-accent bg-[#0a0e14]/80 text-[11px] backdrop-blur-md"
                 >
                   {aboutProfile.ageLabel}
                 </Badge>
@@ -117,7 +117,7 @@ export function AboutStory() {
       <div className="flex flex-col gap-6 lg:col-span-7">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <GitBranch className="size-5 text-[#4cd7f6]" aria-hidden />
+            <GitBranch className="text-brand-accent size-5" aria-hidden />
             <h2
               id="about-story-heading"
               className="font-heading text-foreground text-2xl font-semibold tracking-tight"

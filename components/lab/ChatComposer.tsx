@@ -144,16 +144,14 @@ export function ChatComposer({
         </div>
       </div>
 
-      <div
+      <p
         id={disclaimerId}
         role="note"
-        className="flex flex-col gap-1 px-1 text-center leading-relaxed"
+        title={askYeremia.usageNotice}
+        className="text-muted-foreground px-1 text-center text-[11px] leading-snug sm:text-xs"
       >
-        <p className="text-foreground/70 text-xs">{askYeremia.disclaimer}</p>
-        <p className="text-muted-foreground text-[11px] leading-relaxed">
-          {askYeremia.usageNotice}
-        </p>
-      </div>
+        {askYeremia.disclaimer}
+      </p>
     </form>
   );
 }

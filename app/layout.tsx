@@ -3,7 +3,11 @@ import { Geist, Geist_Mono, Rethink_Sans } from "next/font/google";
 
 import { Header } from "@/components/Header";
 import { UmamiScript } from "@/components/UmamiScript";
-import { INTRO_BOOTSTRAP_SCRIPT } from "@/lib/intro";
+import {
+  INTRO_BOOTSTRAP_SCRIPT,
+  INTRO_CRITICAL_CSS,
+  INTRO_TIMING_CSS,
+} from "@/lib/intro";
 import { buildAlternates } from "@/lib/seo";
 import { getSiteUrl, site } from "@/lib/site";
 import { WEB_APP_BACKGROUND_COLOR } from "@/lib/web-manifest";
@@ -72,6 +76,11 @@ export default function RootLayout({
         className="bg-background text-foreground min-h-screen antialiased"
       >
         <script dangerouslySetInnerHTML={{ __html: INTRO_BOOTSTRAP_SCRIPT }} />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `${INTRO_CRITICAL_CSS}${INTRO_TIMING_CSS}`,
+          }}
+        />
         <UmamiScript />
         <Header />
         <div className="pt-[var(--nav-height)]">{children}</div>

@@ -37,6 +37,17 @@ export const OG_IMAGE = {
   alt: "Yeremia Chris Saragi — Software Engineer",
 } as const;
 
+export const RSS_FEED_PATH = "/feed.xml";
+
+export function buildAlternates(path?: string): Metadata["alternates"] {
+  return {
+    ...(path !== undefined ? { canonical: toCanonicalPath(path) } : {}),
+    types: {
+      "application/rss+xml": RSS_FEED_PATH,
+    },
+  };
+}
+
 export function buildPageMetadata({
   title,
   description,
@@ -48,7 +59,7 @@ export function buildPageMetadata({
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: buildAlternates(canonical),
     openGraph: {
       title,
       description,

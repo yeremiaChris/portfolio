@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Rethink_Sans } from "next/font/google";
 import { Header } from "@/components/Header";
 import { UmamiScript } from "@/components/UmamiScript";
 import { INTRO_BOOTSTRAP_SCRIPT } from "@/lib/intro";
+import { buildAlternates } from "@/lib/seo";
 import { getSiteUrl, site } from "@/lib/site";
 import { WEB_APP_BACKGROUND_COLOR } from "@/lib/web-manifest";
 import { cn } from "@/lib/utils";
@@ -39,11 +40,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: "Yeremia Chris Saragi | Software Engineer",
   description: site.tagline,
-  alternates: {
-    types: {
-      "application/rss+xml": "/feed.xml",
-    },
-  },
+  alternates: buildAlternates(),
   openGraph: {
     type: "website",
     locale: "en_US",

@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { buttonVariants } from "@/components/ui/button-variants";
 import { isResumeHidden } from "@/lib/nav";
-import { site } from "@/lib/site";
+import { SITE_RESUME_HREF } from "@/lib/site-links";
 import { cn } from "@/lib/utils";
 
 export function HeaderResumeLink() {
@@ -14,16 +13,16 @@ export function HeaderResumeLink() {
   if (isResumeHidden(pathname)) return null;
 
   return (
-    <Link
-      href={site.links.resume}
+    <a
+      href={SITE_RESUME_HREF}
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
         buttonVariants({ variant: "ghost", size: "sm" }),
-        "text-muted-foreground text-[13px]",
+        "text-muted-foreground about-hide-header-resume text-[13px]",
       )}
     >
       CV.pdf
-    </Link>
+    </a>
   );
 }

@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { aboutProfile } from "./about";
 import {
   PERSON_KNOWS_ABOUT,
+  RSS_FEED_PATH,
+  buildAlternates,
   buildBlogPostingJsonLd,
   buildHomeJsonLd,
   buildPageMetadata,
@@ -44,6 +46,22 @@ describe("toCanonicalPath", () => {
   });
 });
 
+describe("buildAlternates", () => {
+  it("includes the RSS feed type and optional canonical", () => {
+    expect(buildAlternates()).toEqual({
+      types: { "application/rss+xml": RSS_FEED_PATH },
+    });
+    expect(buildAlternates("/blog")).toEqual({
+      canonical: "/blog",
+      types: { "application/rss+xml": RSS_FEED_PATH },
+    });
+    expect(buildAlternates("about")).toEqual({
+      canonical: "/about",
+      types: { "application/rss+xml": RSS_FEED_PATH },
+    });
+  });
+});
+
 describe("buildPageMetadata", () => {
   it("sets canonical, Open Graph, and a large Twitter card", () => {
     const metadata = buildPageMetadata({
@@ -52,7 +70,10 @@ describe("buildPageMetadata", () => {
       path: "about",
     });
 
-    expect(metadata.alternates).toEqual({ canonical: "/about" });
+    expect(metadata.alternates).toEqual({
+      canonical: "/about",
+      types: { "application/rss+xml": RSS_FEED_PATH },
+    });
     expect(metadata.openGraph).toMatchObject({
       url: "/about",
       type: "website",
@@ -81,7 +102,10 @@ describe("buildPageMetadata", () => {
     });
 
     expect(metadata.openGraph).toMatchObject({ type: "article" });
-    expect(metadata.alternates).toEqual({ canonical: "/blog/a-post" });
+    expect(metadata.alternates).toEqual({
+      canonical: "/blog/a-post",
+      types: { "application/rss+xml": RSS_FEED_PATH },
+    });
   });
 });
 

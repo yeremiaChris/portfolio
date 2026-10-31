@@ -1,11 +1,8 @@
 import Link from "next/link";
 
-import { HeaderMobileMenu } from "@/components/HeaderMobileMenu";
-import { HeaderResumeLink } from "@/components/HeaderResumeLink";
-import { HeaderNav } from "@/components/HeaderNav";
+import { HeaderInteractiveEntry } from "@/components/HeaderInteractiveEntry";
+import { HeaderInteractiveFallback } from "@/components/HeaderInteractiveFallback";
 import { Container } from "@/components/Container";
-import { buttonVariants } from "@/components/ui/button-variants";
-import { cn } from "@/lib/utils";
 
 export function Header() {
   return (
@@ -27,23 +24,10 @@ export function Header() {
           </span>
         </div>
 
-        <HeaderNav />
-
-        <div className="flex items-center gap-2">
-          <Link
-            href="/#contact"
-            className={cn(
-              buttonVariants({ size: "sm" }),
-              "hidden bg-[#4cd7f6] text-[#042028] hover:bg-[#3bc4e3] sm:inline-flex",
-            )}
-          >
-            Get in Touch
-          </Link>
-
-          <HeaderResumeLink />
-
-          <HeaderMobileMenu />
+        <div className="contents" data-header-fallback="">
+          <HeaderInteractiveFallback />
         </div>
+        <HeaderInteractiveEntry />
       </Container>
     </header>
   );

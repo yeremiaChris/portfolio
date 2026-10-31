@@ -283,7 +283,7 @@ html[data-intro="playing"] [data-intro-bar] {
   width: min(680px, 85vw);
   border-radius: 50%;
   background: rgb(76 215 246 / 0.15);
-  filter: blur(120px);
+  filter: blur(96px);
   transform: rotate(-14deg);
 }
 
@@ -328,6 +328,29 @@ html[data-intro="playing"] [data-intro-bar] {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) {
+    .hero-code-shell:hover {
+      transform: translateY(-2px) translateZ(0);
+      will-change: transform;
+      box-shadow:
+        0 12px 36px rgb(0 0 0 / 0.35),
+        0 0 72px rgb(76 215 246 / 0.24);
+    }
+
+    .hero-code-shell:hover .hero-code-body::before {
+      opacity: 1;
+    }
+
+    .hero-code-shell:hover.border-gradient::after {
+      background: linear-gradient(
+        135deg,
+        rgb(76 215 246 / 0.55),
+        rgb(76 215 246 / 0.18) 40%,
+        transparent 70%
+      );
+    }
+  }
+
   .hero-code-shell.hero-code-shell--active {
     transform: translateY(-2px) translateZ(0);
     will-change: transform;

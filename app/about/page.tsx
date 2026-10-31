@@ -17,6 +17,7 @@ export const metadata: Metadata = buildPageMetadata({
 export default function AboutPage() {
   return (
     <main>
+      <style>{`.about-hide-header-resume{display:none!important}`}</style>
       <JsonLd
         data={buildProfilePageJsonLd("/about", { includeContact: false })}
       />

@@ -2,8 +2,8 @@ import { getExperienceLabel } from "./career";
 
 export const aboutIntro = {
   eyebrow: "Profile",
-  title: "About Yeremia Chris Saragi",
-  description: `Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development. He has ${getExperienceLabel()} years building production platforms across health-tech and logistics, with strong React, Next.js, and Vue work plus real API, auth, and data-aware delivery.`,
+  title: "About",
+  description: `I'm a Software Engineer · Frontend-Heavy with ${getExperienceLabel()} years of experience since January 2022. I build production web platforms across health-tech and logistics — React, Next.js, and Vue with real API, auth, and data-aware UI. I'm based in Batam, Indonesia, working remote.`,
   chatLabel: "Get in touch",
 } as const;
 
@@ -29,13 +29,12 @@ export type AboutStoryEra = {
 
 export const aboutProfile = {
   status: "Open to opportunities",
-  nodeId: "YCS · 2000",
+  nodeId: "YCS",
   image: "/yeremia-1.JPG",
   imageAlt: "Portrait of Yeremia Chris Saragi",
-  location: "Indonesia (Remote Worldwide)",
-  ageLabel: "26 y.o.",
+  location: "Batam, Indonesia · Remote",
   intent:
-    "Open to Software Engineer roles (frontend-heavy) — product platforms, clinical systems, or teams that value clean frontend work with real API and data ownership.",
+    "I'm open to Software Engineer roles (frontend-heavy) — product platforms, clinical systems, or teams that want clean frontend work with real API and data ownership.",
 } as const;
 
 export const aboutProfileMetricToneClass: Record<AboutMetricTone, string> = {
@@ -46,8 +45,9 @@ export const aboutProfileMetricToneClass: Record<AboutMetricTone, string> = {
 
 export const aboutProfileMetrics: AboutProfileMetric[] = [
   {
-    label: "Core Strength",
-    value: "Frontend Craft + API / Data Integration",
+    label: "Role & focus",
+    value:
+      "Software Engineer · Frontend-Heavy — frontend craft with API and data integration",
     tone: "foreground",
   },
   {
@@ -60,16 +60,11 @@ export const aboutProfileMetrics: AboutProfileMetric[] = [
     value: "Multi-carrier shipping (KiriminAja)",
     tone: "accent",
   },
-  {
-    label: "Target Role",
-    value: "Software Engineer · Frontend-Heavy",
-    tone: "foreground",
-  },
 ];
 
 export const aboutStoryIntro = {
   title: "My Journey",
-  meta: "2000 – 2026",
+  meta: "Full-time roles · overlap is intentional",
 } as const;
 
 export const aboutStoryToneClass: Record<AboutStoryTone, string> = {
@@ -84,58 +79,49 @@ export const aboutStoryDotClass: Record<AboutStoryTone, string> = {
 
 export const aboutStoryEras: AboutStoryEra[] = [
   {
-    id: "origin",
-    label: "Early Years",
-    period: "Kabanjahe, North Sumatra",
-    title: "Curiosity & Logic",
-    body: "Grew up in Kabanjahe, North Sumatra. Developed an early interest in logic, systems, and structured problem-solving that later shaped how I approach engineering.",
+    id: "foundation",
+    label: "Before 2022",
+    period: "Self-taught",
+    title: "Web foundations",
+    body: "I taught myself web development — HTML, CSS, JavaScript, and enough backend context to read APIs and data flow before my first full-time job.",
     tone: "accent",
   },
   {
-    id: "pandemic",
-    label: "2020",
-    period: "Self-Taught Foundation",
-    title: "Learning the Stack",
-    body: "Used the pandemic period to learn web development seriously. Started with HTML, CSS, and JavaScript, then explored backend with Python (Django/Flask) and PHP (Laravel). This gave me a practical understanding of HTTP, data, and full request lifecycles.",
+    id: "icreativelabs",
+    label: "Jan 2022 – May 2023",
+    period: "iCreativeLabs · PT Idekreatif Menusa Teknologi",
+    title: "Consultancy delivery",
+    body: "I shipped client web apps, admin dashboards, and hybrid mobile UI in React, Next.js, Vue, and React Native.",
     tone: "accent",
   },
   {
-    id: "industry",
-    label: "2022 – 2024",
-    period: "Entering the Industry",
-    title: "React · Vue · Team Delivery",
-    body: "Focused on React, Next.js, Vue, and Nuxt. Worked at iCreativeLabs and KiriminAja building dashboards, transactional interfaces, and design systems in cross-functional teams.",
+    id: "kiriminaja",
+    label: "Jan 2023 – Apr 2024",
+    period: "KiriminAja · full-time",
+    title: "Logistics control room",
+    body: "I owned Vue/Nuxt UI for multi-carrier shipping — rates, manifests, and high-density ops flows.",
     tone: "accent",
   },
   {
     id: "primaku",
-    label: "2022 – Present",
-    period: "Healthtech Focus",
-    title: "PrimaKu",
-    body: "At PrimaKu, working on product surfaces and integrations for a national pediatric health platform — including patient monitoring, clinician tools, REST pipelines, and authentication flows.",
+    label: "Dec 2022 – Present",
+    period: "PrimaKu · full-time",
+    title: "Pediatric health platform",
+    body: "I own frontend architecture for PrimaKu's web platform — shared UI, REST, auth, and clinician plus family-facing surfaces.",
     tone: "primary",
     current: true,
   },
   {
     id: "mazecare",
-    label: "2025 – 2026",
-    period: "Clinic & Hospital Systems",
-    title: "Mazecare",
-    body: "At Mazecare, built end-to-end patient lifecycle features for an AI-native EMR/HIS: clinical visits, queues, teleconsultation, billing, and AI-assisted documentation tools using Vue 3, Nuxt 3, GraphQL, and FHIR.",
+    label: "Jun 2025 – Jul 2026",
+    period: "Mazecare · full-time",
+    title: "Clinic & hospital EMR/HIS",
+    body: "I built patient-lifecycle UI on an AI-native EMR/HIS with Vue 3, Nuxt 3, GraphQL, and FHIR.",
     tone: "accent",
   },
 ];
 
-export type AboutDriverIcon = "laptop" | "keyboard" | "cursor" | "terminal";
-
-export type AboutDriver = {
-  id: string;
-  name: string;
-  detail: string;
-  icon: AboutDriverIcon;
-};
-
-export type AboutWorkflowIcon = "plan" | "review" | "gate";
+export type AboutWorkflowIcon = "ticket" | "decide" | "checks";
 
 export type AboutWorkflowBeat = {
   id: string;
@@ -147,69 +133,51 @@ export type AboutWorkflowBeat = {
   icon: AboutWorkflowIcon;
 };
 
-export const aboutWorkflowIntro = {
-  eyebrow: "Daily drivers",
-  title: "How I work",
-  description:
-    "MacBook Air M3, Keychron K6, Cursor with Vim, Ghostty. I let the model draft; I still read every diff.",
+export const aboutWorkflowToolLink = {
+  name: "Cursor · Vim",
+  detail: "Editor",
+  href: "https://cursor.com/@yeremia",
 } as const;
 
-export const aboutDrivers: AboutDriver[] = [
-  {
-    id: "mac",
-    name: "MacBook Air M3",
-    detail: "Machine",
-    icon: "laptop",
-  },
-  {
-    id: "keychron",
-    name: "Keychron K6",
-    detail: "Keyboard",
-    icon: "keyboard",
-  },
-  {
-    id: "cursor",
-    name: "Cursor · Vim",
-    detail: "Editor",
-    icon: "cursor",
-  },
-  {
-    id: "ghostty",
-    name: "Ghostty",
-    detail: "Terminal",
-    icon: "terminal",
-  },
-];
+export const aboutWorkflowIntro = {
+  eyebrow: "Process",
+  title: "How I work",
+  description:
+    "I work in an AI-era loop: ticket first, agent-built PR, my review, then green checks before merge.",
+} as const;
 
 export const aboutWorkflowBeats: AboutWorkflowBeat[] = [
   {
-    id: "plan",
+    id: "ticket",
     step: "01",
-    title: "Plan in the repo",
+    title: "Start from a ticket",
     description:
-      "I start in the file, not a blank chat. Cursor already has the project — so the first draft stays in context.",
-    footer: "Open the file → prompt",
+      "Every change begins as a Linear ticket. An AI agent implements it on its own branch, and the result is always a PR — never a direct push to main.",
+    footer: "Linear → branch → PR",
     tone: "primary",
-    icon: "plan",
+    icon: "ticket",
   },
   {
-    id: "review",
+    id: "decide",
     step: "02",
-    title: "Generate, then read the diff",
+    title: "I review and decide",
     description:
-      "Vim motions to jump hunks. Nothing merges unread — the model is a draft, not a merge button.",
-    footer: "hjkl · read every hunk",
+      "Every PR carries a logic summary: what changed, why, the alternatives, and the risky parts. I read it and merge it myself. AI speeds up the work, but I own the decisions.",
+    footer: "Logic summary · I merge",
     tone: "accent",
-    icon: "review",
+    icon: "decide",
   },
   {
-    id: "gate",
+    id: "checks",
     step: "03",
-    title: "Gate with the usual tools",
+    title: "Checks guard quality",
     description:
-      "TypeScript, ESLint, and tests catch what a fluent diff hides. AI speeds the first pass; CI is the adult in the room.",
-    footer: "tsc · lint · pnpm test",
+      "Lint, typecheck, tests, build, and Lighthouse must pass before merge, so moving fast stays measurable.",
+    footer: "lint · typecheck · test · build · Lighthouse",
     tone: "accent",
-    icon: "gate",
+    icon: "checks",
   },
 ];
+
+export const aboutWorkflowClosing =
+  "AI handles the repetitive work, so I focus on design, review, and product decisions." as const;

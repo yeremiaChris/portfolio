@@ -61,19 +61,13 @@ export function AboutStory() {
                 className="absolute inset-0 bg-linear-to-t from-[#0a0e14] via-[#0a0e14]/20 to-transparent"
                 aria-hidden
               />
-              <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2">
+              <div className="absolute inset-x-3 bottom-3">
                 <Badge
                   variant="secondary"
                   className="gap-1 bg-[#0a0e14]/80 text-xs backdrop-blur-md"
                 >
                   <MapPin className="text-primary size-3" aria-hidden />
                   {aboutProfile.location}
-                </Badge>
-                <Badge
-                  variant="secondary"
-                  className="text-brand-accent bg-[#0a0e14]/80 text-[11px] backdrop-blur-md"
-                >
-                  {aboutProfile.ageLabel}
                 </Badge>
               </div>
             </div>

@@ -1,11 +1,9 @@
+import Link from "next/link";
 import {
-  FolderGit2,
-  GitCompare,
-  Keyboard,
-  Laptop,
-  ShieldCheck,
+  GitPullRequestArrow,
+  ListChecks,
   Sparkles,
-  SquareTerminal,
+  Ticket,
   type LucideIcon,
 } from "lucide-react";
 
@@ -18,26 +16,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  aboutDrivers,
   aboutStoryToneClass,
   aboutWorkflowBeats,
+  aboutWorkflowClosing,
   aboutWorkflowIntro,
-  type AboutDriver,
+  aboutWorkflowToolLink,
   type AboutWorkflowBeat,
 } from "@/lib/about";
 import { cn } from "@/lib/utils";
 
-const DRIVER_ICONS: Record<AboutDriver["icon"], LucideIcon> = {
-  laptop: Laptop,
-  keyboard: Keyboard,
-  cursor: Sparkles,
-  terminal: SquareTerminal,
-};
-
 const BEAT_ICONS: Record<AboutWorkflowBeat["icon"], LucideIcon> = {
-  plan: FolderGit2,
-  review: GitCompare,
-  gate: ShieldCheck,
+  ticket: Ticket,
+  decide: GitPullRequestArrow,
+  checks: ListChecks,
 };
 
 export function AboutWorkflow() {
@@ -61,42 +52,47 @@ export function AboutWorkflow() {
         </p>
       </header>
 
-      <ul className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {aboutDrivers.map((driver) => (
-          <li key={driver.id}>
-            <DriverChip driver={driver} />
-          </li>
-        ))}
-      </ul>
+      <div className="mb-6 max-w-xs">
+        <EditorToolChip />
+      </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
         {aboutWorkflowBeats.map((beat) => (
           <WorkflowBeatCard key={beat.id} beat={beat} />
         ))}
       </div>
+
+      <p className="text-muted-foreground mt-6 max-w-2xl text-[15px] leading-relaxed">
+        {aboutWorkflowClosing}
+      </p>
     </section>
   );
 }
 
-function DriverChip({ driver }: { driver: AboutDriver }) {
-  const Icon = DRIVER_ICONS[driver.icon];
-
+function EditorToolChip() {
   return (
-    <Card className="bg-muted ring-border/20 h-full rounded-2xl">
-      <CardHeader className="gap-3">
-        <div className="bg-secondary text-primary flex size-9 items-center justify-center rounded-lg">
-          <Icon className="size-4" aria-hidden />
-        </div>
-        <div className="space-y-1">
-          <p className="text-muted-foreground label-caps tracking-widest">
-            {driver.detail}
-          </p>
-          <p className="text-foreground text-[13px] leading-snug font-medium">
-            {driver.name}
-          </p>
-        </div>
-      </CardHeader>
-    </Card>
+    <Link
+      href={aboutWorkflowToolLink.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group focus-visible:ring-primary/50 block rounded-2xl focus-visible:ring-2 focus-visible:outline-none"
+    >
+      <Card className="bg-muted ring-border/20 group-hover:bg-muted/90 group-hover:ring-primary/30 rounded-2xl transition-[background-color,box-shadow] duration-200 motion-reduce:transition-none">
+        <CardHeader className="gap-3">
+          <div className="bg-secondary text-primary group-hover:text-brand-accent flex size-9 items-center justify-center rounded-lg transition-colors duration-200 motion-reduce:transition-none">
+            <Sparkles className="size-4" aria-hidden />
+          </div>
+          <div className="space-y-1">
+            <p className="text-muted-foreground label-caps tracking-widest">
+              {aboutWorkflowToolLink.detail}
+            </p>
+            <p className="text-foreground text-[13px] leading-snug font-medium">
+              {aboutWorkflowToolLink.name}
+            </p>
+          </div>
+        </CardHeader>
+      </Card>
+    </Link>
   );
 }
 
@@ -105,12 +101,16 @@ function WorkflowBeatCard({ beat }: { beat: AboutWorkflowBeat }) {
   const toneClass = aboutStoryToneClass[beat.tone];
 
   return (
-    <Card className="bg-muted ring-border/20 flex h-full flex-col justify-between rounded-3xl">
+    <Card
+      className={cn(
+        "group bg-muted ring-border/20 hover:bg-muted/90 hover:ring-primary/25 flex h-full flex-col justify-between rounded-3xl transition-[background-color,box-shadow] duration-200 motion-reduce:transition-none",
+      )}
+    >
       <CardHeader className="gap-4">
         <div className="flex items-center justify-between gap-2">
           <div
             className={cn(
-              "bg-secondary flex size-10 items-center justify-center rounded-lg",
+              "bg-secondary group-hover:text-brand-accent flex size-10 items-center justify-center rounded-lg transition-colors duration-200",
               toneClass,
             )}
           >

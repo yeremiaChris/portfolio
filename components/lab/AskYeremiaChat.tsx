@@ -63,10 +63,8 @@ export function AskYeremiaChat() {
   return (
     <div
       id={askYeremia.id}
-      className="bg-background flex h-[calc(100dvh-var(--nav-height))] flex-col overflow-hidden"
+      className="bg-background flex h-full min-h-0 flex-col overflow-hidden"
     >
-      <h1 className="sr-only">{askYeremia.title}</h1>
-
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
         <p className="text-foreground/75 text-xs font-medium tracking-wide text-[#4cd7f6] uppercase">
           {askYeremia.topBarEyebrow}

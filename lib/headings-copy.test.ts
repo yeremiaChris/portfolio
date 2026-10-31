@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { aboutIntro } from "./about";
 import { blogIntro } from "./blog";
 import { experienceIntro, experienceRoles } from "./experience";
-import { askYeremia } from "./lab";
+import { askYeremia, labIntro } from "./lab";
 import { projectsIntro } from "./projects";
 
 const TERMINAL_CHROME = /sys:\/\/|\.log\b|\.md\b|ROLE:\d+|\/\/\s|\/\/[A-Z]/;
@@ -24,6 +24,7 @@ describe("page intro copy", () => {
       blogIntro,
       projectsIntro,
       experienceIntro,
+      labIntro,
     ]) {
       expect(intro).not.toHaveProperty("breadcrumbRoot");
       expect(intro).not.toHaveProperty("breadcrumbLeaf");
@@ -32,6 +33,7 @@ describe("page intro copy", () => {
 
   it("uses plain professional headings on key pages", () => {
     expect(experienceIntro.eyebrow).toBe("Career timeline");
+    expect(labIntro.eyebrow).toBe("Lab · Ask Yeremia");
     expect(askYeremia.topBarEyebrow).toBe("Lab · Ask Yeremia");
     expect(blogIntro).not.toHaveProperty("statusBadge");
   });
@@ -48,6 +50,7 @@ describe("page intro copy", () => {
       ...collectStrings(blogIntro),
       ...collectStrings(projectsIntro),
       ...collectStrings(experienceIntro),
+      ...collectStrings(labIntro),
       ...collectStrings(askYeremia),
       ...experienceRoles.flatMap((role) => collectStrings(role)),
     ];

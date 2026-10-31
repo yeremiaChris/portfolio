@@ -1,6 +1,14 @@
 export const labIntro = {
+  eyebrow: "Lab · Ask Yeremia",
+  title: "Ask Yeremia",
+  paragraphs: [
+    "Ask Yeremia is a portfolio chat that searches my experience, projects, and blog posts for relevant excerpts, then composes an answer with source links when it can.",
+    "Answers stay grounded in this site — not open-ended web search. The assistant can still misread context or miss updates, so treat replies as a starting point.",
+  ],
+  notice:
+    "Your messages are processed on the server to retrieve portfolio content and generate a reply. Usage is rate-limited per IP so the demo stays available for everyone.",
   description:
-    "Ask Yeremia is a grounded chat over this portfolio — experience, projects, and writing — with cited sources.",
+    "Grounded portfolio chat over Yeremia Chris Saragi’s experience, projects, and writing — with cited sources from this site.",
 } as const;
 
 export const askYeremia = {

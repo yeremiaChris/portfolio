@@ -1,7 +1,7 @@
 import { Container } from "@/components/Container";
 import { HeroHeadline } from "@/components/home/HeroIntro";
 import { HeroProduction } from "@/components/home/HeroProduction";
-import { HeroVisualDynamic } from "@/components/home/HeroVisualDynamic";
+import { HeroVisual } from "@/components/home/HeroVisual";
 
 export function Hero() {
   return (
@@ -13,7 +13,7 @@ export function Hero() {
       <Container className="relative flex w-full flex-col items-start gap-0">
         <div className="grid w-full grid-cols-1 items-start gap-8 xl:grid-cols-[minmax(0,1fr)_min(420px,38%)] xl:gap-10">
           <HeroHeadline />
-          <HeroVisualDynamic />
+          <HeroVisual />
         </div>
         <HeroProduction />
       </Container>

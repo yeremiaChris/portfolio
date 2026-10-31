@@ -12,6 +12,6 @@ describe("HeaderResumeLink", () => {
   it("links to the static CV with a native anchor instead of next/link", () => {
     const source = readFileSync(componentPath, "utf8");
     expect(source).not.toContain('from "next/link"');
-    expect(source).toMatch(/<a[\s\S]*href=\{site\.links\.resume\}/);
+    expect(source).toMatch(/href=\{SITE_RESUME_HREF\}/);
   });
 });

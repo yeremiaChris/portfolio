@@ -48,6 +48,12 @@ describe("site.stats", () => {
   });
 });
 
+describe("site.links", () => {
+  it("does not expose a public footer path to /analytics", () => {
+    expect("analytics" in site.links).toBe(false);
+  });
+});
+
 describe("getSiteUrl", () => {
   it("falls back to the canonical origin", () => {
     expect(getSiteUrl(undefined)).toBe(DEFAULT_SITE_URL);

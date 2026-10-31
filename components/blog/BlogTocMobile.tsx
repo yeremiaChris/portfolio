@@ -39,7 +39,7 @@ export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
               variant="secondary"
               className={cn(
                 "fixed right-4 bottom-4 z-40 h-11 gap-2 rounded-full px-4 shadow-lg",
-                "border-border/60 bg-background/70 border font-mono text-[12px]",
+                "border-border/60 bg-background/70 border text-[12px]",
                 "hover:bg-background/85 backdrop-blur-xl",
                 open && "pointer-events-none opacity-0",
               )}

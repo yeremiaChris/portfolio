@@ -93,7 +93,7 @@ export function AskYeremiaChat() {
             <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6 py-4 sm:gap-8 sm:py-6">
               <div className="flex flex-col items-center gap-4 text-center">
                 <Avatar size="lg" aria-hidden>
-                  <AvatarFallback className="bg-muted text-foreground font-mono text-sm tracking-wide">
+                  <AvatarFallback className="bg-muted text-foreground text-sm tracking-wide">
                     YC
                   </AvatarFallback>
                 </Avatar>

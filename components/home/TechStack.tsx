@@ -36,7 +36,7 @@ function SecondaryTechGroup({
 }) {
   return (
     <div className="flex min-w-0 flex-col gap-2">
-      <h3 className="text-muted-foreground font-mono text-[11px] tracking-wider uppercase">
+      <h3 className="text-muted-foreground label-caps text-[11px] tracking-wider">
         {title}
       </h3>
       <p className="text-foreground/90 text-[13px] leading-relaxed">
@@ -58,7 +58,7 @@ export function TechStack() {
           <div className="flex max-w-2xl flex-col gap-1">
             <Badge
               variant="secondary"
-              className="text-primary mb-1 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+              className="text-primary label-caps mb-1 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
             >
               <span className="bg-primary size-2.5 rounded-full" aria-hidden />
               {techStackIntro.eyebrow}
@@ -73,7 +73,7 @@ export function TechStack() {
               {techStackIntro.description}
             </p>
           </div>
-          <p className="text-muted-foreground font-mono text-[13px]">
+          <p className="text-muted-foreground text-[13px]">
             {techStackIntro.focusLabel}{" "}
             <span className="font-semibold text-[#4cd7f6]">
               {techStackIntro.focusValue}

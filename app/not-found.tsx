@@ -43,7 +43,7 @@ export default function NotFound() {
               </p>
               <h1
                 id="not-found-heading"
-                className="font-heading text-foreground text-3xl font-semibold tracking-tight sm:text-4xl"
+                className="font-heading text-foreground text-3xl sm:text-4xl"
               >
                 Page not found
               </h1>

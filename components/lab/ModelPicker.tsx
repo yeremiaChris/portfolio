@@ -117,7 +117,7 @@ export function ModelPicker({
                       <span className="text-foreground flex items-center gap-1.5 text-sm font-medium">
                         {model.label}
                         {!model.enabled ? (
-                          <span className="font-mono text-[9px] tracking-wide uppercase">
+                          <span className="label-caps text-[9px] tracking-wide">
                             Coming soon
                           </span>
                         ) : null}

@@ -18,13 +18,13 @@ export function CaseStudyCard({ study }: { study: MilestoneCaseStudy }) {
           <Badge
             variant="secondary"
             className={cn(
-              "font-mono text-[11px] tracking-wider uppercase",
+              "label-caps text-[11px] tracking-wider",
               tagToneClass[study.tagTone],
             )}
           >
             {study.tag}
           </Badge>
-          <span className="text-muted-foreground font-mono text-[13px]">
+          <span className="text-muted-foreground text-[13px]">
             {study.stack}
           </span>
         </div>

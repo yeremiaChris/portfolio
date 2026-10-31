@@ -73,7 +73,7 @@ function DisciplineCard({ item }: { item: ExperienceDiscipline }) {
         </div>
       </CardHeader>
       <CardFooter className="border-t-0 bg-transparent">
-        <p className={cn("font-mono text-[12px]", toneClass)}>{item.footer}</p>
+        <p className={cn("text-[12px]", toneClass)}>{item.footer}</p>
       </CardFooter>
     </Card>
   );

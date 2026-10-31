@@ -14,7 +14,7 @@ export function HeroHeadline() {
       <h1
         id="hero-heading"
         className={cn(
-          "hero-enter hero-enter--0 font-heading text-left text-[2.65rem] font-bold tracking-[-0.03em] text-balance sm:text-6xl sm:leading-[1.05] xl:text-7xl",
+          "hero-enter hero-enter--0 font-heading text-left text-[2.65rem] font-bold text-balance sm:text-6xl xl:text-7xl",
           "bg-linear-to-br from-[#4cd7f6] to-[#2dd4bf] bg-clip-text text-transparent",
           "max-w-[16ch] sm:max-w-none",
         )}
@@ -32,7 +32,7 @@ export function HeroHeadline() {
 
       <p
         className={cn(
-          "hero-enter hero-enter--2 text-muted-foreground mt-5 max-w-2xl text-left text-lg leading-relaxed sm:text-xl sm:leading-8 md:mt-6 xl:max-w-xl",
+          "hero-enter hero-enter--2 text-foreground/80 mt-5 max-w-[65ch] text-left text-lg leading-[1.7] sm:text-xl md:mt-6",
         )}
       >
         {site.heroBio}

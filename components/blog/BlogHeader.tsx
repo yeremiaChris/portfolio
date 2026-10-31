@@ -19,17 +19,17 @@ export function BlogHeader({ metrics }: { metrics: BlogRibbonMetric[] }) {
 
       <div className="flex min-w-0 flex-col justify-between gap-6 md:flex-row md:items-end">
         <div className="max-w-3xl min-w-0">
-          <h1 className="font-heading text-foreground text-3xl font-bold tracking-tight wrap-break-word sm:text-4xl lg:text-5xl">
+          <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-5xl">
             {blogIntro.title}
           </h1>
-          <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed sm:text-base">
+          <p className="text-muted-foreground mt-3 text-[15px] leading-[1.7] sm:text-base">
             {blogIntro.description}
           </p>
         </div>
 
         <div
           aria-label="Blog metrics"
-          className="border-border/60 grid w-full min-w-0 grid-cols-1 overflow-hidden rounded-xl border bg-[#0a0e14]/90 font-mono sm:grid-cols-3 md:w-auto md:shrink-0"
+          className="border-border/60 grid w-full min-w-0 grid-cols-1 overflow-hidden rounded-xl border bg-[#0a0e14]/90 sm:grid-cols-3 md:w-auto md:shrink-0"
         >
           {metrics.map((metric, index) => (
             <dl

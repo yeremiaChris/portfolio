@@ -30,7 +30,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
               <Badge
                 variant="secondary"
                 className={cn(
-                  "gap-1.5 rounded-md font-mono text-xs tracking-wide uppercase",
+                  "label-caps gap-1.5 rounded-md tracking-wide",
                   toneClass,
                 )}
               >
@@ -39,14 +39,14 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
                 ) : null}
                 {role.status}
               </Badge>
-              <span className="text-muted-foreground font-mono text-[11px] tracking-wider uppercase">
+              <span className="text-muted-foreground label-caps text-[11px] tracking-wider">
                 {role.locationPeriod}
               </span>
             </div>
 
             <CardTitle className="font-heading flex flex-wrap items-baseline gap-x-2 gap-y-1 text-xl font-semibold tracking-tight sm:text-2xl">
               <h2 className="text-foreground">{role.title}</h2>
-              <span className="text-muted-foreground font-mono">@</span>
+              <span className="text-muted-foreground">@</span>
               <span className={toneClass}>{role.company}</span>
               <span className="text-muted-foreground text-sm font-normal">
                 {role.companyLegal}
@@ -64,7 +64,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
                 key={stat}
                 variant="secondary"
                 className={cn(
-                  "h-auto rounded-md px-3 py-1 font-mono text-[12px] font-medium tracking-normal normal-case",
+                  "h-auto rounded-md px-3 py-1 text-[12px] font-medium tracking-normal normal-case",
                   index === 0 ? toneClass : "text-muted-foreground",
                 )}
               >
@@ -93,7 +93,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
           </ul>
         </div>
 
-        <p className="text-muted-foreground font-mono text-[12px] leading-relaxed">
+        <p className="text-muted-foreground text-[12px] leading-relaxed">
           {formatExperienceStackLine(role.stack)}
         </p>
       </CardContent>

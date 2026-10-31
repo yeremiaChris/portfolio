@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono, Rethink_Sans } from "next/font/google";
 
 import { Header } from "@/components/Header";
 import { UmamiScript } from "@/components/UmamiScript";
@@ -17,16 +17,16 @@ const geist = Geist({
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
+  variable: "--font-geist-mono",
   preload: true,
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const rethinkSans = Rethink_Sans({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-rethink-sans",
   preload: true,
   display: "swap",
 });
@@ -61,8 +61,8 @@ export default function RootLayout({
       className={cn(
         "dark font-sans",
         geist.variable,
-        jetbrainsMono.variable,
-        spaceGrotesk.variable,
+        geistMono.variable,
+        rethinkSans.variable,
       )}
     >
       <body

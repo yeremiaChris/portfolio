@@ -36,7 +36,7 @@ export function HeroProofCard({
         onMouseMove?.(event);
       }}
     >
-      <span className="text-foreground relative z-[1] font-mono text-[15px] font-semibold sm:text-base">
+      <span className="text-foreground relative z-[1] text-[15px] font-semibold sm:text-base">
         {label}
       </span>
       <span className="text-muted-foreground group-hover:text-foreground relative z-[1] text-sm leading-snug sm:text-[15px]">

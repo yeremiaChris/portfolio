@@ -22,10 +22,10 @@ export function ExperienceHeader() {
               {experienceIntro.tenureBadge}
             </Badge>
           </div>
-          <h1 className="font-heading text-foreground text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1 className="font-heading text-foreground text-3xl sm:text-4xl">
             {experienceIntro.title}
           </h1>
-          <p className="text-muted-foreground mt-3 text-[15px] leading-6">
+          <p className="text-muted-foreground mt-3 text-[15px] leading-[1.7]">
             {experienceIntro.description}
           </p>
         </div>

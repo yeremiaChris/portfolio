@@ -197,6 +197,10 @@ html[data-intro="playing"] [data-intro-bar] {
   .hero-visual-card span {
     transform: none !important;
   }
+
+  .hero-code-panel {
+    transform: none !important;
+  }
 }
 
 @keyframes hero-fade-up {
@@ -290,6 +294,26 @@ html[data-intro="playing"] [data-intro-bar] {
     rgb(76 215 246 / 0.12),
     transparent 70%
   );
+}
+
+.hero-code-backdrop {
+  mask-image: linear-gradient(
+    to left,
+    rgb(0 0 0 / 0.95) 35%,
+    rgb(0 0 0 / 0.35) 58%,
+    transparent 78%
+  );
+}
+
+.hero-code-stage {
+  perspective: 1400px;
+  perspective-origin: 65% 35%;
+}
+
+@media (min-width: 1024px) {
+  .hero-signal-headline::before {
+    opacity: 0.65;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {

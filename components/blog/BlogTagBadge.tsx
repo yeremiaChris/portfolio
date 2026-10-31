@@ -31,7 +31,7 @@ export function BlogTagBadge({ tag, className }: BlogTagBadgeProps) {
       variant="secondary"
       render={<Link href={`/blog/tag/${topicSlug}`} />}
       className={cn(
-        "label-caps text-muted-foreground tracking-wider transition-colors hover:text-[#4cd7f6]",
+        "label-caps text-muted-foreground hover:text-brand-accent tracking-wider transition-colors",
         "motion-reduce:transition-none",
         className,
       )}

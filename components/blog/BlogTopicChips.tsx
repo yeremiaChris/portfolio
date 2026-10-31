@@ -40,8 +40,8 @@ export function BlogTopicChips({
               "label-caps rounded-full border px-3 py-1.5 text-[11px] tracking-wider transition-colors",
               "motion-reduce:transition-none",
               isActive
-                ? "border-[#4cd7f6]/50 bg-[#4cd7f6]/10 text-[#4cd7f6]"
-                : "border-border/60 text-muted-foreground hover:text-foreground bg-transparent hover:border-[#4cd7f6]/30",
+                ? "border-brand-accent/50 bg-brand-accent/10 text-brand-accent"
+                : "border-border/60 text-muted-foreground hover:text-foreground hover:border-brand-accent/30 bg-transparent",
             )}
           >
             {chip.label}

@@ -75,7 +75,7 @@ export function TechStack() {
           </div>
           <p className="text-muted-foreground text-[13px]">
             {techStackIntro.focusLabel}{" "}
-            <span className="font-semibold text-[#4cd7f6]">
+            <span className="text-brand-accent font-semibold">
               {techStackIntro.focusValue}
             </span>
           </p>

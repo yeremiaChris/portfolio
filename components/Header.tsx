@@ -19,7 +19,7 @@ export function Header() {
           </Link>
 
           <span className="bg-muted text-primary hidden items-center gap-1.5 rounded-lg px-2 py-0.5 text-[10px] font-medium tracking-[0.08em] uppercase xl:inline-flex">
-            <span className="bg-primary size-2 shrink-0 rounded-full" />
+            <span className="bg-status-available size-2 shrink-0 rounded-full" />
             Available for work
           </span>
         </div>

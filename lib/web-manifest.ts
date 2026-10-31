@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
 
+import { BRAND_ACCENT } from "./colors";
+
 import { site } from "./site";
 
 export const WEB_APP_BACKGROUND_COLOR = "#10141a";
-export const WEB_APP_THEME_COLOR = "#4cd7f6";
+export const WEB_APP_THEME_COLOR = BRAND_ACCENT;
 
 export function buildWebManifest(): MetadataRoute.Manifest {
   return {

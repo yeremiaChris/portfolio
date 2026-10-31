@@ -25,7 +25,7 @@ export type BlogHeading = {
   id: string;
 };
 
-export type BlogRibbonTone = "foreground" | "primary" | "cyan";
+export type BlogRibbonTone = "foreground" | "primary" | "accent";
 
 export type BlogRibbonMetric = {
   label: string;
@@ -60,7 +60,7 @@ export const blogContactCta = {
 export const blogRibbonToneClass: Record<BlogRibbonTone, string> = {
   foreground: "text-foreground",
   primary: "text-primary",
-  cyan: "text-[#4cd7f6]",
+  accent: "text-brand-accent",
 };
 
 export function getBlogRibbon(posts: BlogPost[]): BlogRibbonMetric[] {
@@ -79,7 +79,7 @@ export function getBlogRibbon(posts: BlogPost[]): BlogRibbonMetric[] {
     {
       label: "Topics",
       value: String(tagCount).padStart(2, "0"),
-      tone: "cyan",
+      tone: "accent",
     },
     {
       label: "Read time",

@@ -29,7 +29,7 @@ export function HeaderMobileSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-[min(100%,20rem)]">
         <SheetHeader>
-          <SheetTitle className="text-primary font-mono">{"<YC />"}</SheetTitle>
+          <SheetTitle className="text-primary">{"<YC />"}</SheetTitle>
         </SheetHeader>
         <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 pb-4">
           {HEADER_NAV.map((item) => {

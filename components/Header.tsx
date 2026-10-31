@@ -13,7 +13,7 @@ export function Header() {
       <Container className="flex h-[var(--nav-height)] items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <span className="text-primary font-mono text-[13px] font-bold tracking-tight">
+            <span className="text-primary text-[13px] font-bold tracking-tight">
               {"<YC />"}
             </span>
             <span className="font-heading text-foreground hidden font-semibold tracking-tight sm:inline-block">

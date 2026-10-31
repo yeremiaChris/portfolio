@@ -22,7 +22,7 @@ export function BlogPostGrid({ posts }: { posts: BlogPost[] }) {
             More writing
           </h2>
         </div>
-        <span className="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+        <span className="text-muted-foreground label-caps tracking-wider">
           {String(posts.length).padStart(2, "0")} posts
         </span>
       </div>

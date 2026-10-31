@@ -28,7 +28,7 @@ export function Stats() {
                 className="bg-card border-border/40 flex flex-col rounded-lg border p-4 shadow-sm"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+                  <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
                     {stat.label}
                   </span>
                   <Icon

@@ -139,7 +139,7 @@ export function ProjectCard({
             isLead ? "lg:mt-6 lg:px-6" : "mt-auto",
           )}
         >
-          <span className="text-muted-foreground inline-flex items-center gap-2 font-mono text-[12px]">
+          <span className="text-muted-foreground inline-flex items-center gap-2 text-[12px]">
             <Calendar className="size-3.5 shrink-0" aria-hidden />
             {project.year}
           </span>

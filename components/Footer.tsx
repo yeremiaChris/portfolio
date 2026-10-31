@@ -43,7 +43,7 @@ export function Footer() {
           <div className="flex max-w-md flex-col gap-2">
             <Badge
               variant="secondary"
-              className="text-primary w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+              className="text-primary label-caps w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
             >
               <span className="bg-primary size-2 shrink-0 rounded-full" />
               Based in Batam · Remote
@@ -80,7 +80,7 @@ export function Footer() {
         </div>
 
         <div className="border-border/40 flex flex-col items-center justify-between gap-3 border-t pt-6 sm:flex-row">
-          <span className="text-muted-foreground font-mono text-[12px]">
+          <span className="text-muted-foreground text-[12px]">
             © {new Date().getFullYear()} {site.fullName}. Software Engineer ·
             Frontend-Heavy.
           </span>
@@ -89,7 +89,7 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             prefetch={false}
-            className="text-muted-foreground hover:text-foreground font-mono text-[10px] tracking-widest uppercase"
+            className="text-muted-foreground hover:text-foreground label-caps text-[10px] tracking-widest"
           >
             Analytics
           </Link>

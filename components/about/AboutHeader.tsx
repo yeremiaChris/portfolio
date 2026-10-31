@@ -18,10 +18,10 @@ export function AboutHeader() {
           <p className="text-foreground/75 mb-2 text-xs font-medium tracking-wide uppercase">
             {aboutIntro.eyebrow}
           </p>
-          <h1 className="font-heading text-foreground text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+          <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-5xl">
             {aboutIntro.title}
           </h1>
-          <p className="text-muted-foreground mt-4 max-w-2xl text-[15px] leading-relaxed sm:text-base">
+          <p className="text-muted-foreground mt-4 max-w-2xl text-[15px] leading-[1.7] sm:text-base">
             {aboutIntro.description}
           </p>
         </div>

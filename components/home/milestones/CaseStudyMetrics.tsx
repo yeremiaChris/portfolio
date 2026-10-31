@@ -12,7 +12,7 @@ export function CaseStudyMetrics({
   return (
     <div
       className={cn(
-        "grid gap-2 font-mono sm:gap-3",
+        "grid gap-2 sm:gap-3",
         columns === 3
           ? "grid-cols-1 sm:grid-cols-3"
           : "grid-cols-1 sm:grid-cols-2",

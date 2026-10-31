@@ -83,7 +83,7 @@ export function ContactCta({
       <div className="relative z-10 flex max-w-2xl flex-col">
         <Badge
           variant="secondary"
-          className="text-primary mb-3 w-fit gap-2 bg-transparent px-0 font-mono text-[10px] tracking-widest uppercase"
+          className="text-primary label-caps mb-3 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
         >
           <span className="bg-primary size-2 shrink-0 rounded-full" />
           {eyebrow}

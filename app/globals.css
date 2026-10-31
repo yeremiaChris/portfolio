@@ -202,6 +202,19 @@ html[data-intro="playing"] [data-intro-bar] {
     transform: none !important;
     will-change: auto !important;
   }
+
+  .project-card:hover,
+  .project-card:focus-within:has(:focus-visible) {
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  .project-card:hover .project-card-media-image,
+  .project-card:focus-within:has(:focus-visible) .project-card-media-image,
+  .project-card:hover .project-card-arrow,
+  .project-card:focus-within:has(:focus-visible) .project-card-arrow {
+    transform: none !important;
+  }
 }
 
 @keyframes hero-fade-up {
@@ -333,13 +346,102 @@ html[data-intro="playing"] [data-intro-bar] {
   opacity: 1;
 }
 
-.hero-code-shell.hero-code-shell--active.border-gradient::after {
+.hero-code-shell.hero-code-shell--active.border-gradient::after,
+.project-card:is(
+    :hover,
+    :focus-within:has(:focus-visible)
+  ).border-gradient::after {
   background: linear-gradient(
     135deg,
     rgb(76 215 246 / 0.55),
     rgb(76 215 246 / 0.18) 40%,
     transparent 70%
   );
+}
+
+.project-card {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms ease;
+}
+
+.project-card-media-image {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card-arrow {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card-title {
+  position: relative;
+  display: inline;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 1px;
+  transition: background-size 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) {
+    .project-card:hover {
+      transform: translateY(-2px) translateZ(0);
+      will-change: transform;
+      box-shadow:
+        0 12px 36px rgb(0 0 0 / 0.35),
+        0 0 72px rgb(76 215 246 / 0.24);
+    }
+
+    .project-card:hover .project-card-media-image {
+      transform: scale(1.03) translateZ(0);
+    }
+
+    .project-card:hover .project-card-arrow {
+      transform: translateX(3px) translateZ(0);
+    }
+
+    .project-card:hover .project-card-title {
+      background-size: 100% 1px;
+    }
+  }
+
+  .project-card:focus-within:has(:focus-visible) {
+    transform: translateY(-2px) translateZ(0);
+    will-change: transform;
+    box-shadow:
+      0 12px 36px rgb(0 0 0 / 0.35),
+      0 0 72px rgb(76 215 246 / 0.24);
+  }
+
+  .project-card:focus-within:has(:focus-visible) .project-card-media-image {
+    transform: scale(1.03) translateZ(0);
+  }
+
+  .project-card:focus-within:has(:focus-visible) .project-card-arrow {
+    transform: translateX(3px) translateZ(0);
+  }
+
+  .project-card:focus-within:has(:focus-visible) .project-card-title {
+    background-size: 100% 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-title {
+    transition: none;
+  }
+
+  .project-card:is(:hover, :focus-within:has(:focus-visible))
+    .project-card-title {
+    background-size: 100% 1px;
+  }
 }
 
 @media (min-width: 1280px) {

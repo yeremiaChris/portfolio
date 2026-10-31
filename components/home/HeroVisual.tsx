@@ -4,11 +4,13 @@ import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-const TILT_MAX_DEG = 6;
+const TILT_MAX_DEG = 3.5;
+const LERP = 0.14;
+const SNAP = 0.04;
 
 function CodeSnippet() {
   return (
-    <pre className="overflow-x-auto font-mono text-[11px] leading-[1.55] sm:text-xs">
+    <pre className="overflow-hidden font-mono text-[10px] leading-[1.5] sm:text-[11px]">
       <code>
         <span className="text-[#c678dd]">import</span>
         <span className="text-[#abb2bf]"> {"{ useQuery }"} </span>
@@ -40,34 +42,25 @@ function CodeSnippet() {
         <span className="text-[#c678dd]">const</span>
         <span className="text-[#abb2bf]"> {"{ data, isPending }"} = </span>
         <span className="text-[#61afef]">useQuery</span>
-        <span className="text-[#abb2bf]">({"{"}</span>
-        {"\n    "}
+        <span className="text-[#abb2bf]">({"{"} </span>
         <span className="text-[#e5c07b]">queryKey</span>
         <span className="text-[#abb2bf]">: [</span>
         <span className="text-[#98c379]">&apos;queue&apos;</span>
-        <span className="text-[#abb2bf]">],</span>
-        {"\n    "}
+        <span className="text-[#abb2bf]">], </span>
         <span className="text-[#e5c07b]">queryFn</span>
-        <span className="text-[#abb2bf]">: fetchQueue,</span>
-        {"\n  "}
+        <span className="text-[#abb2bf]">: fetchQueue </span>
         <span className="text-[#abb2bf]">{"});"}</span>
-        {"\n\n  "}
+        {"\n  "}
         <span className="text-[#c678dd]">if</span>
         <span className="text-[#abb2bf]"> (isPending) </span>
         <span className="text-[#c678dd]">return</span>
         <span className="text-[#abb2bf]"> &lt;</span>
         <span className="text-[#e5c07b]">Skeleton</span>
         <span className="text-[#abb2bf]"> /&gt;;</span>
-        {"\n\n  "}
+        {"\n  "}
         <span className="text-[#c678dd]">return</span>
-        <span className="text-[#abb2bf]"> (</span>
+        <span className="text-[#abb2bf]"> data?.map((row: Row) =&gt; (</span>
         {"\n    "}
-        <span className="text-[#abb2bf]">&lt;</span>
-        <span className="text-[#e5c07b]">ul</span>
-        <span className="text-[#abb2bf]">&gt;</span>
-        {"\n      "}
-        <span className="text-[#abb2bf]">{"{data?.map((row: Row) => ("}</span>
-        {"\n        "}
         <span className="text-[#abb2bf]">&lt;</span>
         <span className="text-[#e5c07b]">li</span>
         <span className="text-[#abb2bf]">
@@ -78,14 +71,8 @@ function CodeSnippet() {
         <span className="text-[#abb2bf]">&lt;/</span>
         <span className="text-[#e5c07b]">li</span>
         <span className="text-[#abb2bf]">&gt;</span>
-        {"\n      "}
-        <span className="text-[#abb2bf]">{"))}"}</span>
-        {"\n    "}
-        <span className="text-[#abb2bf]">&lt;/</span>
-        <span className="text-[#e5c07b]">ul</span>
-        <span className="text-[#abb2bf]">&gt;</span>
         {"\n  "}
-        <span className="text-[#abb2bf]">);</span>
+        <span className="text-[#abb2bf]">));</span>
         {"\n"}
         <span className="text-[#abb2bf]">{"}"}</span>
       </code>
@@ -94,111 +81,152 @@ function CodeSnippet() {
 }
 
 export function HeroVisual() {
-  const hostRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const tiltRef = useRef<HTMLDivElement>(null);
+  const codeRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
   const targetRef = useRef({ rotateX: 0, rotateY: 0 });
+  const currentRef = useRef({ rotateX: 0, rotateY: 0 });
   const tiltEnabledRef = useRef(false);
+  const hoveringRef = useRef(false);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const coarse = window.matchMedia("(pointer: coarse)");
-    const lg = window.matchMedia("(min-width: 1024px)");
+    const xl = window.matchMedia("(min-width: 1280px)");
 
     const syncTilt = () => {
-      const enabled = !reduced.matches && !coarse.matches && lg.matches;
-      tiltEnabledRef.current = enabled;
-      if (!enabled && panelRef.current) {
-        panelRef.current.style.transform = "rotateX(0deg) rotateY(0deg)";
-      }
+      tiltEnabledRef.current =
+        !reduced.matches && !coarse.matches && xl.matches;
     };
 
     syncTilt();
     reduced.addEventListener("change", syncTilt);
     coarse.addEventListener("change", syncTilt);
-    lg.addEventListener("change", syncTilt);
+    xl.addEventListener("change", syncTilt);
 
-    const section = hostRef.current?.closest("section");
-    if (!section) {
+    const panel = panelRef.current;
+    const tilt = tiltRef.current;
+    if (!panel || !tilt) {
       return () => {
         reduced.removeEventListener("change", syncTilt);
         coarse.removeEventListener("change", syncTilt);
-        lg.removeEventListener("change", syncTilt);
+        xl.removeEventListener("change", syncTilt);
       };
     }
 
-    const applyTilt = () => {
+    const applyFrame = () => {
       frameRef.current = null;
-      const panel = panelRef.current;
-      if (!panel) return;
-      const { rotateX, rotateY } = targetRef.current;
-      panel.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      const cur = currentRef.current;
+      const tgt = targetRef.current;
+
+      cur.rotateX += (tgt.rotateX - cur.rotateX) * LERP;
+      cur.rotateY += (tgt.rotateY - cur.rotateY) * LERP;
+
+      if (
+        Math.abs(tgt.rotateX - cur.rotateX) < SNAP &&
+        Math.abs(tgt.rotateY - cur.rotateY) < SNAP
+      ) {
+        cur.rotateX = tgt.rotateX;
+        cur.rotateY = tgt.rotateY;
+      }
+
+      tilt.style.transform = `rotateX(${cur.rotateX.toFixed(2)}deg) rotateY(${cur.rotateY.toFixed(2)}deg)`;
+
+      const stillMoving =
+        Math.abs(tgt.rotateX - cur.rotateX) > 0.01 ||
+        Math.abs(tgt.rotateY - cur.rotateY) > 0.01;
+
+      if (stillMoving || hoveringRef.current) {
+        frameRef.current = window.requestAnimationFrame(applyFrame);
+      }
     };
 
-    const scheduleTilt = () => {
-      if (frameRef.current !== null) return;
-      frameRef.current = window.requestAnimationFrame(applyTilt);
+    const scheduleFrame = () => {
+      if (frameRef.current === null) {
+        frameRef.current = window.requestAnimationFrame(applyFrame);
+      }
     };
 
     const onMove = (event: MouseEvent) => {
       if (!tiltEnabledRef.current) return;
-      const rect = section.getBoundingClientRect();
+      hoveringRef.current = true;
+
+      const rect = panel.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
       targetRef.current = {
         rotateX: -y * TILT_MAX_DEG,
         rotateY: x * TILT_MAX_DEG,
       };
-      scheduleTilt();
+
+      if (codeRef.current) {
+        codeRef.current.style.setProperty(
+          "--hero-code-spot-x",
+          `${event.clientX - rect.left}px`,
+        );
+        codeRef.current.style.setProperty(
+          "--hero-code-spot-y",
+          `${event.clientY - rect.top}px`,
+        );
+      }
+
+      scheduleFrame();
     };
 
     const onLeave = () => {
+      hoveringRef.current = false;
       targetRef.current = { rotateX: 0, rotateY: 0 };
-      scheduleTilt();
+      scheduleFrame();
     };
 
-    section.addEventListener("mousemove", onMove);
-    section.addEventListener("mouseleave", onLeave);
+    panel.addEventListener("mousemove", onMove);
+    panel.addEventListener("mouseleave", onLeave);
 
     return () => {
-      section.removeEventListener("mousemove", onMove);
-      section.removeEventListener("mouseleave", onLeave);
+      panel.removeEventListener("mousemove", onMove);
+      panel.removeEventListener("mouseleave", onLeave);
       if (frameRef.current !== null) {
         window.cancelAnimationFrame(frameRef.current);
       }
       reduced.removeEventListener("change", syncTilt);
       coarse.removeEventListener("change", syncTilt);
-      lg.removeEventListener("change", syncTilt);
+      xl.removeEventListener("change", syncTilt);
     };
   }, []);
 
   return (
     <div
-      ref={hostRef}
       aria-hidden
-      className="hero-code-backdrop pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      className="hidden w-full min-w-0 xl:flex xl:justify-end xl:self-start"
     >
-      <div className="hero-code-stage absolute inset-0 flex items-start justify-end pt-6 pr-0 md:pt-8 lg:pt-2 lg:pr-2">
+      <div className="hero-code-stage w-full max-w-[420px]">
         <div
           ref={panelRef}
           className={cn(
-            "border-gradient hero-code-panel relative w-[min(100%,520px)] max-w-[min(520px,calc(100vw-2.5rem))] shrink-0 overflow-hidden rounded-2xl bg-[#0a0e14]/75 shadow-[0_0_80px_rgb(76_215_246/0.18)] backdrop-blur-md transition-[transform,opacity] duration-300 ease-out will-change-transform",
-            "max-lg:opacity-[0.06] lg:opacity-[0.7]",
-            "max-lg:translate-x-6 lg:translate-x-0",
+            "border-gradient hero-code-shell relative max-h-[300px] w-full overflow-hidden rounded-2xl bg-[#0a0e14]/80 shadow-[0_0_64px_rgb(76_215_246/0.16)] backdrop-blur-md",
           )}
         >
-          <div className="border-border/30 flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-3 py-2.5">
-            <div className="flex gap-1.5">
-              <span className="size-2.5 rounded-full bg-[#ff5f57]" />
-              <span className="size-2.5 rounded-full bg-[#febc2e]" />
-              <span className="size-2.5 rounded-full bg-[#28c840]" />
+          <div
+            ref={tiltRef}
+            className="hero-code-tilt flex max-h-[300px] flex-col will-change-transform"
+          >
+            <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-3 py-2.5">
+              <div className="flex gap-1.5">
+                <span className="size-2.5 rounded-full bg-[#ff5f57]" />
+                <span className="size-2.5 rounded-full bg-[#febc2e]" />
+                <span className="size-2.5 rounded-full bg-[#28c840]" />
+              </div>
+              <span className="text-muted-foreground ml-1 truncate font-mono text-[10px] tracking-wide">
+                QueuePanel.tsx
+              </span>
             </div>
-            <span className="text-muted-foreground ml-1 truncate font-mono text-[10px] tracking-wide">
-              QueuePanel.tsx
-            </span>
-          </div>
-          <div className="relative p-4 sm:p-5">
-            <CodeSnippet />
+            <div
+              ref={codeRef}
+              className="hero-code-body relative overflow-hidden p-4 sm:p-5"
+            >
+              <CodeSnippet />
+            </div>
           </div>
         </div>
       </div>

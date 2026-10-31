@@ -17,6 +17,7 @@ import {
   getIntroSeenFlag,
   isIntroDismissKey,
   isIntroSeen,
+  isMobileIntroViewport,
   isSlowConnection,
   markIntroSeen,
   shouldShowIntro,
@@ -94,6 +95,28 @@ describe("shouldShowIntro", () => {
       }),
     ).toBe(false);
   });
+
+  it("skips on a mobile viewport", () => {
+    expect(
+      shouldShowIntro({
+        reducedMotion: false,
+        seen: false,
+        mobileViewport: true,
+      }),
+    ).toBe(false);
+  });
+});
+
+describe("isMobileIntroViewport", () => {
+  it("treats missing width as desktop", () => {
+    expect(isMobileIntroViewport(null)).toBe(false);
+    expect(isMobileIntroViewport(undefined)).toBe(false);
+  });
+
+  it("matches the mobile breakpoint", () => {
+    expect(isMobileIntroViewport(767)).toBe(true);
+    expect(isMobileIntroViewport(768)).toBe(false);
+  });
 });
 
 describe("shouldSkipIntroCover", () => {
@@ -101,6 +124,13 @@ describe("shouldSkipIntroCover", () => {
     expect(shouldSkipIntroCover({ reducedMotion: false, seen: false })).toBe(
       false,
     );
+    expect(
+      shouldSkipIntroCover({
+        reducedMotion: false,
+        seen: false,
+        mobileViewport: true,
+      }),
+    ).toBe(true);
   });
 
   it("skips the cover when the intro should not run", () => {
@@ -141,10 +171,17 @@ describe("applyIntroSkipFlags", () => {
       seen: false,
       slowConnection: true,
     });
+    const mobile: IntroDocumentFlags = {};
+    applyIntroSkipFlags(mobile, {
+      reducedMotion: false,
+      seen: false,
+      mobileViewport: true,
+    });
 
     expect(seen.intro).toBe(INTRO_SEEN_STATE);
     expect(reduced.intro).toBe(INTRO_SEEN_STATE);
     expect(slow.intro).toBe(INTRO_SEEN_STATE);
+    expect(mobile.intro).toBe(INTRO_SEEN_STATE);
   });
 });
 
@@ -154,6 +191,7 @@ describe("INTRO_BOOTSTRAP_SCRIPT", () => {
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain(INTRO_SEEN_VALUE);
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain("prefers-reduced-motion");
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain("saveData");
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain("max-width: 767px");
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain(
       `d.dataset.intro="${INTRO_SEEN_STATE}"`,
     );

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { aboutIntro } from "@/lib/about";
 import { cn } from "@/lib/utils";
 

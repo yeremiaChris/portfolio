@@ -5,7 +5,7 @@ import Link from "next/link";
 import { List } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { BlogHeading } from "@/lib/blog";
 import { cn } from "@/lib/utils";

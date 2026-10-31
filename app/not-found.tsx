@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Terminal } from "lucide-react";
 
 import { Container } from "@/components/Container";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {

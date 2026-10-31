@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 

@@ -2,7 +2,7 @@ import { FileText, Link2, Mail, MessageCircle } from "lucide-react";
 
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 

@@ -63,8 +63,8 @@ export function ChatComposer({
     >
       <div
         className={cn(
-          "bg-muted ring-border/40 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.18)] ring-1 transition-[box-shadow,ring-color] duration-200 motion-reduce:transition-none",
-          "focus-within:ring-brand-accent/40 focus-within:ring-2",
+          "bg-muted border-border/60 rounded-3xl border shadow-[0_8px_30px_rgba(0,0,0,0.18)] transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none",
+          "focus-within:border-brand-accent/45 focus-within:ring-brand-accent/40 focus-within:ring-2",
         )}
       >
         <label htmlFor="ask-yeremia-composer" className="sr-only">
@@ -144,16 +144,14 @@ export function ChatComposer({
         </div>
       </div>
 
-      <div
+      <p
         id={disclaimerId}
         role="note"
-        className="flex flex-col gap-1 px-1 text-center leading-relaxed"
+        title={askYeremia.usageNotice}
+        className="text-muted-foreground px-1 text-center text-[11px] leading-snug sm:text-xs"
       >
-        <p className="text-foreground/70 text-xs">{askYeremia.disclaimer}</p>
-        <p className="text-muted-foreground text-[11px] leading-relaxed">
-          {askYeremia.usageNotice}
-        </p>
-      </div>
+        {askYeremia.disclaimer}
+      </p>
     </form>
   );
 }

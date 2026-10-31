@@ -1,11 +1,16 @@
 "use client";
 
 import { ArrowDownIcon, SquarePenIcon } from "lucide-react";
-import { useRef, useState, type ReactNode, type UIEvent } from "react";
+import {
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type UIEvent,
+} from "react";
 
 import { ChatComposer } from "@/components/lab/ChatComposer";
 import { ChatMessage } from "@/components/lab/ChatMessage";
-import { LabSampleExchange } from "@/components/lab/LabSampleExchange";
 import { useChat } from "@/components/lab/useChat";
 import { Button } from "@/components/ui/button";
 import { askYeremia } from "@/lib/lab";
@@ -54,20 +59,33 @@ export function AskYeremiaChat({
     const trimmed = question.trim();
     if (!trimmed || isStreaming) return;
     setInput("");
+    setShowScrollButton(false);
     send(trimmed);
   }
 
   function handleScroll(event: UIEvent<HTMLDivElement>) {
-    const awayFromBottom = event.currentTarget.scrollTop > NEAR_BOTTOM_PX;
+    const element = event.currentTarget;
+    const distanceFromBottom =
+      element.scrollHeight - element.scrollTop - element.clientHeight;
+    const awayFromBottom = distanceFromBottom > NEAR_BOTTOM_PX;
     setShowScrollButton((current) =>
       current === awayFromBottom ? current : awayFromBottom,
     );
   }
 
   function handleScrollToBottom() {
-    viewportRef.current?.scrollTo({ top: 0 });
+    const element = viewportRef.current;
+    if (!element) return;
+    element.scrollTo({ top: element.scrollHeight, behavior: "smooth" });
     setShowScrollButton(false);
   }
+
+  useLayoutEffect(() => {
+    if (isEmpty || showScrollButton) return;
+    const element = viewportRef.current;
+    if (!element) return;
+    element.scrollTop = element.scrollHeight;
+  }, [messages, isEmpty, showScrollButton]);
 
   const composer = (
     <ChatComposer
@@ -107,105 +125,97 @@ export function AskYeremiaChat({
         )}
       </header>
 
-      <div className="relative mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col px-4 sm:px-6">
-        <div className="flex min-h-0 flex-1 flex-col">
-          {isEmpty ? (
-            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain pt-1 pb-[max(1rem,env(safe-area-inset-bottom))] sm:gap-5 sm:pt-2">
-              <div className="flex flex-col items-center gap-2 text-center">
-                {emptyStateHeading}
-              </div>
-              {composer}
-              <LabSampleExchange />
-              <ul className="flex flex-wrap justify-center gap-2">
-                {askYeremia.suggestions.map((suggestion) => (
-                  <li key={suggestion}>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      disabled={isStreaming}
-                      onClick={() => ask(suggestion)}
-                      className="border-border/60 hover:border-brand-accent/35 focus-visible:ring-brand-accent/40 h-auto min-h-11 max-w-full px-3 py-2 text-left text-xs leading-snug whitespace-normal sm:min-h-9"
-                    >
-                      {suggestion}
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <div
-              ref={viewportRef}
-              onScroll={handleScroll}
-              className={cn(
-                "flex min-h-0 flex-1 flex-col-reverse overflow-y-auto overscroll-contain px-1 py-4 motion-safe:scroll-smooth sm:px-0",
-                "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
-              )}
-            >
-              <div className="flex flex-col gap-5">
-                <div
-                  role="log"
-                  aria-live="off"
-                  aria-busy={isStreaming}
-                  className="flex flex-col gap-5"
-                >
-                  {messages.map((message) => (
-                    <ChatMessage
-                      key={message.id}
-                      role={message.role}
-                      content={message.content}
-                      status={message.status}
-                      sources={message.sources}
-                      modelId={message.modelId}
-                      onRetry={
-                        message.status === "error" ? regenerate : undefined
-                      }
-                      onRegenerate={
-                        message.role === "assistant" &&
-                        message.id === lastAssistant?.id &&
-                        (message.status === "done" ||
-                          message.status === "stopped") &&
-                        !isStreaming
-                          ? regenerate
-                          : undefined
-                      }
-                    />
+      <div className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col overflow-hidden px-4 sm:px-6">
+        {isEmpty ? (
+          <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto overscroll-contain py-6">
+            <div className="flex w-full max-w-lg flex-col items-center gap-6 text-center">
+              {emptyStateHeading}
+              <nav aria-label="Suggested questions" className="w-full">
+                <ul className="flex flex-wrap justify-center gap-2">
+                  {askYeremia.suggestions.map((suggestion) => (
+                    <li key={suggestion} className="max-w-full">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={isStreaming}
+                        onClick={() => ask(suggestion)}
+                        className="border-border/60 hover:border-brand-accent/35 focus-visible:ring-brand-accent/40 h-auto min-h-11 max-w-full px-3 py-2 text-left text-xs leading-snug whitespace-normal sm:min-h-9"
+                      >
+                        {suggestion}
+                      </Button>
+                    </li>
                   ))}
-                </div>
-                <div className="sr-only" aria-live="polite" aria-atomic="true">
-                  {liveAnnouncement}
-                </div>
-              </div>
+                </ul>
+              </nav>
             </div>
-          )}
-        </div>
-
-        {!isEmpty ? (
+          </div>
+        ) : (
           <div
+            ref={viewportRef}
+            onScroll={handleScroll}
             className={cn(
-              "from-background via-background/95 relative shrink-0 bg-gradient-to-t to-transparent pt-2",
-              "pb-[max(1rem,env(safe-area-inset-bottom))]",
+              "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain py-4 motion-safe:scroll-smooth",
+              "[scrollbar-width:thin] [-ms-overflow-style:auto] [&::-webkit-scrollbar]:w-1.5",
             )}
           >
-            {showScrollButton ? (
-              <div className="pointer-events-none absolute inset-x-0 -top-14 flex justify-center">
-                <div className="pointer-events-auto">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="icon"
-                    onClick={handleScrollToBottom}
-                    aria-label="Scroll to bottom"
-                    className="border-border/50 bg-muted/95 text-foreground size-11 rounded-full border shadow-lg backdrop-blur-sm sm:size-9"
-                  >
-                    <ArrowDownIcon className="size-4" />
-                  </Button>
-                </div>
-              </div>
-            ) : null}
-            <div className="mx-auto w-full max-w-3xl">{composer}</div>
+            <div
+              role="log"
+              aria-live="off"
+              aria-busy={isStreaming}
+              className="flex flex-col gap-5"
+            >
+              {messages.map((message) => (
+                <ChatMessage
+                  key={message.id}
+                  role={message.role}
+                  content={message.content}
+                  status={message.status}
+                  sources={message.sources}
+                  modelId={message.modelId}
+                  onRetry={message.status === "error" ? regenerate : undefined}
+                  onRegenerate={
+                    message.role === "assistant" &&
+                    message.id === lastAssistant?.id &&
+                    (message.status === "done" ||
+                      message.status === "stopped") &&
+                    !isStreaming
+                      ? regenerate
+                      : undefined
+                  }
+                />
+              ))}
+            </div>
+            <div className="sr-only" aria-live="polite" aria-atomic="true">
+              {liveAnnouncement}
+            </div>
           </div>
-        ) : null}
+        )}
+
+        <div
+          className={cn(
+            "border-border/40 bg-background relative shrink-0 overflow-visible border-t pt-3",
+            "pb-[max(0.75rem,env(safe-area-inset-bottom))]",
+          )}
+        >
+          {showScrollButton ? (
+            <div className="pointer-events-none absolute inset-x-0 -top-14 flex justify-center">
+              <div className="pointer-events-auto">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  onClick={handleScrollToBottom}
+                  aria-label="Scroll to bottom"
+                  className="border-border/50 bg-muted/95 text-foreground size-11 rounded-full border shadow-lg backdrop-blur-sm sm:size-9"
+                >
+                  <ArrowDownIcon className="size-4" />
+                </Button>
+              </div>
+            </div>
+          ) : null}
+          {composer}
+        </div>
       </div>
     </div>
   );

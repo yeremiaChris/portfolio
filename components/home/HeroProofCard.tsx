@@ -20,7 +20,7 @@ export function HeroProofCard({
     <a
       {...props}
       className={cn(
-        "hero-proof-card hero-link group relative flex flex-col items-start gap-2 overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4 text-left shadow-sm backdrop-blur-sm transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/[0.05] sm:px-5 sm:py-5",
+        "hero-proof-card hero-link border-gradient group relative flex flex-col items-start gap-2 overflow-hidden rounded-xl bg-white/[0.03] px-4 py-4 text-left shadow-sm backdrop-blur-sm transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-white/[0.05] sm:px-5 sm:py-5",
         className,
       )}
       onMouseMove={(event) => {

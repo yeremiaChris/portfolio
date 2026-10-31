@@ -71,7 +71,7 @@ export function ContactCta({
   const panel = (
     <div
       className={cn(
-        "bg-muted ring-border/20 relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl p-8 shadow-xl ring-1 md:flex-row md:items-center md:gap-10 md:p-12",
+        "border-gradient bg-muted relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl p-8 shadow-xl md:flex-row md:items-center md:gap-10 md:p-12",
         panelClassName,
       )}
     >

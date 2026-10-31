@@ -46,7 +46,7 @@ export function ProjectCard({
     <Card
       id={project.id}
       className={cn(
-        "group bg-muted ring-border/20 flex min-w-0 scroll-mt-24 overflow-hidden rounded-3xl py-0 transition-transform duration-300 hover:-translate-y-0.5",
+        "border-gradient group bg-muted flex min-w-0 scroll-mt-24 overflow-hidden rounded-3xl py-0 transition-transform duration-300 hover:-translate-y-0.5",
         isLead ? "flex-col lg:flex-row" : "h-full flex-col",
       )}
     >

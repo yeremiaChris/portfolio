@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { buttonVariants } from "@/components/ui/button-variants";
@@ -14,7 +13,7 @@ export function HeaderResumeLink() {
   if (isResumeHidden(pathname)) return null;
 
   return (
-    <Link
+    <a
       href={site.links.resume}
       target="_blank"
       rel="noopener noreferrer"
@@ -24,6 +23,6 @@ export function HeaderResumeLink() {
       )}
     >
       CV.pdf
-    </Link>
+    </a>
   );
 }

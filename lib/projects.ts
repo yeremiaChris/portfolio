@@ -213,5 +213,5 @@ export const projectsContactCta = {
   eyebrow: "Available for Software Engineer roles (frontend-heavy)",
   title: "Interested in hiring or discussing a product build?",
   description:
-    "Open for full-time remote or hybrid opportunities. Feel free to reach out via WhatsApp or email.",
+    "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Feel free to reach out by email or LinkedIn (WhatsApp works too).",
 } as const;

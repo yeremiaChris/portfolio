@@ -8,6 +8,7 @@ import {
   maxFeaturedProjectToolChips,
   maxProjectToolChips,
   projectsArchiveIntro,
+  projectsContactCta,
   type Project,
   projects,
 } from "./projects";
@@ -26,6 +27,18 @@ function makeProject(overrides: Partial<Project> = {}): Project {
     ...overrides,
   };
 }
+
+describe("projectsContactCta", () => {
+  it("uses updated hiring copy with email before WhatsApp", () => {
+    expect(projectsContactCta.description).toBe(
+      "Open for Software Engineer roles (frontend-heavy) — full-time or contract. Feel free to reach out by email or LinkedIn (WhatsApp works too).",
+    );
+    const { description } = projectsContactCta;
+    expect(description.indexOf("email")).toBeLessThan(
+      description.indexOf("WhatsApp"),
+    );
+  });
+});
 
 describe("projectsArchiveIntro", () => {
   it("uses career-focused archive copy without the old hiring-signal line", () => {

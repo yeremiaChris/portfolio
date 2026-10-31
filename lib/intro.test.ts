@@ -11,9 +11,11 @@ import {
   INTRO_SEEN_VALUE,
   INTRO_STORAGE_KEY,
   applyIntroSkipFlags,
+  buildIntroBootstrapScript,
   getIntroCompleteAfterMs,
   getIntroExitAfterMs,
   getIntroSeenFlag,
+  isIntroDismissKey,
   isIntroSeen,
   isSlowConnection,
   markIntroSeen,
@@ -164,6 +166,31 @@ describe("INTRO_BOOTSTRAP_SCRIPT", () => {
     );
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain("setTimeout");
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain(String(getIntroCompleteAfterMs()));
+  });
+
+  it("lets first visits dismiss on click or key", () => {
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain("addEventListener");
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain('"click"');
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain('"keydown"');
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain("Escape");
+  });
+
+  it("matches the builder output", () => {
+    expect(INTRO_BOOTSTRAP_SCRIPT).toBe(buildIntroBootstrapScript());
+  });
+});
+
+describe("isIntroDismissKey", () => {
+  it("accepts common skip keys", () => {
+    expect(isIntroDismissKey("Escape")).toBe(true);
+    expect(isIntroDismissKey("Enter")).toBe(true);
+    expect(isIntroDismissKey(" ")).toBe(true);
+    expect(isIntroDismissKey("Spacebar")).toBe(true);
+  });
+
+  it("rejects unrelated keys", () => {
+    expect(isIntroDismissKey("Tab")).toBe(false);
+    expect(isIntroDismissKey("a")).toBe(false);
   });
 });
 

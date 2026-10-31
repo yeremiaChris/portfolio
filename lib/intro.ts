@@ -1,8 +1,8 @@
 export const INTRO_STORAGE_KEY = "intro-seen";
 export const INTRO_SEEN_VALUE = "1";
-export const INTRO_DURATION_MS = 700;
-export const INTRO_HOLD_MS = 80;
-export const INTRO_EXIT_MS = 250;
+export const INTRO_DURATION_MS = 520;
+export const INTRO_HOLD_MS = 40;
+export const INTRO_EXIT_MS = 180;
 export const INTRO_BAR_DELAY_MS = 0;
 export const INTRO_SEEN_STATE = "seen";
 export const INTRO_PLAYING_STATE = "playing";
@@ -92,4 +92,23 @@ export function markIntroSeen(storage: IntroStorage | null): void {
   }
 }
 
-export const INTRO_BOOTSTRAP_SCRIPT = `try{var d=document.documentElement;var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var s=sessionStorage.getItem("${INTRO_STORAGE_KEY}")==="${INTRO_SEEN_VALUE}";var c=navigator.connection;var slow=!!(c&&(c.saveData||c.effectiveType==="slow-2g"||c.effectiveType==="2g"||c.effectiveType==="3g"));if(s||r||slow)d.dataset.intro="${INTRO_SEEN_STATE}";else{d.dataset.intro="${INTRO_PLAYING_STATE}";window.setTimeout(function(){try{sessionStorage.setItem("${INTRO_STORAGE_KEY}","${INTRO_SEEN_VALUE}")}catch(e){}d.dataset.intro="${INTRO_SEEN_STATE}"},${getIntroCompleteAfterMs()})}}catch(e){}`;
+export function isIntroDismissKey(key: string): boolean {
+  return (
+    key === "Escape" || key === "Enter" || key === " " || key === "Spacebar"
+  );
+}
+
+export function getIntroTimingCss(): string {
+  return `:root{--intro-bar-duration:${INTRO_DURATION_MS}ms;--intro-bar-delay:${INTRO_BAR_DELAY_MS}ms;--intro-exit-delay:${getIntroExitAfterMs()}ms;--intro-exit-duration:${INTRO_EXIT_MS}ms}`;
+}
+
+export const INTRO_TIMING_CSS = getIntroTimingCss();
+
+export const INTRO_CRITICAL_CSS = `html[data-intro="${INTRO_SEEN_STATE}"] [data-intro-cover]{display:none!important}@media (prefers-reduced-motion:reduce){[data-intro-cover]{display:none!important}}`;
+
+export function buildIntroBootstrapScript(): string {
+  const completeMs = getIntroCompleteAfterMs();
+  return `try{var d=document.documentElement;var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;var s=sessionStorage.getItem("${INTRO_STORAGE_KEY}")==="${INTRO_SEEN_VALUE}";var c=navigator.connection;var slow=!!(c&&(c.saveData||c.effectiveType==="slow-2g"||c.effectiveType==="2g"||c.effectiveType==="3g"));if(s||r||slow){d.dataset.intro="${INTRO_SEEN_STATE}"}else{d.dataset.intro="${INTRO_PLAYING_STATE}";var done=false;var t=window.setTimeout(function(){finish()},${completeMs});function finish(){if(done)return;done=true;cleanup();try{sessionStorage.setItem("${INTRO_STORAGE_KEY}","${INTRO_SEEN_VALUE}")}catch(e){}d.dataset.intro="${INTRO_SEEN_STATE}"}function skip(){if(done)return;done=true;window.clearTimeout(t);cleanup();try{sessionStorage.setItem("${INTRO_STORAGE_KEY}","${INTRO_SEEN_VALUE}")}catch(e){}d.dataset.intro="${INTRO_SEEN_STATE}"}function onClick(){skip()}function onKey(e){var k=e.key;if(k==="Escape"||k==="Enter"||k===" "||k==="Spacebar"){e.preventDefault();skip()}}function cleanup(){document.removeEventListener("click",onClick,true);document.removeEventListener("keydown",onKey,true)}document.addEventListener("click",onClick,true);document.addEventListener("keydown",onKey,true)}}catch(e){}`;
+}
+
+export const INTRO_BOOTSTRAP_SCRIPT = buildIntroBootstrapScript();

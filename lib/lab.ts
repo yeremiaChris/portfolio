@@ -26,11 +26,6 @@ export const askYeremia = {
     "Tell me about Mazecare",
     "What is he learning now?",
   ],
-  sampleExchange: {
-    question: "What's your tech stack?",
-    answer:
-      "I build product UIs with React, Next.js, and TypeScript, with Vue and Nuxt in past roles. I ship API-backed dashboards, auth flows, and design systems—not just static pages.",
-  },
   errorMessage: "Something went wrong. You can retry that question.",
   refusalMessage:
     "I don't have that in my portfolio yet. Feel free to contact me directly!",

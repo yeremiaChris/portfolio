@@ -121,7 +121,7 @@ export const aboutStoryEras: AboutStoryEra[] = [
   },
 ];
 
-export type AboutWorkflowIcon = "plan" | "review" | "gate";
+export type AboutWorkflowIcon = "ticket" | "decide" | "checks";
 
 export type AboutWorkflowBeat = {
   id: string;
@@ -133,42 +133,51 @@ export type AboutWorkflowBeat = {
   icon: AboutWorkflowIcon;
 };
 
+export const aboutWorkflowToolLink = {
+  name: "Cursor · Vim",
+  detail: "Editor",
+  href: "https://cursor.com/@yeremia",
+} as const;
+
 export const aboutWorkflowIntro = {
   eyebrow: "Process",
   title: "How I work",
   description:
-    "I start in the repo, use AI to draft, read every diff, and gate merges with TypeScript, ESLint, and tests.",
+    "I work in an AI-era loop: ticket first, agent-built PR, my review, then green checks before merge.",
 } as const;
 
 export const aboutWorkflowBeats: AboutWorkflowBeat[] = [
   {
-    id: "plan",
+    id: "ticket",
     step: "01",
-    title: "Plan in the repo",
+    title: "Start from a ticket",
     description:
-      "I start in the file, not a blank chat. Cursor already has the project — so the first draft stays in context.",
-    footer: "Open the file → prompt",
+      "Every change begins as a Linear ticket. An AI agent implements it on its own branch, and the result is always a PR — never a direct push to main.",
+    footer: "Linear → branch → PR",
     tone: "primary",
-    icon: "plan",
+    icon: "ticket",
   },
   {
-    id: "review",
+    id: "decide",
     step: "02",
-    title: "Generate, then read the diff",
+    title: "I review and decide",
     description:
-      "Vim motions to jump hunks. Nothing merges unread — the model is a draft, not a merge button.",
-    footer: "hjkl · read every hunk",
+      "Every PR carries a logic summary: what changed, why, the alternatives, and the risky parts. I read it and merge it myself. AI speeds up the work, but I own the decisions.",
+    footer: "Logic summary · I merge",
     tone: "accent",
-    icon: "review",
+    icon: "decide",
   },
   {
-    id: "gate",
+    id: "checks",
     step: "03",
-    title: "Gate with the usual tools",
+    title: "Checks guard quality",
     description:
-      "TypeScript, ESLint, and tests catch what a fluent diff hides. AI speeds the first pass; CI is the adult in the room.",
-    footer: "tsc · lint · pnpm test",
+      "Lint, typecheck, tests, build, and Lighthouse must pass before merge, so moving fast stays measurable.",
+    footer: "lint · typecheck · test · build · Lighthouse",
     tone: "accent",
-    icon: "gate",
+    icon: "checks",
   },
 ];
+
+export const aboutWorkflowClosing =
+  "AI handles the repetitive work, so I focus on design, review, and product decisions." as const;

@@ -5,7 +5,9 @@ import {
   aboutStoryEras,
   aboutStoryIntro,
   aboutWorkflowBeats,
+  aboutWorkflowClosing,
   aboutWorkflowIntro,
+  aboutWorkflowToolLink,
 } from "./about";
 import { getAllPosts } from "./blog";
 import { cleanMarkdownSource } from "./lab-clean";
@@ -68,12 +70,16 @@ function collectAboutSource(): LabSourceDocument {
     `## ${aboutWorkflowIntro.title}`,
     aboutWorkflowIntro.description,
     "",
+    `- ${aboutWorkflowToolLink.name}: ${aboutWorkflowToolLink.href}`,
+    "",
     ...aboutWorkflowBeats.flatMap((beat) => [
       `### ${beat.title}`,
       beat.description,
       beat.footer,
       "",
     ]),
+    aboutWorkflowClosing,
+    "",
   ];
 
   return {

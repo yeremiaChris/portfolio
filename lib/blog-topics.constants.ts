@@ -54,6 +54,16 @@ export const BLOG_TOPICS: readonly BlogTopic[] = [
     label: "CSS & Web",
     matchTags: ["css", "fonts", "tailwind"],
   },
+  {
+    slug: "learning-in-public",
+    label: "Learning in public",
+    matchTags: ["learning-in-public"],
+  },
+  {
+    slug: "side-projects",
+    label: "Side project",
+    matchTags: ["hermes-agent"],
+  },
 ] as const;
 
 export function getBlogTopicSlugs(): string[] {

@@ -9,7 +9,6 @@ import {
   blogContactCta,
   blogIntro,
   getAllPosts,
-  getBlogRibbon,
   getFeaturedPost,
   toBlogPostSummary,
 } from "@/lib/blog";
@@ -30,7 +29,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const { tag: tagParam } = await searchParams;
   const posts = getAllPosts();
   const summaries = posts.map(toBlogPostSummary);
-  const metrics = getBlogRibbon(posts);
   const featured = getFeaturedPost(posts);
   const activeTopicSlug =
     tagParam && getBlogTopicBySlug(tagParam) ? tagParam : null;
@@ -38,7 +36,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <main>
       <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
-        <BlogHeader metrics={metrics} />
+        <BlogHeader />
 
         <BlogIndexExplore
           posts={summaries}

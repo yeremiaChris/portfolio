@@ -4,7 +4,8 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { MenuIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
+import { cn } from "@/lib/utils";
 
 const HeaderMobileSheet = dynamic(
   () =>
@@ -20,10 +21,12 @@ export function HeaderMobileMenu() {
 
   return (
     <>
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        className="lg:hidden"
+      <button
+        type="button"
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "icon-sm" }),
+          "lg:hidden",
+        )}
         aria-label="Open menu"
         aria-expanded={open}
         onClick={() => {
@@ -32,7 +35,7 @@ export function HeaderMobileMenu() {
         }}
       >
         <MenuIcon />
-      </Button>
+      </button>
       {loadSheet ? (
         <HeaderMobileSheet open={open} onOpenChange={setOpen} />
       ) : null}

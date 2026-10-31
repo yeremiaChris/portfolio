@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import {
   Card,
   CardContent,

@@ -4,7 +4,7 @@ import { HeaderMobileMenu } from "@/components/HeaderMobileMenu";
 import { HeaderResumeLink } from "@/components/HeaderResumeLink";
 import { HeaderNav } from "@/components/HeaderNav";
 import { Container } from "@/components/Container";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 
 export function Header() {

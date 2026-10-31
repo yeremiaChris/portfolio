@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Lock, Mail, Rss } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { blogSubscribe } from "@/lib/blog";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";

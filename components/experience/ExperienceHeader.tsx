@@ -1,7 +1,7 @@
 import { Download } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { experienceIntro } from "@/lib/experience";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";

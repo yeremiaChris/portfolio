@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 import { Header } from "@/components/Header";
 import { UmamiScript } from "@/components/UmamiScript";
 import { INTRO_BOOTSTRAP_SCRIPT } from "@/lib/intro";
 import { getSiteUrl, site } from "@/lib/site";
+import { WEB_APP_BACKGROUND_COLOR } from "@/lib/web-manifest";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -29,6 +30,10 @@ const spaceGrotesk = Space_Grotesk({
   preload: true,
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: WEB_APP_BACKGROUND_COLOR,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),

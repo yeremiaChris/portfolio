@@ -1,7 +1,7 @@
 ---
 name: portfolio-compound-loop
 description: >-
-  Portfolio-specific additions to the compound loop for yeremia.dev: yarn
+  Portfolio-specific additions to the compound loop for yeremiachris.com: yarn
   gates, folder layout, blog MDX, and AGENTS.md. Use with the compound-loop
   skill when planning, implementing, reviewing, or compounding a change in
   this portfolio.

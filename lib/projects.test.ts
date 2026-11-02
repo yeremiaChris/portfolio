@@ -66,8 +66,8 @@ describe("getFeaturedProjects", () => {
   it("features the production hiring signal from the live list", () => {
     expect(getFeaturedProjects().map((project) => project.id)).toEqual([
       "mazecare",
-      "primaku",
       "kiriminaja",
+      "primaku",
       "primacare",
     ]);
   });

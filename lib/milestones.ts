@@ -45,7 +45,7 @@ export const featuredMilestone: MilestoneCaseStudy = {
   stack: "React · Next.js · Multi-brand design tokens · Figma → UI",
   title: "Product UI on a national pediatric health platform",
   summary:
-    "Owned clinician and family-facing product surfaces on PrimaKu — shared UI from multi-brand Figma tokens, REST + auth, and SSR on primaku.com (parent-facing growth catalog: vaccines, services, geo-priced SKUs), separate from the clinical app. The consumer app has 1M+ Google Play downloads.",
+    "Built PrimaKu's web platform: SSR on primaku.com (parent-facing catalog for vaccines and services), the Parenthood Institute program site, and clinician-facing PrimaCare UI, all on a shared design system from multi-brand Figma tokens, with REST + auth. The company's mobile app has 1M+ Google Play downloads; I work on the web platform, not the app.",
   metrics: [],
 };
 
@@ -57,7 +57,7 @@ export const secondaryMilestones: MilestoneCaseStudy[] = [
     stack: "Vue 3 · Nuxt 3 · GraphQL · FHIR",
     title: "FHIR clinic & hospital OS — full patient lifecycle",
     summary:
-      "Owned clinical visit, queue, teleconsult, and billing flows on a FHIR-compliant EMR/HIS. Integrated GraphQL + FHIR and shipped AI-assisted documentation (speech-to-text + drafting) used in real clinic and hospital workflows.",
+      "Built clinical visit, queue, teleconsult, and billing flows on a FHIR-compliant EMR/HIS. Integrated GraphQL + FHIR and shipped AI-assisted documentation (speech-to-text + drafting) used in real clinic and hospital workflows.",
     metrics: [],
   },
   {
@@ -67,7 +67,7 @@ export const secondaryMilestones: MilestoneCaseStudy[] = [
     stack: "Vue · Nuxt · Web Workers · Virtualization",
     title: "High-density logistics UI under real operational load",
     summary:
-      "Owned pricing, manifest, and tracking interfaces for a multi-courier aggregator — live rate UI across 15+ couriers, with virtualized lists and Web Workers for batch barcode and high-volume label flows. The consumer app has 100K+ Google Play downloads.",
+      "Developed pricing, manifest, and tracking interfaces for a multi-courier aggregator: a live rate UI across 15+ couriers, with virtualized lists and Web Workers for batch barcode and high-volume label flows.",
     metrics: [],
   },
 ];

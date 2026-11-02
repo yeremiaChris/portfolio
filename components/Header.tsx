@@ -14,7 +14,7 @@ export function Header() {
               {"<YC />"}
             </span>
             <span className="font-heading text-foreground hidden font-semibold tracking-tight sm:inline-block">
-              yeremia.dev
+              yeremiachris.com
             </span>
           </Link>
 

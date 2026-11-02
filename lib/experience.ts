@@ -21,7 +21,7 @@ export const experienceIntro = {
   eyebrow: "Career timeline",
   title: "Engineering Experience",
   description:
-    "Production track record across health-tech platforms, logistics systems, and product teams. Some roles overlapped in time — each entry is the work I owned there.",
+    "Production track record across health-tech platforms, logistics systems, and product teams.",
   tenureBadge: `${getExperienceLabel()} years of experience`,
 } as const;
 
@@ -35,33 +35,34 @@ export const experienceRoles: ExperienceRole[] = [
     id: "primaku",
     status: "PRESENT",
     current: true,
-    locationPeriod: "Jakarta, ID (Remote) · Dec 2022 — Present",
-    title: "Frontend Web Developer",
+    locationPeriod: "Remote · Full-time · Dec 2022 — Present",
+    title: "Frontend Engineer",
     company: "PrimaKu",
     companyLegal: "(PT Cipta Medika Informasi)",
     summary:
       "National health-tech platform endorsed by the Indonesian Pediatric Society (IDAI), supporting early childhood health monitoring for clinicians and families.",
     sideStats: ["Design system · Jest / RTL"],
     highlights: [
-      "Owned frontend architecture for PrimaKu's web platform in React/Next.js with shared UI, REST + auth. PrimaKu's consumer app has 1M+ Google Play downloads; I build the web surfaces, not the mobile app.",
-      "Shipped accessible design-system components synced to multi-brand Figma tokens, used across clinician and family-facing product surfaces.",
-      "Delivered primaku.com as the parent-facing growth catalog (location-priced vaccines and medical services) on SSR — a different surface from the clinician product.",
+      "Built and maintain PrimaKu’s consumer web platform (Next.js / TypeScript): parent-facing flows, clinician-facing PrimaCare UI, and integrations with REST APIs and token-based auth. The company's mobile app has 1M+ Google Play downloads; I work on the web platform, not the app.",
+      "Shipped PrimaCare clinician UI tied to health-record / SatuSehat-related flows, plus the Parenthood Institute program site (registration and reward points) on the same web stack.",
+      "Built a shared design system across PrimaKu web products from multi-brand Figma tokens, with accessible defaults and tested with Jest and React Testing Library.",
+      "Improved day-to-day frontend delivery with AI-assisted coding and review, keeping the web platform reliable for health-tech users.",
     ],
-    stack: ["React", "Next.js", "REST", "Jest / RTL"],
+    stack: ["React", "Next.js", "TypeScript", "REST", "Jest / RTL"],
     tone: "primary",
   },
   {
     id: "mazecare",
     status: "COMPLETED",
-    locationPeriod: "Indonesia (Remote) · Jun 2025 — Jul 2026",
+    locationPeriod: "Remote · Full-time · Jun 2025 — Jul 2026",
     title: "Frontend Engineer",
     company: "Mazecare",
-    companyLegal: "(Full-time)",
+    companyLegal: "",
     summary:
       "AI-native Clinic & Hospital Information System (EMR/HIS), FHIR-compliant, covering the full patient lifecycle.",
     sideStats: ["FHIR · GraphQL", "Vue 3 / Nuxt 3"],
     highlights: [
-      "Owned patient-lifecycle UI: registration, scheduling, clinical visits, teleconsultation, queues, imaging, and billing on a FHIR-compliant EMR/HIS.",
+      "Built patient-lifecycle UI: registration, scheduling, clinical visits, teleconsultation, queues, imaging, and billing on a FHIR-compliant EMR/HIS.",
       "Shipped AI clinical assistant features — speech-to-text and AI-assisted notes with diagnosis/prescription suggestions — used in real clinic workflows.",
       "Integrated FHIR and GraphQL APIs with standardized clinical coding for third-party and payor systems.",
     ],
@@ -71,26 +72,28 @@ export const experienceRoles: ExperienceRole[] = [
   {
     id: "kiriminaja",
     status: "COMPLETED",
-    locationPeriod: "Yogyakarta, ID (Onsite) · Jan 2023 — Apr 2024",
-    title: "Frontend Web Developer",
+    locationPeriod:
+      "Yogyakarta, Indonesia · On-site · Full-time · Jan 2023 — Apr 2024",
+    title: "Frontend Engineer",
     company: "KiriminAja",
     companyLegal: "(PT Selalu Siap Solusi)",
     summary:
       "Multi-courier parcel aggregation platform handling bulk cargo, instant delivery, and e-commerce fulfillment across Indonesia.",
     sideStats: ["15+ courier partners", "High-density UI"],
     highlights: [
-      "Owned logistics control-room UI in Vue/Nuxt, including live rate UI across 15+ domestic courier partners. KiriminAja's consumer app has 100K+ Google Play downloads; I build the web platform.",
+      "Developed logistics control-room UI in Vue/Nuxt, including a live rate UI across 15+ couriers.",
       "Built high-density manifest and batch barcode flows with Web Workers and virtualized lists so ops could process high daily label volume without the UI locking up.",
       "Implemented Pinia/Vuex caching for courier calculation and live shipment tracking, working with ops and QA on performance and incidents.",
     ],
-    stack: ["Vue", "Nuxt", "Pinia / Vuex", "REST"],
+    stack: ["Vue", "Nuxt", "TypeScript", "Pinia / Vuex", "REST"],
     tone: "accent",
   },
   {
     id: "icreativelabs",
     status: "FOUNDATIONAL",
-    locationPeriod: "Bandung, ID (Hybrid) · Jan 2022 — May 2023",
-    title: "Frontend Web Developer",
+    locationPeriod:
+      "Bandung, Indonesia · On-site · Full-time · Jan 2022 — May 2023",
+    title: "Frontend Engineer",
     company: "iCreativeLabs",
     companyLegal: "(PT Idekreatif Menusa Teknologi)",
     summary:

@@ -20,14 +20,14 @@ export const site = {
   availability: "Open to full-time · also scoped remote contracts",
   tagline:
     "Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development with React, Next.js, TypeScript, and Vue.",
-  bio: `Yeremia Chris Saragi is a Software Engineer specializing in frontend-heavy product development, with ${getExperienceLabel()} years building production web platforms across health-tech (HIS/EMR) and logistics. Strong in React, Next.js, and Vue — with real API, auth, and data ownership. Looking for frontend-heavy roles on product platforms and clinical systems where UI quality and backend integration both matter.`,
+  bio: `Frontend-heavy software engineer with ${getExperienceLabel()} years shipping production web apps in health-tech and logistics. I build in React/Next.js and Vue/Nuxt with TypeScript, and I'm most useful on complex, data-dense products: FHIR-based clinic systems, AI-assisted clinical notes, and logistics dashboards comparing live rates from 15+ couriers. Comfortable taking a feature from Figma and API contract to production. I use AI tools daily, and I review every line before it ships. Based in Batam, Indonesia, working remotely.`,
   heroBio: `${getExperienceLabel()} years on frontend-heavy platforms across health-tech (HIS/EMR) and logistics — React, Next.js, and Vue.`,
   proof: [
     {
       id: "primaku",
       label: "PrimaKu",
       href: "/projects#primaku",
-      meta: "Clinical + family web UI",
+      meta: "Parent + clinician web platform",
     },
     {
       id: "mazecare",
@@ -47,7 +47,7 @@ export const site = {
     whatsappLabel: "+62 812-1212-6215",
     github: "https://github.com/yeremiaChris",
     githubHandle: "@yeremiaChris",
-    linkedin: "https://www.linkedin.com/in/yeremia-chris-saragi-587a671a9/",
+    linkedin: "https://www.linkedin.com/in/yeremia-chris-saragi/",
     email: "mailto:yeremia997@gmail.com",
     emailLabel: "yeremia997@gmail.com",
     resume: "/Yeremia_Chris_Saragi_CV.pdf",

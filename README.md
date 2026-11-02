@@ -1,4 +1,4 @@
-# yeremia.dev
+# yeremiachris.com
 
 Personal portfolio — Next.js 16 App Router, shadcn/ui, MDX blog.
 

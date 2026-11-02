@@ -2,8 +2,8 @@ import { getExperienceLabel } from "./career";
 
 export const aboutIntro = {
   eyebrow: "Profile",
-  title: "About",
-  description: `I'm a Software Engineer · Frontend-Heavy with ${getExperienceLabel()} years of experience since January 2022. I build production web platforms across health-tech and logistics — React, Next.js, and Vue with real API, auth, and data-aware UI. I'm based in Batam, Indonesia, working remote.`,
+  title: "About Yeremia Chris Saragi",
+  description: `Frontend-heavy software engineer with ${getExperienceLabel()} years shipping production web apps in health-tech and logistics. I build in React/Next.js and Vue/Nuxt with TypeScript, and I'm most useful on complex, data-dense products: FHIR-based clinic systems, AI-assisted clinical notes, and logistics dashboards comparing live rates from 15+ couriers. Comfortable taking a feature from Figma and API contract to production. I use AI tools daily, and I review every line before it ships. Based in Batam, Indonesia, working remotely.`,
   chatLabel: "Get in touch",
 } as const;
 

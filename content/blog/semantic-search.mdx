@@ -18,7 +18,7 @@ part: 4
 
 I asked the seven-fact index **Has he worked in healthcare?** Mazecare and PrimaKu ranked first at **0.664** and **0.652** — but KiriminAja (logistics UI) still landed third at **0.627**. That third hit is the most important lesson in this post: top-k gives you the best scores you have, not a guarantee every row belongs.
 
-This is part 4 of Learning AI Engineering in Public. Part 3 is [Embeddings and Cosine Similarity](/blog/embeddings-and-cosine-similarity).
+This is part 4 of Learning AI Engineering in Public.
 
 **One-sentence answer:** Semantic search embeds your documents and your question, then ranks by meaning — not by exact keywords.
 
@@ -177,5 +177,3 @@ These numbers are specific to **this** dataset of seven sentences. Another corpu
 - Mazecare shows meaning over keywords (no "health" in the doc, still first on a healthcare ask); deployment at **0.741** and off-topic rendang at **0.550** bracket how far scores spread on this corpus.
 - My live [/lab](/lab) chatbot uses the same retrieval pattern on real site content, with **top-5** chunks and a cutoff tuned to **0.45** for that index — proof the number moves with the dataset (here I used top-3 and ~**0.6** as a mental line).
 - Top-k and a single threshold both need evals on your own Q&A pairs; KiriminAja at **0.627** is the concrete example of why.
-
-Next up: [A Mini RAG Pipeline](/blog/a-mini-rag-pipeline), where retrieval feeds a grounded prompt — or refuses before the LLM is called.

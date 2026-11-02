@@ -7,6 +7,8 @@ export type BlogPostMeta = {
   tags: string[];
   featured?: boolean;
   draft?: boolean;
+  series?: string;
+  part?: number;
 };
 
 export type BlogPost = BlogPostMeta & {

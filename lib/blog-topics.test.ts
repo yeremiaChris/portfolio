@@ -219,3 +219,23 @@ describe("BLOG_TOPICS", () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 });
+
+describe("getRelatedPosts series", () => {
+  it("puts the next part first", () => {
+    const current = makePost({
+      slug: "p1",
+      series: "s",
+      part: 1,
+      tags: ["ai"],
+    });
+    const posts = [
+      current,
+      makePost({ slug: "other", tags: ["ai"], date: "2026-05-01" }),
+      makePost({ slug: "p2", series: "s", part: 2, tags: ["react"] }),
+    ];
+    expect(getRelatedPosts(current, posts).map((p) => p.slug)).toEqual([
+      "p2",
+      "other",
+    ]);
+  });
+});

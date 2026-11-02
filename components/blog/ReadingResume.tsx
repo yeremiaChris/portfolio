@@ -8,6 +8,7 @@ import {
   useReadingStore,
 } from "@/components/blog/useReadingStore";
 import type { BlogHeading } from "@/lib/blog";
+import { resolveResumeHeading } from "@/lib/blog-series";
 
 const MIN_SCROLL = 240;
 const SAVE_INTERVAL = 800;
@@ -38,11 +39,13 @@ export function ReadingResume({
       lastSave = now;
 
       let current: BlogHeading | undefined;
-      for (const heading of headings) {
+      let currentIndex: number | undefined;
+      for (const [index, heading] of headings.entries()) {
         const element = document.getElementById(heading.id);
         if (!element) continue;
         if (element.getBoundingClientRect().top <= HEADING_OFFSET) {
           current = heading;
+          currentIndex = index;
         } else {
           break;
         }
@@ -51,6 +54,7 @@ export function ReadingResume({
       saveReadingPosition(slug, {
         headingId: current?.id,
         headingText: current?.text,
+        headingIndex: currentIndex,
         scrollY: Math.round(scrollY),
         updatedAt: now,
       });
@@ -69,16 +73,19 @@ export function ReadingResume({
 
   if (!saved || hidden) return null;
 
+  const label = resolveResumeHeading(headings, saved)?.text;
+
   const resume = () => {
     setHidden(true);
-    const element = saved.headingId
-      ? document.getElementById(saved.headingId)
-      : null;
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      window.scrollTo({ top: saved.scrollY, behavior: "smooth" });
-    }
+    const target = resolveResumeHeading(headings, saved);
+    const element = target ? document.getElementById(target.id) : null;
+    window.requestAnimationFrame(() => {
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: saved.scrollY, behavior: "smooth" });
+      }
+    });
   };
 
   return (
@@ -91,11 +98,8 @@ export function ReadingResume({
         <RotateCcw className="text-primary size-3.5 shrink-0" aria-hidden />
         <span className="line-clamp-2 sm:truncate">
           Continue where you left off
-          {saved.headingText ? (
-            <span className="text-muted-foreground">
-              {" "}
-              · {saved.headingText}
-            </span>
+          {label ? (
+            <span className="text-muted-foreground"> · {label}</span>
           ) : null}
         </span>
       </button>

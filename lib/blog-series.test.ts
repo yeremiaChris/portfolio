@@ -6,6 +6,7 @@ import {
   getResumeHref,
   getSeriesNav,
   getSeriesPosts,
+  resolveResumeHeading,
 } from "@/lib/blog-series";
 
 const posts = [
@@ -49,5 +50,52 @@ describe("blog series", () => {
     expect(latest?.part.slug).toBe("c");
     expect(getResumeHref("c", latest?.position)).toBe("/blog/c#intro");
     expect(getResumeHref("a")).toBe("/blog/a");
+  });
+
+  describe("resolveResumeHeading", () => {
+    const headings = [
+      { id: "intro", text: "Intro" },
+      { id: "the-setup", text: "The setup" },
+      { id: "wrap-up", text: "Wrap up" },
+    ];
+    const base = { scrollY: 900, updatedAt: 1 };
+
+    it("matches by id first", () => {
+      expect(
+        resolveResumeHeading(headings, { ...base, headingId: "wrap-up" })?.id,
+      ).toBe("wrap-up");
+    });
+
+    it("falls back to heading text when the id changed", () => {
+      expect(
+        resolveResumeHeading(headings, {
+          ...base,
+          headingId: "old-setup",
+          headingText: "  the   SETUP ",
+        })?.id,
+      ).toBe("the-setup");
+    });
+
+    it("falls back to heading index when the heading was renamed", () => {
+      expect(
+        resolveResumeHeading(headings, {
+          ...base,
+          headingId: "old",
+          headingText: "Old name",
+          headingIndex: 1,
+        })?.id,
+      ).toBe("the-setup");
+    });
+
+    it("returns null when nothing matches so scrollY is used", () => {
+      expect(
+        resolveResumeHeading(headings, {
+          ...base,
+          headingId: "gone",
+          headingIndex: 9,
+        }),
+      ).toBeNull();
+      expect(resolveResumeHeading(headings, undefined)).toBeNull();
+    });
   });
 });

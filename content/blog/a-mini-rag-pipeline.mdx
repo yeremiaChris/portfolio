@@ -1,11 +1,13 @@
 ---
-title: "A Mini RAG Pipeline"
-description: "Retrieve top-k facts, refuse below 0.6 without calling the LLM, otherwise answer from a grounded prompt with citations — plus a model fallback when flash models are overloaded."
+title: "Two Layers That Stop the Bot from Making Things Up"
+description: "Retrieve top-k facts, refuse below 0.6 without calling the LLM, otherwise answer from a grounded prompt with citations — plus model fallback when backoff on one flash model is not enough."
 date: "2026-10-16"
 tags: ["ai-engineering", "learning-in-public", "rag", "embeddings", "llm"]
 featured: false
 draft: true
 ---
+
+The portfolio bot once scored **0.601** on _What university did he attend?_ None of the seven facts mention a school, but the question barely cleared the **0.6** threshold — so generation ran anyway. The grounded prompt still answered _I don't know based on the provided context_ instead of inventing a university. That near-miss is why a cutoff alone is not enough.
 
 This is part 5 of Learning AI Engineering in Public. Part 4 is [Semantic Search](/blog/semantic-search).
 
@@ -70,16 +72,15 @@ What this block does:
 - `TOP_K` caps context size.
 - `CHAT_MODEL` names the preferred chat model. In practice the fallback list below is what kept the demo running.
 
-## When retry is not enough: model fallback
+## When backoff is not enough: model fallback
 
-I still had `withRetry` with exponential backoff for 503 and 429. That was not enough, because `gemini-3.8-flash` stayed overloaded. Waiting longer on the same busy model did not help.
+I still had [`withBackoff`](/blog/my-first-llm-api-call) from part 2 — exponential backoff for **503** and **429**. That was not enough when my preferred model kept returning retryable errors. Waiting longer on the same model did not help.
 
-I listed available models with `ai.models.list()` and added `generateWithFallback()`, which tries `CHAT_MODELS` in order and moves to the next model on 503 or 429.
+I listed available models with `ai.models.list()` and added `generateWithFallback()`, which tries `CHAT_MODELS` in order and moves to the next model on **503** or **429**.
 
 ```ts
 const CHAT_MODELS = [
   "gemini-3.8-flash",
-  "gemini-3.7-flash",
   "gemini-3.5-flash",
   "gemini-3.1-flash-lite",
 ];
@@ -109,11 +110,11 @@ async function generateWithFallback(prompt: string) {
 What this block does:
 
 - Tries each model in order with `generateContentStream` and temperature **0.2**.
-- On 503 or 429, logs that the model is busy and tries the next one.
+- On **503** or **429**, logs that the model is busy and tries the next one.
 - On any other error, throws immediately — same idea as part 2: do not retry a bad request or a bad key.
 - If every model fails with a retryable error, it throws the last error.
 
-Real run: **3.8** and **3.7** were busy, so it used **gemini-3.5-flash**.
+Real run: my preferred model stayed busy, so fallback picked **gemini-3.5-flash**. The same three Google flash IDs power auto-fallback on [/lab](/lab).
 
 ## answer(): threshold, grounded prompt, stream, sources
 
@@ -188,35 +189,18 @@ Refused **before** the LLM was called. The top similarity score stayed under 0.6
 
 ### University
 
-Question: "What university did he attend?"
+Same question as the hook: top score **0.601**, no university in the facts, honest _I don't know_ from the grounded prompt.
 
-The top score was **0.601** — it barely passed the threshold. None of the seven facts mention a university. The LLM answered **I don't know based on the provided context**. The threshold let the question through; the grounded prompt still blocked a made-up school.
+## Two layers, one rule
 
-## Why the answers are accurate
+Stack defenses, then measure the cutoff on your own Q&A pairs — the number is not portable.
 
-1. **Retrieval by meaning.** Embeddings plus `RETRIEVAL_DOCUMENT` / `RETRIEVAL_QUERY` find PrimaKu and Mazecare for "healthcare" even when the wording differs. That is why the healthcare answer can cite the right jobs.
+- **Retrieval + top-k:** embed with `RETRIEVAL_DOCUMENT` / `RETRIEVAL_QUERY`, keep the three closest chunks (healthcare cites PrimaKu and Mazecare; rendang never gets that far).
+- **Threshold before generation:** if the best score is below **0.6**, refuse and skip the LLM — no tokens, no invented recipe.
+- **Grounded prompt + citations:** when a question barely passes (university at **0.601**), _only use context_ and numbered sources still block a made-up school; print scores so claims are checkable.
+- **Temperature + streaming:** answer at **0.2** through `generateWithFallback` after [`withBackoff`](/blog/my-first-llm-api-call) on a single model is not enough.
+- **Eval per dataset:** this demo used top-3 and **0.6**; live [/lab](/lab) runs the same pattern on a bigger corpus at **top-5** and **0.45** — exactly why you need evals before you trust one threshold everywhere.
 
-2. **Top-k limits context.** Only three chunks go into the prompt. The model is not drowning in all seven facts every time — just the closest library books.
+That is the end of this series: [What an LLM Actually Is](/blog/what-an-llm-actually-is) → [My First LLM API Call](/blog/my-first-llm-api-call) → [Embeddings and Cosine Similarity](/blog/embeddings-and-cosine-similarity) → [Semantic Search](/blog/semantic-search) → this pipeline. Try the questions yourself on [/lab](/lab).
 
-3. **The threshold rejects off-topic questions before generation.** Rendang never reached the LLM. That is why there is no hallucinated recipe in that run: generation never started.
-
-4. **The grounded prompt catches threshold near-misses.** University scored 0.601 and passed the bouncer, but no document had the answer. "Say you don't know" and "never make things up" are why the reply stayed honest instead of inventing a school.
-
-5. **Low temperature (0.2)** keeps the wording factual and consistent. This is a portfolio Q and A, not a creative writing task.
-
-6. **Citations** like `[1]` and `[2]` make answers verifiable. You can map each claim back to a retrieved line and its score.
-
-7. **Two layers of protection.** A threshold alone is not enough — KiriminAja can clear 0.6 on a healthcare question, and university can clear 0.6 with no real answer. The grounded prompt is the second layer. Together they cover "wrong neighbor retrieved" and "right score, empty facts."
-
-8. **Limitation: the threshold is dataset-specific.** 0.6 worked on these seven sentences and these questions. Another corpus needs evals before you trust the same number.
-
-## Takeaways
-
-- `retrieve()` returns `{ id, text, score }` for the top-k documents.
-- If the top score is below 0.6, refuse immediately and skip the LLM.
-- If it passes, build numbered context, send a grounded prompt at temperature 0.2, stream the answer, and print sources with scores.
-- When one flash model stays on 503/429, fall through a model list. My run used `gemini-3.5-flash` after 3.8 and 3.7 were busy.
-- Healthcare cited PrimaKu and Mazecare; learning cited [7]; rendang refused pre-LLM; university barely passed 0.601 and still got "I don't know" from context.
-- Accuracy comes from stacked defenses: semantic retrieval, top-k, threshold, grounded prompt, low temperature, and citations — plus evals when the dataset changes.
-
-Next up: better evals for the 0.6 cutoff, and a friendlier refusal tone for the portfolio assistant.
+What I would improve next: a small eval set for the similarity cutoff and a friendlier refusal line — not a promise of another post, just the next lever I would pull.

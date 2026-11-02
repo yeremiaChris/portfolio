@@ -82,14 +82,14 @@ export function ReadingResume({
   };
 
   return (
-    <div className="bg-muted/40 ring-border/40 flex items-center gap-2 rounded-lg px-3 py-2 text-[13px] ring-1">
+    <div className="bg-muted/40 ring-border/40 flex items-center gap-1 rounded-lg py-1 pr-1 pl-3 text-[14px] ring-1 sm:text-[13px]">
       <button
         type="button"
         onClick={resume}
-        className="text-foreground hover:text-primary flex min-w-0 flex-1 items-center gap-2 text-left transition-colors motion-reduce:transition-none"
+        className="text-foreground hover:text-primary flex min-h-10 min-w-0 flex-1 items-center gap-2 text-left transition-colors motion-reduce:transition-none"
       >
         <RotateCcw className="text-primary size-3.5 shrink-0" aria-hidden />
-        <span className="truncate">
+        <span className="line-clamp-2 sm:truncate">
           Continue where you left off
           {saved.headingText ? (
             <span className="text-muted-foreground">
@@ -103,7 +103,7 @@ export function ReadingResume({
         type="button"
         onClick={() => setHidden(true)}
         aria-label="Dismiss"
-        className="text-muted-foreground hover:text-foreground shrink-0 transition-colors motion-reduce:transition-none"
+        className="text-muted-foreground hover:text-foreground flex size-10 shrink-0 items-center justify-center rounded-md transition-colors motion-reduce:transition-none"
       >
         <X className="size-3.5" aria-hidden />
       </button>

@@ -20,7 +20,7 @@ export function SeriesNav({
       {prev ? (
         <Link
           href={`/blog/${prev.slug}`}
-          className="group bg-muted/40 ring-border/40 hover:bg-muted/70 flex flex-col gap-1 rounded-lg px-4 py-3 ring-1 transition-colors motion-reduce:transition-none"
+          className="group bg-muted/40 ring-border/40 hover:bg-muted/70 flex min-h-16 flex-col gap-1 rounded-lg px-4 py-3 ring-1 transition-colors motion-reduce:transition-none"
         >
           <span className="text-muted-foreground flex items-center gap-1.5 text-[11px] font-medium">
             <ArrowLeft className="text-primary size-3.5" aria-hidden />
@@ -36,9 +36,9 @@ export function SeriesNav({
       {next ? (
         <Link
           href={`/blog/${next.slug}`}
-          className="group bg-muted/40 ring-border/40 hover:bg-muted/70 flex flex-col gap-1 rounded-lg px-4 py-3 text-right ring-1 transition-colors motion-reduce:transition-none sm:items-end"
+          className="group bg-muted/40 ring-border/40 hover:bg-muted/70 flex min-h-16 flex-col gap-1 rounded-lg px-4 py-3 ring-1 transition-colors motion-reduce:transition-none sm:items-end sm:text-right"
         >
-          <span className="text-muted-foreground flex items-center gap-1.5 self-end text-[11px] font-medium">
+          <span className="text-muted-foreground flex items-center gap-1.5 text-[11px] font-medium sm:self-end">
             Part {next.part}
             <ArrowRight className="text-primary size-3.5" aria-hidden />
           </span>

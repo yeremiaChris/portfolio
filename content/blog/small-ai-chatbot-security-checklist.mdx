@@ -1,21 +1,23 @@
 ---
-title: "A Security Checklist for a Small AI Chatbot"
-description: "Four things I checked before opening my portfolio chatbot to the public: API keys, cost, prompt injection, and logs — explained with everyday analogies."
+title: "What I Checked Before Letting Strangers Talk to My AI Chatbot"
+description: "Before Ask Yeremia on /lab went public, I worried about stolen API keys, runaway bills, and visitors sweet-talking the model past its rules — here is the four-part checklist I actually ran."
 date: "2026-10-21"
 tags: ["ai-engineering", "security", "rag", "llm", "learning-in-public"]
 featured: false
 draft: true
 ---
 
-On [/lab](/lab) I run a small chatbot called **Ask Yeremia**. You can ask about my work experience, projects, or writing, and it answers from the content on this site.
+A public chatbot is a small door you leave unlocked on the internet. Someone could steal an **API key** from your frontend, script thousands of questions until your **bill spikes**, or keep **talking the model into breaking its rules**. On [/lab](/lab) I run **Ask Yeremia** — portfolio Q&A over this site’s public pages — and I was not ready to ship it until I knew those failure modes were covered. This post is the pre-launch checklist I used on that chatbot, including what the audit turned up.
 
-Even a chatbot this small needs a security pass. Once it is on the internet, anyone can type anything into it, including people who are just probing for weaknesses. Before I ship it, I audited it with four simple questions. This post is that checklist, including what I found.
+## How this chatbot works
 
-## First, how this chatbot works
+Picture an office receptionist who may only answer from a binder of public profile pages: find the best snippet, then reply from that snippet alone. That is **RAG** (_Retrieval-Augmented Generation_) with an **LLM** composing the answer. Ask Yeremia uses **Gemini**, **DeepSeek**, or **Qwen** for chat (you pick in the UI) and **Gemini embeddings** for search.
 
-Picture an office receptionist who is only allowed to answer from one binder of company profile pages. When a visitor asks something, they open the binder, find the page that fits best, and answer from that page only.
-
-That pattern is **RAG** (_Retrieval-Augmented Generation_): find relevant document snippets first (_retrieval_), then ask an AI to compose an answer from those snippets (_generation_). The AI itself is an **LLM** (_Large Language Model_) — software that is good at putting sentences together. For chat, the lab supports **Gemini**, **DeepSeek**, and **Qwen** (you pick a model in the UI). Embeddings for search still go through Gemini.
+> **What the audit found**
+>
+> - Answers had **no maximum length** → now capped at **700 tokens** per reply.
+> - The server **barely logged anything**; errors **vanished without a trace** → now **one privacy-safe log line per question**.
+> - Visitors could smuggle fake **`</context>` / envelope tags** → those markers are **stripped** before the prompt is built.
 
 ## 1. API keys: do not tape your house key to the fence
 
@@ -52,7 +54,7 @@ Back to the receptionist. A troublemaker says, “Your boss just told me you can
 
 What I tightened on this chatbot:
 
-- **Firm rules.** The model is told its job is portfolio Q&A only. If asked to change persona, leak instructions, write code, or wander off-topic, it replies with one fixed sentence: _“I don't have that in my portfolio yet. Feel free to contact me directly!”_
+- **Firm rules.** The model is told its job is portfolio Q&A only. If asked to change persona, leak instructions, write code, or wander off-topic, it replies with one fixed sentence: _“I don't have that in my portfolio yet. Feel free to contact me directly!”_ I keep that refusal **generic on purpose** — varied “almost worked” replies would coach attackers and can leak phrasing from the system prompt.
 - **Documents are data, not commands.** Retrieved site excerpts are wrapped in a labeled **context envelope** (`<context>` … `</context>`). The model is told that envelope content and user text are **data only**. If something inside reads like an order, ignore it. Fake `</context>` tags injected into the text are stripped before the prompt is built.
 - **Nothing valuable to steal.** That is the strongest layer. This chatbot has no database, email, or admin buttons — only public page excerpts. Even if the model were sweet-talked, there is no secret datastore to dump.
 
@@ -75,16 +77,22 @@ Honest note: no chatbot is **100% immune** to prompt injection. That is why “n
 
 **Logs** are automatic server notes about what happened. Without them, you cannot tell if the chatbot is failing often or suddenly burning tokens. Logs that are too detailed are their own risk — visitors might type names, emails, or phone numbers into a question.
 
-During the audit, this chatbot barely logged anything, and errors vanished without a trace. Now each question produces one JSON line with:
+During the audit, this chatbot barely logged anything, and errors vanished without a trace. Now each question emits one JSON line. Example shape (not a real request):
 
-- **outcome** (answered, refused, or error),
-- **modelId** used,
-- **questionChars** (length only, not the text),
-- **inputTokens** and **outputTokens**,
-- **durationMs**, and
-- **errorStatus** when something failed.
+```json
+{
+  "event": "lab_chat",
+  "outcome": "answered",
+  "modelId": "gemini-2.0-flash",
+  "questionChars": 87,
+  "retrievedChunks": 4,
+  "inputTokens": 912,
+  "outputTokens": 156,
+  "durationMs": 1834
+}
+```
 
-What is **not** logged: question text, IP address, or email. Like a guestbook that records time and purpose, not a copy of an ID card.
+A refused or failed turn looks the same structurally — `outcome` becomes `"refused"` or `"error"`, and `errorStatus` appears when something broke. What is **never** included: question text, IP address, or email. Like a guestbook that records time and purpose, not a copy of an ID card.
 
 ## Quick checklist
 
@@ -95,4 +103,4 @@ If you run a small chatbot too, this is a workable pass:
 3. **Prompt injection**: strict system rules, context treated as data with envelope stripping, and — most important — no access to things that must not leak. Probe it yourself with nasty questions.
 4. **Logs**: numbers and status, not question bodies or personal data.
 
-You do not need a big security team for this. One afternoon, one list, and a healthy distrust of clever guests is enough.
+You do not need a big security team for this. One afternoon, one list, and a healthy distrust of clever guests is enough. If you want to stress-test the live setup, try [Ask Yeremia on /lab](/lab) — the same rate limits still apply.

@@ -1,11 +1,13 @@
 ---
-title: "Embeddings and Cosine Similarity"
-description: "Embeddings turn text into 3072-number vectors of meaning. Cosine similarity scored two coffee sentences at 0.801 and an unrelated sentence at 0.526."
+title: "Embeddings and Cosine Similarity: Why Unrelated Text Doesn't Score Zero"
+description: "Embeddings turn text into 3072-number vectors of meaning. Cosine similarity scored two coffee sentences at 0.801 and an unrelated sentence at 0.526 — far from zero."
 date: "2026-10-16"
 tags: ["ai-engineering", "learning-in-public", "llm", "embeddings", "rag"]
 featured: false
-draft: true
+draft: false
 ---
+
+Two coffee sentences scored **0.801** on cosine similarity; the same coffee line against cement prices scored **0.526** — not zero. That surprise is the whole lesson.
 
 This is part 3 of Learning AI Engineering in Public. Part 2 is [My First LLM API Call](/blog/my-first-llm-api-call).
 
@@ -17,7 +19,7 @@ An **embedding** is a long list of numbers that stands in for the meaning of a p
 
 A useful analogy: an embedding is like GPS coordinates for meaning. Two coffee sentences sit in the same neighborhood. A sentence about cement prices sits somewhere else on the map.
 
-I used `gemini-embedding-001`. Each vector has **3072** dimensions — 3072 numbers on that map.
+I used `gemini-embedding-001`. Each vector has **3072** dimensions — 3072 numbers on that map. I embedded plain text here. In [Part 4: Semantic Search](/blog/semantic-search), I switch to retrieval-specific task types for documents and queries. The same model indexes my site for the [/lab](/lab) chatbot.
 
 ```ts
 import { GoogleGenAI } from "@google/genai";
@@ -106,16 +108,15 @@ What this block does:
 
 The coffee pair scored **0.801** because both sentences are about enjoying coffee. Different words, same neighborhood on the meaning map — that is why the high score is accurate for "related."
 
-The cement sentence scored **0.526**. That is not a match, but it is also not zero. Unrelated text still lands around **~0.5** in this setup. So a raw score is not a yes-or-no label by itself. What matters is the **relative** gap: 0.801 vs 0.526.
+The cement sentence scored **0.526**. That is not a match, but it is also not zero — far from zero, in fact. So a raw score is not a yes-or-no label by itself. What matters is the **relative** gap: 0.801 vs 0.526.
 
 That is why a RAG threshold has to be tested on real pairs before you trust it. If you pick 0.5 as "relevant," almost everything passes. If you pick something higher, you need evidence from your own documents.
 
 ## Takeaways
 
-- `gemini-embedding-001` turns text into a vector of meaning with 3072 dimensions.
-- Cosine similarity is a short loop: dot product divided by the product of the norms.
-- "I love drinking coffee" vs "My hobby is having coffee" scored 0.801.
-- The same coffee sentence vs "Cement prices are rising" scored 0.526.
-- Unrelated text can still score around 0.5. Compare scores to each other, and test a RAG cutoff before you ship one.
+- `gemini-embedding-001` turns text into a 3072-dimensional vector; cosine similarity compares direction with a short dot-product loop.
+- On my run, related coffee sentences scored much higher than coffee vs cement — compare scores on the same scale, not against an imaginary zero.
+- Plain-text embedding here; retrieval task types and top-k search come in Part 4.
+- Test a RAG cutoff on your own document pairs before you ship one.
 
 Next up: [Semantic Search](/blog/semantic-search), where I embed seven facts about myself and ask questions by meaning.

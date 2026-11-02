@@ -1,6 +1,6 @@
 ---
-title: "Semantic Search"
-description: "Seven facts about me, embedded once, then ranked by cosine similarity. Healthcare matched without the word health. A rendang question topped out at 0.550."
+title: "Semantic Search: A Logistics Job Matched a Healthcare Question"
+description: "Seven facts embedded once, ranked by cosine similarity. Mazecare ranked first on a healthcare résumé question without the word health — FHIR and clinical notes were enough. KiriminAja at 0.627 is the warning. Rendang topped out at 0.550."
 date: "2026-10-16"
 tags:
   [
@@ -11,8 +11,10 @@ tags:
     "rag",
   ]
 featured: false
-draft: true
+draft: false
 ---
+
+I asked the seven-fact index **Has he worked in healthcare?** Mazecare and PrimaKu ranked first at **0.664** and **0.652** — but KiriminAja (logistics UI) still landed third at **0.627**. That third hit is the most important lesson in this post: top-k gives you the best scores you have, not a guarantee every row belongs.
 
 This is part 4 of Learning AI Engineering in Public. Part 3 is [Embeddings and Cosine Similarity](/blog/embeddings-and-cosine-similarity).
 
@@ -144,9 +146,9 @@ What this block does: it prints each question, then the top-3 documents with sco
 | 2    | 0.652 | PrimaKu (pediatric health app)      |
 | 3    | 0.627 | KiriminAja (logistics UI)           |
 
-None of those documents needed the exact word "health" in the question to match. The question said "healthcare." Mazecare and PrimaKu are clinic / pediatric work. The search still found them. That is search by **meaning**, not by string match.
+Mazecare's line never says "health" — it mentions FHIR-based clinic flows and AI-assisted clinical notes — yet it ranked first. The question said "healthcare." PrimaKu's blurb does include "health" (pediatric health product). All three hits are search by **meaning**, not a keyword match on the question text.
 
-KiriminAja also landed in the top 3 at 0.627. Logistics is not healthcare. The score is still high enough to appear. Remember that from part 3: unrelated text can sit around the middle of the scale. Top-k returns the best of what you have, not a guarantee of relevance.
+KiriminAja also landed in the top 3 at **0.627**. Logistics is not healthcare. The score is still high enough to appear. Remember that from part 3: unrelated text can sit around the middle of the scale. Top-k returns the best of what you have, not a guarantee of relevance.
 
 ### "What does he use for deployment?"
 
@@ -155,14 +157,6 @@ The deployment document scored **0.741** and ranked first. Docker, GitHub Action
 ### "What is a good rendang recipe?"
 
 The top score was only **0.550**. Nothing in the seven facts is about cooking. The meaning map has no nearby recipe document, so every score stays low. That gap is useful: it is a signal that the question is off-topic for this corpus.
-
-## Why this works
-
-- Embedding documents once and queries every time matches how a real index works: write path vs read path.
-- `RETRIEVAL_DOCUMENT` and `RETRIEVAL_QUERY` exist because the model treats those roles differently. Using the wrong one is like filing books under a different catalog system than the one your search desk uses.
-- Top-k limits the answer surface to three chunks. That prepares part 5, where those chunks become LLM context.
-- The healthcare question shows why semantic search beats keyword search for synonyms.
-- The rendang question shows a low top score when nothing relevant exists.
 
 ## The threshold lesson (and why evals matter)
 
@@ -175,12 +169,11 @@ But KiriminAja scored **0.627** on the healthcare question and would pass a 0.6 
 
 These numbers are specific to **this** dataset of seven sentences. Another corpus, another embedding model, or longer documents would shift the scale. That is why evals are needed: you measure real questions against real documents before you trust a cutoff in production.
 
-## Takeaways
+## What to remember
 
-- Semantic search ranks by meaning: embed documents once, embed the query, cosine similarity, sort, take top-k.
-- Use `RETRIEVAL_DOCUMENT` for documents and `RETRIEVAL_QUERY` for questions with `gemini-embedding-001`.
-- "Has he worked in healthcare?" found Mazecare 0.664 and PrimaKu 0.652 without needing the exact word "health."
-- Deployment scored 0.741. Rendang topped out at 0.550.
-- Around 0.6 separates a lot of signal here, but KiriminAja at 0.627 shows a threshold alone is not enough — and the numbers are dataset-specific, so you need evals.
+- Embed documents once with `RETRIEVAL_DOCUMENT`, embed each question with `RETRIEVAL_QUERY`, score with cosine similarity, sort, take top-k — this demo keeps **3** hits per question.
+- Mazecare shows meaning over keywords (no "health" in the doc, still first on a healthcare ask); deployment at **0.741** and off-topic rendang at **0.550** bracket how far scores spread on this corpus.
+- My live [/lab](/lab) chatbot uses the same retrieval pattern on real site content, with **top-5** chunks and a cutoff tuned to **0.45** for that index — proof the number moves with the dataset (here I used top-3 and ~**0.6** as a mental line).
+- Top-k and a single threshold both need evals on your own Q&A pairs; KiriminAja at **0.627** is the concrete example of why.
 
 Next up: [A Mini RAG Pipeline](/blog/a-mini-rag-pipeline), where retrieval feeds a grounded prompt — or refuses before the LLM is called.

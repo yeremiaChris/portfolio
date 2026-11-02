@@ -77,6 +77,20 @@ function assertMeta(data: Record<string, unknown>, slug: string): BlogPostMeta {
     throw new Error(`Post "${slug}" is missing a date`);
   }
 
+  const series =
+    typeof data.series === "string" && data.series.trim()
+      ? data.series.trim()
+      : undefined;
+  const part = data.part;
+  if (series !== undefined || part !== undefined) {
+    if (series === undefined) {
+      throw new Error(`Post "${slug}" has a part but no series`);
+    }
+    if (typeof part !== "number" || !Number.isInteger(part) || part < 1) {
+      throw new Error(`Post "${slug}" needs a positive integer part`);
+    }
+  }
+
   const tags = Array.isArray(data.tags)
     ? data.tags.filter((tag): tag is string => typeof tag === "string")
     : [];
@@ -93,6 +107,7 @@ function assertMeta(data: Record<string, unknown>, slug: string): BlogPostMeta {
     tags,
     featured: Boolean(data.featured),
     draft: Boolean(data.draft),
+    ...(series ? { series, part: part as number } : {}),
   };
 }
 

@@ -8,6 +8,7 @@ export type SeriesItem = {
 export type ReadingPosition = {
   headingId?: string;
   headingText?: string;
+  headingIndex?: number;
   scrollY: number;
   updatedAt: number;
 };
@@ -72,4 +73,36 @@ export function getResumeHref(slug: string, position?: ReadingPosition) {
   return position?.headingId
     ? `/blog/${slug}#${position.headingId}`
     : `/blog/${slug}`;
+}
+
+type ResumeHeading = { id: string; text: string };
+
+function normalizeHeading(text: string) {
+  return text.toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+export function resolveResumeHeading<T extends ResumeHeading>(
+  headings: readonly T[],
+  position?: ReadingPosition,
+): T | null {
+  if (!position) return null;
+  if (position.headingId) {
+    const byId = headings.find((heading) => heading.id === position.headingId);
+    if (byId) return byId;
+  }
+  if (position.headingText) {
+    const text = normalizeHeading(position.headingText);
+    const byText = headings.find(
+      (heading) => normalizeHeading(heading.text) === text,
+    );
+    if (byText) return byText;
+  }
+  if (
+    typeof position.headingIndex === "number" &&
+    position.headingIndex >= 0 &&
+    position.headingIndex < headings.length
+  ) {
+    return headings[position.headingIndex];
+  }
+  return null;
 }

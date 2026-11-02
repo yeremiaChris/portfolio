@@ -11,7 +11,7 @@ part: 2
 
 My first Gemini call streamed a one-sentence answer in the terminal. The next run hit **503** high demand — the same request worked a moment later. Here is the TypeScript I use for streaming, for retrying only when a failure might clear (**503** and **429**), and for stopping when it will not (**400**, **401**, or a model name that does not work on your account).
 
-This is part 2 of Learning AI Engineering in Public. Part 1 is [What an LLM Actually Is](/blog/what-an-llm-actually-is).
+This is part 2 of Learning AI Engineering in Public.
 
 **One-sentence answer:** ChatGPT is an app. The API is how a program calls the same kind of model.
 
@@ -121,5 +121,3 @@ What these blocks do:
 - `gemini-2.5-flash` was not available on my account when I tried it; read the error and the current docs before you swap model strings.
 - Store the key in `.env`, load with `--env-file`, gitignore that file, and rotate if it leaks.
 - Selective retry on [/lab](/lab) matches this script; [Part 5](/blog/a-mini-rag-pipeline) covers fallback when backoff alone is not enough.
-
-Next up: [Embeddings and Cosine Similarity](/blog/embeddings-and-cosine-similarity), where text becomes a vector you can compare.

@@ -5,6 +5,8 @@ date: "2026-10-16"
 tags: ["ai-engineering", "learning-in-public", "llm", "typescript", "api"]
 featured: false
 draft: false
+series: "learning-ai-engineering"
+part: 2
 ---
 
 My first Gemini call streamed a one-sentence answer in the terminal. The next run hit **503** high demand — the same request worked a moment later. Here is the TypeScript I use for streaming, for retrying only when a failure might clear (**503** and **429**), and for stopping when it will not (**400**, **401**, or a model name that does not work on your account).

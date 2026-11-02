@@ -3,6 +3,7 @@ import {
   getBlogTopicBySlug,
   type BlogTopic,
 } from "@/lib/blog-topics.constants";
+import { getSeriesNav } from "@/lib/blog-series";
 
 export {
   BLOG_TOPICS,
@@ -21,6 +22,8 @@ export type BlogPostListItem = {
   tags: string[];
   featured?: boolean;
   draft?: boolean;
+  series?: string;
+  part?: number;
   readingTime: string;
   readingMinutes: number;
 };
@@ -107,11 +110,15 @@ export function getRelatedPosts<T extends BlogPostListItem>(
   allPosts: T[],
   limit = 3,
 ): T[] {
+  const nextPart = getSeriesNav(post, allPosts).next;
   const tagSet = new Set(post.tags);
-  if (tagSet.size === 0) return [];
+  if (tagSet.size === 0) return nextPart ? [nextPart].slice(0, limit) : [];
 
   const scored = allPosts
-    .filter((candidate) => candidate.slug !== post.slug)
+    .filter(
+      (candidate) =>
+        candidate.slug !== post.slug && candidate.slug !== nextPart?.slug,
+    )
     .map((candidate) => {
       const shared = candidate.tags.filter((tag) => tagSet.has(tag)).length;
       return { candidate, shared };
@@ -122,5 +129,6 @@ export function getRelatedPosts<T extends BlogPostListItem>(
       return b.candidate.date.localeCompare(a.candidate.date);
     });
 
-  return scored.slice(0, limit).map((entry) => entry.candidate);
+  const byTags = scored.map((entry) => entry.candidate);
+  return (nextPart ? [nextPart, ...byTags] : byTags).slice(0, limit);
 }

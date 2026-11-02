@@ -7,7 +7,14 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { BlogToc } from "@/components/blog/BlogToc";
 import { BlogTocMobile } from "@/components/blog/BlogTocMobile";
 import { BlogTagBadge } from "@/components/blog/BlogTagBadge";
+import { ReadingResume } from "@/components/blog/ReadingResume";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import { SeriesNav } from "@/components/blog/SeriesNav";
+import {
+  SeriesMarkRead,
+  SeriesToc,
+  SeriesTocMobile,
+} from "@/components/blog/SeriesToc";
 import { Container } from "@/components/Container";
 import {
   formatBlogDate,
@@ -15,6 +22,7 @@ import {
   getPost,
   getPostHeadings,
 } from "@/lib/blog";
+import { getSeriesNav, getSeriesTitle } from "@/lib/blog-series";
 import { getRelatedPosts } from "@/lib/blog-topics";
 import { mdxOptions } from "@/lib/mdx";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -55,6 +63,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const headings = getPostHeadings(post.content);
   const allPosts = getAllPosts();
   const relatedPosts = getRelatedPosts(post, allPosts, 3);
+  const seriesNav = getSeriesNav(post, allPosts);
+  const seriesParts = seriesNav.parts.map(({ slug, title, series, part }) => ({
+    slug,
+    title,
+    series,
+    part,
+  }));
+  const seriesToc =
+    post.series && seriesNav.index !== -1
+      ? {
+          title: getSeriesTitle(post.series),
+          parts: seriesParts,
+          currentSlug: post.slug,
+        }
+      : null;
 
   return (
     <main>
@@ -80,6 +103,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           <header className="flex flex-col gap-3">
             <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-[11px] font-medium">
+              {seriesToc ? (
+                <>
+                  <span className="text-primary">
+                    Part {post.part} of {seriesToc.parts.length}
+                  </span>
+                  <span aria-hidden>·</span>
+                </>
+              ) : null}
               <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
               <span aria-hidden>·</span>
               <span>{post.readingTime}</span>
@@ -100,15 +131,33 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </header>
         </div>
 
+        <ReadingResume slug={post.slug} headings={headings} />
+
+        {seriesToc ? <SeriesTocMobile {...seriesToc} /> : null}
+
         <BlogTocMobile headings={headings} />
 
         <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
           <article className="prose prose-invert prose-headings:scroll-mt-24 prose-headings:font-heading prose-p:leading-[1.7] prose-li:leading-[1.7] prose-a:text-primary prose-code:font-mono prose-pre:border prose-pre:border-border/60 prose-pre:bg-muted max-w-none min-w-0 lg:col-span-8">
             <MDXRemote source={post.content} options={mdxOptions} />
+            {seriesToc ? (
+              <div className="not-prose border-border/40 mt-10 flex flex-col gap-4 border-t pt-6">
+                <SeriesMarkRead slug={post.slug} />
+                <SeriesNav
+                  prev={seriesParts[seriesNav.index - 1] ?? null}
+                  next={seriesParts[seriesNav.index + 1] ?? null}
+                />
+              </div>
+            ) : null}
           </article>
 
           <aside className="min-w-0 lg:col-span-4">
-            <div className="lg:sticky lg:top-24">
+            <div className="flex flex-col gap-4 lg:sticky lg:top-24">
+              {seriesToc ? (
+                <div className="hidden lg:block">
+                  <SeriesToc {...seriesToc} />
+                </div>
+              ) : null}
               <BlogToc headings={headings} />
             </div>
           </aside>

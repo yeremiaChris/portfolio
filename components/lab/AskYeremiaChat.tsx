@@ -155,8 +155,7 @@ export function AskYeremiaChat({
             ref={viewportRef}
             onScroll={handleScroll}
             className={cn(
-              "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain py-4 motion-safe:scroll-smooth",
-              "[scrollbar-width:thin] [-ms-overflow-style:auto] [&::-webkit-scrollbar]:w-1.5",
+              "flex min-h-0 flex-1 scrollbar-none flex-col overflow-y-auto overscroll-contain py-4 motion-safe:scroll-smooth",
             )}
           >
             <div

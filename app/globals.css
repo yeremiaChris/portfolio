@@ -152,6 +152,13 @@
   @apply text-xs font-medium tracking-wide uppercase;
 }
 
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Intro overlay timings — keep in sync with lib/intro.ts */
 html[data-intro="seen"] [data-intro-cover] {
   display: none;

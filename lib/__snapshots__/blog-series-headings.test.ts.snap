@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`series heading ids > stay stable so saved reading positions keep resolving 1`] = `
+{
+  "a-mini-rag-pipeline": [
+    "the-pipeline",
+    "shared-pieces-documents-embed-retrieve",
+    "constants-for-the-bouncer-and-the-chat-call",
+    "when-backoff-is-not-enough-model-fallback",
+    "answer-threshold-grounded-prompt-stream-sources",
+    "real-outputs",
+    "healthcare",
+    "learning",
+    "rendang",
+    "university",
+    "two-layers-one-rule",
+  ],
+  "embeddings-and-cosine-similarity": [
+    "vectors-of-meaning",
+    "cosine-similarity-by-hand",
+    "what-i-measured",
+    "why-this-works-and-why-0526-is-not-zero",
+    "takeaways",
+  ],
+  "my-first-llm-api-call": [
+    "the-app-and-the-api",
+    "retry-503-and-429",
+    "keep-the-key-out-of-git",
+    "takeaways",
+  ],
+  "semantic-search": [
+    "the-idea",
+    "seven-fact-documents",
+    "setup-cosine-similarity-and-task-types",
+    "embed-documents-once-then-search",
+    "running-the-three-queries",
+    "real-outputs",
+    "has-he-worked-in-healthcare",
+    "what-does-he-use-for-deployment",
+    "what-is-a-good-rendang-recipe",
+    "the-threshold-lesson-and-why-evals-matter",
+    "what-to-remember",
+  ],
+  "what-an-llm-actually-is": [
+    "a-next-token-predictor",
+    "tokens-the-prompt-and-the-context-window",
+    "temperature",
+    "hallucination",
+    "retrieval-before-generation",
+    "takeaways",
+  ],
+}
+`;

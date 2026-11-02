@@ -95,7 +95,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="flex flex-col gap-4">
           <Link
             href="/blog"
-            className="text-muted-foreground hover:text-primary inline-flex w-fit items-center gap-1.5 text-[12px] font-medium transition-colors"
+            className="text-muted-foreground hover:text-primary -my-2.5 inline-flex min-h-10 w-fit items-center gap-1.5 text-[12px] font-medium transition-colors sm:my-0 sm:min-h-0"
           >
             <ArrowLeft className="text-primary size-3.5" aria-hidden />
             Back to blog

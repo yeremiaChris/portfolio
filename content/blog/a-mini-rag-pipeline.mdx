@@ -4,7 +4,7 @@ description: "Retrieve top-k facts, refuse below 0.6 without calling the LLM, ot
 date: "2026-10-16"
 tags: ["ai-engineering", "learning-in-public", "rag", "embeddings", "llm"]
 featured: false
-draft: true
+draft: false
 ---
 
 The portfolio bot once scored **0.601** on _What university did he attend?_ None of the seven facts mention a school, but the question barely cleared the **0.6** threshold — so generation ran anyway. The grounded prompt still answered _I don't know based on the provided context_ instead of inventing a university. That near-miss is why a cutoff alone is not enough.

@@ -6,8 +6,8 @@ export function HeroVisual() {
       aria-hidden
       className="hidden w-full min-w-0 xl:flex xl:justify-end xl:self-start"
     >
-      <div className="hero-code-stage w-full max-w-[420px]">
-        <div className="border-gradient hero-code-shell relative w-full overflow-hidden rounded-2xl bg-[#0a0e14]/80 shadow-[0_0_64px_rgb(76_215_246/0.16)] backdrop-blur-md">
+      <div className="hero-code-stage w-full max-w-[420px] p-2.5">
+        <div className="border-gradient hero-code-shell relative w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0e14]/80 backdrop-blur-md">
           <div className="flex flex-col">
             <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-3 py-2.5">
               <div className="flex gap-1.5">

@@ -54,7 +54,7 @@ export function FeaturedPost({ post }: { post: BlogPostSummary }) {
           <CardTitle className="font-heading text-foreground text-xl font-semibold tracking-tight sm:text-2xl">
             <Link
               href={href}
-              className="press focus-ring hover:text-primary transition-colors outline-none motion-reduce:transition-none"
+              className="focus-ring hover:text-primary transition-colors outline-none motion-reduce:transition-none"
             >
               {post.title}
             </Link>

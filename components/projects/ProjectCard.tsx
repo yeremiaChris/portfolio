@@ -63,7 +63,7 @@ export function ProjectCard({
             href={project.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-visible:ring-ring block h-full w-full focus-visible:ring-2 focus-visible:outline-none"
+            className="focus-ring block h-full w-full outline-none"
           >
             {media}
           </a>

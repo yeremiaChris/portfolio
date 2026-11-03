@@ -140,7 +140,7 @@ export function AskYeremiaChat({
                         size="sm"
                         disabled={isStreaming}
                         onClick={() => ask(suggestion)}
-                        className="border-border/60 hover:border-brand-accent/35 focus-visible:ring-brand-accent/40 h-auto min-h-11 max-w-full px-3 py-2 text-left text-xs leading-snug whitespace-normal sm:min-h-9"
+                        className="border-border/60 hover:border-brand-accent/35 h-auto min-h-11 max-w-full px-3 py-2 text-left text-xs leading-snug whitespace-normal sm:min-h-9"
                       >
                         {suggestion}
                       </Button>

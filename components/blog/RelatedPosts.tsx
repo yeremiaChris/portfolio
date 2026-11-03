@@ -26,7 +26,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
           <li key={post.slug}>
             <Link
               href={`/blog/${post.slug}`}
-              className="group bg-muted/40 ring-border/40 hover:bg-muted/70 flex flex-col gap-1 rounded-lg px-4 py-3 ring-1 transition-colors motion-reduce:transition-none"
+              className="group bg-muted/40 ring-border/40 hover:bg-muted/70 flex flex-col gap-1 rounded-lg px-4 py-3 ring-1 transition-colors duration-200 motion-reduce:transition-none"
             >
               <span className="font-heading text-foreground group-hover:text-primary text-[15px] font-medium transition-colors motion-reduce:transition-none">
                 {post.title}

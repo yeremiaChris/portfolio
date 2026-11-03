@@ -128,7 +128,6 @@ export function ChatComposer({
               }
               className={cn(
                 "size-11 shrink-0 rounded-full sm:size-9",
-                "focus-visible:ring-brand-accent/50 focus-visible:ring-2",
                 isStreaming
                   ? "bg-foreground text-background hover:bg-foreground/90"
                   : "bg-brand-accent hover:bg-brand-accent/90 disabled:bg-brand-accent/40 text-[#0a0e14]",

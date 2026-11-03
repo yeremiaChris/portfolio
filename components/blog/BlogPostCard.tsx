@@ -29,7 +29,7 @@ export function BlogPostCard({ post }: { post: BlogPostSummary }) {
                   variant="secondary"
                   render={<Link href={`/blog/tag/${topic.slug}`} />}
                   className={cn(
-                    "bg-muted text-primary label-caps hover:text-brand-accent rounded-md px-2 py-0.5 tracking-wider transition-colors",
+                    "focus-ring bg-muted text-primary label-caps hover:text-brand-accent rounded-md px-2 py-0.5 tracking-wider transition-colors duration-200",
                     "motion-reduce:transition-none",
                   )}
                 >
@@ -53,7 +53,7 @@ export function BlogPostCard({ post }: { post: BlogPostSummary }) {
         <CardTitle className="font-heading text-foreground text-base leading-snug font-semibold tracking-tight sm:text-lg">
           <Link
             href={href}
-            className="group-hover:text-primary transition-colors motion-reduce:transition-none"
+            className="focus-ring group-hover:text-primary transition-colors outline-none motion-reduce:transition-none"
           >
             {post.title}
           </Link>
@@ -73,7 +73,7 @@ export function BlogPostCard({ post }: { post: BlogPostSummary }) {
         </time>
         <Link
           href={href}
-          className="text-primary inline-flex items-center gap-0.5 text-[12px] transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none"
+          className="press focus-ring text-primary inline-flex items-center gap-0.5 text-[12px] transition-transform duration-200 outline-none group-hover:translate-x-0.5 motion-reduce:transform-none"
         >
           Read article
           <ArrowRight className="size-3.5" aria-hidden />

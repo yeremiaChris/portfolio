@@ -38,7 +38,7 @@ export function FeaturedPost({ post }: { post: BlogPostSummary }) {
                 key={topic.slug}
                 variant="secondary"
                 render={<Link href={`/blog/tag/${topic.slug}`} />}
-                className="bg-muted text-brand-accent rounded-md px-2 py-0.5 text-xs tracking-wider uppercase transition-opacity hover:opacity-90 motion-reduce:transition-none"
+                className="press focus-ring bg-muted text-brand-accent rounded-md px-2 py-0.5 text-xs tracking-wider uppercase transition-opacity outline-none hover:opacity-90 motion-reduce:transition-none"
               >
                 {topic.label}
               </Badge>
@@ -54,7 +54,7 @@ export function FeaturedPost({ post }: { post: BlogPostSummary }) {
           <CardTitle className="font-heading text-foreground text-xl font-semibold tracking-tight sm:text-2xl">
             <Link
               href={href}
-              className="hover:text-primary transition-colors motion-reduce:transition-none"
+              className="focus-ring hover:text-primary transition-colors outline-none motion-reduce:transition-none"
             >
               {post.title}
             </Link>

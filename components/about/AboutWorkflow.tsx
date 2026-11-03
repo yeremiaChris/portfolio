@@ -130,7 +130,7 @@ function ToolItem({ item }: { item: AboutWorkflowToolItem }) {
         href={item.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-brand-accent hover:text-brand-accent/80 underline-offset-4 transition-colors duration-200 hover:underline motion-reduce:transition-none"
+        className="text-brand-accent hover:text-brand-accent/80 inline-block underline-offset-4 transition-colors duration-200 hover:underline motion-reduce:transition-none"
       >
         {item.label}
       </Link>

@@ -44,7 +44,7 @@ export function HeaderMobileSheet({
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       buttonVariants({ variant: "ghost" }),
-                      "justify-start",
+                      "focus-ring justify-start outline-none",
                       active && "bg-secondary font-semibold",
                     )}
                   />
@@ -61,7 +61,7 @@ export function HeaderMobileSheet({
                 href="/#contact"
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover mt-2 justify-start",
+                  "focus-ring bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover mt-2 justify-start outline-none",
                 )}
               />
             }

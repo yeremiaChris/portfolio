@@ -7,6 +7,7 @@ import {
   setPartRead,
   useReadingStore,
 } from "@/components/blog/useReadingStore";
+import { Reveal } from "@/components/motion/Reveal";
 import {
   getFirstUnreadPart,
   getLatestPosition,
@@ -120,34 +121,38 @@ function SeriesTocBody({ title, parts, currentSlug }: SeriesTocProps) {
 
 export function SeriesToc(props: SeriesTocProps) {
   return (
-    <div className="bg-muted/30 ring-border/40 rounded-lg p-4 ring-1">
-      <SeriesTocBody {...props} />
-    </div>
+    <Reveal when="mount">
+      <div className="bg-muted/30 ring-border/40 rounded-lg p-4 ring-1">
+        <SeriesTocBody {...props} />
+      </div>
+    </Reveal>
   );
 }
 
 export function SeriesTocMobile(props: SeriesTocProps) {
   const current = props.parts.find((part) => part.slug === props.currentSlug);
   return (
-    <details className="group bg-muted/30 ring-border/40 rounded-lg ring-1 lg:hidden">
-      <summary className="text-foreground flex min-h-12 cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-[14px] font-medium [&::-webkit-details-marker]:hidden">
-        <span className="flex items-center gap-1.5">
-          <BookOpen className="text-primary size-3.5" aria-hidden />
-          Part {current?.part} of {props.parts.length}
-        </span>
-        <span className="text-muted-foreground flex items-center gap-1 text-[12px]">
-          <span className="group-open:hidden">Show parts</span>
-          <span className="hidden group-open:inline">Hide</span>
-          <ChevronDown
-            className="size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
-            aria-hidden
-          />
-        </span>
-      </summary>
-      <div className="px-4 pb-4">
-        <SeriesTocBody {...props} />
-      </div>
-    </details>
+    <Reveal when="mount">
+      <details className="group bg-muted/30 ring-border/40 rounded-lg ring-1 lg:hidden">
+        <summary className="text-foreground flex min-h-12 cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-[14px] font-medium [&::-webkit-details-marker]:hidden">
+          <span className="flex items-center gap-1.5">
+            <BookOpen className="text-primary size-3.5" aria-hidden />
+            Part {current?.part} of {props.parts.length}
+          </span>
+          <span className="text-muted-foreground flex items-center gap-1 text-[12px]">
+            <span className="group-open:hidden">Show parts</span>
+            <span className="hidden group-open:inline">Hide</span>
+            <ChevronDown
+              className="size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+              aria-hidden
+            />
+          </span>
+        </summary>
+        <div className="px-4 pb-4">
+          <SeriesTocBody {...props} />
+        </div>
+      </details>
+    </Reveal>
   );
 }
 

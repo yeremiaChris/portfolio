@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import {
   getArchiveProjects,
@@ -17,14 +19,20 @@ export function ProjectsGrid() {
         aria-label="Featured projects"
         className="mb-10 flex w-full min-w-0 flex-col gap-4 md:mb-14 md:gap-6"
       >
-        {lead ? <ProjectCard project={lead} variant="lead" /> : null}
+        {lead ? (
+          <Reveal>
+            <ProjectCard project={lead} variant="lead" />
+          </Reveal>
+        ) : null}
 
         {featuredRest.length > 0 ? (
-          <div className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          <Stagger className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
             {featuredRest.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <StaggerItem key={project.id}>
+                <ProjectCard project={project} />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         ) : null}
       </section>
 
@@ -34,26 +42,30 @@ export function ProjectsGrid() {
           aria-labelledby="projects-archive-heading"
           className="mb-8 md:mb-12"
         >
-          <header className="mb-6 flex max-w-2xl flex-col gap-1">
-            <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
-              {projectsArchiveIntro.eyebrow}
-            </p>
-            <h2
-              id="projects-archive-heading"
-              className="font-heading text-foreground text-2xl font-bold tracking-tight sm:text-3xl"
-            >
-              {projectsArchiveIntro.title}
-            </h2>
-            <p className="text-muted-foreground text-[15px] leading-6">
-              {projectsArchiveIntro.description}
-            </p>
-          </header>
+          <Reveal>
+            <header className="mb-6 flex max-w-2xl flex-col gap-1">
+              <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
+                {projectsArchiveIntro.eyebrow}
+              </p>
+              <h2
+                id="projects-archive-heading"
+                className="font-heading text-foreground text-2xl font-bold tracking-tight sm:text-3xl"
+              >
+                {projectsArchiveIntro.title}
+              </h2>
+              <p className="text-muted-foreground text-[15px] leading-6">
+                {projectsArchiveIntro.description}
+              </p>
+            </header>
+          </Reveal>
 
-          <div className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          <Stagger className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
             {archive.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <StaggerItem key={project.id}>
+                <ProjectCard project={project} />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </section>
       ) : null}
     </div>

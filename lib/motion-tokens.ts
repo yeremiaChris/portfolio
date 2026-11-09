@@ -1,0 +1,42 @@
+export const motionEase = [0.16, 1, 0.3, 1] as const;
+
+export const motionDuration = {
+  fast: 0.2,
+  page: 0.3,
+  base: 0.4,
+  reveal: 0.75,
+} as const;
+
+export const motionSpring = {
+  type: "spring" as const,
+  stiffness: 480,
+  damping: 48,
+  mass: 1,
+};
+
+export const motionRevealOffset = 12;
+
+export const motionStaggerGap = 0.07;
+
+export const motionTransition = {
+  duration: motionDuration.base,
+  ease: motionEase,
+};
+
+export const motionRevealTransition = {
+  duration: motionDuration.reveal,
+  ease: motionEase,
+};
+
+export const motionPageTransition = {
+  duration: motionDuration.page,
+  ease: motionEase,
+};
+
+export const motionViewport = {
+  once: true,
+  amount: 0.2,
+  margin: "0px 0px -10% 0px",
+} as const;
+
+export const motionAnchorScrollOffset = -96;

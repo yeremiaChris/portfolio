@@ -1,6 +1,7 @@
 import { AwardIcon, GaugeIcon, UsersIcon } from "lucide-react";
 
 import { Container } from "@/components/Container";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { site } from "@/lib/site";
 
 const ICONS = {
@@ -19,36 +20,35 @@ export function Stats() {
         <h2 id="stats-heading" className="sr-only">
           Key statistics
         </h2>
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+        <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
           {site.stats.map((stat) => {
             const Icon = ICONS[stat.icon];
             return (
-              <li
-                key={stat.label}
-                className="bg-card border-border/40 flex flex-col rounded-lg border p-4 shadow-sm"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
-                    {stat.label}
+              <StaggerItem key={stat.label}>
+                <div className="bg-card border-border/40 flex h-full flex-col rounded-lg border p-4 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
+                      {stat.label}
+                    </span>
+                    <Icon
+                      className={
+                        stat.icon === "gauge"
+                          ? "text-brand-accent size-4"
+                          : "text-primary size-4"
+                      }
+                    />
+                  </div>
+                  <span className="font-heading text-foreground mt-2 text-2xl font-semibold tracking-tight">
+                    {stat.value}
                   </span>
-                  <Icon
-                    className={
-                      stat.icon === "gauge"
-                        ? "text-brand-accent size-4"
-                        : "text-primary size-4"
-                    }
-                  />
+                  <span className="text-muted-foreground mt-1 text-[13px]">
+                    {stat.detail}
+                  </span>
                 </div>
-                <span className="font-heading text-foreground mt-2 text-2xl font-semibold tracking-tight">
-                  {stat.value}
-                </span>
-                <span className="text-muted-foreground mt-1 text-[13px]">
-                  {stat.detail}
-                </span>
-              </li>
+              </StaggerItem>
             );
           })}
-        </ul>
+        </Stagger>
       </Container>
     </section>
   );

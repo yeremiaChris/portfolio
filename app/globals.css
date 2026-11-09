@@ -232,6 +232,13 @@ html[data-intro="playing"] [data-intro-bar] {
     animation: none !important;
   }
 
+  [data-reveal],
+  [data-stagger],
+  [data-page-transition] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .hero-enter {
     animation: none !important;
     opacity: 1 !important;
@@ -688,5 +695,14 @@ html[data-intro="playing"] [data-intro-bar] {
   .hero-code-shell:hover.border-gradient::after,
   .hero-code-shell:focus-within:has(:focus-visible).border-gradient::after {
     opacity: 0.55 !important;
+  }
+}
+
+@media (scripting: none) {
+  [data-reveal],
+  [data-stagger],
+  [data-page-transition] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

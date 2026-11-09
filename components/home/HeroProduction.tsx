@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 
 export function HeroProduction() {
   return (
-    <div className="hero-enter hero-enter--4 mt-10 w-full md:mt-12">
+    <div className="mt-10 w-full md:mt-12">
       <p className="text-muted-foreground mb-4 text-left font-mono text-[11px] tracking-[0.16em] uppercase">
         Production
       </p>

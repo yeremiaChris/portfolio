@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Rethink_Sans } from "next/font/google";
 
 import { Header } from "@/components/Header";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { UmamiScript } from "@/components/UmamiScript";
 import {
   INTRO_BOOTSTRAP_SCRIPT,
@@ -82,8 +83,10 @@ export default function RootLayout({
           }}
         />
         <UmamiScript />
-        <Header />
-        <div className="pt-[var(--nav-height)]">{children}</div>
+        <MotionProvider>
+          <Header />
+          <div className="pt-[var(--nav-height)]">{children}</div>
+        </MotionProvider>
       </body>
     </html>
   );

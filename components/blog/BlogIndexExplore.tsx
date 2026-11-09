@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { FileSearch } from "lucide-react";
 
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { BlogSearchInput } from "@/components/blog/BlogSearchInput";
 import { BlogTopicChips } from "@/components/blog/BlogTopicChips";
 import { FeaturedPost } from "@/components/blog/FeaturedPost";
@@ -63,29 +65,35 @@ export function BlogIndexExplore({
         <BlogSearchInput value={searchQuery} onChange={setSearchQuery} />
       </div>
 
-      {featured ? <FeaturedPost post={featured} /> : null}
+      {featured ? (
+        <Reveal>
+          <FeaturedPost post={featured} />
+        </Reveal>
+      ) : null}
 
       <section
         aria-labelledby="blog-grid-heading"
         className="mb-4 flex w-full min-w-0 flex-col gap-4 md:mb-6 md:gap-5"
       >
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span
-              className="bg-brand-accent size-2 shrink-0 rounded-full"
-              aria-hidden
-            />
-            <h2
-              id="blog-grid-heading"
-              className="font-heading text-foreground text-xl font-semibold tracking-tight sm:text-2xl"
-            >
-              {featured ? "More writing" : "All posts"}
-            </h2>
+        <Reveal>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <span
+                className="bg-brand-accent size-2 shrink-0 rounded-full"
+                aria-hidden
+              />
+              <h2
+                id="blog-grid-heading"
+                className="font-heading text-foreground text-xl font-semibold tracking-tight sm:text-2xl"
+              >
+                {featured ? "More writing" : "All posts"}
+              </h2>
+            </div>
+            <span className="text-muted-foreground label-caps tracking-wider">
+              {String(filtered.length).padStart(2, "0")} posts
+            </span>
           </div>
-          <span className="text-muted-foreground label-caps tracking-wider">
-            {String(filtered.length).padStart(2, "0")} posts
-          </span>
-        </div>
+        </Reveal>
 
         {filtered.length === 0 ? (
           <div className="bg-muted/60 ring-border/40 flex flex-col items-center justify-center gap-3 rounded-xl px-6 py-12 text-center ring-1">
@@ -102,11 +110,13 @@ export function BlogIndexExplore({
             The featured post above is the only match for this filter.
           </p>
         ) : (
-          <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+          <Stagger className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
             {remaining.map((post) => (
-              <BlogPostCard key={post.slug} post={post} />
+              <StaggerItem key={post.slug}>
+                <BlogPostCard post={post} />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         )}
       </section>
     </div>

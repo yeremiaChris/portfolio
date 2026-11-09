@@ -63,10 +63,7 @@ export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
             <BlogTocHeader count={items.length} />
           </SheetHeader>
 
-          <ScrollArea
-            data-lenis-prevent=""
-            className="max-h-[min(50vh,24rem)]"
-          >
+          <ScrollArea data-lenis-prevent="" className="max-h-[min(50vh,24rem)]">
             <nav aria-label="On this page" className="px-2 py-3">
               <BlogTocNav
                 items={items}

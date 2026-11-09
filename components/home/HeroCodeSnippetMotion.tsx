@@ -22,10 +22,10 @@ import {
 } from "@/lib/hero-code-lines";
 import {
   motionDuration,
+  motionHeroTerminal,
   motionRevealOffset,
   motionRevealTransition,
   motionSpring,
-  motionStaggerGap,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
@@ -203,7 +203,7 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
       const timer = window.setTimeout(() => {
         setTypedByLine((prev) => ({ ...prev, [phase.lineN]: full }));
         startStaggerAfterCommand(commandIndex);
-      }, motionStaggerGap * 1000);
+      }, motionHeroTerminal.commandPauseMs);
       return () => window.clearTimeout(timer);
     }
 
@@ -213,7 +213,7 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
         lineN: phase.lineN,
         visibleChars: phase.visibleChars + 1,
       });
-    }, motionStaggerGap * 1000);
+    }, motionHeroTerminal.charIntervalMs);
 
     return () => window.clearTimeout(timer);
   }, [commandNs, lineByN, phase, startStaggerAfterCommand]);
@@ -241,7 +241,7 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
       setRevealed((prev) => new Set(prev).add(lineN));
       staggerIndexRef.current += 1;
       setPhase({ type: "stagger", lineNs, nextCommandIndex });
-    }, motionStaggerGap * 1000);
+    }, motionHeroTerminal.lineStaggerMs);
 
     return () => window.clearTimeout(timer);
   }, [beginCommand, commandNs.length, phase]);

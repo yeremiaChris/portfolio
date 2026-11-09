@@ -8,11 +8,11 @@ export function Hero() {
     <section
       id="overview"
       aria-labelledby="hero-heading"
-      className="hero-signal relative w-full overflow-hidden py-10 md:py-14 lg:py-16"
+      className="hero-signal relative w-full overflow-hidden pt-10 pb-6 md:pt-14 md:pb-8 lg:pt-16 lg:pb-9"
     >
       <Container className="relative flex w-full flex-col items-start gap-0">
         <HeroFoldMotion />
-        <Stagger when="mount" className="mt-8 w-full md:mt-10">
+        <Stagger when="mount" className="mt-6 w-full md:mt-7">
           <StaggerItem>
             <HeroProduction />
           </StaggerItem>

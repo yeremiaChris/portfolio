@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { m, useReducedMotion } from "motion/react";
 
 import {
   motionDuration,
+  motionHeroNameRevealTransition,
   motionRevealOffset,
-  motionRevealTransition,
-  motionStaggerGap,
 } from "@/lib/motion-tokens";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -17,47 +16,57 @@ type HeroNameRevealProps = {
   onSettled?: () => void;
 };
 
-const letters = [...site.fullName];
+const HERO_LAST_NAME = "Saragi";
+
+const nameBeforeLast = site.fullName.endsWith(HERO_LAST_NAME)
+  ? site.fullName.slice(0, site.fullName.length - HERO_LAST_NAME.length)
+  : `${site.fullName} `;
 
 export function heroNameSettleDelayMs(): number {
-  if (letters.length === 0) {
-    return 0;
-  }
-  const lastIndex = letters.length - 1;
-  return Math.ceil(
-    (lastIndex * motionStaggerGap + motionDuration.reveal) * 1000,
+  return Math.ceil(motionDuration.heroName * 1000);
+}
+
+function HeroNameHeading({
+  className,
+  saragiSheen,
+}: {
+  className?: string;
+  saragiSheen?: boolean;
+}) {
+  return (
+    <h1
+      id="hero-heading"
+      className={cn(
+        "font-heading text-left text-[2.65rem] font-bold text-balance sm:text-6xl xl:text-7xl",
+        "max-w-[16ch] sm:max-w-none",
+        className,
+      )}
+    >
+      <span className="sr-only">{site.fullName}</span>
+      <span aria-hidden className="inline">
+        <span className="from-brand-accent to-brand-accent/70 bg-linear-to-br bg-clip-text text-transparent">
+          {nameBeforeLast}
+        </span>
+        <span
+          className={cn(
+            "hero-name-saragi",
+            saragiSheen && "hero-name-saragi--sheen",
+          )}
+        >
+          {HERO_LAST_NAME}
+        </span>
+      </span>
+    </h1>
   );
 }
 
 export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
   const reducedMotion = useReducedMotion();
+  const [sheen, setSheen] = useState(false);
 
-  const parentVariants = useMemo(
-    () => ({
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: motionStaggerGap,
-        },
-      },
-    }),
-    [],
-  );
-
-  const letterVariants = useMemo(
-    () => ({
-      hidden: {
-        opacity: 0,
-        y: motionRevealOffset,
-      },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: motionRevealTransition,
-      },
-    }),
-    [],
-  );
+  const handleRevealComplete = useCallback(() => {
+    setSheen(true);
+  }, []);
 
   useEffect(() => {
     if (reducedMotion) {
@@ -74,50 +83,20 @@ export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
   }, [onSettled, reducedMotion]);
 
   if (reducedMotion) {
-    return (
-      <h1
-        id="hero-heading"
-        className={cn(
-          "font-heading text-left text-[2.65rem] font-bold text-balance sm:text-6xl xl:text-7xl",
-          "from-brand-accent to-brand-accent/70 bg-linear-to-br bg-clip-text text-transparent",
-          "max-w-[16ch] sm:max-w-none",
-          className,
-        )}
-      >
-        {site.fullName}
-      </h1>
-    );
+    return <HeroNameHeading className={className} />;
   }
 
   return (
-    <h1
-      id="hero-heading"
-      className={cn(
-        "font-heading text-left text-[2.65rem] font-bold text-balance sm:text-6xl xl:text-7xl",
-        "from-brand-accent to-brand-accent/70 bg-linear-to-br bg-clip-text text-transparent",
-        "max-w-[16ch] sm:max-w-none",
-        className,
-      )}
-    >
-      <span className="sr-only">{site.fullName}</span>
-      <m.span
+    <div className={cn("overflow-hidden", className)}>
+      <m.div
         aria-hidden
-        className="inline-flex flex-wrap"
-        initial="hidden"
-        animate="visible"
-        variants={parentVariants}
+        initial={{ opacity: 0, y: motionRevealOffset }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={motionHeroNameRevealTransition}
+        onAnimationComplete={handleRevealComplete}
       >
-        {letters.map((letter, index) => (
-          <m.span
-            key={`${letter}-${index}`}
-            aria-hidden
-            className="inline-block"
-            variants={letterVariants}
-          >
-            {letter === " " ? "\u00A0" : letter}
-          </m.span>
-        ))}
-      </m.span>
-    </h1>
+        <HeroNameHeading saragiSheen={sheen} />
+      </m.div>
+    </div>
   );
 }

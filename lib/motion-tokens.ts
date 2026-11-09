@@ -5,6 +5,7 @@ export const motionDuration = {
   page: 0.3,
   base: 0.4,
   reveal: 0.75,
+  heroName: 0.8,
 } as const;
 
 export const motionSpring = {
@@ -27,6 +28,17 @@ export const motionRevealTransition = {
   duration: motionDuration.reveal,
   ease: motionEase,
 };
+
+export const motionHeroNameRevealTransition = {
+  duration: motionDuration.heroName,
+  ease: motionEase,
+};
+
+export const motionHeroTerminal = {
+  charIntervalMs: 25,
+  lineStaggerMs: 8,
+  commandPauseMs: 10,
+} as const;
 
 export const motionPageTransition = {
   duration: motionDuration.page,

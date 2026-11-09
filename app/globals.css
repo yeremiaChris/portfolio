@@ -679,7 +679,39 @@ html[data-intro="playing"] [data-intro-bar] {
   }
 }
 
+.hero-name-saragi {
+  background-image: linear-gradient(
+    105deg,
+    #eefcff 0%,
+    #d4f4fd 20%,
+    #4cd7f6 48%,
+    #2aafc9 78%,
+    #3bc4e3 100%
+  );
+  background-size: 240% 100%;
+  background-position: 100% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-name-saragi--sheen {
+    animation: hero-saragi-sheen 0.85s cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
+  }
+}
+
+@keyframes hero-saragi-sheen {
+  to {
+    background-position: 0% 50%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .hero-name-saragi--sheen {
+    animation: none;
+  }
+
   .hero-link::after {
     transition: none;
   }

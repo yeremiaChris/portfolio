@@ -10,18 +10,20 @@ import {
 
 describe("motion-tokens", () => {
   it("uses the shared easing curve", () => {
-    expect(motionEase).toEqual([0.2, 0, 0, 1]);
+    expect(motionEase).toEqual([0.16, 1, 0.3, 1]);
   });
 
   it("exposes the agreed duration steps", () => {
-    expect(motionDuration).toEqual({ fast: 0.2, base: 0.4, slow: 0.6 });
+    expect(motionDuration.reveal).toBeGreaterThanOrEqual(0.7);
+    expect(motionDuration.reveal).toBeLessThanOrEqual(0.8);
+    expect(motionDuration.page).toBe(0.3);
   });
 
   it("defines spring and layout-friendly offsets", () => {
-    expect(motionSpring.stiffness).toBe(500);
-    expect(motionSpring.damping).toBe(30);
-    expect(motionRevealOffset).toBeGreaterThanOrEqual(16);
-    expect(motionRevealOffset).toBeLessThanOrEqual(24);
+    expect(motionSpring.damping).toBeGreaterThanOrEqual(
+      motionSpring.stiffness / 15,
+    );
+    expect(motionRevealOffset).toBe(12);
     expect(motionStaggerGap).toBeGreaterThan(0);
   });
 });

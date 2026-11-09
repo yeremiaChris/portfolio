@@ -233,7 +233,8 @@ html[data-intro="playing"] [data-intro-bar] {
   }
 
   [data-reveal],
-  [data-stagger] {
+  [data-stagger],
+  [data-page-transition] {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -699,7 +700,8 @@ html[data-intro="playing"] [data-intro-bar] {
 
 @media (scripting: none) {
   [data-reveal],
-  [data-stagger] {
+  [data-stagger],
+  [data-page-transition] {
     opacity: 1 !important;
     transform: none !important;
   }

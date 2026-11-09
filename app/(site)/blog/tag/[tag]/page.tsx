@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { BlogHeader } from "@/components/blog/BlogHeader";
+import { Reveal } from "@/components/motion/Reveal";
 import { BlogIndexExplore } from "@/components/blog/BlogIndexExplore";
 import { BlogSubscribe } from "@/components/blog/BlogSubscribe";
 import { Container } from "@/components/Container";
@@ -64,9 +65,9 @@ export default async function BlogTagPage({ params }: BlogTagPageProps) {
       <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
         <BlogHeader />
 
-        <p className="text-muted-foreground label-caps -mt-4 mb-2 tracking-wider">
+        <Reveal className="text-muted-foreground label-caps -mt-4 mb-2 tracking-wider">
           Topic · {topic.label}
-        </p>
+        </Reveal>
 
         <BlogIndexExplore
           posts={summaries}

@@ -1,5 +1,7 @@
 import { Code2, LayoutGrid, Network, type LucideIcon } from "lucide-react";
 
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import {
   Card,
   CardDescription,
@@ -27,7 +29,7 @@ export function ExperienceDisciplines() {
       aria-labelledby="disciplines-heading"
       className="mb-12 w-full md:mb-16"
     >
-      <header className="mb-6">
+      <Reveal className="mb-6">
         <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
           {experienceDisciplinesIntro.eyebrow}
         </p>
@@ -37,13 +39,15 @@ export function ExperienceDisciplines() {
         >
           {experienceDisciplinesIntro.title}
         </h2>
-      </header>
+      </Reveal>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+      <Stagger className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
         {experienceDisciplines.map((item) => (
-          <DisciplineCard key={item.id} item={item} />
+          <StaggerItem key={item.id}>
+            <DisciplineCard item={item} />
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
     </section>
   );
 }

@@ -9,6 +9,10 @@ import {
 } from "@/components/blog/useReadingStore";
 import type { BlogHeading } from "@/lib/blog";
 import { resolveResumeHeading } from "@/lib/blog-series";
+import {
+  scrollDocumentToElement,
+  scrollDocumentToY,
+} from "@/lib/programmatic-scroll";
 
 const MIN_SCROLL = 240;
 const SAVE_INTERVAL = 800;
@@ -81,9 +85,9 @@ export function ReadingResume({
     const element = target ? document.getElementById(target.id) : null;
     window.requestAnimationFrame(() => {
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        scrollDocumentToElement(element);
       } else {
-        window.scrollTo({ top: saved.scrollY, behavior: "smooth" });
+        scrollDocumentToY(saved.scrollY);
       }
     });
   };

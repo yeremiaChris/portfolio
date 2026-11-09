@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { BadgeCheck, GitBranch, MapPin } from "lucide-react";
 
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -27,7 +29,7 @@ export function AboutStory() {
       aria-labelledby="about-story-heading"
       className="mb-12 grid w-full grid-cols-1 items-start gap-8 lg:mb-16 lg:grid-cols-12 lg:gap-10"
     >
-      <div className="lg:col-span-5">
+      <Reveal className="lg:col-span-5">
         <Card className="bg-muted ring-border/20 relative overflow-hidden rounded-3xl">
           <div
             className="bg-primary/10 pointer-events-none absolute -top-12 -right-12 size-32 rounded-full blur-2xl"
@@ -106,27 +108,29 @@ export function AboutStory() {
             </div>
           </CardFooter>
         </Card>
-      </div>
+      </Reveal>
 
       <div className="flex flex-col gap-6 lg:col-span-7">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <GitBranch className="text-brand-accent size-5" aria-hidden />
-            <h2
-              id="about-story-heading"
-              className="font-heading text-foreground text-2xl font-semibold tracking-tight"
-            >
-              {aboutStoryIntro.title}
-            </h2>
+        <Reveal>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <GitBranch className="text-brand-accent size-5" aria-hidden />
+              <h2
+                id="about-story-heading"
+                className="font-heading text-foreground text-2xl font-semibold tracking-tight"
+              >
+                {aboutStoryIntro.title}
+              </h2>
+            </div>
+            <span className="text-muted-foreground text-[12px]">
+              {aboutStoryIntro.meta}
+            </span>
           </div>
-          <span className="text-muted-foreground text-[12px]">
-            {aboutStoryIntro.meta}
-          </span>
-        </div>
+        </Reveal>
 
-        <ol className="flex flex-col gap-4">
+        <Stagger className="flex flex-col gap-4">
           {aboutStoryEras.map((era) => (
-            <li key={era.id}>
+            <StaggerItem key={era.id}>
               <Card
                 className={cn(
                   "bg-muted ring-border/20 hover:bg-muted/80 rounded-3xl transition-colors",
@@ -167,9 +171,9 @@ export function AboutStory() {
                   </CardDescription>
                 </CardHeader>
               </Card>
-            </li>
+            </StaggerItem>
           ))}
-        </ol>
+        </Stagger>
       </div>
     </section>
   );

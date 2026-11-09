@@ -1,6 +1,5 @@
 import { ArrowRightIcon, FileTextIcon, MailIcon } from "lucide-react";
 
-import { HeroProduction } from "@/components/home/HeroProduction";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { heroCtas } from "@/lib/hero";
@@ -10,25 +9,9 @@ import { cn } from "@/lib/utils";
 const accentButtonClassName =
   "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover";
 
-export function HeroHeadline() {
+export function HeroHeadlineCopy() {
   return (
-    <Stagger
-      when="mount"
-      className="hero-signal-headline relative w-full min-w-0 text-left"
-    >
-      <StaggerItem>
-        <h1
-          id="hero-heading"
-          className={cn(
-            "font-heading text-left text-[2.65rem] font-bold text-balance sm:text-6xl xl:text-7xl",
-            "from-brand-accent to-brand-accent/70 bg-linear-to-br bg-clip-text text-transparent",
-            "max-w-[16ch] sm:max-w-none",
-          )}
-        >
-          {site.fullName}
-        </h1>
-      </StaggerItem>
-
+    <Stagger when="mount" className="w-full min-w-0">
       <StaggerItem>
         <p
           className={cn(
@@ -85,14 +68,5 @@ export function HeroHeadline() {
         </div>
       </StaggerItem>
     </Stagger>
-  );
-}
-
-export function HeroIntro() {
-  return (
-    <div className="flex w-full flex-col items-start text-left">
-      <HeroHeadline />
-      <HeroProduction />
-    </div>
   );
 }

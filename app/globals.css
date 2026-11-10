@@ -338,38 +338,177 @@ html[data-intro="playing"] [data-intro-bar] {
   mask-composite: exclude;
 }
 
-.hero-signal::before {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  top: -20%;
-  left: -5%;
-  z-index: 0;
-  height: min(520px, 70vh);
-  width: min(680px, 85vw);
-  border-radius: 50%;
-  background: rgb(76 215 246 / 0.15);
-  filter: blur(96px);
-  transform: rotate(-14deg);
-}
-
+.hero-signal::before,
 .hero-signal::after {
   content: none;
 }
 
-.hero-signal-dots {
-  background-image: radial-gradient(
-    circle,
-    rgb(255 255 255 / 0.13) 0.65px,
-    transparent 0.75px
-  );
-  background-size: 22px 22px;
+.hero-signal-atmosphere {
+  contain: layout style paint;
+}
+
+.hero-signal-grid {
+  position: absolute;
+  inset: -8%;
+  background-image:
+    linear-gradient(rgb(76 215 246 / 0.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(76 215 246 / 0.075) 1px, transparent 1px);
+  background-size: 56px 56px;
   mask-image: radial-gradient(
-    ellipse 82% 72% at 50% 44%,
-    rgb(0 0 0 / 0.92),
+    ellipse 88% 78% at 50% 42%,
+    rgb(0 0 0 / 0.95),
+    transparent 72%
+  );
+  opacity: 0.85;
+}
+
+.hero-signal-grid-shimmer {
+  position: absolute;
+  inset: -12%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(76 215 246 / 0.16),
+    transparent 42%
+  );
+  background-size: 140% 140%;
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(
+    ellipse 88% 78% at 50% 42%,
+    rgb(0 0 0 / 0.9),
     transparent 74%
   );
-  opacity: 0.34;
+  animation: hero-signal-grid-shimmer 15s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.hero-signal-aurora {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-signal-aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.22;
+  will-change: transform;
+}
+
+.hero-signal-aurora-blob--a {
+  top: 6%;
+  left: 8%;
+  width: min(420px, 62vw);
+  height: min(380px, 56vw);
+  background: rgb(76 215 246 / 0.32);
+  animation: hero-signal-aurora-a 26s ease-in-out infinite;
+}
+
+.hero-signal-aurora-blob--b {
+  top: 18%;
+  right: -6%;
+  width: min(520px, 78vw);
+  height: min(440px, 66vw);
+  background: rgb(58 190 210 / 0.28);
+  animation: hero-signal-aurora-b 22s ease-in-out infinite;
+}
+
+.hero-signal-aurora-blob--c {
+  bottom: -8%;
+  left: 30%;
+  width: min(480px, 70vw);
+  height: min(400px, 58vw);
+  background: rgb(92 225 244 / 0.24);
+  animation: hero-signal-aurora-c 28s ease-in-out infinite;
+}
+
+@keyframes hero-signal-grid-shimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate3d(-8%, -6%, 0);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: translate3d(10%, 8%, 0);
+  }
+}
+
+@keyframes hero-signal-aurora-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(6%, 4%, 0);
+  }
+}
+
+@keyframes hero-signal-aurora-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-5%, 6%, 0);
+  }
+}
+
+@keyframes hero-signal-aurora-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(4%, -5%, 0);
+  }
+}
+
+.hero-signal-atmosphere--paused .hero-signal-grid-shimmer,
+.hero-signal-atmosphere--paused .hero-signal-aurora-blob {
+  animation-play-state: paused;
+}
+
+@media (max-width: 480px) {
+  .hero-signal-grid {
+    background-size: 48px 48px;
+    opacity: 0.7;
+  }
+
+  .hero-signal-aurora-blob {
+    filter: blur(56px);
+    opacity: 0.16;
+  }
+
+  .hero-signal-aurora-blob--c {
+    display: none;
+  }
+
+  .hero-signal-aurora-blob--a {
+    width: min(280px, 72vw);
+    height: min(240px, 58vw);
+  }
+
+  .hero-signal-aurora-blob--b {
+    width: min(320px, 78vw);
+    height: min(280px, 64vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-signal-grid-shimmer {
+    animation: none;
+    opacity: 0.35;
+    transform: none;
+  }
+
+  .hero-signal-aurora-blob {
+    animation: none;
+    opacity: 0.14;
+  }
 }
 
 .hero-name-display {

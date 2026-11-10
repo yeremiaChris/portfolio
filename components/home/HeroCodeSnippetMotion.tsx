@@ -22,17 +22,24 @@ import {
 } from "@/lib/hero-code-lines";
 import {
   motionDuration,
+  motionEase,
   motionHeroTerminal,
   motionPresetConfig,
   motionPresetRevealTransition,
-  motionSpring,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
-const terminalLineIndicatorLayoutId = "hero-terminal-line-indicator";
-
 const LINE_ROW_CLASS =
   "relative grid grid-cols-[1.25rem_minmax(0,1fr)] items-baseline gap-x-2.5 rounded-sm px-0.5 -mx-0.5";
+
+const HERO_TERMINAL_HOVER_TEXT = "text-[#f5fcfe]";
+
+function terminalHoverTransition(reducedMotion: boolean) {
+  return {
+    duration: reducedMotion ? 0 : motionHeroTerminal.lineHoverDuration,
+    ease: motionEase,
+  };
+}
 
 type HeroCodeSnippetMotionProps = {
   ready: boolean;
@@ -48,11 +55,7 @@ function HeroCodeSnippetStatic() {
   const liveRegionId = useId();
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
 
-  const renderTokens = (
-    line: SnippetLine,
-    text: string,
-    forceAccent: boolean,
-  ) => {
+  const renderTokens = (line: SnippetLine, text: string, hovered: boolean) => {
     if (line.tokens.length === 0) {
       return "\u00A0";
     }
@@ -60,13 +63,17 @@ function HeroCodeSnippetStatic() {
     return line.tokens.map((token, index) => (
       <span
         key={`${line.n}-${index}`}
-        className={
-          forceAccent
-            ? "text-brand-accent"
+        className={cn(
+          "transition-colors motion-reduce:transition-none",
+          hovered
+            ? HERO_TERMINAL_HOVER_TEXT
             : token.tone
               ? TONE_CLASS[token.tone]
-              : undefined
-        }
+              : undefined,
+        )}
+        style={{
+          transitionDuration: `${motionHeroTerminal.lineHoverDuration * 1000}ms`,
+        }}
       >
         {token.text}
       </span>
@@ -249,11 +256,7 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
   const cursorOnLine =
     phase.type === "typing" && showCursor ? phase.lineN : null;
 
-  const renderTokens = (
-    line: SnippetLine,
-    text: string,
-    forceAccent: boolean,
-  ) => {
+  const renderTokens = (line: SnippetLine, text: string, hovered: boolean) => {
     if (line.tokens.length === 0) {
       return "\u00A0";
     }
@@ -268,13 +271,17 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
       return (
         <span
           key={`${line.n}-${index}`}
-          className={
-            forceAccent
-              ? "text-brand-accent"
+          className={cn(
+            "transition-colors motion-reduce:transition-none",
+            hovered
+              ? HERO_TERMINAL_HOVER_TEXT
               : token.tone
                 ? TONE_CLASS[token.tone]
-                : undefined
-          }
+                : undefined,
+          )}
+          style={{
+            transitionDuration: `${motionHeroTerminal.lineHoverDuration * 1000}ms`,
+          }}
         >
           {slice}
         </span>
@@ -332,7 +339,7 @@ type MotionLineRowProps = {
   renderTokens: (
     line: SnippetLine,
     text: string,
-    forceAccent: boolean,
+    hovered: boolean,
   ) => ReactNode;
 };
 
@@ -347,7 +354,8 @@ function MotionLineRow({
   onPointerLeave,
   renderTokens,
 }: MotionLineRowProps) {
-  const forceAccent = hovered;
+  const reducedMotion = useReducedMotion();
+  const hoverTransition = terminalHoverTransition(Boolean(reducedMotion));
 
   return (
     <m.div
@@ -360,34 +368,50 @@ function MotionLineRow({
           ? {
               opacity: 1,
               y: 0,
+              backgroundColor: hovered
+                ? "rgb(76 215 246 / 0.06)"
+                : "rgb(76 215 246 / 0)",
             }
-          : { opacity: 0, y: motionPresetConfig.calm.revealOffset }
+          : {
+              opacity: 0,
+              y: motionPresetConfig.calm.revealOffset,
+              backgroundColor: "rgb(76 215 246 / 0)",
+            }
       }
-      transition={motionPresetRevealTransition("calm", "inView")}
+      transition={{
+        opacity: motionPresetRevealTransition("calm", "inView"),
+        y: motionPresetRevealTransition("calm", "inView"),
+        backgroundColor: hoverTransition,
+      }}
       onPointerEnter={visible ? onPointerEnter : undefined}
       onPointerLeave={visible ? onPointerLeave : undefined}
       style={{ minHeight: "1.55em" }}
     >
-      {hovered ? (
-        <m.span
-          layoutId={terminalLineIndicatorLayoutId}
-          className="bg-brand-accent absolute top-0.5 bottom-0.5 left-0 w-px rounded-full"
-          transition={motionSpring}
-        />
-      ) : null}
+      <m.span
+        aria-hidden
+        className="bg-brand-accent pointer-events-none absolute top-0.5 bottom-0.5 left-0 w-0.5 rounded-full"
+        initial={false}
+        animate={{ opacity: hovered && visible ? 1 : 0 }}
+        transition={hoverTransition}
+      />
       <span
         className={cn(
-          "text-[9px] leading-[1.55] tabular-nums select-none",
-          hovered ? "text-brand-accent" : "text-white/25",
+          "text-[9px] leading-[1.55] tabular-nums transition-colors select-none",
+          hovered ? HERO_TERMINAL_HOVER_TEXT : "text-white/25",
         )}
+        style={{
+          transitionDuration: reducedMotion
+            ? "0ms"
+            : `${motionHeroTerminal.lineHoverDuration * 1000}ms`,
+        }}
       >
         {line.n}
       </span>
       <span className="min-w-0 font-mono text-[10px] leading-[1.55] break-all sm:text-[10.5px] sm:break-normal sm:whitespace-pre">
         {line.kind === "command" && visible
-          ? renderTokens(line, typedText, forceAccent)
+          ? renderTokens(line, typedText, hovered)
           : visible
-            ? renderTokens(line, plain, forceAccent)
+            ? renderTokens(line, plain, hovered)
             : "\u00A0"}
         {showCursor ? (
           <m.span

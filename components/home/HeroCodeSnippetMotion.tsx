@@ -13,7 +13,6 @@ import { m, useReducedMotion } from "motion/react";
 
 import {
   HERO_CODE_LINES,
-  HERO_CODE_LINE_COUNT,
   HERO_CODE_SNIPPET_ARIA_LABEL,
   TONE_CLASS,
   commandLineNumbers,
@@ -448,8 +447,6 @@ function MotionLineRow({
     </m.div>
   );
 }
-
-export const heroCodeBodyMinHeight = `calc(${HERO_CODE_LINE_COUNT} * 1.55em + ${HERO_CODE_LINE_COUNT - 1} * 0.125rem)`;
 
 export function HeroCodeSnippetMotion({ ready }: HeroCodeSnippetMotionProps) {
   const reducedMotion = useReducedMotion();

@@ -11,13 +11,21 @@ type HeroProductionProjectCardProps = {
 export function HeroProductionProjectCard({
   project,
 }: HeroProductionProjectCardProps) {
-  const { label, href, description, stackLine, visitUrl, isCurrent } = project;
+  const {
+    label,
+    href,
+    description,
+    stackLine,
+    contextLine,
+    visitUrl,
+    isCurrent,
+  } = project;
 
   return (
     <article
       className={cn(
         homeSignalCardClassName,
-        "h-full w-full gap-4 p-5 sm:gap-5 sm:p-6",
+        "h-full w-full gap-0 p-5 sm:p-6",
         isCurrent && "border-brand-accent/50 border-t-2",
       )}
     >
@@ -35,15 +43,23 @@ export function HeroProductionProjectCard({
         ) : null}
       </div>
 
-      <p className="text-muted-foreground text-sm leading-snug">
-        {description}
-      </p>
+      <div className="mt-4 flex flex-1 flex-col gap-4 sm:mt-5 sm:gap-5">
+        <p className="text-muted-foreground text-sm leading-snug">
+          {description}
+        </p>
 
-      <p className="text-muted-foreground/80 text-[13px] leading-snug">
-        {stackLine}
-      </p>
+        <p className="text-muted-foreground/80 text-[13px] leading-snug">
+          {stackLine}
+        </p>
 
-      <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-1">
+        {contextLine ? (
+          <p className="text-muted-foreground/80 text-[13px] leading-snug">
+            {contextLine}
+          </p>
+        ) : null}
+      </div>
+
+      <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-5">
         <a
           href={href}
           className="text-brand-accent focus-ring text-sm font-medium outline-none hover:underline"

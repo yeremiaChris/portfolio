@@ -11,62 +11,39 @@ type HeroProductionProjectCardProps = {
 export function HeroProductionProjectCard({
   project,
 }: HeroProductionProjectCardProps) {
-  const {
-    label,
-    href,
-    description,
-    role,
-    stackTags,
-    monogram,
-    visitUrl,
-    highlights,
-  } = project;
+  const { label, href, description, stackLine, visitUrl, isCurrent } = project;
 
   return (
-    <article className={cn(homeSignalCardClassName, "h-auto gap-3")}>
-      <p className="flex items-start gap-2.5">
-        <span
-          className="border-brand-accent/35 bg-brand-accent/12 text-brand-accent flex size-10 shrink-0 items-center justify-center rounded-lg border font-mono text-[11px] font-semibold tracking-tight"
-          aria-hidden
+    <article
+      className={cn(
+        homeSignalCardClassName,
+        "h-full w-full gap-4 p-5 sm:gap-5 sm:p-6",
+        isCurrent && "border-brand-accent/50 border-t-2",
+      )}
+    >
+      <div className="flex min-w-0 items-baseline justify-between gap-3">
+        <a
+          href={href}
+          className="text-foreground focus-ring font-heading hover:text-brand-accent text-base font-semibold tracking-tight outline-none"
         >
-          {monogram}
-        </span>
-        <span className="min-w-0 flex-1">
-          <a
-            href={href}
-            className="text-foreground focus-ring font-heading hover:text-brand-accent text-[15px] font-semibold tracking-tight outline-none"
-          >
-            {label}
-          </a>
-          <span className="text-muted-foreground mt-0.5 block text-[12px] leading-snug">
-            {role}
+          {label}
+        </a>
+        {isCurrent ? (
+          <span className="text-muted-foreground shrink-0 text-[10px] tracking-[0.14em] uppercase">
+            Current
           </span>
-        </span>
-      </p>
-
-      <ul className="flex flex-wrap gap-1.5" aria-label={`${label} stack`}>
-        {stackTags.map((tag) => (
-          <li key={tag}>
-            <span className="border-border/60 bg-muted/40 text-muted-foreground rounded-md border px-2 py-0.5 text-[11px] font-medium">
-              {tag}
-            </span>
-          </li>
-        ))}
-      </ul>
+        ) : null}
+      </div>
 
       <p className="text-muted-foreground text-sm leading-snug">
         {description}
       </p>
 
-      {highlights && highlights.length > 0 ? (
-        <ul className="text-muted-foreground list-disc space-y-1 pl-4 text-[13px] leading-snug">
-          {highlights.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      ) : null}
+      <p className="text-muted-foreground/80 text-[13px] leading-snug">
+        {stackLine}
+      </p>
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-0.5">
+      <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-1">
         <a
           href={href}
           className="text-brand-accent focus-ring text-sm font-medium outline-none hover:underline"

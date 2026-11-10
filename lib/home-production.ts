@@ -7,27 +7,12 @@ export type HomeProductionProject = {
   label: string;
   href: string;
   description: string;
-  role: string;
-  stackTags: readonly string[];
-  monogram: string;
+  stackLine: string;
   visitUrl?: string;
-  featured: boolean;
-  highlights?: readonly string[];
+  isCurrent: boolean;
 };
 
 const productionIds = ["primaku", "mazecare", "kiriminaja"] as const;
-
-const productionMonograms: Record<(typeof productionIds)[number], string> = {
-  primaku: "PK",
-  mazecare: "MC",
-  kiriminaja: "KJ",
-};
-
-const primakuHomeHighlights = [
-  "Next.js / TypeScript web platform: parent flows, PrimaCare UI, REST + token auth — not the mobile app.",
-  "Parenthood Institute program site and PrimaCare health-record flows on the same stack.",
-  "Shared design system from multi-brand Figma tokens, tested with Jest / RTL.",
-] as const;
 
 export function getHomeProductionProjects(): HomeProductionProject[] {
   return productionIds.map((id) => {
@@ -44,12 +29,9 @@ export function getHomeProductionProjects(): HomeProductionProject[] {
       label: proof.label,
       href: proof.href,
       description: proof.meta,
-      role: role.title,
-      stackTags: project.tools.slice(0, 3),
-      monogram: productionMonograms[id],
+      stackLine: project.tools.slice(0, 3).join(" · "),
       visitUrl: id === "primaku" ? "https://primaku.com" : undefined,
-      featured: id === "primaku",
-      highlights: id === "primaku" ? primakuHomeHighlights : undefined,
+      isCurrent: role.current === true,
     };
   });
 }

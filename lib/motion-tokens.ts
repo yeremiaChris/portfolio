@@ -4,7 +4,7 @@ export const motionDuration = {
   fast: 0.2,
   page: 0.3,
   base: 0.4,
-  reveal: 0.75,
+  reveal: 0.4,
   heroName: 0.8,
 } as const;
 
@@ -28,9 +28,11 @@ export const motionHeroScrollCue = {
   offset: 6,
 } as const;
 
-export const motionRevealOffset = 12;
+export const motionRevealOffset = 8;
 
-export const motionStaggerGap = 0.07;
+export const motionStaggerGap = 0.04;
+
+export const motionStaggerMaxDelay = 0.3;
 
 export const motionTransition = {
   duration: motionDuration.base,
@@ -60,8 +62,12 @@ export const motionPageTransition = {
 
 export const motionViewport = {
   once: true,
-  amount: 0.2,
-  margin: "0px 0px -10% 0px",
+  amount: 0.05,
+  margin: "0px 0px 12% 0px",
 } as const;
 
 export const motionAnchorScrollOffset = -96;
+
+export function motionStaggerChildDelay(index: number): number {
+  return Math.min(index * motionStaggerGap, motionStaggerMaxDelay);
+}

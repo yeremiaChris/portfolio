@@ -6,9 +6,10 @@ import { m } from "motion/react";
 import {
   motionRevealOffset,
   motionRevealTransition,
-  motionViewport,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
+
+import { useScrollRevealActive } from "@/components/motion/useScrollRevealActive";
 
 type RevealWhen = "mount" | "inView";
 
@@ -25,18 +26,18 @@ export function Reveal({
   delay = 0,
   when = "inView",
 }: RevealProps) {
+  const { ref, active } = useScrollRevealActive({ when });
   const motion = { opacity: 0, y: motionRevealOffset };
   const target = { opacity: 1, y: 0 };
   const transition = { ...motionRevealTransition, delay };
 
   return (
     <m.div
+      ref={ref}
       data-reveal=""
       className={cn(className)}
       initial={motion}
-      {...(when === "mount"
-        ? { animate: target }
-        : { whileInView: target, viewport: motionViewport })}
+      animate={active ? target : motion}
       transition={transition}
     >
       {children}

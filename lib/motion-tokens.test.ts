@@ -5,7 +5,9 @@ import {
   motionEase,
   motionRevealOffset,
   motionSpring,
+  motionStaggerChildDelay,
   motionStaggerGap,
+  motionStaggerMaxDelay,
 } from "./motion-tokens";
 
 describe("motion-tokens", () => {
@@ -14,8 +16,8 @@ describe("motion-tokens", () => {
   });
 
   it("exposes the agreed duration steps", () => {
-    expect(motionDuration.reveal).toBeGreaterThanOrEqual(0.7);
-    expect(motionDuration.reveal).toBeLessThanOrEqual(0.8);
+    expect(motionDuration.reveal).toBe(0.4);
+    expect(motionDuration.heroName).toBe(0.8);
     expect(motionDuration.page).toBe(0.3);
   });
 
@@ -23,7 +25,13 @@ describe("motion-tokens", () => {
     expect(motionSpring.damping).toBeGreaterThanOrEqual(
       motionSpring.stiffness / 15,
     );
-    expect(motionRevealOffset).toBe(12);
-    expect(motionStaggerGap).toBeGreaterThan(0);
+    expect(motionRevealOffset).toBe(8);
+    expect(motionStaggerGap).toBe(0.04);
+  });
+
+  it("caps stagger child delay for long lists", () => {
+    expect(motionStaggerChildDelay(0)).toBe(0);
+    expect(motionStaggerChildDelay(4)).toBeCloseTo(0.16);
+    expect(motionStaggerChildDelay(20)).toBe(motionStaggerMaxDelay);
   });
 });

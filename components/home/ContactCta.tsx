@@ -122,10 +122,10 @@ export function ContactCta({
     >
       {withContainer ? (
         <Container>
-          <Reveal>{panel}</Reveal>
+          <Reveal preset="expressive">{panel}</Reveal>
         </Container>
       ) : (
-        <Reveal>{panel}</Reveal>
+        <Reveal preset="expressive">{panel}</Reveal>
       )}
     </section>
   );

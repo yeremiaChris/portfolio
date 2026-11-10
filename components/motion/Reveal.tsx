@@ -4,8 +4,9 @@ import type { ReactNode } from "react";
 import { m } from "motion/react";
 
 import {
-  motionRevealOffset,
-  motionRevealTransition,
+  motionPresetRevealOffset,
+  motionPresetRevealTransition,
+  type MotionPreset,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +19,7 @@ type RevealProps = {
   className?: string;
   delay?: number;
   when?: RevealWhen;
+  preset?: MotionPreset;
 };
 
 export function Reveal({
@@ -25,11 +27,13 @@ export function Reveal({
   className,
   delay = 0,
   when = "inView",
+  preset = "calm",
 }: RevealProps) {
   const { ref, active } = useScrollRevealActive({ when });
-  const motion = { opacity: 0, y: motionRevealOffset };
+  const offset = motionPresetRevealOffset(preset, when);
+  const motion = { opacity: 0, y: offset };
   const target = { opacity: 1, y: 0 };
-  const transition = { ...motionRevealTransition, delay };
+  const transition = motionPresetRevealTransition(preset, when, delay);
 
   return (
     <m.div

@@ -5,7 +5,11 @@ import { askYeremia, labIntro } from "@/lib/lab";
 
 export function LabEmptyStateHeading() {
   return (
-    <Stagger when="mount" className="flex max-w-lg flex-col gap-2">
+    <Stagger
+      when="mount"
+      preset="calm"
+      className="flex max-w-lg flex-col gap-2"
+    >
       <StaggerItem>
         <h1 className="sr-only">{askYeremia.title}</h1>
         <h2 className="font-heading text-foreground text-2xl font-semibold tracking-tight text-balance sm:text-3xl">

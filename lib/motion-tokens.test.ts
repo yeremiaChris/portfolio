@@ -3,11 +3,11 @@ import { describe, expect, it } from "vitest";
 import {
   motionDuration,
   motionEase,
-  motionRevealOffset,
+  motionPresetConfig,
+  motionPresetRevealOffset,
+  motionPresetRevealTransition,
   motionSpring,
   motionStaggerChildDelay,
-  motionStaggerGap,
-  motionStaggerMaxDelay,
 } from "./motion-tokens";
 
 describe("motion-tokens", () => {
@@ -15,23 +15,39 @@ describe("motion-tokens", () => {
     expect(motionEase).toEqual([0.16, 1, 0.3, 1]);
   });
 
-  it("exposes the agreed duration steps", () => {
-    expect(motionDuration.reveal).toBe(0.4);
+  it("defines expressive and calm presets", () => {
+    expect(motionPresetConfig.expressive.revealDuration).toBe(0.5);
+    expect(motionPresetConfig.expressive.revealOffset).toBe(16);
+    expect(motionPresetConfig.expressive.staggerGap).toBe(0.06);
+    expect(motionPresetConfig.calm.revealDurationMount).toBe(0.25);
+    expect(motionPresetConfig.calm.revealOffset).toBe(4);
+    expect(motionPresetConfig.calm.staggerMaxDelay).toBe(0.15);
+  });
+
+  it("exposes hero and page duration steps", () => {
     expect(motionDuration.heroName).toBe(0.8);
     expect(motionDuration.page).toBe(0.3);
   });
 
-  it("defines spring and layout-friendly offsets", () => {
+  it("defines spring damping relative to stiffness", () => {
     expect(motionSpring.damping).toBeGreaterThanOrEqual(
       motionSpring.stiffness / 15,
     );
-    expect(motionRevealOffset).toBe(8);
-    expect(motionStaggerGap).toBe(0.04);
   });
 
-  it("caps stagger child delay for long lists", () => {
-    expect(motionStaggerChildDelay(0)).toBe(0);
-    expect(motionStaggerChildDelay(4)).toBeCloseTo(0.16);
-    expect(motionStaggerChildDelay(20)).toBe(motionStaggerMaxDelay);
+  it("resolves preset reveal offset and transition by when", () => {
+    expect(motionPresetRevealOffset("calm", "mount")).toBe(4);
+    expect(motionPresetRevealOffset("expressive", "inView")).toBe(16);
+    expect(motionPresetRevealTransition("calm", "mount").duration).toBe(0.25);
+    expect(motionPresetRevealTransition("expressive", "inView").duration).toBe(
+      0.5,
+    );
+  });
+
+  it("caps stagger child delay per preset", () => {
+    expect(motionStaggerChildDelay(0, "calm")).toBe(0);
+    expect(motionStaggerChildDelay(4, "calm")).toBeCloseTo(0.1);
+    expect(motionStaggerChildDelay(20, "calm")).toBe(0.15);
+    expect(motionStaggerChildDelay(20, "expressive")).toBe(0.36);
   });
 });

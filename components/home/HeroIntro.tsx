@@ -11,7 +11,7 @@ const accentButtonClassName =
 
 export function HeroHeadlineCopy() {
   return (
-    <Stagger when="mount" className="w-full min-w-0">
+    <Stagger when="mount" preset="expressive" className="w-full min-w-0">
       <StaggerItem>
         <p
           className={cn(

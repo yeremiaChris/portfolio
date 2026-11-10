@@ -23,8 +23,8 @@ import {
 import {
   motionDuration,
   motionHeroTerminal,
-  motionRevealOffset,
-  motionRevealTransition,
+  motionPresetConfig,
+  motionPresetRevealTransition,
   motionSpring,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
@@ -361,9 +361,9 @@ function MotionLineRow({
               opacity: 1,
               y: 0,
             }
-          : { opacity: 0, y: motionRevealOffset }
+          : { opacity: 0, y: motionPresetConfig.calm.revealOffset }
       }
-      transition={motionRevealTransition}
+      transition={motionPresetRevealTransition("calm", "inView")}
       onPointerEnter={visible ? onPointerEnter : undefined}
       onPointerLeave={visible ? onPointerLeave : undefined}
       style={{ minHeight: "1.55em" }}
@@ -397,7 +397,7 @@ function MotionLineRow({
             transition={{
               duration: motionDuration.reveal,
               repeat: Infinity,
-              ease: motionRevealTransition.ease,
+              ease: motionPresetRevealTransition("calm", "inView").ease,
             }}
           >
             ▍

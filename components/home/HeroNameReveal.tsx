@@ -6,7 +6,7 @@ import { m, useReducedMotion } from "motion/react";
 import {
   motionDuration,
   motionHeroNameRevealTransition,
-  motionRevealOffset,
+  motionPresetConfig,
 } from "@/lib/motion-tokens";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -90,7 +90,7 @@ export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
     <div className={cn("overflow-hidden", className)}>
       <m.div
         aria-hidden
-        initial={{ opacity: 0, y: motionRevealOffset }}
+        initial={{ opacity: 0, y: motionPresetConfig.expressive.revealOffset }}
         animate={{ opacity: 1, y: 0 }}
         transition={motionHeroNameRevealTransition}
         onAnimationComplete={handleRevealComplete}

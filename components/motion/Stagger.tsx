@@ -10,9 +10,10 @@ import {
 import { m } from "motion/react";
 
 import {
-  motionRevealOffset,
-  motionRevealTransition,
+  motionPresetRevealOffset,
+  motionPresetRevealTransition,
   motionStaggerChildDelay,
+  type MotionPreset,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
@@ -24,12 +25,14 @@ type StaggerProps = {
   children: ReactNode;
   className?: string;
   when?: StaggerWhen;
+  preset?: MotionPreset;
 };
 
 export function Stagger({
   children,
   className,
   when = "inView",
+  preset = "calm",
 }: StaggerProps) {
   const { ref, active } = useScrollRevealActive({ when });
 
@@ -38,7 +41,7 @@ export function Stagger({
       return child;
     }
     const element = child as ReactElement<StaggerItemProps>;
-    return cloneElement(element, { staggerIndex: index });
+    return cloneElement(element, { staggerIndex: index, preset, when });
   });
 
   return (
@@ -69,14 +72,19 @@ type StaggerItemProps = {
   children: ReactNode;
   className?: string;
   staggerIndex?: number;
+  preset?: MotionPreset;
+  when?: StaggerWhen;
 };
 
 export function StaggerItem({
   children,
   className,
   staggerIndex = 0,
+  preset = "calm",
+  when = "inView",
 }: StaggerItemProps) {
-  const delay = motionStaggerChildDelay(staggerIndex);
+  const delay = motionStaggerChildDelay(staggerIndex, preset);
+  const offset = motionPresetRevealOffset(preset, when);
 
   return (
     <m.div
@@ -84,12 +92,15 @@ export function StaggerItem({
       variants={{
         hidden: {
           opacity: 0,
-          y: motionRevealOffset,
+          y: offset,
         },
         visible: {
           opacity: 1,
           y: 0,
-          transition: { ...motionRevealTransition, delay },
+          transition: {
+            ...motionPresetRevealTransition(preset, when),
+            delay,
+          },
         },
       }}
     >

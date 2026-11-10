@@ -56,7 +56,7 @@ export function TechStack() {
       className="w-full py-16 md:py-24"
     >
       <Container className="flex flex-col gap-10">
-        <Reveal>
+        <Reveal preset="expressive">
           <header className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div className="flex max-w-2xl flex-col gap-1">
               <Badge
@@ -88,7 +88,10 @@ export function TechStack() {
           </header>
         </Reveal>
 
-        <Stagger className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <Stagger
+          preset="expressive"
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+        >
           {coreTools.map((tool) => (
             <StaggerItem key={tool.id}>
               <CoreToolCard title={tool.title} context={tool.context} />
@@ -96,7 +99,7 @@ export function TechStack() {
           ))}
         </Stagger>
 
-        <Reveal>
+        <Reveal preset="expressive">
           <div className="ring-border/20 rounded-3xl bg-[#0a0e14]/60 px-5 py-6 ring-1 md:px-8 md:py-7">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
               {secondaryTechCategories.map((category) => (

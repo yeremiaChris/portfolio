@@ -20,7 +20,10 @@ export function Stats() {
         <h2 id="stats-heading" className="sr-only">
           Key statistics
         </h2>
-        <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+        <Stagger
+          preset="expressive"
+          className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6"
+        >
           {site.stats.map((stat) => {
             const Icon = ICONS[stat.icon];
             return (

@@ -10,7 +10,7 @@ type BlogPostTitleMetaProps = {
 
 export function BlogPostTitleMeta({ meta, title }: BlogPostTitleMetaProps) {
   return (
-    <Stagger when="mount" className="flex flex-col gap-3">
+    <Stagger when="mount" preset="calm" className="flex flex-col gap-3">
       <StaggerItem>
         <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-[11px] font-medium">
           {meta}

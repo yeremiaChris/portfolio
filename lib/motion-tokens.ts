@@ -1,10 +1,14 @@
 export const motionEase = [0.16, 1, 0.3, 1] as const;
 
+export type MotionPreset = "expressive" | "calm";
+
+export type MotionRevealWhen = "mount" | "inView";
+
 export const motionDuration = {
   fast: 0.2,
   page: 0.3,
   base: 0.4,
-  reveal: 0.4,
+  reveal: 0.3,
   heroName: 0.8,
 } as const;
 
@@ -28,19 +32,43 @@ export const motionHeroScrollCue = {
   offset: 6,
 } as const;
 
-export const motionRevealOffset = 8;
+export const motionHeroScrollFade = {
+  opacityEnd: 0.4,
+  yEnd: -24,
+} as const;
 
-export const motionStaggerGap = 0.04;
-
-export const motionStaggerMaxDelay = 0.3;
+export const motionPresetConfig = {
+  expressive: {
+    revealDuration: 0.5,
+    revealDurationMount: 0.5,
+    revealOffset: 16,
+    revealOffsetMount: 16,
+    staggerGap: 0.06,
+    staggerMaxDelay: 0.36,
+  },
+  calm: {
+    revealDuration: 0.3,
+    revealDurationMount: 0.25,
+    revealOffset: 4,
+    revealOffsetMount: 4,
+    staggerGap: 0.025,
+    staggerMaxDelay: 0.15,
+  },
+} as const;
 
 export const motionTransition = {
   duration: motionDuration.base,
   ease: motionEase,
 };
 
+export const motionRevealOffset = motionPresetConfig.calm.revealOffset;
+
+export const motionStaggerGap = motionPresetConfig.calm.staggerGap;
+
+export const motionStaggerMaxDelay = motionPresetConfig.calm.staggerMaxDelay;
+
 export const motionRevealTransition = {
-  duration: motionDuration.reveal,
+  duration: motionPresetConfig.calm.revealDuration,
   ease: motionEase,
 };
 
@@ -68,6 +96,29 @@ export const motionViewport = {
 
 export const motionAnchorScrollOffset = -96;
 
-export function motionStaggerChildDelay(index: number): number {
-  return Math.min(index * motionStaggerGap, motionStaggerMaxDelay);
+export function motionPresetRevealOffset(
+  preset: MotionPreset,
+  when: MotionRevealWhen,
+): number {
+  const config = motionPresetConfig[preset];
+  return when === "mount" ? config.revealOffsetMount : config.revealOffset;
+}
+
+export function motionPresetRevealTransition(
+  preset: MotionPreset,
+  when: MotionRevealWhen,
+  extraDelay = 0,
+) {
+  const config = motionPresetConfig[preset];
+  const duration =
+    when === "mount" ? config.revealDurationMount : config.revealDuration;
+  return { duration, ease: motionEase, delay: extraDelay };
+}
+
+export function motionStaggerChildDelay(
+  index: number,
+  preset: MotionPreset = "calm",
+): number {
+  const { staggerGap, staggerMaxDelay } = motionPresetConfig[preset];
+  return Math.min(index * staggerGap, staggerMaxDelay);
 }

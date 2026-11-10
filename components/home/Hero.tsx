@@ -1,15 +1,15 @@
 import { Container } from "@/components/Container";
 import { HeroFoldMotion } from "@/components/home/HeroFoldMotion";
-import { HeroProduction } from "@/components/home/HeroProduction";
 import { HeroScrollCue } from "@/components/home/HeroScrollCue";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { HeroViewportSection } from "@/components/home/HeroViewportSection";
+import { HeroProduction } from "@/components/home/HeroProduction";
 
 export function Hero() {
   return (
     <>
-      <section
+      <HeroViewportSection
         id="overview"
-        aria-labelledby="hero-heading"
+        ariaLabelledby="hero-heading"
         className="hero-signal relative flex w-full flex-col overflow-hidden pt-10 pb-16 md:pt-14 md:pb-20 lg:min-h-[calc(100svh-var(--nav-height))] lg:pt-8 lg:pb-14"
       >
         <div
@@ -20,14 +20,13 @@ export function Hero() {
           <HeroFoldMotion />
         </Container>
         <HeroScrollCue targetId="production" />
-      </section>
-      <div id="production" className="w-full scroll-mt-6">
+      </HeroViewportSection>
+      <div
+        id="production"
+        className="w-full scroll-mt-6 pt-8 md:pt-10 lg:pt-12"
+      >
         <Container>
-          <Stagger when="mount" className="w-full">
-            <StaggerItem>
-              <HeroProduction />
-            </StaggerItem>
-          </Stagger>
+          <HeroProduction />
         </Container>
       </div>
     </>

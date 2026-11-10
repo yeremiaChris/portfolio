@@ -20,13 +20,16 @@ export function ProjectsGrid() {
         className="mb-10 flex w-full min-w-0 flex-col gap-4 md:mb-14 md:gap-6"
       >
         {lead ? (
-          <Reveal>
+          <Reveal when="mount" preset="calm">
             <ProjectCard project={lead} variant="lead" />
           </Reveal>
         ) : null}
 
         {featuredRest.length > 0 ? (
-          <Stagger className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          <Stagger
+            preset="calm"
+            className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
+          >
             {featuredRest.map((project) => (
               <StaggerItem key={project.id}>
                 <ProjectCard project={project} />
@@ -59,7 +62,10 @@ export function ProjectsGrid() {
             </header>
           </Reveal>
 
-          <Stagger className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          <Stagger
+            preset="calm"
+            className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
+          >
             {archive.map((project) => (
               <StaggerItem key={project.id}>
                 <ProjectCard project={project} />

@@ -121,7 +121,7 @@ function SeriesTocBody({ title, parts, currentSlug }: SeriesTocProps) {
 
 export function SeriesToc(props: SeriesTocProps) {
   return (
-    <Reveal when="mount">
+    <Reveal when="mount" preset="calm">
       <div className="bg-muted/30 ring-border/40 rounded-lg p-4 ring-1">
         <SeriesTocBody {...props} />
       </div>
@@ -132,7 +132,7 @@ export function SeriesToc(props: SeriesTocProps) {
 export function SeriesTocMobile(props: SeriesTocProps) {
   const current = props.parts.find((part) => part.slug === props.currentSlug);
   return (
-    <Reveal when="mount">
+    <Reveal when="mount" preset="calm">
       <details className="group bg-muted/30 ring-border/40 rounded-lg ring-1 lg:hidden">
         <summary className="text-foreground flex min-h-12 cursor-pointer list-none items-center justify-between gap-2 px-4 py-3 text-[14px] font-medium [&::-webkit-details-marker]:hidden">
           <span className="flex items-center gap-1.5">

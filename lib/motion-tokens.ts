@@ -82,6 +82,7 @@ export const motionHeroTerminal = {
   lineStaggerMs: 8,
   commandPauseMs: 10,
   lineHoverDuration: 0.18,
+  responseCharIntervalMs: 12,
 } as const;
 
 export const motionPageTransition = {

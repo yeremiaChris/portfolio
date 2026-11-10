@@ -17,11 +17,13 @@ const MAX_TILT_DEG = 2;
 type HeroTerminalTiltProps = {
   children: ReactNode;
   className?: string;
+  flat?: boolean;
 };
 
 export function HeroTerminalTilt({
   children,
   className,
+  flat = false,
 }: HeroTerminalTiltProps) {
   const reducedMotion = useReducedMotion();
   const hostRef = useRef<HTMLDivElement>(null);
@@ -45,9 +47,15 @@ export function HeroTerminalTilt({
     rotateY.set(0);
   }, [rotateX, rotateY]);
 
+  useEffect(() => {
+    if (flat) {
+      resetTilt();
+    }
+  }, [flat, resetTilt]);
+
   const handlePointerMove = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
-      if (!tiltEnabled || reducedMotion) {
+      if (!tiltEnabled || reducedMotion || flat) {
         return;
       }
       const node = hostRef.current;
@@ -60,7 +68,7 @@ export function HeroTerminalTilt({
       rotateY.set(px * (MAX_TILT_DEG * 2));
       rotateX.set(-py * (MAX_TILT_DEG * 2));
     },
-    [reducedMotion, rotateX, rotateY, tiltEnabled],
+    [flat, reducedMotion, rotateX, rotateY, tiltEnabled],
   );
 
   const handlePointerLeave = useCallback(() => {

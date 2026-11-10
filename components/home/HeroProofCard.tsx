@@ -18,7 +18,7 @@ export function HeroProofCard({
     <a
       {...props}
       className={cn(
-        "hero-proof-card hero-link group relative items-start gap-2 text-left",
+        "relative flex items-start gap-2 text-left",
         homeSignalCardClassName,
         className,
       )}

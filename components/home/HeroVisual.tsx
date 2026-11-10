@@ -3,6 +3,7 @@ import {
   heroCodeBodyMinHeight,
 } from "@/components/home/HeroCodeSnippetMotion";
 import { HeroTerminalLiveStatus } from "@/components/home/HeroTerminalLiveStatus";
+import { homeSignalTerminalShellClassName } from "@/lib/home-signal-card";
 
 type HeroVisualProps = {
   terminalReady: boolean;
@@ -13,7 +14,7 @@ export function HeroVisual({ terminalReady }: HeroVisualProps) {
     <div className="flex w-full min-w-0 justify-center xl:justify-end xl:self-center">
       <div className="hero-code-stage relative w-full max-w-[min(420px,100%)] p-2.5">
         <div aria-hidden className="hero-terminal-glow pointer-events-none" />
-        <div className="hero-code-shell relative z-10 w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0e14]">
+        <div className={homeSignalTerminalShellClassName}>
           <div className="flex flex-col">
             <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-3 py-2.5">
               <div aria-hidden className="flex shrink-0 gap-1.5">

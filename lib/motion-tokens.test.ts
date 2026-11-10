@@ -6,8 +6,10 @@ import {
   motionPresetConfig,
   motionPresetRevealOffset,
   motionPresetRevealTransition,
+  motionPresetViewport,
   motionSpring,
   motionStaggerChildDelay,
+  staggerUsesPerItemInViewReveal,
 } from "./motion-tokens";
 
 describe("motion-tokens", () => {
@@ -43,6 +45,24 @@ describe("motion-tokens", () => {
     expect(motionPresetRevealTransition("expressive", "inView").duration).toBe(
       0.7,
     );
+  });
+
+  it("uses looser in-view thresholds for calm than expressive", () => {
+    const calm = motionPresetViewport("calm");
+    const expressive = motionPresetViewport("expressive");
+    expect(calm.amount).toBe(0.05);
+    expect(calm.margin).toBe("0px 0px 0px 0px");
+    expect(calm.inViewInitial).toBe(true);
+    expect(expressive.amount).toBe(0.18);
+    expect(expressive.margin).toBe("0px 0px -10% 0px");
+    expect(expressive.inViewInitial).toBe(false);
+  });
+
+  it("reveals calm stagger children individually when in view", () => {
+    expect(staggerUsesPerItemInViewReveal("calm", "inView")).toBe(true);
+    expect(staggerUsesPerItemInViewReveal("calm", "mount")).toBe(false);
+    expect(staggerUsesPerItemInViewReveal("expressive", "inView")).toBe(false);
+    expect(staggerUsesPerItemInViewReveal("expressive", "mount")).toBe(false);
   });
 
   it("caps stagger child delay per preset", () => {

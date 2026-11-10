@@ -29,7 +29,7 @@ export function Reveal({
   when = "inView",
   preset = "calm",
 }: RevealProps) {
-  const { ref, active } = useScrollRevealActive({ when });
+  const { ref, active } = useScrollRevealActive({ when, preset });
   const offset = motionPresetRevealOffset(preset, when);
   const hidden = { opacity: 0, y: offset };
   const visible = { opacity: 1, y: 0 };

@@ -31,6 +31,20 @@ export const motionHeroScrollFade = {
   yEnd: -24,
 } as const;
 
+type MotionViewportMargin =
+  | `${number}px`
+  | `${number}px ${number}px`
+  | `${number}px ${number}px ${number}px`
+  | `${number}px ${number}px ${number}px ${number}px`
+  | `${number}px ${number}px ${number}% ${number}px`;
+
+export type MotionViewportPreset = {
+  once: boolean;
+  amount: number | "some";
+  margin: MotionViewportMargin;
+  inViewInitial: boolean;
+};
+
 export const motionPresetConfig = {
   expressive: {
     revealDuration: 0.7,
@@ -39,6 +53,12 @@ export const motionPresetConfig = {
     revealOffsetMount: 16,
     staggerGap: 0.06,
     staggerMaxDelay: 0.36,
+    viewport: {
+      once: true,
+      amount: 0.18,
+      margin: "0px 0px -10% 0px",
+      inViewInitial: false,
+    },
   },
   calm: {
     revealDuration: 0.4,
@@ -47,6 +67,12 @@ export const motionPresetConfig = {
     revealOffsetMount: 4,
     staggerGap: 0.025,
     staggerMaxDelay: 0.15,
+    viewport: {
+      once: true,
+      amount: 0.05,
+      margin: "0px 0px 0px 0px",
+      inViewInitial: true,
+    },
   },
 } as const;
 
@@ -83,11 +109,20 @@ export const motionPageTransition = {
   ease: motionEase,
 };
 
-export const motionViewport = {
-  once: true,
-  amount: 0.18,
-  margin: "0px 0px -10% 0px",
-} as const;
+export const motionViewport = motionPresetConfig.expressive.viewport;
+
+export function motionPresetViewport(
+  preset: MotionPreset,
+): MotionViewportPreset {
+  return motionPresetConfig[preset].viewport;
+}
+
+export function staggerUsesPerItemInViewReveal(
+  preset: MotionPreset,
+  when: MotionRevealWhen,
+): boolean {
+  return preset === "calm" && when === "inView";
+}
 
 export const motionAnchorScrollOffset = -96;
 

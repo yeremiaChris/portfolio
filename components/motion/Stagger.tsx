@@ -14,6 +14,7 @@ import {
   motionPresetRevealOffset,
   motionPresetRevealTransition,
   motionStaggerChildDelay,
+  staggerUsesPerItemInViewReveal,
   type MotionPreset,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
@@ -35,17 +36,48 @@ export function Stagger({
   when = "inView",
   preset = "calm",
 }: StaggerProps) {
-  const { ref, active } = useScrollRevealActive({ when });
+  const perItemReveal = staggerUsesPerItemInViewReveal(preset, when);
 
   const items = Children.map(children, (child, index) => {
     if (!isValidElement(child) || child.type !== StaggerItem) {
       return child;
     }
     const element = child as ReactElement<StaggerItemProps>;
-    return cloneElement(element, { staggerIndex: index, preset, when });
+    return cloneElement(element, {
+      staggerIndex: index,
+      preset,
+      when,
+      perItemReveal,
+    });
   });
 
-  const animateTarget = active ? "visible" : "hidden";
+  if (perItemReveal) {
+    return (
+      <div data-stagger="" className={cn(className)}>
+        {items}
+      </div>
+    );
+  }
+
+  return (
+    <StaggerParentGated className={className} when={when} preset={preset}>
+      {items}
+    </StaggerParentGated>
+  );
+}
+
+function StaggerParentGated({
+  children,
+  className,
+  when,
+  preset,
+}: {
+  children: ReactNode;
+  className?: string;
+  when: StaggerWhen;
+  preset: MotionPreset;
+}) {
+  const { ref, active } = useScrollRevealActive({ when, preset });
 
   return (
     <m.div
@@ -53,10 +85,10 @@ export function Stagger({
       data-stagger=""
       className={cn(className)}
       initial="hidden"
-      animate={animateTarget}
+      animate={active ? "visible" : "hidden"}
       variants={staggerParentVariants}
     >
-      {items}
+      {children}
     </m.div>
   );
 }
@@ -77,6 +109,7 @@ type StaggerItemProps = {
   staggerIndex?: number;
   preset?: MotionPreset;
   when?: StaggerWhen;
+  perItemReveal?: boolean;
 };
 
 export function StaggerItem({
@@ -85,6 +118,7 @@ export function StaggerItem({
   staggerIndex = 0,
   preset = "calm",
   when = "inView",
+  perItemReveal = false,
 }: StaggerItemProps) {
   const delay = motionStaggerChildDelay(staggerIndex, preset);
   const offset = motionPresetRevealOffset(preset, when);
@@ -107,8 +141,57 @@ export function StaggerItem({
     [delay, offset, preset, when],
   );
 
+  if (perItemReveal) {
+    return (
+      <StaggerItemInView
+        className={className}
+        when={when}
+        preset={preset}
+        itemVariants={itemVariants}
+      >
+        {children}
+      </StaggerItemInView>
+    );
+  }
+
   return (
     <m.div className={cn(className)} variants={itemVariants}>
+      {children}
+    </m.div>
+  );
+}
+
+function StaggerItemInView({
+  children,
+  className,
+  when,
+  preset,
+  itemVariants,
+}: {
+  children: ReactNode;
+  className?: string;
+  when: StaggerWhen;
+  preset: MotionPreset;
+  itemVariants: {
+    hidden: { opacity: number; y: number };
+    visible: {
+      opacity: number;
+      y: number;
+      transition: ReturnType<typeof motionPresetRevealTransition> & {
+        delay: number;
+      };
+    };
+  };
+}) {
+  const { ref, active } = useScrollRevealActive({ when, preset });
+
+  return (
+    <m.div
+      ref={ref}
+      className={cn(className)}
+      initial={itemVariants.hidden}
+      animate={active ? itemVariants.visible : itemVariants.hidden}
+    >
       {children}
     </m.div>
   );

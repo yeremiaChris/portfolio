@@ -349,7 +349,7 @@ html[data-intro="playing"] [data-intro-bar] {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 6;
+  z-index: 1;
   height: min(22%, 7.5rem);
   background: linear-gradient(
     to bottom,
@@ -366,7 +366,7 @@ html[data-intro="playing"] [data-intro-bar] {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 6;
+  z-index: 1;
   height: min(30%, 12rem);
   background: linear-gradient(
     to bottom,
@@ -376,8 +376,26 @@ html[data-intro="playing"] [data-intro-bar] {
   );
 }
 
+@media (max-width: 1023px) {
+  .hero-signal::before {
+    height: 2.75rem;
+    background: linear-gradient(
+      to bottom,
+      var(--background) 0%,
+      transparent 100%
+    );
+  }
+}
+
+.hero-signal-headline {
+  position: relative;
+  z-index: 10;
+  isolation: isolate;
+}
+
 .hero-signal-atmosphere {
   contain: layout style paint;
+  z-index: 0;
   inset: 0 -2% -14% -2%;
   -webkit-mask-image: linear-gradient(
     to bottom,
@@ -968,7 +986,24 @@ html[data-intro="playing"] [data-intro-bar] {
   }
 }
 
+.hero-name-yeremia {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background-image: linear-gradient(
+    128deg,
+    #f5fcfe 0%,
+    #c8f6ff 22%,
+    #a5f0ff 42%,
+    #4cd7f6 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .hero-name-saragi {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
   background-image: linear-gradient(
     105deg,
     #eefcff 0%,

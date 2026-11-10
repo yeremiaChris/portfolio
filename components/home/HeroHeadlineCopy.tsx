@@ -56,37 +56,37 @@ export function HeroHeadlineCopy({
       </StaggerItem>
 
       <StaggerItem>
-        <div className="mt-6 flex w-full flex-wrap items-start justify-start gap-3 md:mt-8 md:gap-4">
+        <div className="mt-6 grid w-full max-w-full grid-cols-2 gap-3 md:mt-8 md:flex md:flex-wrap md:items-start md:justify-start md:gap-4">
           <a
             href={heroCtas.primary.href}
             className={cn(
               buttonVariants({ size: "lg" }),
               accentButtonClassName,
-              "h-12 px-6 text-base",
+              "col-span-2 h-12 w-full min-w-0 justify-center px-4 text-base sm:px-6 md:col-span-1 md:w-auto",
             )}
           >
-            <MailIcon className="size-5" />
+            <MailIcon className="size-5 shrink-0" />
             {heroCtas.primary.label}
           </a>
           <a
             href={heroCtas.secondary.href}
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
-              "h-12 px-6 text-base",
+              "h-12 w-full min-w-0 justify-center px-3 text-base sm:px-4 md:w-auto md:px-6",
             )}
           >
-            {heroCtas.secondary.label}
-            <ArrowRightIcon className="size-5" />
+            <span className="truncate">{heroCtas.secondary.label}</span>
+            <ArrowRightIcon className="size-5 shrink-0" />
           </a>
           <a
             href={heroCtas.resume.href}
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
-              "h-12 px-6 text-base",
+              "h-12 w-full min-w-0 justify-center px-3 text-base sm:px-4 md:w-auto md:px-6",
             )}
           >
-            <FileTextIcon className="size-5" />
-            {heroCtas.resume.label}
+            <FileTextIcon className="size-5 shrink-0" />
+            <span className="truncate">{heroCtas.resume.label}</span>
           </a>
         </div>
       </StaggerItem>

@@ -46,9 +46,7 @@ function HeroNameHeading({
     >
       <span className="sr-only">{site.fullName}</span>
       <span aria-hidden className="inline">
-        <span className="from-brand-accent to-brand-accent/70 bg-linear-to-br bg-clip-text text-transparent">
-          {nameBeforeLast}
-        </span>
+        <span className="hero-name-yeremia">{nameBeforeLast}</span>
         <span
           className={cn(
             "hero-name-saragi",

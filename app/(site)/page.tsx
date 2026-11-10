@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { ContactCta } from "@/components/home/ContactCta";
 import { Hero } from "@/components/home/Hero";
 import { Milestones } from "@/components/home/Milestones";
-import { Stats } from "@/components/home/Stats";
 import { TechStack } from "@/components/home/TechStack";
 import { IntroGate } from "@/components/intro/IntroGate";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -38,7 +37,6 @@ export default function Home() {
       <JsonLd data={buildHomeJsonLd()} />
       <IntroGate />
       <Hero />
-      <Stats />
       <Milestones />
       <TechStack />
       <ContactCta />

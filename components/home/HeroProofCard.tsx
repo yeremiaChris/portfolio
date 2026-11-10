@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 
+import { homeSignalCardClassName } from "@/lib/home-signal-card";
 import { cn } from "@/lib/utils";
 
 type HeroProofCardProps = ComponentProps<"a"> & {
@@ -17,7 +18,8 @@ export function HeroProofCard({
     <a
       {...props}
       className={cn(
-        "hero-proof-card hero-link border-gradient group relative flex flex-col items-start gap-2 overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4 text-left shadow-sm sm:px-5 sm:py-5",
+        "relative flex items-start gap-2 text-left",
+        homeSignalCardClassName,
         className,
       )}
     >

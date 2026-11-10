@@ -8,6 +8,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -44,7 +46,7 @@ export function AboutWorkflow() {
       aria-labelledby="about-workflow-heading"
       className="mb-8 w-full md:mb-12"
     >
-      <header className="mb-6 max-w-2xl">
+      <Reveal className="mb-6 max-w-2xl">
         <p className="text-muted-foreground label-caps tracking-widest">
           {aboutWorkflowIntro.eyebrow}
         </p>
@@ -57,34 +59,42 @@ export function AboutWorkflow() {
         <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed">
           {aboutWorkflowIntro.description}
         </p>
-      </header>
+      </Reveal>
 
-      <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
+      <Stagger className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
         {aboutWorkflowToolGroups.map((group) => (
-          <ToolGroupCard key={group.id} group={group} />
+          <StaggerItem key={group.id}>
+            <ToolGroupCard group={group} />
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5 xl:gap-4">
+      <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5 xl:gap-4">
         {aboutWorkflowSteps.map((step) => (
-          <WorkflowStepCard key={step.id} step={step} />
+          <StaggerItem key={step.id}>
+            <WorkflowStepCard step={step} />
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
-      <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-        <SplitCard
-          title={aboutWorkflowSplit.ai.title}
-          items={aboutWorkflowSplit.ai.items}
-          tone="accent"
-        />
-        <SplitCard
-          title={aboutWorkflowSplit.me.title}
-          items={aboutWorkflowSplit.me.items}
-          tone="primary"
-        />
-      </div>
+      <Stagger className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+        <StaggerItem>
+          <SplitCard
+            title={aboutWorkflowSplit.ai.title}
+            items={aboutWorkflowSplit.ai.items}
+            tone="accent"
+          />
+        </StaggerItem>
+        <StaggerItem>
+          <SplitCard
+            title={aboutWorkflowSplit.me.title}
+            items={aboutWorkflowSplit.me.items}
+            tone="primary"
+          />
+        </StaggerItem>
+      </Stagger>
 
-      <figure className="border-brand-accent/30 bg-muted/40 ring-border/20 mt-8 max-w-3xl rounded-2xl border-l-2 px-5 py-4 ring-1">
+      <Reveal className="border-brand-accent/30 bg-muted/40 ring-border/20 mt-8 max-w-3xl rounded-2xl border-l-2 px-5 py-4 ring-1">
         <blockquote className="text-foreground text-[15px] leading-relaxed">
           {aboutWorkflowExample.beforeLink}
           <Link
@@ -95,11 +105,11 @@ export function AboutWorkflow() {
           </Link>
           {aboutWorkflowExample.afterLink}
         </blockquote>
-      </figure>
+      </Reveal>
 
-      <p className="text-muted-foreground mt-6 max-w-2xl text-[15px] leading-relaxed">
+      <Reveal className="text-muted-foreground mt-6 block max-w-2xl text-[15px] leading-relaxed">
         {aboutWorkflowClosing}
-      </p>
+      </Reveal>
     </section>
   );
 }

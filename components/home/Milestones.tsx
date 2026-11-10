@@ -1,6 +1,8 @@
 import { Container } from "@/components/Container";
 import { CaseStudyCard } from "@/components/home/milestones/CaseStudyCard";
 import { FeaturedCaseStudy } from "@/components/home/milestones/FeaturedCaseStudy";
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { Badge } from "@/components/ui/badge";
 import {
   featuredMilestone,
@@ -16,32 +18,41 @@ export function Milestones() {
       className="w-full scroll-mt-24 py-16 md:py-24"
     >
       <Container className="flex flex-col gap-10 md:gap-12">
-        <header className="flex max-w-2xl flex-col gap-1">
-          <Badge
-            variant="secondary"
-            className="text-primary label-caps mb-1 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
-          >
-            <span className="bg-primary size-2.5 rounded-full" aria-hidden />
-            {milestonesIntro.eyebrow}
-          </Badge>
-          <h2
-            id="milestones-heading"
-            className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
-          >
-            {milestonesIntro.title}
-          </h2>
-          <p className="text-muted-foreground text-[15px] leading-6">
-            {milestonesIntro.description}
-          </p>
-        </header>
+        <Reveal preset="expressive">
+          <header className="flex max-w-2xl flex-col gap-1">
+            <Badge
+              variant="secondary"
+              className="text-primary label-caps mb-1 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
+            >
+              <span className="bg-primary size-2.5 rounded-full" aria-hidden />
+              {milestonesIntro.eyebrow}
+            </Badge>
+            <h2
+              id="milestones-heading"
+              className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
+            >
+              {milestonesIntro.title}
+            </h2>
+            <p className="text-muted-foreground text-[15px] leading-6">
+              {milestonesIntro.description}
+            </p>
+          </header>
+        </Reveal>
 
-        <FeaturedCaseStudy study={featuredMilestone} />
+        <Reveal preset="expressive" delay={0.05}>
+          <FeaturedCaseStudy study={featuredMilestone} />
+        </Reveal>
 
-        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8">
+        <Stagger
+          preset="expressive"
+          className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8"
+        >
           {secondaryMilestones.map((study) => (
-            <CaseStudyCard key={study.id} study={study} />
+            <StaggerItem key={study.id}>
+              <CaseStudyCard study={study} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   );

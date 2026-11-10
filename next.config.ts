@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   // Avoid React 19 RSC dev mismatch with next-mdx-remote evaluated MDXContent
   transpilePackages: ["next-mdx-remote"],
   experimental: {
-    optimizePackageImports: ["lucide-react", "@base-ui/react"],
+    optimizePackageImports: ["lucide-react", "@base-ui/react", "motion/react"],
   },
   async redirects() {
     return [

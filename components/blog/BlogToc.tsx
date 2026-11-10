@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { List } from "lucide-react";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -86,21 +87,22 @@ export function BlogTocHeader({ count }: { count: number }) {
   );
 }
 
-/** Desktop sticky TOC — hidden below lg. */
 export function BlogToc({ headings }: { headings: BlogHeading[] }) {
   const items = getTocItems(headings);
   if (items.length < MIN_HEADINGS) return null;
 
   return (
-    <Card className="bg-muted ring-border/40 hidden gap-0 rounded-xl py-0 lg:block">
-      <CardHeader className="border-border/40 border-b p-4 pb-3">
-        <BlogTocHeader count={items.length} />
-      </CardHeader>
-      <CardContent className="p-2">
-        <nav aria-label="On this page">
-          <BlogTocNav items={items} />
-        </nav>
-      </CardContent>
-    </Card>
+    <Reveal when="mount" preset="calm">
+      <Card className="bg-muted ring-border/40 hidden gap-0 rounded-xl py-0 lg:block">
+        <CardHeader className="border-border/40 border-b p-4 pb-3">
+          <BlogTocHeader count={items.length} />
+        </CardHeader>
+        <CardContent className="p-2">
+          <nav aria-label="On this page">
+            <BlogTocNav items={items} />
+          </nav>
+        </CardContent>
+      </Card>
+    </Reveal>
   );
 }

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
+import { BlogPostTitleMeta } from "@/components/blog/BlogPostTitleMeta";
 import { BlogToc } from "@/components/blog/BlogToc";
 import { BlogTocMobile } from "@/components/blog/BlogTocMobile";
 import { BlogTagBadge } from "@/components/blog/BlogTagBadge";
@@ -101,23 +102,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             Back to blog
           </Link>
 
-          <header className="flex flex-col gap-3">
-            <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-[11px] font-medium">
-              {seriesToc ? (
+          <div className="flex flex-col gap-3">
+            <BlogPostTitleMeta
+              meta={
                 <>
-                  <span className="text-primary">
-                    Part {post.part} of {seriesToc.parts.length}
-                  </span>
+                  {seriesToc ? (
+                    <>
+                      <span className="text-primary">
+                        Part {post.part} of {seriesToc.parts.length}
+                      </span>
+                      <span aria-hidden>·</span>
+                    </>
+                  ) : null}
+                  <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
                   <span aria-hidden>·</span>
+                  <span>{post.readingTime}</span>
                 </>
-              ) : null}
-              <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
-              <span aria-hidden>·</span>
-              <span>{post.readingTime}</span>
-            </div>
-            <h1 className="font-heading text-foreground text-3xl sm:text-4xl">
-              {post.title}
-            </h1>
+              }
+              title={post.title}
+            />
             <p className="text-muted-foreground max-w-2xl text-[15px] leading-[1.7]">
               {post.description}
             </p>
@@ -128,7 +131,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 ))}
               </div>
             ) : null}
-          </header>
+          </div>
         </div>
 
         <ReadingResume slug={post.slug} headings={headings} />

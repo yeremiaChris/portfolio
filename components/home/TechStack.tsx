@@ -1,4 +1,6 @@
 import { Container } from "@/components/Container";
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -54,54 +56,62 @@ export function TechStack() {
       className="w-full py-16 md:py-24"
     >
       <Container className="flex flex-col gap-10">
-        <header className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-          <div className="flex max-w-2xl flex-col gap-1">
-            <Badge
-              variant="secondary"
-              className="text-primary label-caps mb-1 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
-            >
-              <span className="bg-primary size-2.5 rounded-full" aria-hidden />
-              {techStackIntro.eyebrow}
-            </Badge>
-            <h2
-              id="tech-stack-heading"
-              className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
-            >
-              {techStackIntro.title}
-            </h2>
-            <p className="text-muted-foreground text-[15px] leading-6">
-              {techStackIntro.description}
+        <Reveal preset="expressive">
+          <header className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div className="flex max-w-2xl flex-col gap-1">
+              <Badge
+                variant="secondary"
+                className="text-primary label-caps mb-1 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
+              >
+                <span
+                  className="bg-primary size-2.5 rounded-full"
+                  aria-hidden
+                />
+                {techStackIntro.eyebrow}
+              </Badge>
+              <h2
+                id="tech-stack-heading"
+                className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
+              >
+                {techStackIntro.title}
+              </h2>
+              <p className="text-muted-foreground text-[15px] leading-6">
+                {techStackIntro.description}
+              </p>
+            </div>
+            <p className="text-muted-foreground text-[13px]">
+              {techStackIntro.focusLabel}{" "}
+              <span className="text-brand-accent font-semibold">
+                {techStackIntro.focusValue}
+              </span>
             </p>
-          </div>
-          <p className="text-muted-foreground text-[13px]">
-            {techStackIntro.focusLabel}{" "}
-            <span className="text-brand-accent font-semibold">
-              {techStackIntro.focusValue}
-            </span>
-          </p>
-        </header>
+          </header>
+        </Reveal>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <Stagger
+          preset="expressive"
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+        >
           {coreTools.map((tool) => (
-            <CoreToolCard
-              key={tool.id}
-              title={tool.title}
-              context={tool.context}
-            />
+            <StaggerItem key={tool.id}>
+              <CoreToolCard title={tool.title} context={tool.context} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
 
-        <div className="ring-border/20 rounded-3xl bg-[#0a0e14]/60 px-5 py-6 ring-1 md:px-8 md:py-7">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-            {secondaryTechCategories.map((category) => (
-              <SecondaryTechGroup
-                key={category.id}
-                title={category.title}
-                items={category.items}
-              />
-            ))}
+        <Reveal preset="expressive">
+          <div className="ring-border/20 rounded-3xl bg-[#0a0e14]/60 px-5 py-6 ring-1 md:px-8 md:py-7">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+              {secondaryTechCategories.map((category) => (
+                <SecondaryTechGroup
+                  key={category.id}
+                  title={category.title}
+                  items={category.items}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

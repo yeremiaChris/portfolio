@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { aboutIntro } from "@/lib/about";
 import { cn } from "@/lib/utils";
@@ -13,7 +14,11 @@ export function AboutHeader() {
         aria-hidden
       />
 
-      <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+      <Reveal
+        when="mount"
+        preset="calm"
+        className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end"
+      >
         <div className="max-w-3xl">
           <p className="text-foreground/75 mb-2 text-xs font-medium tracking-wide uppercase">
             {aboutIntro.eyebrow}
@@ -38,7 +43,7 @@ export function AboutHeader() {
             {aboutIntro.chatLabel}
           </Link>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

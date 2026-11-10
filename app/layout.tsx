@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Rethink_Sans } from "next/font/google";
 
 import { Header } from "@/components/Header";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { UmamiScript } from "@/components/UmamiScript";
 import {
   INTRO_BOOTSTRAP_SCRIPT,
@@ -20,19 +21,20 @@ const geist = Geist({
   variable: "--font-geist-sans",
   preload: true,
   display: "swap",
+  adjustFontFallback: true,
 });
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
-  preload: true,
+  preload: false,
   display: "swap",
 });
 
 const rethinkSans = Rethink_Sans({
   subsets: ["latin"],
   variable: "--font-rethink-sans",
-  preload: true,
+  preload: false,
   display: "swap",
 });
 
@@ -82,8 +84,10 @@ export default function RootLayout({
           }}
         />
         <UmamiScript />
-        <Header />
-        <div className="pt-[var(--nav-height)]">{children}</div>
+        <MotionProvider>
+          <Header />
+          <div className="pt-[var(--nav-height)]">{children}</div>
+        </MotionProvider>
       </body>
     </html>
   );

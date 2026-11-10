@@ -9,6 +9,7 @@ import {
   type UIEvent,
 } from "react";
 
+import { Reveal } from "@/components/motion/Reveal";
 import { ChatComposer } from "@/components/lab/ChatComposer";
 import { ChatMessage } from "@/components/lab/ChatMessage";
 import { useChat } from "@/components/lab/useChat";
@@ -106,9 +107,11 @@ export function AskYeremiaChat({
       className="bg-background flex h-[calc(100dvh-var(--nav-height))] flex-col overflow-hidden"
     >
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
-        <p className="text-foreground/75 text-brand-accent text-xs font-medium tracking-wide uppercase">
-          {askYeremia.topBarEyebrow}
-        </p>
+        <Reveal when="mount" preset="calm">
+          <p className="text-foreground/75 text-brand-accent text-xs font-medium tracking-wide uppercase">
+            {askYeremia.topBarEyebrow}
+          </p>
+        </Reveal>
         {!isEmpty ? (
           <Button
             type="button"
@@ -127,7 +130,10 @@ export function AskYeremiaChat({
 
       <div className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col overflow-hidden px-4 sm:px-6">
         {isEmpty ? (
-          <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto overscroll-contain py-6">
+          <div
+            data-lenis-prevent=""
+            className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto overscroll-contain py-6"
+          >
             <div className="flex w-full max-w-lg flex-col items-center gap-6 text-center">
               {emptyStateHeading}
               <nav aria-label="Suggested questions" className="w-full">
@@ -153,6 +159,7 @@ export function AskYeremiaChat({
         ) : (
           <div
             ref={viewportRef}
+            data-lenis-prevent=""
             onScroll={handleScroll}
             className={cn(
               "flex min-h-0 flex-1 scrollbar-none flex-col overflow-y-auto overscroll-contain py-4 motion-safe:scroll-smooth",

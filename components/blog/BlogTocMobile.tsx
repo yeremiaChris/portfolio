@@ -10,6 +10,7 @@ import {
   getTocItems,
   shouldShowToc,
 } from "@/components/blog/BlogToc";
+import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -31,7 +32,7 @@ export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
   if (!shouldShowToc(headings)) return null;
 
   return (
-    <div className="lg:hidden">
+    <Reveal when="mount" preset="calm" className="lg:hidden">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
           render={
@@ -62,7 +63,7 @@ export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
             <BlogTocHeader count={items.length} />
           </SheetHeader>
 
-          <ScrollArea className="max-h-[min(50vh,24rem)]">
+          <ScrollArea data-lenis-prevent="" className="max-h-[min(50vh,24rem)]">
             <nav aria-label="On this page" className="px-2 py-3">
               <BlogTocNav
                 items={items}
@@ -77,6 +78,6 @@ export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
           </ScrollArea>
         </SheetContent>
       </Sheet>
-    </div>
+    </Reveal>
   );
 }

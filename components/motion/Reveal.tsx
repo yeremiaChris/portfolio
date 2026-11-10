@@ -29,7 +29,7 @@ export function Reveal({
   when = "inView",
   preset = "calm",
 }: RevealProps) {
-  const { ref, active, hydrated } = useScrollRevealActive({ when });
+  const { ref, active } = useScrollRevealActive({ when });
   const offset = motionPresetRevealOffset(preset, when);
   const hidden = { opacity: 0, y: offset };
   const visible = { opacity: 1, y: 0 };
@@ -40,8 +40,8 @@ export function Reveal({
       ref={ref}
       data-reveal=""
       className={cn(className)}
-      initial={false}
-      animate={!hydrated ? false : active ? visible : hidden}
+      initial={hidden}
+      animate={active ? visible : hidden}
       transition={transition}
     >
       {children}

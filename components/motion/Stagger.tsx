@@ -35,7 +35,7 @@ export function Stagger({
   when = "inView",
   preset = "calm",
 }: StaggerProps) {
-  const { ref, active, hydrated } = useScrollRevealActive({ when });
+  const { ref, active } = useScrollRevealActive({ when });
 
   const items = Children.map(children, (child, index) => {
     if (!isValidElement(child) || child.type !== StaggerItem) {
@@ -45,14 +45,14 @@ export function Stagger({
     return cloneElement(element, { staggerIndex: index, preset, when });
   });
 
-  const animateTarget = hydrated && active ? "visible" : "hidden";
+  const animateTarget = active ? "visible" : "hidden";
 
   return (
     <m.div
       ref={ref}
       data-stagger=""
       className={cn(className)}
-      initial={false}
+      initial="hidden"
       animate={animateTarget}
       variants={staggerParentVariants}
     >

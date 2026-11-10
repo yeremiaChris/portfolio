@@ -5,8 +5,6 @@ import { useInView } from "motion/react";
 
 import { motionViewport } from "@/lib/motion-tokens";
 
-import { useHydrated } from "@/components/motion/useHydrated";
-
 const FAILSAFE_MS = 2500;
 
 type UseScrollRevealActiveOptions = {
@@ -15,12 +13,12 @@ type UseScrollRevealActiveOptions = {
 
 export function useScrollRevealActive({ when }: UseScrollRevealActiveOptions) {
   const ref = useRef<HTMLDivElement>(null);
-  const hydrated = useHydrated();
   const inView = useInView(ref, {
     ...motionViewport,
     initial: false,
   });
   const [mountArmed, setMountArmed] = useState(false);
+  const [inViewArmed, setInViewArmed] = useState(false);
   const [failOpen, setFailOpen] = useState(false);
 
   useEffect(() => {
@@ -35,12 +33,32 @@ export function useScrollRevealActive({ when }: UseScrollRevealActiveOptions) {
   }, [when]);
 
   useEffect(() => {
+    if (when !== "inView" || !inView) {
+      return;
+    }
+    let cancelled = false;
+    let frame = 0;
+    frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => {
+        if (!cancelled) {
+          setInViewArmed(true);
+        }
+      });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+      setInViewArmed(false);
+    };
+  }, [when, inView]);
+
+  useEffect(() => {
     const timer = window.setTimeout(() => setFailOpen(true), FAILSAFE_MS);
     return () => window.clearTimeout(timer);
   }, []);
 
-  const scrollActive = when === "mount" ? mountArmed : inView;
-  const active = failOpen || (hydrated && scrollActive);
+  const scrollActive = when === "mount" ? mountArmed : inView && inViewArmed;
+  const active = failOpen || scrollActive;
 
-  return { ref, active, hydrated };
+  return { ref, active };
 }

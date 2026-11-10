@@ -2,11 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { scheduleIdle } from "@/lib/schedule-idle";
 import { cn } from "@/lib/utils";
 
 export function HeroAtmosphere() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
+  const [enhanced, setEnhanced] = useState(false);
+
+  useEffect(() => {
+    const cancel = scheduleIdle(() => setEnhanced(true));
+    return cancel;
+  }, []);
 
   useEffect(() => {
     const node = rootRef.current;
@@ -29,11 +36,14 @@ export function HeroAtmosphere() {
       aria-hidden
       className={cn(
         "hero-signal-atmosphere pointer-events-none absolute z-0",
-        paused && "hero-signal-atmosphere--paused",
+        enhanced && "hero-signal-atmosphere--enhanced",
+        paused && enhanced && "hero-signal-atmosphere--paused",
       )}
     >
       <div className="hero-signal-grid" />
-      <div className="hero-signal-grid-shimmer" />
+      {enhanced ? (
+        <div className="hero-signal-grid-shimmer hidden lg:block" />
+      ) : null}
       <div className="hero-signal-aurora">
         <span className="hero-signal-aurora-blob hero-signal-aurora-blob--a" />
         <span className="hero-signal-aurora-blob hero-signal-aurora-blob--b" />

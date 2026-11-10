@@ -3,8 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { m, useReducedMotion } from "motion/react";
 
-import { useHydrated } from "@/components/motion/useHydrated";
-
 import {
   motionDuration,
   motionHeroNameRevealTransition,
@@ -62,20 +60,7 @@ function HeroNameHeading({
 
 export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
   const reducedMotion = useReducedMotion();
-  const hydrated = useHydrated();
   const [sheen, setSheen] = useState(false);
-  const [mountArmed, setMountArmed] = useState(false);
-
-  useEffect(() => {
-    if (reducedMotion) {
-      return;
-    }
-    let outer = 0;
-    outer = requestAnimationFrame(() => {
-      outer = requestAnimationFrame(() => setMountArmed(true));
-    });
-    return () => cancelAnimationFrame(outer);
-  }, [reducedMotion]);
 
   const handleRevealComplete = useCallback(() => {
     setSheen(true);
@@ -99,16 +84,16 @@ export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
     return <HeroNameHeading className={className} />;
   }
 
+  const revealOffset = motionPresetConfig.expressive.revealOffset;
+
   return (
-    <div className={cn("overflow-hidden", className)}>
+    <div className={cn("hero-name-reveal overflow-hidden", className)}>
       <m.div
-        aria-hidden
-        initial={false}
-        animate={
-          hydrated && mountArmed
-            ? { opacity: 1, y: 0 }
-            : { opacity: 0, y: motionPresetConfig.expressive.revealOffset }
-        }
+        initial={{
+          y: revealOffset,
+          clipPath: "inset(0% 0% 0% 0%)",
+        }}
+        animate={{ y: 0, clipPath: "inset(0% 0% 0% 0%)" }}
         transition={motionHeroNameRevealTransition}
         onAnimationComplete={handleRevealComplete}
       >

@@ -17,7 +17,7 @@ describe("programmatic-scroll", () => {
     scrollDocumentToY(480);
     expect(scrollTo).toHaveBeenCalledWith(480, {
       immediate: undefined,
-      duration: 1.2,
+      duration: 0.85,
     });
   });
 
@@ -26,8 +26,8 @@ describe("programmatic-scroll", () => {
     setLenisInstance({ scrollTo } as never);
     scrollDocumentToElement({} as HTMLElement);
     expect(scrollTo).toHaveBeenCalledWith(expect.anything(), {
-      offset: -84,
-      duration: 1.2,
+      offset: -96,
+      duration: 0.85,
     });
   });
 });

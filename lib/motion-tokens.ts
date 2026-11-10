@@ -95,13 +95,7 @@ export const motionViewport = {
   margin: "0px 0px 12% 0px",
 } as const;
 
-export { motionAnchorScrollOffset } from "@/lib/nav-layout";
-
-export const motionLenis = {
-  duration: 1.2,
-  lerp: 0.08,
-  programmaticScrollDuration: 1.2,
-} as const;
+export const motionAnchorScrollOffset = -96;
 
 export function motionPresetRevealOffset(
   preset: MotionPreset,

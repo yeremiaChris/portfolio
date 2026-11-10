@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
 
 import { setLenisInstance } from "@/lib/programmatic-scroll";
-import { motionAnchorScrollOffset, motionLenis } from "@/lib/motion-tokens";
+import { motionAnchorScrollOffset } from "@/lib/motion-tokens";
 
 import "lenis/dist/lenis.css";
 
@@ -42,8 +42,6 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       root
       options={{
         autoRaf: true,
-        duration: motionLenis.duration,
-        lerp: motionLenis.lerp,
         anchors: {
           offset: motionAnchorScrollOffset,
         },

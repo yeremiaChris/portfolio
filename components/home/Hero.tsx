@@ -21,7 +21,7 @@ export function Hero() {
       </HeroViewportSection>
       <div
         id="production"
-        className="w-full scroll-mt-6 pt-8 pb-12 md:pt-10 md:pb-16 lg:pt-12"
+        className="bg-background w-full scroll-mt-6 pt-8 pb-12 md:pt-10 md:pb-16 lg:pt-12"
       >
         <Container>
           <HeroProduction />

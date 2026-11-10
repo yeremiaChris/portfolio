@@ -14,7 +14,7 @@ export function HeroFoldMotion() {
   }, []);
 
   return (
-    <div className="grid w-full grid-cols-1 items-start gap-8 xl:grid-cols-[minmax(0,1fr)_min(420px,38%)] xl:items-center xl:gap-10">
+    <div className="grid w-full grid-cols-1 items-start gap-8 lg:gap-10 xl:grid-cols-[minmax(0,1fr)_min(420px,38%)] xl:items-center">
       <div className="hero-signal-headline relative w-full min-w-0 text-left">
         <HeroNameReveal onSettled={onNameSettled} />
         <HeroHeadlineCopy />

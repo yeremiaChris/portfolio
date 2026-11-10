@@ -354,17 +354,49 @@ html[data-intro="playing"] [data-intro-bar] {
 }
 
 .hero-signal::after {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
-  background-size: 56px 56px;
+  content: none;
+}
+
+.hero-signal-dots {
+  background-image: radial-gradient(
+    circle,
+    rgb(255 255 255 / 0.13) 0.65px,
+    transparent 0.75px
+  );
+  background-size: 22px 22px;
   mask-image: radial-gradient(
-    ellipse 85% 55% at 18% 0%,
-    rgb(0 0 0 / 0.45),
+    ellipse 82% 72% at 50% 44%,
+    rgb(0 0 0 / 0.92),
+    transparent 74%
+  );
+  opacity: 0.34;
+}
+
+.hero-name-display {
+  font-size: clamp(2.65rem, 4.2vw + 1.1rem, 3.75rem);
+  line-height: 1.04;
+}
+
+@media (min-width: 768px) {
+  .hero-name-display {
+    font-size: clamp(3.35rem, 3.6vw + 1.45rem, 4.75rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-name-display {
+    font-size: clamp(4.25rem, 2.4vw + 2.2rem, 6rem);
+  }
+}
+
+.hero-terminal-glow {
+  position: absolute;
+  inset: -18% -28% -12%;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 64% 60% at 54% 50%,
+    rgb(76 215 246 / 0.28),
+    rgb(76 215 246 / 0.07) 45%,
     transparent 72%
   );
 }

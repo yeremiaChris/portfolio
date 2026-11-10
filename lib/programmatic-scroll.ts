@@ -1,6 +1,6 @@
 import type Lenis from "lenis";
 
-import { motionAnchorScrollOffset } from "@/lib/motion-tokens";
+import { motionAnchorScrollOffset, motionLenis } from "@/lib/motion-tokens";
 
 let activeLenis: Lenis | null = null;
 
@@ -19,7 +19,7 @@ export function scrollDocumentToY(
   if (activeLenis) {
     activeLenis.scrollTo(y, {
       immediate: options?.immediate,
-      duration: 0.85,
+      duration: motionLenis.programmaticScrollDuration,
     });
     return;
   }
@@ -34,7 +34,10 @@ export function scrollDocumentToElement(
   offset = motionAnchorScrollOffset,
 ) {
   if (activeLenis) {
-    activeLenis.scrollTo(element, { offset, duration: 0.85 });
+    activeLenis.scrollTo(element, {
+      offset,
+      duration: motionLenis.programmaticScrollDuration,
+    });
     return;
   }
   element.scrollIntoView({ behavior: "smooth", block: "start" });

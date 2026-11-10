@@ -56,7 +56,9 @@
 }
 
 :root {
-  --nav-height: 4rem;
+  --nav-float-inset: 0.75rem;
+  --nav-pill-height: 3.25rem;
+  --nav-height: calc(var(--nav-float-inset) * 2 + var(--nav-pill-height));
   --brand-accent: #4cd7f6;
   --brand-accent-foreground: #042028;
   --brand-accent-hover: #3bc4e3;

@@ -1,85 +1,81 @@
 "use client";
 
-import { AwardIcon, GaugeIcon, UsersIcon } from "lucide-react";
-
-import { HeroProofCard } from "@/components/home/HeroProofCard";
+import { HeroProductionProjectCard } from "@/components/home/HeroProductionProjectCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
-import { homeSignalCardClassName } from "@/lib/home-signal-card";
+import { getHomeProductionProjects } from "@/lib/home-production";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const STAT_ICONS = {
-  award: AwardIcon,
-  gauge: GaugeIcon,
-  users: UsersIcon,
-} as const;
+const productionProjects = getHomeProductionProjects();
 
 export function HeroProduction() {
   return (
-    <div className="flex w-full flex-col gap-12 md:gap-16">
-      <div className="w-full">
-        <Reveal preset="expressive" when="inView" className="mb-4">
-          <p className="text-muted-foreground text-left font-mono text-[11px] tracking-[0.16em] uppercase">
-            Production
-          </p>
-        </Reveal>
-        <nav aria-label="Selected production work">
-          <Stagger
-            preset="expressive"
-            when="inView"
-            className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6"
-          >
-            {site.proof.map((item) => (
-              <StaggerItem key={item.id}>
-                <HeroProofCard
-                  href={item.href}
-                  label={item.label}
-                  meta={item.meta}
-                />
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </nav>
-      </div>
-      <div aria-labelledby="stats-heading" className="w-full">
-        <h2 id="stats-heading" className="sr-only">
-          Key statistics
-        </h2>
-        <Stagger
-          preset="expressive"
-          when="inView"
-          className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6"
+    <section
+      aria-labelledby="production-heading"
+      className="flex w-full flex-col gap-6 md:gap-8"
+    >
+      <Reveal preset="expressive" when="inView" className="mb-1">
+        <h2
+          id="production-heading"
+          className="text-muted-foreground text-left font-mono text-[11px] tracking-[0.16em] uppercase"
         >
-          {site.stats.map((stat) => {
-            const Icon = STAT_ICONS[stat.icon];
-            return (
-              <StaggerItem key={stat.label}>
-                <div className={cn(homeSignalCardClassName)}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
+          Production
+        </h2>
+      </Reveal>
+
+      <Reveal preset="expressive" when="inView">
+        <div className="border-border/50 bg-card/20 flex w-full flex-col overflow-hidden rounded-2xl border">
+          <nav aria-label="Selected production work" className="p-4 md:p-5">
+            <Stagger
+              preset="expressive"
+              when="inView"
+              className="grid grid-cols-1 gap-4 md:grid-cols-2 md:grid-rows-2 md:gap-4 lg:gap-5"
+            >
+              {productionProjects.map((project) => (
+                <StaggerItem
+                  key={project.id}
+                  className={cn("min-h-0", project.featured && "md:row-span-2")}
+                >
+                  <HeroProductionProjectCard project={project} />
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </nav>
+
+          <div className="border-border/50 border-t">
+            <h3 id="production-stats" className="sr-only">
+              Key statistics
+            </h3>
+            <Stagger
+              preset="expressive"
+              when="inView"
+              aria-labelledby="production-stats"
+              className="grid grid-cols-1 sm:grid-cols-3"
+            >
+              {site.stats.map((stat, index) => (
+                <StaggerItem
+                  key={stat.label}
+                  className={cn(
+                    "flex min-h-[4.5rem] flex-col justify-center px-5 py-4 sm:px-6",
+                    index > 0 &&
+                      "border-border/50 border-t sm:border-t-0 sm:border-l",
+                  )}
+                >
+                  <div className="flex flex-col gap-0.5 text-left">
+                    <span className="font-heading text-foreground text-2xl font-semibold tracking-tight">
+                      {stat.value}
+                    </span>
+                    <span className="text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
                       {stat.label}
                     </span>
-                    <Icon
-                      className={
-                        stat.icon === "gauge"
-                          ? "text-brand-accent size-4"
-                          : "text-primary size-4"
-                      }
-                    />
                   </div>
-                  <span className="font-heading text-foreground mt-2 text-2xl font-semibold tracking-tight">
-                    {stat.value}
-                  </span>
-                  <span className="text-muted-foreground mt-1 text-[13px]">
-                    {stat.detail}
-                  </span>
-                </div>
-              </StaggerItem>
-            );
-          })}
-        </Stagger>
-      </div>
-    </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
+        </div>
+      </Reveal>
+    </section>
   );
 }

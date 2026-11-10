@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { m, useReducedMotion } from "motion/react";
 
-import { HeroNameSpotlight } from "@/components/home/HeroNameSpotlight";
 import { useHydrated } from "@/components/motion/useHydrated";
 
 import {
@@ -29,30 +28,13 @@ export function heroNameSettleDelayMs(): number {
   return Math.ceil(motionDuration.heroName * 1000);
 }
 
-function HeroNameVisibleText({ sheen }: { sheen?: boolean }) {
-  return (
-    <>
-      <span className="from-brand-accent to-brand-accent/70 bg-linear-to-br bg-clip-text text-transparent">
-        {nameBeforeLast}
-      </span>
-      <span
-        className={cn("hero-name-saragi", sheen && "hero-name-saragi--sheen")}
-      >
-        {HERO_LAST_NAME}
-      </span>
-    </>
-  );
-}
-
 function HeroNameHeading({
   className,
-  sheen,
+  saragiSheen,
 }: {
   className?: string;
-  sheen?: boolean;
+  saragiSheen?: boolean;
 }) {
-  const visible = <HeroNameVisibleText sheen={sheen} />;
-
   return (
     <h1
       id="hero-heading"
@@ -63,11 +45,19 @@ function HeroNameHeading({
       )}
     >
       <span className="sr-only">{site.fullName}</span>
-      <HeroNameSpotlight spotlight={visible}>
-        <span aria-hidden className="inline">
-          {visible}
+      <span aria-hidden className="inline">
+        <span className="from-brand-accent to-brand-accent/70 bg-linear-to-br bg-clip-text text-transparent">
+          {nameBeforeLast}
         </span>
-      </HeroNameSpotlight>
+        <span
+          className={cn(
+            "hero-name-saragi",
+            saragiSheen && "hero-name-saragi--sheen",
+          )}
+        >
+          {HERO_LAST_NAME}
+        </span>
+      </span>
     </h1>
   );
 }
@@ -124,7 +114,7 @@ export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
         transition={motionHeroNameRevealTransition}
         onAnimationComplete={handleRevealComplete}
       >
-        <HeroNameHeading sheen={sheen} />
+        <HeroNameHeading saragiSheen={sheen} />
       </m.div>
     </div>
   );

@@ -107,7 +107,7 @@ export function AskYeremiaChat({
       className="bg-background flex h-[calc(100dvh-var(--nav-height))] flex-col overflow-hidden"
     >
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
-        <Reveal when="mount">
+        <Reveal when="mount" preset="calm">
           <p className="text-foreground/75 text-brand-accent text-xs font-medium tracking-wide uppercase">
             {askYeremia.topBarEyebrow}
           </p>

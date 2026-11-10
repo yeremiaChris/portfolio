@@ -13,7 +13,7 @@ export function BlogHeader() {
         aria-hidden
       />
 
-      <Reveal className="max-w-3xl min-w-0">
+      <Reveal when="mount" preset="calm" className="max-w-3xl min-w-0">
         <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-5xl">
           {blogIntro.title}
         </h1>

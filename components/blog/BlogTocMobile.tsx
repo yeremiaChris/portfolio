@@ -32,7 +32,7 @@ export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
   if (!shouldShowToc(headings)) return null;
 
   return (
-    <Reveal when="mount" className="lg:hidden">
+    <Reveal when="mount" preset="calm" className="lg:hidden">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
           render={

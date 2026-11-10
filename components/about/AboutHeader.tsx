@@ -14,7 +14,11 @@ export function AboutHeader() {
         aria-hidden
       />
 
-      <Reveal className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+      <Reveal
+        when="mount"
+        preset="calm"
+        className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end"
+      >
         <div className="max-w-3xl">
           <p className="text-foreground/75 mb-2 text-xs font-medium tracking-wide uppercase">
             {aboutIntro.eyebrow}

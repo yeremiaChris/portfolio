@@ -65,7 +65,11 @@ export default async function BlogTagPage({ params }: BlogTagPageProps) {
       <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
         <BlogHeader />
 
-        <Reveal className="text-muted-foreground label-caps -mt-4 mb-2 tracking-wider">
+        <Reveal
+          when="mount"
+          preset="calm"
+          className="text-muted-foreground label-caps -mt-4 mb-2 tracking-wider"
+        >
           Topic · {topic.label}
         </Reveal>
 

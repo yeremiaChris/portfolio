@@ -1,29 +1,32 @@
 import { Container } from "@/components/Container";
-import { HeroHeadline } from "@/components/home/HeroIntro";
+import { HeroAtmosphere } from "@/components/home/HeroAtmosphere";
+import { HeroFoldMotion } from "@/components/home/HeroFoldMotion";
+import { HeroScrollCue } from "@/components/home/HeroScrollCue";
+import { HeroViewportSection } from "@/components/home/HeroViewportSection";
 import { HeroProduction } from "@/components/home/HeroProduction";
-import { HeroVisual } from "@/components/home/HeroVisual";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 export function Hero() {
   return (
-    <section
-      id="overview"
-      aria-labelledby="hero-heading"
-      className="hero-signal relative w-full overflow-hidden py-10 md:py-14 lg:py-16"
-    >
-      <Container className="relative flex w-full flex-col items-start gap-0">
-        <Stagger when="mount" className="flex w-full flex-col">
-          <StaggerItem>
-            <div className="grid w-full grid-cols-1 items-start gap-8 xl:grid-cols-[minmax(0,1fr)_min(420px,38%)] xl:gap-10">
-              <HeroHeadline />
-              <HeroVisual />
-            </div>
-          </StaggerItem>
-          <StaggerItem>
-            <HeroProduction />
-          </StaggerItem>
-        </Stagger>
-      </Container>
-    </section>
+    <>
+      <HeroViewportSection
+        id="overview"
+        ariaLabelledby="hero-heading"
+        className="hero-signal relative flex w-full flex-col overflow-x-clip pt-10 pb-16 md:pt-14 md:pb-20 lg:min-h-[calc(100svh-var(--nav-height))] lg:pt-8 lg:pb-14"
+        footer={<HeroScrollCue targetId="production" />}
+      >
+        <HeroAtmosphere />
+        <Container className="relative z-10 flex w-full flex-1 flex-col justify-center lg:py-6">
+          <HeroFoldMotion />
+        </Container>
+      </HeroViewportSection>
+      <div
+        id="production"
+        className="w-full scroll-mt-6 pt-8 pb-12 md:pt-10 md:pb-16 lg:pt-12"
+      >
+        <Container>
+          <HeroProduction />
+        </Container>
+      </div>
+    </>
   );
 }

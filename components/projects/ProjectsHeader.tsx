@@ -4,7 +4,7 @@ import { projectsIntro } from "@/lib/projects";
 export function ProjectsHeader() {
   return (
     <section className="flex w-full min-w-0 flex-col gap-6 pt-2 pb-8 md:pt-4 md:pb-10">
-      <Reveal className="max-w-3xl min-w-0">
+      <Reveal when="mount" preset="calm" className="max-w-3xl min-w-0">
         <h1 className="font-heading text-foreground text-3xl wrap-break-word sm:text-4xl lg:text-5xl">
           {projectsIntro.title}
         </h1>

@@ -66,7 +66,7 @@ export function BlogIndexExplore({
       </div>
 
       {featured ? (
-        <Reveal>
+        <Reveal when="mount" preset="calm">
           <FeaturedPost post={featured} />
         </Reveal>
       ) : null}
@@ -75,7 +75,7 @@ export function BlogIndexExplore({
         aria-labelledby="blog-grid-heading"
         className="mb-4 flex w-full min-w-0 flex-col gap-4 md:mb-6 md:gap-5"
       >
-        <Reveal>
+        <Reveal when="mount" preset="calm">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span
@@ -110,7 +110,10 @@ export function BlogIndexExplore({
             The featured post above is the only match for this filter.
           </p>
         ) : (
-          <Stagger className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+          <Stagger
+            preset="calm"
+            className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3"
+          >
             {remaining.map((post) => (
               <StaggerItem key={post.slug}>
                 <BlogPostCard post={post} />

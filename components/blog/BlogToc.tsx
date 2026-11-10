@@ -92,7 +92,7 @@ export function BlogToc({ headings }: { headings: BlogHeading[] }) {
   if (items.length < MIN_HEADINGS) return null;
 
   return (
-    <Reveal when="mount">
+    <Reveal when="mount" preset="calm">
       <Card className="bg-muted ring-border/40 hidden gap-0 rounded-xl py-0 lg:block">
         <CardHeader className="border-border/40 border-b p-4 pb-3">
           <BlogTocHeader count={items.length} />

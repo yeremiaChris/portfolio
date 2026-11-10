@@ -478,7 +478,6 @@ html[data-intro="playing"] [data-intro-bar] {
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
   animation: hero-signal-grid-shimmer 15s ease-in-out infinite;
-  will-change: transform, opacity;
 }
 
 .hero-signal-aurora {
@@ -489,9 +488,8 @@ html[data-intro="playing"] [data-intro-bar] {
 .hero-signal-aurora-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(72px);
-  opacity: 0.22;
-  will-change: transform;
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .hero-signal-aurora-blob--a {
@@ -499,8 +497,13 @@ html[data-intro="playing"] [data-intro-bar] {
   left: 8%;
   width: min(420px, 62vw);
   height: min(380px, 56vw);
-  background: rgb(76 215 246 / 0.32);
-  animation: hero-signal-aurora-a 26s ease-in-out infinite;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(76 215 246 / 0.34) 0%,
+    rgb(76 215 246 / 0.14) 38%,
+    rgb(76 215 246 / 0.04) 62%,
+    transparent 72%
+  );
 }
 
 .hero-signal-aurora-blob--b {
@@ -508,8 +511,13 @@ html[data-intro="playing"] [data-intro-bar] {
   right: -6%;
   width: min(520px, 78vw);
   height: min(440px, 66vw);
-  background: rgb(58 190 210 / 0.28);
-  animation: hero-signal-aurora-b 22s ease-in-out infinite;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(58 190 210 / 0.3) 0%,
+    rgb(58 190 210 / 0.12) 40%,
+    rgb(58 190 210 / 0.03) 64%,
+    transparent 74%
+  );
 }
 
 .hero-signal-aurora-blob--c {
@@ -517,7 +525,24 @@ html[data-intro="playing"] [data-intro-bar] {
   left: 30%;
   width: min(480px, 70vw);
   height: min(400px, 58vw);
-  background: rgb(92 225 244 / 0.24);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(92 225 244 / 0.26) 0%,
+    rgb(92 225 244 / 0.1) 42%,
+    rgb(92 225 244 / 0.03) 66%,
+    transparent 76%
+  );
+}
+
+.hero-signal-atmosphere--enhanced .hero-signal-aurora-blob--a {
+  animation: hero-signal-aurora-a 26s ease-in-out infinite;
+}
+
+.hero-signal-atmosphere--enhanced .hero-signal-aurora-blob--b {
+  animation: hero-signal-aurora-b 22s ease-in-out infinite;
+}
+
+.hero-signal-atmosphere--enhanced .hero-signal-aurora-blob--c {
   animation: hero-signal-aurora-c 28s ease-in-out infinite;
 }
 
@@ -572,6 +597,10 @@ html[data-intro="playing"] [data-intro-bar] {
   animation-play-state: paused;
 }
 
+.hero-name-reveal {
+  overflow: hidden;
+}
+
 @media (max-width: 480px) {
   .hero-signal-grid {
     background-size: 48px 48px;
@@ -579,8 +608,7 @@ html[data-intro="playing"] [data-intro-bar] {
   }
 
   .hero-signal-aurora-blob {
-    filter: blur(56px);
-    opacity: 0.16;
+    opacity: 0.75;
   }
 
   .hero-signal-aurora-blob--c {

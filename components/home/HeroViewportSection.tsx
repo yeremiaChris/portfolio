@@ -6,6 +6,8 @@ import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { motionHeroScrollFade } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
+import { useHydrated } from "@/components/motion/useHydrated";
+
 type HeroViewportSectionProps = {
   children: ReactNode;
   className?: string;
@@ -20,6 +22,7 @@ export function HeroViewportSection({
   ariaLabelledby,
 }: HeroViewportSectionProps) {
   const reducedMotion = useReducedMotion();
+  const hydrated = useHydrated();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -36,6 +39,8 @@ export function HeroViewportSection({
     [0, motionHeroScrollFade.yEnd],
   );
 
+  const useScrollFade = hydrated && !reducedMotion;
+
   return (
     <section
       ref={sectionRef}
@@ -43,15 +48,15 @@ export function HeroViewportSection({
       aria-labelledby={ariaLabelledby}
       className={cn(className)}
     >
-      {reducedMotion ? (
-        children
-      ) : (
+      {useScrollFade ? (
         <m.div
           style={{ opacity, y }}
           className="flex min-h-0 w-full flex-1 flex-col"
         >
           {children}
         </m.div>
+      ) : (
+        children
       )}
     </section>
   );

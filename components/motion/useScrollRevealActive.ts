@@ -1,9 +1,13 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "motion/react";
 
 import { motionViewport } from "@/lib/motion-tokens";
+
+import { useHydrated } from "@/components/motion/useHydrated";
+
+const FAILSAFE_MS = 2500;
 
 type UseScrollRevealActiveOptions = {
   when: "mount" | "inView";
@@ -11,32 +15,32 @@ type UseScrollRevealActiveOptions = {
 
 export function useScrollRevealActive({ when }: UseScrollRevealActiveOptions) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, motionViewport);
-  const [aboveFold, setAboveFold] = useState(when === "mount");
+  const hydrated = useHydrated();
+  const inView = useInView(ref, {
+    ...motionViewport,
+    initial: false,
+  });
+  const [mountArmed, setMountArmed] = useState(false);
+  const [failOpen, setFailOpen] = useState(false);
 
-  useLayoutEffect(() => {
-    if (when === "mount") {
+  useEffect(() => {
+    if (when !== "mount") {
       return;
     }
-
-    const measure = () => {
-      const element = ref.current;
-      if (!element) {
-        return;
-      }
-      const rect = element.getBoundingClientRect();
-      const viewHeight = window.innerHeight;
-      if (rect.top < viewHeight + 64 && rect.bottom > 0) {
-        setAboveFold(true);
-      }
-    };
-
-    measure();
-    window.addEventListener("resize", measure, { passive: true });
-    return () => window.removeEventListener("resize", measure);
+    let frame = 0;
+    frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => setMountArmed(true));
+    });
+    return () => cancelAnimationFrame(frame);
   }, [when]);
 
-  const active = when === "mount" || aboveFold || inView;
+  useEffect(() => {
+    const timer = window.setTimeout(() => setFailOpen(true), FAILSAFE_MS);
+    return () => window.clearTimeout(timer);
+  }, []);
 
-  return { ref, active };
+  const scrollActive = when === "mount" ? mountArmed : inView;
+  const active = failOpen || (hydrated && scrollActive);
+
+  return { ref, active, hydrated };
 }

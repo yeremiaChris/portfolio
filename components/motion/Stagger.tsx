@@ -4,6 +4,7 @@ import {
   Children,
   cloneElement,
   isValidElement,
+  useMemo,
   type ReactElement,
   type ReactNode,
 } from "react";
@@ -34,7 +35,7 @@ export function Stagger({
   when = "inView",
   preset = "calm",
 }: StaggerProps) {
-  const { ref, active } = useScrollRevealActive({ when });
+  const { ref, active, hydrated } = useScrollRevealActive({ when });
 
   const items = Children.map(children, (child, index) => {
     if (!isValidElement(child) || child.type !== StaggerItem) {
@@ -44,13 +45,15 @@ export function Stagger({
     return cloneElement(element, { staggerIndex: index, preset, when });
   });
 
+  const animateTarget = hydrated && active ? "visible" : "hidden";
+
   return (
     <m.div
       ref={ref}
       data-stagger=""
       className={cn(className)}
-      initial="hidden"
-      animate={active ? "visible" : "hidden"}
+      initial={false}
+      animate={animateTarget}
       variants={staggerParentVariants}
     >
       {items}
@@ -86,24 +89,26 @@ export function StaggerItem({
   const delay = motionStaggerChildDelay(staggerIndex, preset);
   const offset = motionPresetRevealOffset(preset, when);
 
+  const itemVariants = useMemo(
+    () => ({
+      hidden: {
+        opacity: 0,
+        y: offset,
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          ...motionPresetRevealTransition(preset, when),
+          delay,
+        },
+      },
+    }),
+    [delay, offset, preset, when],
+  );
+
   return (
-    <m.div
-      className={cn(className)}
-      variants={{
-        hidden: {
-          opacity: 0,
-          y: offset,
-        },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            ...motionPresetRevealTransition(preset, when),
-            delay,
-          },
-        },
-      }}
-    >
+    <m.div className={cn(className)} variants={itemVariants}>
       {children}
     </m.div>
   );

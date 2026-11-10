@@ -22,7 +22,8 @@ export const motionSpring = {
 export const motionHeroScrollCue = {
   duration: 1.4,
   ease: motionEase,
-  offset: 6,
+  chevronNudgePx: 3,
+  scrollFadeEnd: 0.12,
 } as const;
 
 export const motionHeroScrollFade = {

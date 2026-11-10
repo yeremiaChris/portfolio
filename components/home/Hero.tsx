@@ -12,12 +12,12 @@ export function Hero() {
         id="overview"
         ariaLabelledby="hero-heading"
         className="hero-signal relative flex w-full flex-col overflow-hidden pt-10 pb-16 md:pt-14 md:pb-20 lg:min-h-[calc(100svh-var(--nav-height))] lg:pt-8 lg:pb-14"
+        footer={<HeroScrollCue targetId="production" />}
       >
         <HeroAtmosphere />
         <Container className="relative z-10 flex w-full flex-1 flex-col justify-center lg:py-6">
           <HeroFoldMotion />
         </Container>
-        <HeroScrollCue targetId="production" />
       </HeroViewportSection>
       <div
         id="production"

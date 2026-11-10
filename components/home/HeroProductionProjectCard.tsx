@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 
 import { homeSignalCardClassName } from "@/lib/home-signal-card";
@@ -13,43 +12,33 @@ export function HeroProductionProjectCard({
   project,
 }: HeroProductionProjectCardProps) {
   const {
-    featured,
     label,
     href,
     description,
     role,
     stackTags,
-    image,
-    imageAlt,
+    monogram,
     visitUrl,
+    highlights,
   } = project;
 
   return (
-    <article
-      className={cn(
-        homeSignalCardClassName,
-        "h-full gap-4",
-        featured && "md:gap-5 md:p-6",
-      )}
-    >
-      <p className="flex items-start gap-3">
-        <span className="border-border/60 bg-muted/50 relative size-11 shrink-0 overflow-hidden rounded-lg border">
-          <Image
-            src={image}
-            alt={imageAlt}
-            width={44}
-            height={44}
-            className="size-full object-cover object-top"
-          />
+    <article className={cn(homeSignalCardClassName, "h-auto gap-3")}>
+      <p className="flex items-start gap-2.5">
+        <span
+          className="border-brand-accent/35 bg-brand-accent/12 text-brand-accent flex size-10 shrink-0 items-center justify-center rounded-lg border font-mono text-[11px] font-semibold tracking-tight"
+          aria-hidden
+        >
+          {monogram}
         </span>
         <span className="min-w-0 flex-1">
           <a
             href={href}
-            className="text-foreground focus-ring font-heading hover:text-brand-accent text-base font-semibold tracking-tight outline-none sm:text-[17px]"
+            className="text-foreground focus-ring font-heading hover:text-brand-accent text-[15px] font-semibold tracking-tight outline-none"
           >
             {label}
           </a>
-          <span className="text-muted-foreground mt-0.5 block text-[13px] leading-snug">
+          <span className="text-muted-foreground mt-0.5 block text-[12px] leading-snug">
             {role}
           </span>
         </span>
@@ -65,16 +54,19 @@ export function HeroProductionProjectCard({
         ))}
       </ul>
 
-      <p
-        className={cn(
-          "text-muted-foreground text-sm leading-relaxed",
-          featured && "md:text-[15px]",
-        )}
-      >
+      <p className="text-muted-foreground text-sm leading-snug">
         {description}
       </p>
 
-      <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-1">
+      {highlights && highlights.length > 0 ? (
+        <ul className="text-muted-foreground list-disc space-y-1 pl-4 text-[13px] leading-snug">
+          {highlights.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      ) : null}
+
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-0.5">
         <a
           href={href}
           className="text-brand-accent focus-ring text-sm font-medium outline-none hover:underline"

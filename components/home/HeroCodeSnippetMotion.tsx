@@ -7,7 +7,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type ReactNode,
 } from "react";
 import { m, useReducedMotion } from "motion/react";
@@ -29,10 +28,6 @@ import {
   motionPresetRevealTransition,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
-import {
-  HERO_TERMINAL_DEMO_SLOT_HEIGHT,
-  HeroTerminalDemo,
-} from "@/components/home/HeroTerminalDemo";
 
 const LINE_ROW_CLASS =
   "relative grid grid-cols-[1.25rem_minmax(0,1fr)] items-baseline gap-x-2.5 rounded-sm px-0.5 -mx-0.5";
@@ -56,7 +51,7 @@ type Phase =
   | { type: "stagger"; lineNs: number[]; nextCommandIndex: number }
   | { type: "done" };
 
-function HeroCodeSnippetStatic({ ready }: HeroCodeSnippetMotionProps) {
+function HeroCodeSnippetStatic() {
   const liveRegionId = useId();
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
 
@@ -111,7 +106,6 @@ function HeroCodeSnippetStatic({ ready }: HeroCodeSnippetMotionProps) {
           />
         );
       })}
-      <HeroTerminalDemoSlot active={ready} />
     </div>
   );
 }
@@ -329,22 +323,6 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
           />
         );
       })}
-      <HeroTerminalDemoSlot active={phase.type === "done"} />
-    </div>
-  );
-}
-
-function HeroTerminalDemoSlot({ active }: { active: boolean }) {
-  return (
-    <div
-      className="hero-terminal-demo-slot flex h-[var(--hero-terminal-demo-slot)] shrink-0 flex-col justify-end"
-      style={
-        {
-          "--hero-terminal-demo-slot": HERO_TERMINAL_DEMO_SLOT_HEIGHT,
-        } as CSSProperties
-      }
-    >
-      <HeroTerminalDemo active={active} />
     </div>
   );
 }
@@ -471,13 +449,13 @@ function MotionLineRow({
   );
 }
 
-export const heroCodeBodyMinHeight = `calc(${HERO_CODE_LINE_COUNT} * 1.55em + ${HERO_CODE_LINE_COUNT - 1} * 0.125rem + ${HERO_TERMINAL_DEMO_SLOT_HEIGHT})`;
+export const heroCodeBodyMinHeight = `calc(${HERO_CODE_LINE_COUNT} * 1.55em + ${HERO_CODE_LINE_COUNT - 1} * 0.125rem)`;
 
 export function HeroCodeSnippetMotion({ ready }: HeroCodeSnippetMotionProps) {
   const reducedMotion = useReducedMotion();
 
   if (reducedMotion) {
-    return <HeroCodeSnippetStatic ready={ready} />;
+    return <HeroCodeSnippetStatic />;
   }
 
   return <HeroCodeSnippetTyping ready={ready} />;

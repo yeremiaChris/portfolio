@@ -16,11 +16,11 @@ describe("motion-tokens", () => {
   });
 
   it("defines expressive and calm presets", () => {
-    expect(motionPresetConfig.expressive.revealDuration).toBe(0.5);
-    expect(motionPresetConfig.expressive.revealOffset).toBe(16);
+    expect(motionPresetConfig.expressive.revealDuration).toBe(0.7);
+    expect(motionPresetConfig.expressive.revealOffset).toBe(28);
     expect(motionPresetConfig.expressive.staggerGap).toBe(0.06);
     expect(motionPresetConfig.calm.revealDurationMount).toBe(0.25);
-    expect(motionPresetConfig.calm.revealOffset).toBe(4);
+    expect(motionPresetConfig.calm.revealOffset).toBe(8);
     expect(motionPresetConfig.calm.staggerMaxDelay).toBe(0.15);
   });
 
@@ -37,10 +37,11 @@ describe("motion-tokens", () => {
 
   it("resolves preset reveal offset and transition by when", () => {
     expect(motionPresetRevealOffset("calm", "mount")).toBe(4);
-    expect(motionPresetRevealOffset("expressive", "inView")).toBe(16);
+    expect(motionPresetRevealOffset("expressive", "inView")).toBe(28);
     expect(motionPresetRevealTransition("calm", "mount").duration).toBe(0.25);
+    expect(motionPresetRevealTransition("calm", "inView").duration).toBe(0.4);
     expect(motionPresetRevealTransition("expressive", "inView").duration).toBe(
-      0.5,
+      0.7,
     );
   });
 

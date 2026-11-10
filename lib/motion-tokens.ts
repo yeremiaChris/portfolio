@@ -39,17 +39,17 @@ export const motionHeroScrollFade = {
 
 export const motionPresetConfig = {
   expressive: {
-    revealDuration: 0.5,
+    revealDuration: 0.7,
     revealDurationMount: 0.5,
-    revealOffset: 16,
+    revealOffset: 28,
     revealOffsetMount: 16,
     staggerGap: 0.06,
     staggerMaxDelay: 0.36,
   },
   calm: {
-    revealDuration: 0.3,
+    revealDuration: 0.4,
     revealDurationMount: 0.25,
-    revealOffset: 4,
+    revealOffset: 8,
     revealOffsetMount: 4,
     staggerGap: 0.025,
     staggerMaxDelay: 0.15,
@@ -91,8 +91,8 @@ export const motionPageTransition = {
 
 export const motionViewport = {
   once: true,
-  amount: 0.05,
-  margin: "0px 0px 12% 0px",
+  amount: 0.18,
+  margin: "0px 0px -10% 0px",
 } as const;
 
 export const motionAnchorScrollOffset = -96;

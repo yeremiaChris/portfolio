@@ -5,7 +5,10 @@ import { useInView } from "motion/react";
 
 import { motionViewport } from "@/lib/motion-tokens";
 
-const FAILSAFE_MS = 2500;
+const FAILSAFE_MS = 12_000;
+
+const supportsIntersectionObserver =
+  typeof IntersectionObserver !== "undefined";
 
 type UseScrollRevealActiveOptions = {
   when: "mount" | "inView";
@@ -19,7 +22,7 @@ export function useScrollRevealActive({ when }: UseScrollRevealActiveOptions) {
   });
   const [mountArmed, setMountArmed] = useState(false);
   const [inViewArmed, setInViewArmed] = useState(false);
-  const [failOpen, setFailOpen] = useState(false);
+  const [failOpen, setFailOpen] = useState(!supportsIntersectionObserver);
 
   useEffect(() => {
     if (when !== "mount") {
@@ -53,9 +56,16 @@ export function useScrollRevealActive({ when }: UseScrollRevealActiveOptions) {
   }, [when, inView]);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setFailOpen(true), FAILSAFE_MS);
+    if (when !== "inView" || !supportsIntersectionObserver) {
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      if (inView) {
+        setFailOpen(true);
+      }
+    }, FAILSAFE_MS);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [when, inView]);
 
   const scrollActive = when === "mount" ? mountArmed : inView && inViewArmed;
   const active = failOpen || scrollActive;

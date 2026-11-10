@@ -123,6 +123,8 @@ export const TONE_CLASS = {
 
 export const HERO_CODE_LINE_COUNT = HERO_CODE_LINES.length;
 
+export const heroCodeBodyMinHeight = `calc(${HERO_CODE_LINE_COUNT} * 1.55em + ${HERO_CODE_LINE_COUNT - 1} * 0.125rem)`;
+
 export const HERO_CODE_SNIPPET_ARIA_LABEL = HERO_CODE_LINES.map((line) =>
   linePlainText(line),
 )

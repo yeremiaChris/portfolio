@@ -1,13 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { m, useReducedMotion } from "motion/react";
 
-import {
-  motionDuration,
-  motionHeroNameRevealTransition,
-  motionPresetConfig,
-} from "@/lib/motion-tokens";
+import { motionDuration } from "@/lib/motion-tokens";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -58,47 +53,55 @@ function HeroNameHeading({
   );
 }
 
-export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
-  const reducedMotion = useReducedMotion();
-  const [sheen, setSheen] = useState(false);
+const HERO_HEADLINE_ROOT_ID = "hero-headline-root";
 
-  const handleRevealComplete = useCallback(() => {
-    setSheen(true);
+type HeroNameRevealBridgeProps = {
+  className?: string;
+};
+
+export function HeroNameRevealBridge({ className }: HeroNameRevealBridgeProps) {
+  const onSettled = useCallback(() => {
+    document
+      .getElementById(HERO_HEADLINE_ROOT_ID)
+      ?.setAttribute("data-hero-ready", "");
+  }, []);
+
+  return <HeroNameReveal className={className} onSettled={onSettled} />;
+}
+
+export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
+  const [sheen, setSheen] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(true);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReducedMotion(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
   }, []);
 
   useEffect(() => {
     if (reducedMotion) {
       onSettled?.();
-      return;
+      const timer = window.setTimeout(() => setSheen(true), 0);
+      return () => window.clearTimeout(timer);
     }
 
     const delayMs = heroNameSettleDelayMs();
     const timer = window.setTimeout(() => {
       onSettled?.();
+      setSheen(true);
     }, delayMs);
 
     return () => window.clearTimeout(timer);
   }, [onSettled, reducedMotion]);
 
-  if (reducedMotion) {
-    return <HeroNameHeading className={className} />;
-  }
-
-  const revealOffset = motionPresetConfig.expressive.revealOffset;
-
   return (
     <div className={cn("hero-name-reveal overflow-hidden", className)}>
-      <m.div
-        initial={{
-          y: revealOffset,
-          clipPath: "inset(0% 0% 0% 0%)",
-        }}
-        animate={{ y: 0, clipPath: "inset(0% 0% 0% 0%)" }}
-        transition={motionHeroNameRevealTransition}
-        onAnimationComplete={handleRevealComplete}
-      >
+      <div className={cn(!reducedMotion && "hero-name-reveal-track")}>
         <HeroNameHeading saragiSheen={sheen} />
-      </m.div>
+      </div>
     </div>
   );
 }

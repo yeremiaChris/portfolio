@@ -1,15 +1,8 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
-import {
-  m,
-  useMotionValue,
-  useReducedMotion,
-  useTransform,
-} from "motion/react";
 
-import { HeroSectionScrollProgressContext } from "@/components/home/HeroViewportSection";
 import { motionHeroScrollCue } from "@/lib/motion-tokens";
 import { scrollDocumentToElement } from "@/lib/programmatic-scroll";
 import { cn } from "@/lib/utils";
@@ -20,36 +13,57 @@ type HeroScrollCueProps = {
 };
 
 export function HeroScrollCue({ targetId, className }: HeroScrollCueProps) {
-  const reducedMotion = useReducedMotion();
-  const scrollYProgress = useContext(HeroSectionScrollProgressContext);
-  const fallbackProgress = useMotionValue(0);
-  const fadeOpacity = useTransform(
-    scrollYProgress ?? fallbackProgress,
-    [0, motionHeroScrollCue.scrollFadeEnd],
-    [1, 0],
-  );
+  const [opacity, setOpacity] = useState(1);
   const [interactive, setInteractive] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    if (!scrollYProgress) {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReducedMotion(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    const section = document.getElementById("overview");
+    if (!section) {
       return;
     }
-    const unsubscribe = fadeOpacity.on("change", (value) => {
-      setInteractive(value > 0.08);
-    });
-    return unsubscribe;
-  }, [fadeOpacity, scrollYProgress]);
+
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const fadeSpan = Math.max(
+        rect.height * motionHeroScrollCue.scrollFadeEnd,
+        1,
+      );
+      const progress = Math.min(1, Math.max(0, -rect.top / fadeSpan));
+      const nextOpacity = 1 - progress;
+      setOpacity(nextOpacity);
+      setInteractive(nextOpacity > 0.08);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   return (
-    <m.button
+    <button
       type="button"
       aria-label="Scroll to production work"
       aria-hidden={!interactive}
       tabIndex={interactive ? 0 : -1}
-      style={{ opacity: fadeOpacity }}
+      style={{ opacity }}
       className={cn(
-        "text-muted-foreground hover:text-brand-accent absolute bottom-10 left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center rounded-full p-2 transition-colors lg:flex",
+        "hero-scroll-cue text-muted-foreground hover:text-brand-accent absolute bottom-10 left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center rounded-full p-2 transition-colors lg:flex",
         !interactive && "pointer-events-none",
+        reducedMotion && "hero-scroll-cue--static",
         className,
       )}
       onClick={() => {
@@ -63,33 +77,14 @@ export function HeroScrollCue({ targetId, className }: HeroScrollCueProps) {
       }}
     >
       <span aria-hidden className="flex flex-col items-center gap-1">
-        <m.span
+        <span
           aria-hidden
-          className="bg-brand-accent/40 block h-6 w-px origin-top rounded-full"
-          initial={false}
-          animate={reducedMotion ? { scaleY: 1 } : { scaleY: [0.55, 1, 0.55] }}
-          transition={{
-            duration: motionHeroScrollCue.duration,
-            repeat: reducedMotion ? 0 : Infinity,
-            ease: motionHeroScrollCue.ease,
-          }}
+          className="hero-scroll-cue-bar bg-brand-accent/40 block h-6 w-px origin-top rounded-full"
         />
-        <m.span
-          aria-hidden
-          animate={
-            reducedMotion
-              ? undefined
-              : { y: [0, motionHeroScrollCue.chevronNudgePx, 0] }
-          }
-          transition={{
-            duration: motionHeroScrollCue.duration,
-            repeat: reducedMotion ? 0 : Infinity,
-            ease: motionHeroScrollCue.ease,
-          }}
-        >
+        <span aria-hidden className="hero-scroll-cue-chevron inline-flex">
           <ChevronDownIcon className="size-4" strokeWidth={1.75} />
-        </m.span>
+        </span>
       </span>
-    </m.button>
+    </button>
   );
 }

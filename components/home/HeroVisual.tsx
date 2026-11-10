@@ -1,7 +1,5 @@
-import {
-  HeroCodeSnippetMotion,
-  heroCodeBodyMinHeight,
-} from "@/components/home/HeroCodeSnippetMotion";
+import { HeroCodeSnippetMotion } from "@/components/home/HeroCodeSnippetMotion";
+import { heroCodeBodyMinHeight } from "@/lib/hero-code-lines";
 import { HeroTerminalLiveStatus } from "@/components/home/HeroTerminalLiveStatus";
 import { homeSignalTerminalShellClassName } from "@/lib/home-signal-card";
 

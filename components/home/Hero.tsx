@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { HeroAtmosphere } from "@/components/home/HeroAtmosphere";
-import { HeroFoldMotion } from "@/components/home/HeroFoldMotion";
+import { HeroFold } from "@/components/home/HeroFold";
 import { HeroScrollCue } from "@/components/home/HeroScrollCue";
 import { HeroViewportSection } from "@/components/home/HeroViewportSection";
 import { HeroProduction } from "@/components/home/HeroProduction";
@@ -16,7 +16,7 @@ export function Hero() {
       >
         <HeroAtmosphere />
         <Container className="relative z-10 flex w-full flex-1 flex-col justify-center lg:py-6">
-          <HeroFoldMotion />
+          <HeroFold />
         </Container>
       </HeroViewportSection>
       <div

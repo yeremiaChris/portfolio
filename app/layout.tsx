@@ -21,19 +21,20 @@ const geist = Geist({
   variable: "--font-geist-sans",
   preload: true,
   display: "swap",
+  adjustFontFallback: true,
 });
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
-  preload: true,
+  preload: false,
   display: "swap",
 });
 
 const rethinkSans = Rethink_Sans({
   subsets: ["latin"],
   variable: "--font-rethink-sans",
-  preload: true,
+  preload: false,
   display: "swap",
 });
 

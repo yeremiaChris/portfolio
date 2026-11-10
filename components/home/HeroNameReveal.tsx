@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import { useHeroReady } from "@/components/home/HeroReady";
 import { motionDuration } from "@/lib/motion-tokens";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -53,18 +54,15 @@ function HeroNameHeading({
   );
 }
 
-const HERO_HEADLINE_ROOT_ID = "hero-headline-root";
-
 type HeroNameRevealBridgeProps = {
   className?: string;
 };
 
 export function HeroNameRevealBridge({ className }: HeroNameRevealBridgeProps) {
+  const { markReady } = useHeroReady();
   const onSettled = useCallback(() => {
-    document
-      .getElementById(HERO_HEADLINE_ROOT_ID)
-      ?.setAttribute("data-hero-ready", "");
-  }, []);
+    markReady();
+  }, [markReady]);
 
   return <HeroNameReveal className={className} onSettled={onSettled} />;
 }

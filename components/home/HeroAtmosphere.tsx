@@ -28,7 +28,7 @@ export function HeroAtmosphere() {
       ref={rootRef}
       aria-hidden
       className={cn(
-        "hero-signal-atmosphere pointer-events-none absolute inset-0 z-0 overflow-hidden",
+        "hero-signal-atmosphere pointer-events-none absolute z-0",
         paused && "hero-signal-atmosphere--paused",
       )}
     >

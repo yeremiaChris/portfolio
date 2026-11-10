@@ -338,33 +338,100 @@ html[data-intro="playing"] [data-intro-bar] {
   mask-composite: exclude;
 }
 
-.hero-signal::before,
+.hero-signal {
+  background-color: var(--background);
+}
+
+.hero-signal::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 6;
+  height: min(22%, 7.5rem);
+  background: linear-gradient(
+    to bottom,
+    var(--background) 0%,
+    color-mix(in srgb, var(--background) 65%, transparent) 42%,
+    transparent 100%
+  );
+}
+
 .hero-signal::after {
-  content: none;
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  height: min(30%, 12rem);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--background) 55%, transparent) 38%,
+    var(--background) 100%
+  );
 }
 
 .hero-signal-atmosphere {
   contain: layout style paint;
+  inset: 0 -2% -14% -2%;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 0.45) 7%,
+    black 16%,
+    black 70%,
+    rgb(0 0 0 / 0.35) 84%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 0.45) 7%,
+    black 16%,
+    black 70%,
+    rgb(0 0 0 / 0.35) 84%,
+    transparent 100%
+  );
 }
 
 .hero-signal-grid {
   position: absolute;
-  inset: -8%;
+  inset: -8% -8% -18%;
   background-image:
     linear-gradient(rgb(76 215 246 / 0.075) 1px, transparent 1px),
     linear-gradient(90deg, rgb(76 215 246 / 0.075) 1px, transparent 1px);
   background-size: 56px 56px;
-  mask-image: radial-gradient(
-    ellipse 88% 78% at 50% 42%,
-    rgb(0 0 0 / 0.95),
-    transparent 72%
-  );
+  -webkit-mask-image:
+    radial-gradient(ellipse 92% 82% at 50% 40%, black 42%, transparent 78%),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 14%,
+      black 72%,
+      transparent 100%
+    );
+  mask-image:
+    radial-gradient(ellipse 92% 82% at 50% 40%, black 42%, transparent 78%),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 14%,
+      black 72%,
+      transparent 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
   opacity: 0.85;
 }
 
 .hero-signal-grid-shimmer {
   position: absolute;
-  inset: -12%;
+  inset: -12% -12% -18%;
   background: radial-gradient(
     circle at 50% 50%,
     rgb(76 215 246 / 0.16),
@@ -372,18 +439,33 @@ html[data-intro="playing"] [data-intro-bar] {
   );
   background-size: 140% 140%;
   mix-blend-mode: screen;
-  mask-image: radial-gradient(
-    ellipse 88% 78% at 50% 42%,
-    rgb(0 0 0 / 0.9),
-    transparent 74%
-  );
+  -webkit-mask-image:
+    radial-gradient(ellipse 92% 82% at 50% 40%, black 38%, transparent 76%),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 14%,
+      black 72%,
+      transparent 100%
+    );
+  mask-image:
+    radial-gradient(ellipse 92% 82% at 50% 40%, black 38%, transparent 76%),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 14%,
+      black 72%,
+      transparent 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
   animation: hero-signal-grid-shimmer 15s ease-in-out infinite;
   will-change: transform, opacity;
 }
 
 .hero-signal-aurora {
   position: absolute;
-  inset: 0;
+  inset: 0 0 -16% 0;
 }
 
 .hero-signal-aurora-blob {
@@ -413,7 +495,7 @@ html[data-intro="playing"] [data-intro-bar] {
 }
 
 .hero-signal-aurora-blob--c {
-  bottom: -8%;
+  bottom: 6%;
   left: 30%;
   width: min(480px, 70vw);
   height: min(400px, 58vw);

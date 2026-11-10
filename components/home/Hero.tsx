@@ -11,7 +11,7 @@ export function Hero() {
       <HeroViewportSection
         id="overview"
         ariaLabelledby="hero-heading"
-        className="hero-signal relative flex w-full flex-col overflow-hidden pt-10 pb-16 md:pt-14 md:pb-20 lg:min-h-[calc(100svh-var(--nav-height))] lg:pt-8 lg:pb-14"
+        className="hero-signal relative flex w-full flex-col overflow-x-clip pt-10 pb-16 md:pt-14 md:pb-20 lg:min-h-[calc(100svh-var(--nav-height))] lg:pt-8 lg:pb-14"
         footer={<HeroScrollCue targetId="production" />}
       >
         <HeroAtmosphere />

@@ -48,7 +48,7 @@ export function HeroScrollCue({ targetId, className }: HeroScrollCueProps) {
       tabIndex={interactive ? 0 : -1}
       style={{ opacity: fadeOpacity }}
       className={cn(
-        "text-muted-foreground hover:text-brand-accent absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center rounded-full p-2 transition-colors lg:flex",
+        "text-muted-foreground hover:text-brand-accent absolute bottom-10 left-1/2 z-20 hidden -translate-x-1/2 items-center justify-center rounded-full p-2 transition-colors lg:flex",
         !interactive && "pointer-events-none",
         className,
       )}

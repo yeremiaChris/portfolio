@@ -356,6 +356,7 @@ function MotionLineRow({
 }: MotionLineRowProps) {
   const reducedMotion = useReducedMotion();
   const hoverTransition = terminalHoverTransition(Boolean(reducedMotion));
+  const hoverActive = hovered && visible;
 
   return (
     <m.div
@@ -368,20 +369,15 @@ function MotionLineRow({
           ? {
               opacity: 1,
               y: 0,
-              backgroundColor: hovered
-                ? "rgb(76 215 246 / 0.06)"
-                : "rgb(76 215 246 / 0)",
             }
           : {
               opacity: 0,
               y: motionPresetConfig.calm.revealOffset,
-              backgroundColor: "rgb(76 215 246 / 0)",
             }
       }
       transition={{
         opacity: motionPresetRevealTransition("calm", "inView"),
         y: motionPresetRevealTransition("calm", "inView"),
-        backgroundColor: hoverTransition,
       }}
       onPointerEnter={visible ? onPointerEnter : undefined}
       onPointerLeave={visible ? onPointerLeave : undefined}
@@ -389,10 +385,31 @@ function MotionLineRow({
     >
       <m.span
         aria-hidden
-        className="bg-brand-accent pointer-events-none absolute top-0.5 bottom-0.5 left-0 w-0.5 rounded-full"
+        className="pointer-events-none absolute inset-0 -mx-0.5 rounded-sm"
         initial={false}
-        animate={{ opacity: hovered && visible ? 1 : 0 }}
+        animate={{ opacity: hoverActive ? 1 : 0 }}
         transition={hoverTransition}
+        style={{
+          background:
+            "linear-gradient(90deg, rgb(76 215 246 / 0.1) 0%, transparent 68%)",
+        }}
+      />
+      <m.span
+        aria-hidden
+        className="pointer-events-none absolute top-0.5 bottom-0.5 left-0 w-[3px] rounded-full"
+        initial={false}
+        animate={{
+          scaleY: hoverActive ? 1 : 0,
+          opacity: hoverActive ? 1 : 0,
+        }}
+        transition={hoverTransition}
+        style={{
+          transformOrigin: "center center",
+          background:
+            "linear-gradient(180deg, #4cd7f6 0%, #eafcff 92%, #f5fcfe 100%)",
+          boxShadow:
+            "0 0 10px rgb(76 215 246 / 0.55), 0 0 3px rgb(76 215 246 / 0.45)",
+        }}
       />
       <span
         className={cn(

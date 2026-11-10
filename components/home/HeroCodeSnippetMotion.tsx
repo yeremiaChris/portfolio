@@ -48,7 +48,6 @@ function terminalHoverTransition(reducedMotion: boolean) {
 
 type HeroCodeSnippetMotionProps = {
   ready: boolean;
-  onFlatTiltChange?: (flat: boolean) => void;
 };
 
 type Phase =
@@ -57,10 +56,7 @@ type Phase =
   | { type: "stagger"; lineNs: number[]; nextCommandIndex: number }
   | { type: "done" };
 
-function HeroCodeSnippetStatic({
-  ready,
-  onFlatTiltChange,
-}: HeroCodeSnippetMotionProps) {
+function HeroCodeSnippetStatic({ ready }: HeroCodeSnippetMotionProps) {
   const liveRegionId = useId();
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
 
@@ -115,18 +111,12 @@ function HeroCodeSnippetStatic({
           />
         );
       })}
-      <HeroTerminalInteractiveSlot
-        show={ready}
-        onFlatTiltChange={onFlatTiltChange}
-      />
+      <HeroTerminalInteractiveSlot show={ready} />
     </div>
   );
 }
 
-function HeroCodeSnippetTyping({
-  ready,
-  onFlatTiltChange,
-}: HeroCodeSnippetMotionProps) {
+function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
   const liveRegionId = useId();
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
   const [revealed, setRevealed] = useState<Set<number>>(() => new Set());
@@ -339,21 +329,12 @@ function HeroCodeSnippetTyping({
           />
         );
       })}
-      <HeroTerminalInteractiveSlot
-        show={phase.type === "done"}
-        onFlatTiltChange={onFlatTiltChange}
-      />
+      <HeroTerminalInteractiveSlot show={phase.type === "done"} />
     </div>
   );
 }
 
-function HeroTerminalInteractiveSlot({
-  show,
-  onFlatTiltChange,
-}: {
-  show: boolean;
-  onFlatTiltChange?: (flat: boolean) => void;
-}) {
+function HeroTerminalInteractiveSlot({ show }: { show: boolean }) {
   return (
     <div
       className="hero-terminal-interactive-slot flex min-h-[var(--hero-terminal-interactive-slot)] flex-col justify-end"
@@ -364,9 +345,7 @@ function HeroTerminalInteractiveSlot({
         } as CSSProperties
       }
     >
-      {show ? (
-        <HeroTerminalInteractive onFlatTiltChange={onFlatTiltChange} />
-      ) : null}
+      {show ? <HeroTerminalInteractive /> : null}
     </div>
   );
 }
@@ -495,22 +474,12 @@ function MotionLineRow({
 
 export const heroCodeBodyMinHeight = `calc(${HERO_CODE_LINE_COUNT} * 1.55em + ${HERO_CODE_LINE_COUNT - 1} * 0.125rem + ${HERO_TERMINAL_INTERACTIVE_SLOT_MIN_HEIGHT})`;
 
-export function HeroCodeSnippetMotion({
-  ready,
-  onFlatTiltChange,
-}: HeroCodeSnippetMotionProps) {
+export function HeroCodeSnippetMotion({ ready }: HeroCodeSnippetMotionProps) {
   const reducedMotion = useReducedMotion();
 
   if (reducedMotion) {
-    return (
-      <HeroCodeSnippetStatic
-        ready={ready}
-        onFlatTiltChange={onFlatTiltChange}
-      />
-    );
+    return <HeroCodeSnippetStatic ready={ready} />;
   }
 
-  return (
-    <HeroCodeSnippetTyping ready={ready} onFlatTiltChange={onFlatTiltChange} />
-  );
+  return <HeroCodeSnippetTyping ready={ready} />;
 }

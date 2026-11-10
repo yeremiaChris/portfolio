@@ -64,13 +64,7 @@ function OutputLine({ line }: { line: TerminalSegment[] }) {
   );
 }
 
-type HeroTerminalInteractiveProps = {
-  onFlatTiltChange?: (flat: boolean) => void;
-};
-
-export function HeroTerminalInteractive({
-  onFlatTiltChange,
-}: HeroTerminalInteractiveProps) {
+export function HeroTerminalInteractive() {
   const reducedMotion = useReducedMotion();
   const inputId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -82,36 +76,11 @@ export function HeroTerminalInteractive({
   const [transcript, setTranscript] = useState<TranscriptEntry[]>([]);
   const [pending, setPending] = useState<PendingType>(null);
   const pendingRef = useRef<PendingType>(null);
-  const [inputFocused, setInputFocused] = useState(false);
-  const [hasSelection, setHasSelection] = useState(false);
-
   const isTyping = pending !== null;
 
   useEffect(() => {
     pendingRef.current = pending;
   }, [pending]);
-
-  useEffect(() => {
-    onFlatTiltChange?.(inputFocused || isTyping || hasSelection);
-  }, [hasSelection, inputFocused, isTyping, onFlatTiltChange]);
-
-  useEffect(() => {
-    const node = panelRef.current;
-    if (!node) {
-      return;
-    }
-    const syncSelection = () => {
-      const selection = window.getSelection();
-      if (!selection || selection.isCollapsed) {
-        setHasSelection(false);
-        return;
-      }
-      const anchor = selection.anchorNode;
-      setHasSelection(Boolean(anchor && node.contains(anchor)));
-    };
-    document.addEventListener("selectionchange", syncSelection);
-    return () => document.removeEventListener("selectionchange", syncSelection);
-  }, []);
 
   const scrollToBottom = useCallback(() => {
     const el = scrollRef.current;
@@ -347,8 +316,6 @@ export function HeroTerminalInteractive({
         value={input}
         onChange={setInput}
         onKeyDown={onKeyDown}
-        onFocus={() => setInputFocused(true)}
-        onBlur={() => setInputFocused(false)}
       />
     </div>
   );
@@ -360,16 +327,12 @@ function HeroTerminalPromptLine({
   value,
   onChange,
   onKeyDown,
-  onFocus,
-  onBlur,
 }: {
   inputId: string;
   inputRef: RefObject<HTMLInputElement | null>;
   value: string;
   onChange: (value: string) => void;
   onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
-  onFocus: () => void;
-  onBlur: () => void;
 }) {
   return (
     <>
@@ -389,8 +352,6 @@ function HeroTerminalPromptLine({
           className="text-foreground min-w-0 flex-1 border-0 bg-transparent p-0 font-mono text-[10px] leading-[1.55] outline-none sm:text-[10.5px]"
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={onKeyDown}
-          onFocus={onFocus}
-          onBlur={onBlur}
         />
         <span
           aria-hidden

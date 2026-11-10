@@ -21,7 +21,7 @@ export function HeroFoldMotion() {
       <div className="hero-signal-headline relative w-full min-w-0 text-left">
         <HeroNameReveal onSettled={onNameSettled} />
         <HeroBuildRotator active={heroReady} />
-        <HeroHeadlineCopy />
+        <HeroHeadlineCopy highlightActive={heroReady} />
       </div>
       <HeroVisual terminalReady={terminalReady} />
     </div>

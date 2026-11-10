@@ -49,7 +49,7 @@ export function HeroBuildRotator({ active, className }: HeroBuildRotatorProps) {
     <p
       aria-live="off"
       className={cn(
-        "font-heading mt-2 max-w-full text-left text-[15px] leading-snug font-medium tracking-tight min-[391px]:text-lg md:mt-3",
+        "font-heading mt-2 max-w-full text-left text-[20px] leading-[1.25] font-semibold tracking-tight md:mt-3 lg:text-[26px]",
         className,
       )}
     >
@@ -58,7 +58,9 @@ export function HeroBuildRotator({ active, className }: HeroBuildRotatorProps) {
         aria-hidden
         className="inline-flex max-w-full flex-wrap items-baseline gap-x-1.5"
       >
-        <span className="text-muted-foreground shrink-0">I build</span>
+        <span className="text-muted-foreground shrink-0 font-semibold">
+          I build
+        </span>
         <span className="relative inline-grid max-w-full align-bottom">
           <span
             className="invisible col-start-1 row-start-1 max-w-full max-[390px]:break-words min-[391px]:whitespace-nowrap"

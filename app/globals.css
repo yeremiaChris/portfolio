@@ -702,6 +702,26 @@ html[data-intro="playing"] [data-intro-bar] {
   }
 }
 
+.hero-highlight-phrase {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background-image: linear-gradient(
+    transparent 58%,
+    rgb(76 215 246 / 0.22) 58%,
+    rgb(76 215 246 / 0.22) 100%
+  );
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  border-radius: 0.14em 0.14em 0.1em 0.1em;
+  padding: 0 0.1em 0.04em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-highlight-phrase {
+    background-size: 100% 100% !important;
+  }
+}
+
 .hero-name-saragi {
   background-image: linear-gradient(
     105deg,

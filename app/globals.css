@@ -420,33 +420,21 @@ html[data-intro="playing"] [data-intro-bar] {
 .hero-code-shell {
   transition:
     border-color 200ms cubic-bezier(0.2, 0, 0, 1),
-    background-color 200ms cubic-bezier(0.2, 0, 0, 1);
+    background-color 200ms cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   @media (hover: hover) {
     .hero-code-shell:hover,
     .hero-code-shell:focus-within:has(:focus-visible) {
-      border-color: var(--brand-accent);
+      border-color: rgb(76 215 246 / 0.4);
       background-color: rgb(16 20 28 / 0.92);
-    }
-
-    .hero-code-shell:hover.border-gradient::after,
-    .hero-code-shell:focus-within:has(:focus-visible).border-gradient::after {
-      opacity: 1;
+      box-shadow:
+        0 0 28px rgb(76 215 246 / 0.22),
+        0 0 10px rgb(76 215 246 / 0.14);
     }
   }
-}
-
-.hero-code-shell.border-gradient::after {
-  background: linear-gradient(
-    135deg,
-    rgb(76 215 246 / 0.55),
-    rgb(76 215 246 / 0.18) 40%,
-    transparent 70%
-  );
-  opacity: 0.55;
-  transition: opacity 200ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 .hero-proof-card {
@@ -627,8 +615,11 @@ html[data-intro="playing"] [data-intro-bar] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .project-card.border-gradient::after,
-  .hero-code-shell.border-gradient::after {
+  .hero-code-shell {
+    transition: none;
+  }
+
+  .project-card.border-gradient::after {
     transition: none;
   }
 
@@ -754,11 +745,7 @@ html[data-intro="playing"] [data-intro-bar] {
   .hero-code-shell:focus-within:has(:focus-visible) {
     border-color: inherit;
     background-color: inherit;
-  }
-
-  .hero-code-shell:hover.border-gradient::after,
-  .hero-code-shell:focus-within:has(:focus-visible).border-gradient::after {
-    opacity: 0.55 !important;
+    box-shadow: none;
   }
 }
 

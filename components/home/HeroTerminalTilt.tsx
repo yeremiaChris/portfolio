@@ -12,7 +12,7 @@ import { m, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { motionHeroTiltSpring } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
-const MAX_TILT_DEG = 4;
+const MAX_TILT_DEG = 2;
 
 type HeroTerminalTiltProps = {
   children: ReactNode;

@@ -14,7 +14,7 @@ export function HeroVisual({ terminalReady }: HeroVisualProps) {
       <div className="hero-code-stage relative w-full max-w-[420px] p-2.5">
         <div aria-hidden className="hero-terminal-glow pointer-events-none" />
         <HeroTerminalTilt className="relative z-10 w-full">
-          <div className="border-gradient hero-code-shell relative w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0e14]/80 backdrop-blur-md">
+          <div className="hero-code-shell relative w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0e14]/80 backdrop-blur-md">
             <div className="flex flex-col">
               <div
                 aria-hidden

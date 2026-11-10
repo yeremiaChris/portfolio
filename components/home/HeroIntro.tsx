@@ -15,7 +15,7 @@ export function HeroHeadlineCopy() {
       <StaggerItem>
         <p
           className={cn(
-            "text-muted-foreground mt-3 text-left text-lg font-medium tracking-tight md:mt-4 md:text-xl md:whitespace-nowrap",
+            "text-muted-foreground mt-2 text-left text-lg font-medium tracking-tight md:mt-3 md:text-xl md:whitespace-nowrap",
           )}
         >
           {site.role}

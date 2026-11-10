@@ -324,7 +324,37 @@ html[data-intro="playing"] [data-intro-bar] {
 }
 
 .hero-signal {
+  --hero-bottom-fade-height: min(58%, 26rem);
+  --hero-bottom-scrim: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 40%,
+    color-mix(in srgb, var(--background) 6%, transparent) 50%,
+    color-mix(in srgb, var(--background) 22%, transparent) 62%,
+    color-mix(in srgb, var(--background) 52%, transparent) 74%,
+    color-mix(in srgb, var(--background) 82%, transparent) 88%,
+    var(--background) 100%
+  );
+  --hero-atmosphere-mask: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 0.45) 7%,
+    black 16%,
+    black 40%,
+    rgb(0 0 0 / 0.78) 52%,
+    rgb(0 0 0 / 0.42) 64%,
+    rgb(0 0 0 / 0.14) 78%,
+    rgb(0 0 0 / 0.03) 90%,
+    transparent 98%,
+    transparent 100%
+  );
   background-color: var(--background);
+}
+
+@media (min-width: 1024px) {
+  .hero-signal {
+    --hero-bottom-fade-height: min(52%, 30rem);
+  }
 }
 
 .hero-signal::before {
@@ -351,14 +381,9 @@ html[data-intro="playing"] [data-intro-bar] {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
-  height: min(30%, 12rem);
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    color-mix(in srgb, var(--background) 55%, transparent) 38%,
-    var(--background) 100%
-  );
+  z-index: 12;
+  height: var(--hero-bottom-fade-height);
+  background: var(--hero-bottom-scrim);
 }
 
 @media (max-width: 1023px) {
@@ -382,24 +407,8 @@ html[data-intro="playing"] [data-intro-bar] {
   contain: layout style paint;
   z-index: 0;
   inset: 0 -2% -14% -2%;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgb(0 0 0 / 0.45) 7%,
-    black 16%,
-    black 70%,
-    rgb(0 0 0 / 0.35) 84%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgb(0 0 0 / 0.45) 7%,
-    black 16%,
-    black 70%,
-    rgb(0 0 0 / 0.35) 84%,
-    transparent 100%
-  );
+  -webkit-mask-image: var(--hero-atmosphere-mask);
+  mask-image: var(--hero-atmosphere-mask);
 }
 
 .hero-signal-grid {

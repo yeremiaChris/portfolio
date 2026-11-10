@@ -26,11 +26,6 @@ export const motionHeroScrollCue = {
   scrollFadeEnd: 0.12,
 } as const;
 
-export const motionHeroScrollFade = {
-  opacityEnd: 0.4,
-  yEnd: -24,
-} as const;
-
 type MotionViewportMargin =
   | `${number}px`
   | `${number}px ${number}px`

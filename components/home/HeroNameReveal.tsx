@@ -69,35 +69,42 @@ export function HeroNameRevealBridge({ className }: HeroNameRevealBridgeProps) {
 
 export function HeroNameReveal({ className, onSettled }: HeroNameRevealProps) {
   const [sheen, setSheen] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(true);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReducedMotion(media.matches);
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
 
-  useEffect(() => {
-    if (reducedMotion) {
+    const applySettled = () => {
       onSettled?.();
-      const timer = window.setTimeout(() => setSheen(true), 0);
-      return () => window.clearTimeout(timer);
+      window.setTimeout(() => setSheen(true), 0);
+    };
+
+    if (media.matches) {
+      applySettled();
+      return;
     }
 
     const delayMs = heroNameSettleDelayMs();
-    const timer = window.setTimeout(() => {
-      onSettled?.();
-      setSheen(true);
-    }, delayMs);
+    const delayTimer = window.setTimeout(applySettled, delayMs);
 
-    return () => window.clearTimeout(timer);
-  }, [onSettled, reducedMotion]);
+    const onMediaChange = () => {
+      if (!media.matches) {
+        return;
+      }
+      window.clearTimeout(delayTimer);
+      applySettled();
+    };
+
+    media.addEventListener("change", onMediaChange);
+
+    return () => {
+      window.clearTimeout(delayTimer);
+      media.removeEventListener("change", onMediaChange);
+    };
+  }, [onSettled]);
 
   return (
     <div className={cn("hero-name-reveal overflow-hidden", className)}>
-      <div className={cn(!reducedMotion && "hero-name-reveal-track")}>
+      <div className="hero-name-reveal-track">
         <HeroNameHeading saragiSheen={sheen} />
       </div>
     </div>

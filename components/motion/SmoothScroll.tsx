@@ -1,45 +1,62 @@
 "use client";
 
-import type { ComponentType, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import { ReactLenis, useLenis } from "lenis/react";
 
 import { setLenisInstance } from "@/lib/programmatic-scroll";
+import { motionAnchorScrollOffset } from "@/lib/motion-tokens";
 import { scheduleIdle } from "@/lib/schedule-idle";
 
 type SmoothScrollProps = {
   children: ReactNode;
 };
 
+function LenisInstanceBridge() {
+  const lenis = useLenis();
+  useEffect(() => {
+    setLenisInstance(lenis ?? null);
+    return () => setLenisInstance(null);
+  }, [lenis]);
+  return null;
+}
+
+const baseLenisOptions = {
+  anchors: {
+    offset: motionAnchorScrollOffset,
+  },
+  allowNestedScroll: true,
+  respectReducedMotion: true,
+} as const;
+
 export function SmoothScroll({ children }: SmoothScrollProps) {
-  const [LenisActivated, setLenisActivated] = useState<ComponentType<{
-    children: ReactNode;
-  }> | null>(null);
+  const [autoRaf, setAutoRaf] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (media.matches) {
+      setLenisInstance(null);
       return;
     }
 
     let cancelled = false;
 
     const cancelSchedule = scheduleIdle(() => {
-      void (async () => {
-        await import("lenis/dist/lenis.css");
-        const mod = await import("@/components/motion/LenisActivated");
+      void import("lenis/dist/lenis.css").then(() => {
         if (!cancelled) {
-          setLenisActivated(() => mod.LenisActivated);
+          setAutoRaf(true);
         }
-      })();
+      });
     });
 
     const onMotionChange = () => {
-      if (media.matches) {
-        cancelled = true;
-        cancelSchedule();
-        setLenisActivated(null);
-        setLenisInstance(null);
+      if (!media.matches) {
+        return;
       }
+      cancelled = true;
+      cancelSchedule();
+      setAutoRaf(false);
+      setLenisInstance(null);
     };
 
     media.addEventListener("change", onMotionChange);
@@ -52,9 +69,10 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     };
   }, []);
 
-  if (!LenisActivated) {
-    return children;
-  }
-
-  return <LenisActivated>{children}</LenisActivated>;
+  return (
+    <ReactLenis root options={{ ...baseLenisOptions, autoRaf }}>
+      <LenisInstanceBridge />
+      {children}
+    </ReactLenis>
+  );
 }

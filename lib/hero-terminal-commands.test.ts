@@ -4,12 +4,21 @@ import { aboutIntro } from "@/lib/about";
 import { site } from "@/lib/site";
 
 import {
+  HERO_TERMINAL_DEMO_COMMANDS,
   formatUnknownCommand,
   parseHeroTerminalCommand,
   runHeroTerminalCommand,
 } from "./hero-terminal-commands";
 
 describe("hero-terminal-commands", () => {
+  it("defines the auto-demo command sequence", () => {
+    expect(HERO_TERMINAL_DEMO_COMMANDS).toEqual([
+      "about",
+      "projects",
+      "contact",
+    ]);
+  });
+
   it("parses the first token case-insensitively", () => {
     expect(parseHeroTerminalCommand("  Help  ")).toBe("help");
     expect(parseHeroTerminalCommand("projects extra")).toBe("projects");

@@ -76,6 +76,8 @@ export const motionHeroTerminal = {
   commandPauseMs: 10,
   lineHoverDuration: 0.18,
   responseCharIntervalMs: 12,
+  demoHoldMs: 2750,
+  demoCycleGapMs: 650,
 } as const;
 
 export const motionPageTransition = {

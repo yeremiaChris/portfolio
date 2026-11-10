@@ -389,6 +389,31 @@ html[data-intro="playing"] [data-intro-bar] {
   }
 }
 
+@keyframes hero-terminal-live-pulse {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.35);
+  }
+}
+
+.hero-terminal-live-ring {
+  animation: hero-terminal-live-pulse 2.1s cubic-bezier(0.16, 1, 0.3, 1)
+    infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-terminal-live-ring {
+    animation: none;
+    opacity: 0.35;
+    transform: none;
+  }
+}
+
 .hero-terminal-glow {
   position: absolute;
   inset: -18% -28% -12%;

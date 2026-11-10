@@ -30,9 +30,9 @@ import {
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 import {
-  HERO_TERMINAL_INTERACTIVE_SLOT_MIN_HEIGHT,
-  HeroTerminalInteractive,
-} from "@/components/home/HeroTerminalInteractive";
+  HERO_TERMINAL_DEMO_SLOT_HEIGHT,
+  HeroTerminalDemo,
+} from "@/components/home/HeroTerminalDemo";
 
 const LINE_ROW_CLASS =
   "relative grid grid-cols-[1.25rem_minmax(0,1fr)] items-baseline gap-x-2.5 rounded-sm px-0.5 -mx-0.5";
@@ -111,7 +111,7 @@ function HeroCodeSnippetStatic({ ready }: HeroCodeSnippetMotionProps) {
           />
         );
       })}
-      <HeroTerminalInteractiveSlot show={ready} />
+      <HeroTerminalDemoSlot active={ready} />
     </div>
   );
 }
@@ -329,23 +329,22 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
           />
         );
       })}
-      <HeroTerminalInteractiveSlot show={phase.type === "done"} />
+      <HeroTerminalDemoSlot active={phase.type === "done"} />
     </div>
   );
 }
 
-function HeroTerminalInteractiveSlot({ show }: { show: boolean }) {
+function HeroTerminalDemoSlot({ active }: { active: boolean }) {
   return (
     <div
-      className="hero-terminal-interactive-slot flex min-h-[var(--hero-terminal-interactive-slot)] flex-col justify-end"
+      className="hero-terminal-demo-slot flex h-[var(--hero-terminal-demo-slot)] shrink-0 flex-col justify-end"
       style={
         {
-          "--hero-terminal-interactive-slot":
-            HERO_TERMINAL_INTERACTIVE_SLOT_MIN_HEIGHT,
+          "--hero-terminal-demo-slot": HERO_TERMINAL_DEMO_SLOT_HEIGHT,
         } as CSSProperties
       }
     >
-      {show ? <HeroTerminalInteractive /> : null}
+      <HeroTerminalDemo active={active} />
     </div>
   );
 }
@@ -472,7 +471,7 @@ function MotionLineRow({
   );
 }
 
-export const heroCodeBodyMinHeight = `calc(${HERO_CODE_LINE_COUNT} * 1.55em + ${HERO_CODE_LINE_COUNT - 1} * 0.125rem + ${HERO_TERMINAL_INTERACTIVE_SLOT_MIN_HEIGHT})`;
+export const heroCodeBodyMinHeight = `calc(${HERO_CODE_LINE_COUNT} * 1.55em + ${HERO_CODE_LINE_COUNT - 1} * 0.125rem + ${HERO_TERMINAL_DEMO_SLOT_HEIGHT})`;
 
 export function HeroCodeSnippetMotion({ ready }: HeroCodeSnippetMotionProps) {
   const reducedMotion = useReducedMotion();

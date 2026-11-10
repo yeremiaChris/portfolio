@@ -10,6 +10,12 @@ export const HERO_TERMINAL_COMMAND_NAMES = [
   "clear",
 ] as const;
 
+export const HERO_TERMINAL_DEMO_COMMANDS = [
+  "about",
+  "projects",
+  "contact",
+] as const;
+
 export type HeroTerminalCommandName =
   (typeof HERO_TERMINAL_COMMAND_NAMES)[number];
 

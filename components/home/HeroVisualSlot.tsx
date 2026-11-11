@@ -20,7 +20,7 @@ export function HeroVisualSlot() {
   const { ready: terminalReady } = useHeroReady();
 
   useEffect(() => {
-    return scheduleIdle(() => setDeferred(true), 1500);
+    return scheduleIdle(() => setDeferred(true), 4000);
   }, []);
 
   if (!deferred) {

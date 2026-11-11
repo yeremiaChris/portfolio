@@ -3,12 +3,12 @@ import Link from "next/link";
 import { HeaderInteractiveEntry } from "@/components/HeaderInteractiveEntry";
 import { HeaderInteractiveFallback } from "@/components/HeaderInteractiveFallback";
 import { Container } from "@/components/Container";
-import { HeaderScrollBackdrop } from "@/components/motion/HeaderScrollBackdrop";
+import { HeaderScrollBackdropSlot } from "@/components/motion/HeaderScrollBackdropSlot";
 
 export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <HeaderScrollBackdrop />
+      <HeaderScrollBackdropSlot />
       <Container className="flex h-[var(--nav-height)] items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-3">

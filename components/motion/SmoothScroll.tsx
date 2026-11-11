@@ -1,36 +1,26 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { ReactLenis, useLenis } from "lenis/react";
 
-import { setLenisInstance } from "@/lib/programmatic-scroll";
-import { motionAnchorScrollOffset } from "@/lib/motion-tokens";
 import { scheduleIdle } from "@/lib/schedule-idle";
+import { setLenisInstance } from "@/lib/programmatic-scroll";
+
+const SmoothScrollLenis = dynamic(
+  () =>
+    import("@/components/motion/SmoothScrollLenis").then((mod) => ({
+      default: mod.SmoothScrollLenis,
+    })),
+  { ssr: false },
+);
 
 type SmoothScrollProps = {
   children: ReactNode;
 };
 
-function LenisInstanceBridge() {
-  const lenis = useLenis();
-  useEffect(() => {
-    setLenisInstance(lenis ?? null);
-    return () => setLenisInstance(null);
-  }, [lenis]);
-  return null;
-}
-
-const baseLenisOptions = {
-  anchors: {
-    offset: motionAnchorScrollOffset,
-  },
-  allowNestedScroll: true,
-  respectReducedMotion: true,
-} as const;
-
 export function SmoothScroll({ children }: SmoothScrollProps) {
-  const [autoRaf, setAutoRaf] = useState(false);
+  const [lenisReady, setLenisReady] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -44,10 +34,10 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     const cancelSchedule = scheduleIdle(() => {
       void import("lenis/dist/lenis.css").then(() => {
         if (!cancelled) {
-          setAutoRaf(true);
+          setLenisReady(true);
         }
       });
-    });
+    }, 3500);
 
     const onMotionChange = () => {
       if (!media.matches) {
@@ -55,7 +45,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       }
       cancelled = true;
       cancelSchedule();
-      setAutoRaf(false);
+      setLenisReady(false);
       setLenisInstance(null);
     };
 
@@ -69,10 +59,9 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     };
   }, []);
 
-  return (
-    <ReactLenis root options={{ ...baseLenisOptions, autoRaf }}>
-      <LenisInstanceBridge />
-      {children}
-    </ReactLenis>
-  );
+  if (!lenisReady) {
+    return children;
+  }
+
+  return <SmoothScrollLenis>{children}</SmoothScrollLenis>;
 }

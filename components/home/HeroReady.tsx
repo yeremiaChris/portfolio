@@ -4,12 +4,11 @@ import {
   createContext,
   useCallback,
   useContext,
+  useLayoutEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
-
-import { cn } from "@/lib/utils";
 
 const HERO_HEADLINE_ROOT_ID = "hero-headline-root";
 
@@ -48,27 +47,20 @@ export function useHeroReady(): HeroReadyContextValue {
   return context;
 }
 
-type HeroHeadlineRootProps = {
-  children: ReactNode;
-  className?: string;
-};
-
-export function HeroHeadlineRoot({
-  children,
-  className,
-}: HeroHeadlineRootProps) {
+export function HeroReadyAttribute() {
   const { ready } = useHeroReady();
 
-  return (
-    <div
-      id={HERO_HEADLINE_ROOT_ID}
-      data-hero-ready={ready ? "" : undefined}
-      className={cn(
-        "hero-signal-headline relative w-full min-w-0 text-left",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
+  useLayoutEffect(() => {
+    const root = document.getElementById(HERO_HEADLINE_ROOT_ID);
+    if (!root) {
+      return;
+    }
+    if (ready) {
+      root.setAttribute("data-hero-ready", "");
+    } else {
+      root.removeAttribute("data-hero-ready");
+    }
+  }, [ready]);
+
+  return null;
 }

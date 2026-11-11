@@ -29,7 +29,7 @@ export function HeroBuildRotatorSlot({ className }: HeroBuildRotatorSlotProps) {
   const { ready: active } = useHeroReady();
 
   useEffect(() => {
-    return scheduleIdle(() => setDeferred(true), 1200);
+    return scheduleIdle(() => setDeferred(true), 3500);
   }, []);
 
   const rotatorClassName = cn("hero-enter hero-enter--1", className);

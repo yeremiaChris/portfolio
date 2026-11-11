@@ -27,7 +27,7 @@ export function HeroHeadlineCopy() {
 
       <p
         className={cn(
-          "text-foreground/80 mt-5 max-w-[65ch] text-left text-lg leading-[1.7] sm:text-xl md:mt-6",
+          "hero-lcp-intro text-foreground/80 mt-5 max-w-[65ch] text-left text-lg leading-[1.7] sm:text-xl md:mt-6",
         )}
       >
         {yearsLabel} years on frontend-heavy platforms across{" "}

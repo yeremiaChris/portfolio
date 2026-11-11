@@ -34,8 +34,9 @@ const geistMono = Geist_Mono({
 const rethinkSans = Rethink_Sans({
   subsets: ["latin"],
   variable: "--font-rethink-sans",
-  preload: false,
-  display: "swap",
+  preload: true,
+  display: "optional",
+  adjustFontFallback: true,
 });
 
 export const viewport: Viewport = {

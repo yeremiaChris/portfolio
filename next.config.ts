@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   transpilePackages: ["next-mdx-remote"],
   experimental: {
     optimizePackageImports: ["lucide-react", "@base-ui/react", "motion/react"],
+    inlineCss: true,
   },
   async redirects() {
     return [

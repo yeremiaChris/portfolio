@@ -1,85 +1,47 @@
 "use client";
 
-import { AwardIcon, GaugeIcon, UsersIcon } from "lucide-react";
-
-import { HeroProofCard } from "@/components/home/HeroProofCard";
+import { HeroProductionProjectCard } from "@/components/home/HeroProductionProjectCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
-import { homeSignalCardClassName } from "@/lib/home-signal-card";
-import { site } from "@/lib/site";
-import { cn } from "@/lib/utils";
+import {
+  getHomeProductionIntro,
+  getHomeProductionProjects,
+} from "@/lib/home-production";
 
-const STAT_ICONS = {
-  award: AwardIcon,
-  gauge: GaugeIcon,
-  users: UsersIcon,
-} as const;
+const productionProjects = getHomeProductionProjects();
+const productionIntro = getHomeProductionIntro();
 
 export function HeroProduction() {
   return (
-    <div className="flex w-full flex-col gap-12 md:gap-16">
-      <div className="w-full">
-        <Reveal preset="expressive" when="inView" className="mb-4">
-          <p className="text-muted-foreground text-left font-mono text-[11px] tracking-[0.16em] uppercase">
-            Production
-          </p>
-        </Reveal>
-        <nav aria-label="Selected production work">
-          <Stagger
-            preset="expressive"
-            when="inView"
-            className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6"
-          >
-            {site.proof.map((item) => (
-              <StaggerItem key={item.id}>
-                <HeroProofCard
-                  href={item.href}
-                  label={item.label}
-                  meta={item.meta}
-                />
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </nav>
-      </div>
-      <div aria-labelledby="stats-heading" className="w-full">
-        <h2 id="stats-heading" className="sr-only">
-          Key statistics
+    <section
+      aria-labelledby="production-heading"
+      className="flex w-full flex-col gap-4"
+    >
+      <Reveal preset="expressive" when="inView" className="flex flex-col gap-2">
+        <h2
+          id="production-heading"
+          className="text-muted-foreground text-left font-mono text-[11px] tracking-[0.16em] uppercase"
+        >
+          Production
         </h2>
+        <p className="text-muted-foreground max-w-2xl text-sm leading-relaxed">
+          {productionIntro}
+        </p>
+      </Reveal>
+
+      <nav aria-label="Selected production work">
         <Stagger
           preset="expressive"
           when="inView"
-          className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6"
+          className="grid grid-cols-1 gap-3 md:grid-cols-3 md:items-stretch md:gap-3"
         >
-          {site.stats.map((stat) => {
-            const Icon = STAT_ICONS[stat.icon];
-            return (
-              <StaggerItem key={stat.label}>
-                <div className={cn(homeSignalCardClassName)}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
-                      {stat.label}
-                    </span>
-                    <Icon
-                      className={
-                        stat.icon === "gauge"
-                          ? "text-brand-accent size-4"
-                          : "text-primary size-4"
-                      }
-                    />
-                  </div>
-                  <span className="font-heading text-foreground mt-2 text-2xl font-semibold tracking-tight">
-                    {stat.value}
-                  </span>
-                  <span className="text-muted-foreground mt-1 text-[13px]">
-                    {stat.detail}
-                  </span>
-                </div>
-              </StaggerItem>
-            );
-          })}
+          {productionProjects.map((project) => (
+            <StaggerItem key={project.id} className="flex h-full min-h-0">
+              <HeroProductionProjectCard project={project} />
+            </StaggerItem>
+          ))}
         </Stagger>
-      </div>
-    </div>
+      </nav>
+    </section>
   );
 }

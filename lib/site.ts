@@ -70,7 +70,7 @@ export const site = {
     {
       label: "Companies",
       value: "4",
-      detail: "PrimaKu · Mazecare · KiriminAja · iCreativeLabs",
+      detail: "Production employers",
       icon: "users" as const,
     },
   ],

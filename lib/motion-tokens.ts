@@ -147,3 +147,34 @@ export function motionStaggerChildDelay(
   const { staggerGap, staggerMaxDelay } = motionPresetConfig[preset];
   return Math.min(index * staggerGap, staggerMaxDelay);
 }
+
+export type MotionRevealRestTarget = {
+  y: 0;
+  opacity: 1;
+};
+
+export function motionRevealRestingTarget(): MotionRevealRestTarget {
+  return { y: 0, opacity: 1 };
+}
+
+export function motionRevealAnimateTarget(
+  active: boolean,
+  offset: number,
+  transition: ReturnType<typeof motionPresetRevealTransition>,
+): MotionRevealRestTarget & {
+  transition?: ReturnType<typeof motionPresetRevealTransition> & {
+    from: { y: number; opacity: 1 };
+  };
+} {
+  const resting = motionRevealRestingTarget();
+  if (!active) {
+    return resting;
+  }
+  return {
+    ...resting,
+    transition: {
+      ...transition,
+      from: { y: offset, opacity: 1 },
+    },
+  };
+}

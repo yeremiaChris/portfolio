@@ -77,15 +77,18 @@ function StaggerParentGated({
   when: StaggerWhen;
   preset: MotionPreset;
 }) {
-  const { ref, active } = useScrollRevealActive({ when, preset });
+  const { ref, active, presentInitially } = useScrollRevealActive({
+    when,
+    preset,
+  });
 
   return (
     <m.div
       ref={ref}
       data-stagger=""
       className={cn(className)}
-      initial="hidden"
-      animate={active ? "visible" : "hidden"}
+      initial={presentInitially ? "visible" : "hidden"}
+      animate={active ? "visible" : presentInitially ? "visible" : "hidden"}
       variants={staggerParentVariants}
     >
       {children}
@@ -183,14 +186,23 @@ function StaggerItemInView({
     };
   };
 }) {
-  const { ref, active } = useScrollRevealActive({ when, preset });
+  const { ref, active, presentInitially } = useScrollRevealActive({
+    when,
+    preset,
+  });
 
   return (
     <m.div
       ref={ref}
       className={cn(className)}
-      initial={itemVariants.hidden}
-      animate={active ? itemVariants.visible : itemVariants.hidden}
+      initial={presentInitially ? false : itemVariants.hidden}
+      animate={
+        active
+          ? itemVariants.visible
+          : presentInitially
+            ? itemVariants.visible
+            : itemVariants.hidden
+      }
     >
       {children}
     </m.div>

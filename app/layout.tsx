@@ -35,7 +35,7 @@ const rethinkSans = Rethink_Sans({
   subsets: ["latin"],
   variable: "--font-rethink-sans",
   preload: true,
-  display: "optional",
+  display: "swap",
   adjustFontFallback: true,
 });
 

@@ -301,21 +301,6 @@ html[data-intro="playing"] [data-intro-bar] {
   border-color: rgb(223 226 235 / 0.2);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  [data-page-transition] {
-    animation: page-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-}
-
-@keyframes page-enter {
-  from {
-    transform: translateY(6px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
 .border-gradient {
   position: relative;
   isolation: isolate;

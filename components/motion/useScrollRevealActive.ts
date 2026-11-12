@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useInView } from "motion/react";
 
 import { motionPresetViewport, type MotionPreset } from "@/lib/motion-tokens";
@@ -14,6 +14,33 @@ type UseScrollRevealActiveOptions = {
   when: "mount" | "inView";
   preset?: MotionPreset;
 };
+
+function parseRootMarginBottom(margin: string, viewHeight: number): number {
+  const parts = margin.trim().split(/\s+/);
+  const bottom = parts[2] ?? parts[0] ?? "0px";
+  if (bottom.endsWith("%")) {
+    return (Math.abs(Number.parseFloat(bottom)) / 100) * viewHeight;
+  }
+  if (bottom.endsWith("px")) {
+    return Math.abs(Number.parseFloat(bottom));
+  }
+  return 0;
+}
+
+function measurePresentInView(el: HTMLElement, preset: MotionPreset): boolean {
+  const { amount, margin } = motionPresetViewport(preset);
+  const rect = el.getBoundingClientRect();
+  const viewHeight = window.innerHeight;
+  const bottomInset = parseRootMarginBottom(margin, viewHeight);
+  const visibleTop = Math.max(rect.top, 0);
+  const visibleBottom = Math.min(rect.bottom, viewHeight - bottomInset);
+  if (visibleBottom <= visibleTop) {
+    return false;
+  }
+  const visibleHeight = visibleBottom - visibleTop;
+  const threshold = typeof amount === "number" ? amount : 0.18;
+  return visibleHeight / Math.max(rect.height, 1) >= threshold;
+}
 
 export function useScrollRevealActive({
   when,
@@ -29,7 +56,22 @@ export function useScrollRevealActive({
   });
   const [mountArmed, setMountArmed] = useState(false);
   const [inViewArmed, setInViewArmed] = useState(false);
+  const [presentInitially, setPresentInitially] = useState(false);
   const [failOpen, setFailOpen] = useState(!supportsIntersectionObserver);
+
+  useLayoutEffect(() => {
+    if (when !== "inView") {
+      return;
+    }
+    const node = ref.current;
+    if (!node) {
+      return;
+    }
+    if (measurePresentInView(node, preset)) {
+      setPresentInitially(true);
+      setInViewArmed(true);
+    }
+  }, [preset, when]);
 
   useEffect(() => {
     if (when !== "mount") {
@@ -90,7 +132,7 @@ export function useScrollRevealActive({
   }, [when, inView]);
 
   const scrollActive = when === "mount" ? mountArmed : inView && inViewArmed;
-  const active = failOpen || scrollActive;
+  const active = failOpen || scrollActive || presentInitially;
 
-  return { ref, active };
+  return { ref, active, presentInitially };
 }

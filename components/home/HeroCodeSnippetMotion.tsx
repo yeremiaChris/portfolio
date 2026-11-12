@@ -185,11 +185,9 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
       return;
     }
     startedRef.current = true;
-
     const timer = window.setTimeout(() => {
       beginCommand(0);
     }, 0);
-
     return () => window.clearTimeout(timer);
   }, [beginCommand, ready]);
 
@@ -287,6 +285,10 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
       );
     });
   };
+
+  if (!ready || phase.type === "idle") {
+    return <HeroCodeSnippetStatic />;
+  }
 
   return (
     <div className="hero-code-snippet grid gap-y-0.5">

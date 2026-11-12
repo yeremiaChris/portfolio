@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Rethink_Sans } from "next/font/google";
 
+import { HydrationMarker } from "@/components/HydrationMarker";
 import { Header } from "@/components/Header";
+import { IntroCover } from "@/components/intro/IntroCover";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { UmamiScript } from "@/components/UmamiScript";
 import {
@@ -35,7 +37,7 @@ const rethinkSans = Rethink_Sans({
   subsets: ["latin"],
   variable: "--font-rethink-sans",
   preload: true,
-  display: "optional",
+  display: "swap",
   adjustFontFallback: true,
 });
 
@@ -84,7 +86,9 @@ export default function RootLayout({
             __html: `${INTRO_CRITICAL_CSS}${INTRO_TIMING_CSS}`,
           }}
         />
+        <IntroCover />
         <UmamiScript />
+        <HydrationMarker />
         <MotionProvider>
           <Header />
           <div className="pt-[var(--nav-height)]">{children}</div>

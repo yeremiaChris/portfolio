@@ -43,6 +43,7 @@ export function Reveal({
       data-reveal=""
       className={cn(className)}
       initial={false}
+      style={{ opacity: 1 }}
       animate={motionRevealAnimateTarget(active, offset, transition)}
     >
       {children}

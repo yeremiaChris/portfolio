@@ -23,7 +23,6 @@ import {
   motionDuration,
   motionEase,
   motionHeroTerminal,
-  motionPresetConfig,
   motionPresetRevealTransition,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
@@ -365,17 +364,7 @@ function MotionLineRow({
       aria-hidden
       className={cn(LINE_ROW_CLASS, !visible && "pointer-events-none")}
       initial={false}
-      animate={
-        visible
-          ? {
-              opacity: 1,
-              y: 0,
-            }
-          : {
-              opacity: 0,
-              y: motionPresetConfig.calm.revealOffset,
-            }
-      }
+      animate={{ opacity: 1, y: 0 }}
       transition={{
         opacity: motionPresetRevealTransition("calm", "inView"),
         y: motionPresetRevealTransition("calm", "inView"),

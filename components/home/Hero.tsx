@@ -3,7 +3,7 @@ import { HeroAtmosphere } from "@/components/home/HeroAtmosphere";
 import { HeroFold } from "@/components/home/HeroFold";
 import { HeroScrollCue } from "@/components/home/HeroScrollCue";
 import { HeroViewportSection } from "@/components/home/HeroViewportSection";
-import { HeroProductionEntry } from "@/components/home/HeroProductionEntry";
+import { HeroProduction } from "@/components/home/HeroProduction";
 
 export function Hero() {
   return (
@@ -24,7 +24,7 @@ export function Hero() {
         className="bg-background w-full scroll-mt-6 pt-8 pb-12 md:pt-10 md:pb-16 lg:pt-12"
       >
         <Container>
-          <HeroProductionEntry />
+          <HeroProduction />
         </Container>
       </div>
     </>

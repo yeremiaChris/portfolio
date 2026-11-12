@@ -102,6 +102,7 @@ function StaggerParentGated({
       data-stagger=""
       className={cn(className)}
       initial={false}
+      style={{ opacity: 1 }}
       variants={parentVariants}
       animate={active ? "visible" : "rest"}
     >
@@ -160,7 +161,12 @@ export function StaggerItem({
   }
 
   return (
-    <m.div className={cn(className)} initial={false} variants={itemVariants}>
+    <m.div
+      className={cn(className)}
+      initial={false}
+      style={{ opacity: 1 }}
+      variants={itemVariants}
+    >
       {children}
     </m.div>
   );
@@ -199,6 +205,7 @@ function StaggerItemInView({
       ref={ref}
       className={cn(className)}
       initial={false}
+      style={{ opacity: 1 }}
       variants={{
         rest: itemVariants.rest,
         visible: itemVariants.visible,

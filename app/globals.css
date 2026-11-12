@@ -298,7 +298,7 @@ html[data-intro="playing"] [data-intro-bar] {
 
 [data-reveal],
 [data-stagger] {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 html[data-hydrated] .hero-enter,

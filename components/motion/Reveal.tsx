@@ -6,6 +6,7 @@ import { m } from "motion/react";
 import {
   motionPresetRevealOffset,
   motionPresetRevealTransition,
+  motionRevealAnimateTarget,
   type MotionPreset,
 } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
@@ -29,10 +30,11 @@ export function Reveal({
   when = "inView",
   preset = "calm",
 }: RevealProps) {
-  const { ref, active } = useScrollRevealActive({ when, preset });
+  const { ref, active } = useScrollRevealActive({
+    when,
+    preset,
+  });
   const offset = motionPresetRevealOffset(preset, when);
-  const hidden = { opacity: 0, y: offset };
-  const visible = { opacity: 1, y: 0 };
   const transition = motionPresetRevealTransition(preset, when, delay);
 
   return (
@@ -40,9 +42,9 @@ export function Reveal({
       ref={ref}
       data-reveal=""
       className={cn(className)}
-      initial={hidden}
-      animate={active ? visible : hidden}
-      transition={transition}
+      initial={false}
+      style={{ opacity: 1 }}
+      animate={motionRevealAnimateTarget(active, offset, transition)}
     >
       {children}
     </m.div>

@@ -16,7 +16,7 @@ export function HeroHeadlineCopy() {
     <div className="w-full min-w-0">
       <p
         className={cn(
-          "hero-enter hero-enter--0 text-muted-foreground mt-2 text-left text-lg font-medium tracking-tight md:mt-3 md:text-xl md:whitespace-nowrap",
+          "text-muted-foreground mt-2 text-left text-lg font-medium tracking-tight md:mt-3 md:text-xl md:whitespace-nowrap",
         )}
       >
         Software Engineer ·{" "}
@@ -37,7 +37,7 @@ export function HeroHeadlineCopy() {
         — React, Next.js, and Vue.
       </p>
 
-      <div className="hero-enter hero-enter--3 mt-6 grid w-full max-w-full grid-cols-2 gap-3 md:mt-8 md:flex md:flex-wrap md:items-start md:justify-start md:gap-4">
+      <div className="mt-6 grid w-full max-w-full grid-cols-2 gap-3 md:mt-8 md:flex md:flex-wrap md:items-start md:justify-start md:gap-4">
         <a
           href={heroCtas.primary.href}
           className={cn(

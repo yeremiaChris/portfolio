@@ -4,6 +4,7 @@ export const HEADER_NAV = [
   { href: "/experience", label: "Experience" },
   { href: "/blog", label: "Blog" },
   { href: "/lab", label: "Lab" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/about", label: "About" },
 ] as const;
 

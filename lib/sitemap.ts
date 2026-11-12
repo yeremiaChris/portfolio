@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getAllPosts } from "@/lib/blog";
 import { getBlogTopicSlugs } from "@/lib/blog-topics.constants";
+import { getGallerySlugs } from "@/lib/gallery/registry";
 
 export const sitemapPages = [
   { path: "", changeFrequency: "weekly", priority: 1 },
@@ -10,6 +11,7 @@ export const sitemapPages = [
   { path: "/projects", changeFrequency: "monthly", priority: 0.8 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
   { path: "/lab", changeFrequency: "monthly", priority: 0.4 },
+  { path: "/gallery", changeFrequency: "monthly", priority: 0.5 },
 ] as const;
 
 function toAbsoluteUrl(siteUrl: string, path: string): string {
@@ -44,5 +46,11 @@ export function buildSitemap(siteUrl: string): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  return [...pages, ...posts, ...tagPages];
+  const galleryPages: MetadataRoute.Sitemap = getGallerySlugs().map((slug) => ({
+    url: toAbsoluteUrl(origin, `/gallery/${slug}`),
+    changeFrequency: "monthly",
+    priority: 0.5,
+  }));
+
+  return [...pages, ...posts, ...tagPages, ...galleryPages];
 }

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Rethink_Sans } from "next/font/google";
 
 import { HydrationMarker } from "@/components/HydrationMarker";
 import { Header } from "@/components/Header";
+import { IntroCover } from "@/components/intro/IntroCover";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { UmamiScript } from "@/components/UmamiScript";
 import {
@@ -85,6 +86,7 @@ export default function RootLayout({
             __html: `${INTRO_CRITICAL_CSS}${INTRO_TIMING_CSS}`,
           }}
         />
+        <IntroCover />
         <UmamiScript />
         <HydrationMarker />
         <MotionProvider>

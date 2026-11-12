@@ -1,87 +1,71 @@
 ---
 title: "Why This Site's Intro Replays After You Close the Tab"
-description: "A home-only overlay, sessionStorage (not localStorage), useSyncExternalStore, and Motion's AnimatePresence — with the hero painted underneath so LCP is not gated on the intro."
+description: "Home-only CSS intro: inline pre-paint script, cover first in body, sessionStorage per tab, skip rules, hero at final opacity with no second entrance."
 date: "2026-09-18"
-tags: ["react", "nextjs", "motion"]
+tags: ["react", "nextjs", "css"]
 featured: false
 ---
 
-The overlay on `/` is **not a real loader**. The page is already there. Home plays a short branded sequence, then gets out of the way.
+The overlay on `/` is **not a loading gate**. The page is already there. Home can play a short branded cover, then it exits while content underneath stays at its final painted state.
 
-**One-sentence answer:** Remember the intro for **this tab** with `sessionStorage`. Close the tab and the session dies, so it plays again. `useSyncExternalStore` reads that flag without a hydration flicker; Motion's `AnimatePresence` is what lets the overlay _leave_ instead of popping off.
+**One-sentence answer:** `sessionStorage` remembers the intro for **this tab** only. Close the tab and the session ends, so it plays again on the next visit to `/`. An inline script in the root layout sets `data-intro` on `<html>` before first paint; CSS drives the cover exit. There is no React store and no hero re-animation after the cover leaves.
 
 ## What you actually see
 
-`IntroLoader` is composed only on the home page. `/blog` and `/about` never mount it.
+`IntroCover` is the first meaningful node in `<body>` (right after the inline script and critical intro CSS), so streaming cannot paint the header or hero above the cover on first visit.
 
-| You do                                         | Intro?              |
-| ---------------------------------------------- | ------------------- |
-| First visit to `/` in this tab                 | Yes                 |
-| Refresh, or `/about` → `/` in the **same** tab | No                  |
-| Close the tab, open `/` again                  | Yes (session ended) |
-| OS “reduce motion”                             | No                  |
+| You do                                                                    | Intro? |
+| ------------------------------------------------------------------------- | ------ |
+| First visit to `/` in this tab (desktop, motion allowed, fast connection) | Yes    |
+| Refresh, or `/about` → `/` in the **same** tab                            | No     |
+| Close the tab, open `/` again                                             | Yes    |
+| Any non-home route (`/blog`, `/about`, …)                                 | No     |
+| Mobile viewport (≤767px)                                                  | No     |
+| `prefers-reduced-motion`                                                  | No     |
+| Save-data or slow 2g/3g                                                   | No     |
 
-That is a **choreography**, not a progress bar tied to fonts or data.
+That is **choreography**, not progress tied to fonts or data.
 
 ## `sessionStorage`, not `localStorage`
 
 The browser stores `intro-seen = 1` until **that tab's session ends**. Refresh keeps it. A new tab or a closed tab does not.
 
-`localStorage` would remember forever. Fine for a cookie banner. Wrong for a calling-card intro you still want on the next visit.
+`localStorage` would remember forever — wrong for a calling-card intro you still want on the next visit.
 
-When the bar fills and a short hold finishes, `completeIntro` does two things:
+When the sequence completes (or the user skips with click / Escape / Enter / Space), the inline script writes `intro-seen` and sets `html[data-intro="seen"]`. CSS hides `[data-intro-cover]`. Helpers and tests live in `lib/intro.ts`.
 
-1. Write `intro-seen`
-2. Fire a small event so React knows to hide the overlay
+## Pre-paint script + `data-intro`
 
-Logic lives in `lib/intro.ts`. The component does not decide skip/replay itself.
+React does not choose skip vs play on first paint. A minified inline script in `app/layout.tsx` runs immediately and sets `data-intro` to `playing` or `seen`:
 
-## Why `useSyncExternalStore`
+- **Seen:** existing session flag, reduced motion, mobile width, slow connection, or pathname not `/`
+- **Playing:** first desktop visit to `/` only; a timeout flips to `seen` after the CSS exit duration
 
-React cannot read `sessionStorage` during SSR. A naive `useState` + `useEffect` would render “show” on the server, paint “show” on the client, then flip to “skip” in an effect — a flash, and the `set-state-in-effect` lint this repo already hit.
+Critical CSS in the same layout hides the cover when `data-intro="seen"` or under the mobile / reduced-motion media queries, so return visits do not flash the overlay.
 
-`useSyncExternalStore` is React's hook for **a value that lives outside React**.
+Hydration does not remount the cover or rewrite `data-intro`. The server-rendered cover stays in the tree; only the script mutates the attribute once per load.
 
-```tsx
-const showIntro = useSyncExternalStore(
-  subscribeIntroVisibility,
-  getIntroClientSnapshot,
-  getIntroServerSnapshot,
-);
-```
+## Cover exit without Motion
 
-| Argument        | Job                                                                |
-| --------------- | ------------------------------------------------------------------ |
-| Subscribe       | Re-render when the seen flag is written, or reduced-motion changes |
-| Client snapshot | In the browser: show only if unseen and motion is allowed          |
-| Server snapshot | Always `true` — there is no `window` yet                           |
+The overlay is a fixed full-viewport layer (`[data-intro-cover]`) with staged CSS animation (mark → name → role → bar → exit). No `AnimatePresence`, no `motion` on the intro path.
 
-Return visits still should not flash. A **tiny inline script** in the root layout runs before React and sets `data-intro="seen"` on `<html>` when the session flag is already there. CSS then hides `[data-intro-loader]` on first paint. React can catch up after.
+When `data-intro` becomes `seen`, the cover is removed from layout via `display: none` in CSS after the exit finishes — not mid-keyframes via React unmount.
 
-## Why Motion and `AnimatePresence`
+## Hero stays at final state (no second entrance)
 
-CSS can fade a node that **stays in the DOM**. When `showIntro` becomes `false`, React would **delete** the overlay on the next render — no exit.
+Previously the hero also ran CSS **fade-up** entrances after the cover left, which felt like the intro playing twice and could blink when `html[data-hydrated]` stopped animations.
 
-`AnimatePresence` keeps that node mounted until `exit` finishes (`opacity: 0`, a slight `y: -12`). Inner `motion` nodes stagger mark → name → role → bar.
+Now hero copy, CTAs, and name stay **opacity 1** with **no transform** under the cover. When the cover exits, nothing underneath animates in again. When the intro is skipped, the same final state is shown — no visible → hidden → visible cycle.
 
-This site already depends on `motion`. The import is `motion/react` — not a second Framer package.
+LCP can still target the hero heading on first paint because it is not gated on the overlay finishing.
 
-## Why the hero stays visible under the overlay
+## Layout split
 
-The overlay is `position: fixed` and covers the viewport. The heading underneath can still paint at `opacity: 1`. Chrome can then record LCP on that heading at first paint, instead of waiting until the overlay exits.
+| Piece                         | Role                                                                                          |
+| ----------------------------- | --------------------------------------------------------------------------------------------- |
+| `lib/intro.ts`                | Timings, storage key, bootstrap script builder, skip helpers (Vitest)                         |
+| `components/intro/IntroCover` | Server markup for `[data-intro-cover]`                                                        |
+| `app/layout.tsx`              | Script, critical CSS, cover before header/main                                                |
+| Home page                     | No intro gate component; cover is global but **plays** only on `/` via pathname in the script |
 
-Hiding `[data-intro-hero]` until `data-intro-ready` looked cleaner, but it delayed Largest Contentful Paint by the full intro (~2s) plus a 700ms fade. The hero stays a Server Component. No `"use client"` just to hold a boolean.
-
-## Is this the clean split?
-
-For a portfolio, yes:
-
-- Skip/duration helpers in `lib/intro.ts`, with Vitest on the branches
-- Overlay UI in `components/intro/`
-- Home page only composes it
-- Reduced motion is a hard skip
-- Exit animation goes through `AnimatePresence`, not `display: none` mid-fade
-
-Do **not** set `data-intro="seen"` while the overlay is still exiting. That CSS hide would kill the fade. Session storage can flip immediately; the HTML `data-intro` attribute waits for the next load.
-
-Two honest limits: first paint can be an empty overlay for a couple of frames while stagger starts at opacity 0, and none of this is “the site is loading.”
+Do not set `data-intro="seen"` before the CSS exit window if you want the fade to complete; the timeout in the bootstrap script matches the exit duration.

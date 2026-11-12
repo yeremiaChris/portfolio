@@ -239,12 +239,6 @@ html[data-intro="playing"] [data-intro-bar] {
     transform: none !important;
   }
 
-  .hero-enter {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
   .hero-visual-card {
     transform: none !important;
   }
@@ -283,15 +277,6 @@ html[data-intro="playing"] [data-intro-bar] {
   }
 }
 
-@keyframes hero-fade-up {
-  from {
-    transform: translateY(14px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
 .hero-lcp-intro {
   opacity: 1;
 }
@@ -299,12 +284,6 @@ html[data-intro="playing"] [data-intro-bar] {
 [data-reveal],
 [data-stagger] {
   opacity: 1 !important;
-}
-
-html[data-hydrated] .hero-enter,
-html[data-hydrated] .hero-name-reveal-track {
-  animation: none !important;
-  transform: none !important;
 }
 
 .header-scroll-backdrop-static {
@@ -623,22 +602,6 @@ html[data-hydrated] .hero-name-reveal-track {
 @media (min-width: 1280px) {
   .hero-name-reveal {
     min-height: 4.5rem;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero-name-reveal-track {
-    transform: translateY(28px);
-    animation: hero-name-reveal-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-}
-
-@keyframes hero-name-reveal-rise {
-  from {
-    transform: translateY(28px);
-  }
-  to {
-    transform: translateY(0);
   }
 }
 
@@ -1016,41 +979,6 @@ html[data-hydrated] .hero-name-reveal-track {
 @media (min-width: 1280px) {
   .hero-signal-headline::before {
     opacity: 0.65;
-  }
-}
-
-@media (max-width: 767px) {
-  .hero-enter {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero-enter {
-    transform: translateY(14px);
-    animation: hero-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  .hero-enter--0 {
-    animation-delay: 0ms;
-  }
-
-  .hero-enter--1 {
-    animation-delay: 80ms;
-  }
-
-  .hero-enter--2 {
-    animation-delay: 160ms;
-  }
-
-  .hero-enter--3 {
-    animation-delay: 240ms;
-  }
-
-  .hero-enter--4 {
-    animation-delay: 320ms;
   }
 }
 

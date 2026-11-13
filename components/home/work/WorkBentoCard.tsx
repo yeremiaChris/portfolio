@@ -1,9 +1,10 @@
-import { HomeSpotlightSurface } from "@/components/home/HomeSpotlightSurface";
-import { HomeWorkImageParallax } from "@/components/home/HomeWorkImageParallax";
+"use client";
+
 import {
-  homeBentoCardClass,
-  homeBentoChipClass,
-} from "@/components/home/homeSurface";
+  WorkBentoReveal,
+  WorkBentoRevealImage,
+} from "@/components/home/WorkBentoReveal";
+import { homeBentoChipClass } from "@/components/home/homeSurface";
 import type { HomeWorkCard } from "@/lib/home-work";
 import { tagToneClass } from "@/lib/milestones";
 import { cn } from "@/lib/utils";
@@ -14,15 +15,12 @@ type WorkBentoCardProps = {
 
 export function WorkBentoCard({ card }: WorkBentoCardProps) {
   return (
-    <HomeSpotlightSurface
+    <WorkBentoReveal
       as="a"
       href={card.href}
-      className={cn(
-        homeBentoCardClass,
-        "focus-ring flex h-full flex-col gap-4 p-5 outline-none md:p-6",
-      )}
+      className="h-full flex-col gap-4 p-5 md:p-6"
     >
-      <HomeWorkImageParallax src={card.image} alt={card.imageAlt} />
+      <WorkBentoRevealImage src={card.image} alt={card.imageAlt} />
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <span
           className={cn(
@@ -46,6 +44,6 @@ export function WorkBentoCard({ card }: WorkBentoCardProps) {
           ))}
         </div>
       </div>
-    </HomeSpotlightSurface>
+    </WorkBentoReveal>
   );
 }

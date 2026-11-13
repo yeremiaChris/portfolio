@@ -8,10 +8,11 @@ import {
   useRef,
   useState,
 } from "react";
-import { m, useInView } from "motion/react";
+import { m } from "motion/react";
 
-import { useHydrated } from "@/components/motion/useHydrated";
 import { useHomeMotionReduced } from "@/components/home/useHomeMotionEnabled";
+import { useHydrated } from "@/components/motion/useHydrated";
+import { homeTerminalFast } from "@/lib/home-motion";
 
 import {
   HERO_CODE_LINES,
@@ -92,10 +93,7 @@ function HeroCodeSnippetStatic() {
   );
 }
 
-function HeroCodeSnippetTyping({
-  ready,
-  inView,
-}: HeroCodeSnippetMotionProps & { inView: boolean }) {
+function HeroCodeSnippetTyping() {
   const liveRegionId = useId();
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
   const [revealed, setRevealed] = useState<Set<number>>(() => new Set());
@@ -104,6 +102,18 @@ function HeroCodeSnippetTyping({
   const commandNs = useMemo(() => commandLineNumbers(), []);
   const staggerIndexRef = useRef(0);
   const hydrated = useHydrated();
+  const [armed, setArmed] = useState(false);
+
+  useEffect(() => {
+    if (!hydrated) {
+      return;
+    }
+    const timer = window.setTimeout(
+      () => setArmed(true),
+      homeTerminalFast.startDelayMs,
+    );
+    return () => window.clearTimeout(timer);
+  }, [hydrated]);
 
   const lineByN = useMemo(() => {
     const map = new Map<number, SnippetLine>();
@@ -165,7 +175,7 @@ function HeroCodeSnippetTyping({
     [beginCommand, commandNs, outputLinesAfterCommand],
   );
 
-  const canStart = hydrated && (inView || ready);
+  const canStart = armed;
 
   useEffect(() => {
     if (!canStart) {
@@ -200,7 +210,7 @@ function HeroCodeSnippetTyping({
       const commandIndex = commandNs.indexOf(phase.lineN);
       const timer = window.setTimeout(() => {
         startStaggerAfterCommand(commandIndex);
-      }, motionHeroTerminal.commandPauseMs);
+      }, homeTerminalFast.commandPauseMs);
       return () => window.clearTimeout(timer);
     }
 
@@ -210,7 +220,7 @@ function HeroCodeSnippetTyping({
         lineN: phase.lineN,
         visibleChars: phase.visibleChars + 1,
       });
-    }, motionHeroTerminal.charIntervalMs);
+    }, homeTerminalFast.charIntervalMs);
 
     return () => window.clearTimeout(timer);
   }, [commandNs, lineByN, phase, startStaggerAfterCommand]);
@@ -238,7 +248,7 @@ function HeroCodeSnippetTyping({
       setRevealed((prev) => new Set(prev).add(lineN));
       staggerIndexRef.current += 1;
       setPhase({ type: "stagger", lineNs, nextCommandIndex });
-    }, motionHeroTerminal.lineStaggerMs);
+    }, homeTerminalFast.lineStaggerMs);
 
     return () => window.clearTimeout(timer);
   }, [beginCommand, commandNs.length, phase]);
@@ -401,26 +411,15 @@ function MotionLineRow({
   );
 }
 
-export function HeroCodeSnippetMotion({ ready }: HeroCodeSnippetMotionProps) {
+export function HeroCodeSnippetMotion({
+  ready: _ready,
+}: HeroCodeSnippetMotionProps) {
+  void _ready;
   const reducedMotion = useHomeMotionReduced();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(containerRef, {
-    once: true,
-    amount: 0.08,
-    margin: "0px 0px -12% 0px",
-  });
 
   if (reducedMotion) {
-    return (
-      <div ref={containerRef}>
-        <HeroCodeSnippetStatic />
-      </div>
-    );
+    return <HeroCodeSnippetStatic />;
   }
 
-  return (
-    <div ref={containerRef}>
-      <HeroCodeSnippetTyping ready={ready} inView={inView} />
-    </div>
-  );
+  return <HeroCodeSnippetTyping />;
 }

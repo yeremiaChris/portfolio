@@ -1,11 +1,12 @@
+"use client";
+
 import { ExternalLink } from "lucide-react";
 
-import { HomeSpotlightSurface } from "@/components/home/HomeSpotlightSurface";
-import { HomeWorkImageParallax } from "@/components/home/HomeWorkImageParallax";
 import {
-  homeBentoCardClass,
-  homeBentoChipClass,
-} from "@/components/home/homeSurface";
+  WorkBentoReveal,
+  WorkBentoRevealImage,
+} from "@/components/home/WorkBentoReveal";
+import { homeBentoChipClass } from "@/components/home/homeSurface";
 import { sectionHeadingSmClass } from "@/components/typography/typography-tokens";
 import type { HomeWorkCard } from "@/lib/home-work";
 import { tagToneClass } from "@/lib/milestones";
@@ -17,12 +18,9 @@ type WorkBentoFeaturedProps = {
 
 export function WorkBentoFeatured({ card }: WorkBentoFeaturedProps) {
   return (
-    <HomeSpotlightSurface
+    <WorkBentoReveal
       as="article"
-      className={cn(
-        homeBentoCardClass,
-        "grid gap-6 p-5 md:p-6 lg:grid-cols-2 lg:items-center lg:gap-8",
-      )}
+      className="grid gap-6 p-5 md:p-6 lg:grid-cols-2 lg:items-center lg:gap-8"
     >
       <div className="flex min-w-0 flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2">
@@ -71,8 +69,8 @@ export function WorkBentoFeatured({ card }: WorkBentoFeaturedProps) {
         href={card.href}
         className="focus-ring relative block w-full outline-none"
       >
-        <HomeWorkImageParallax src={card.image} alt={card.imageAlt} />
+        <WorkBentoRevealImage src={card.image} alt={card.imageAlt} />
       </a>
-    </HomeSpotlightSurface>
+    </WorkBentoReveal>
   );
 }

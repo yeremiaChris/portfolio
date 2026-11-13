@@ -2,6 +2,7 @@
 
 import { FileText, Link2, Mail } from "lucide-react";
 
+import { HomeCtaShine } from "@/components/home/HomeCtaShine";
 import { HomeMagneticEmailButton } from "@/components/home/HomeMagneticEmailButton";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { site } from "@/lib/site";
@@ -52,7 +53,7 @@ export function HomeContactActions() {
                 variant: isPrimary ? "default" : "secondary",
                 size: "lg",
               }),
-              "h-11 w-full min-w-[9.5rem] gap-2 px-5 text-[15px] font-medium sm:w-auto",
+              "relative h-11 w-full min-w-[9.5rem] gap-2 overflow-hidden px-5 text-[15px] font-medium sm:w-auto",
               isPrimary &&
                 "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover font-semibold",
             )}
@@ -61,23 +62,23 @@ export function HomeContactActions() {
               className={cn("size-5 shrink-0", !isPrimary && "text-primary")}
               aria-hidden
             />
-            <span className="truncate">{action.label}</span>
+            <span className="relative z-[1] truncate">{action.label}</span>
           </a>
+        );
+
+        const shine = (
+          <HomeCtaShine className="w-full sm:w-auto">{link}</HomeCtaShine>
         );
 
         if (isPrimary) {
           return (
             <HomeMagneticEmailButton key={action.label}>
-              {link}
+              {shine}
             </HomeMagneticEmailButton>
           );
         }
 
-        return (
-          <span key={action.label} className="contents">
-            {link}
-          </span>
-        );
+        return <span key={action.label}>{shine}</span>;
       })}
     </div>
   );

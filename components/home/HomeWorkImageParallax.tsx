@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { m, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 
+import { useHomeScrollMotionEnabled } from "@/components/home/useHomeMotionEnabled";
 import { homeParallaxMaxPx } from "@/lib/home-motion";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +24,7 @@ export function HomeWorkImageParallax({
   priority,
 }: HomeWorkImageParallaxProps) {
   const frameRef = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
+  const scrollMotion = useHomeScrollMotionEnabled();
   const { scrollYProgress } = useScroll({
     target: frameRef,
     offset: ["start end", "end start"],
@@ -33,7 +34,6 @@ export function HomeWorkImageParallax({
     [0, 1],
     [homeParallaxMaxPx, -homeParallaxMaxPx],
   );
-  const parallaxEnabled = !reducedMotion;
 
   return (
     <div
@@ -44,8 +44,8 @@ export function HomeWorkImageParallax({
       )}
     >
       <m.div
-        className="absolute inset-0 size-full"
-        style={parallaxEnabled ? { y: parallaxY } : undefined}
+        className="absolute inset-0 size-full will-change-transform"
+        style={scrollMotion ? { y: parallaxY } : undefined}
       >
         <Image
           src={src}

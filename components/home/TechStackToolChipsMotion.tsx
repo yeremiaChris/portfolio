@@ -1,8 +1,12 @@
 "use client";
 
-import { m, useReducedMotion } from "motion/react";
+import { m } from "motion/react";
 
 import { TechStackIcon } from "@/components/home/TechStackIcon";
+import {
+  useHomeMotionReduced,
+  useHomeScrollMotionEnabled,
+} from "@/components/home/useHomeMotionEnabled";
 import { homeToolsStagger } from "@/lib/home-motion";
 import { getTechChipIcon } from "@/lib/tech-stack-icons";
 
@@ -11,17 +15,32 @@ const techChipClass =
 
 type TechStackToolChipsMotionProps = {
   items: readonly string[];
-  visible: boolean;
   categoryIndex?: number;
 };
 
 export function TechStackToolChipsMotion({
   items,
-  visible,
   categoryIndex = 0,
 }: TechStackToolChipsMotionProps) {
-  const reducedMotion = useReducedMotion();
+  const scrollMotion = useHomeScrollMotionEnabled();
+  const reduced = useHomeMotionReduced();
   const baseDelay = categoryIndex * 0.04;
+
+  if (reduced || !scrollMotion) {
+    return (
+      <div className="flex flex-wrap gap-2">
+        {items.map((item) => (
+          <span key={item} className={techChipClass}>
+            <TechStackIcon
+              icon={getTechChipIcon(item)}
+              className="text-muted-foreground/70 group-hover/chip:text-brand-accent transition-colors duration-200 motion-reduce:transition-none"
+            />
+            {item}
+          </span>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -30,22 +49,18 @@ export function TechStackToolChipsMotion({
           baseDelay + index * homeToolsStagger.stagger,
           0.5,
         );
-        const show = reducedMotion || visible;
 
         return (
           <m.span
             key={item}
             className={techChipClass}
-            initial={false}
-            animate={
-              show
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: homeToolsStagger.yPx }
-            }
+            initial={{ opacity: 0, y: homeToolsStagger.yPx }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.12, margin: "0px 0px -8% 0px" }}
             transition={{
-              duration: reducedMotion ? 0 : homeToolsStagger.duration,
+              duration: homeToolsStagger.duration,
               ease: homeToolsStagger.ease,
-              delay: reducedMotion ? 0 : delay,
+              delay,
             }}
           >
             <TechStackIcon

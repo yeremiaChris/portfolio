@@ -1,24 +1,13 @@
 "use client";
 
-import { useInView, useReducedMotion } from "motion/react";
-import { useRef } from "react";
-
 import { TechStackToolChipsMotion } from "@/components/home/TechStackToolChipsMotion";
 import { sectionEyebrowClass } from "@/components/typography/typography-tokens";
 import { secondaryTechCategories } from "@/lib/tech-stack";
 import { cn } from "@/lib/utils";
 
 export function TechStackSecondaryCategories() {
-  const panelRef = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
-  const panelInView = useInView(panelRef, { once: true, amount: 0.15 });
-  const chipsVisible = reducedMotion || panelInView;
-
   return (
-    <div
-      ref={panelRef}
-      className="grid flex-1 grid-cols-1 md:grid-cols-2 lg:grid lg:grid-cols-3 lg:items-stretch"
-    >
+    <div className="grid flex-1 grid-cols-1 md:grid-cols-2 lg:grid lg:grid-cols-3 lg:items-stretch">
       {secondaryTechCategories.map((category, index) => (
         <div
           key={category.id}
@@ -34,7 +23,6 @@ export function TechStackSecondaryCategories() {
           <h3 className={sectionEyebrowClass}>{category.title}</h3>
           <TechStackToolChipsMotion
             items={category.items}
-            visible={chipsVisible}
             categoryIndex={index}
           />
         </div>

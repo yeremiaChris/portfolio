@@ -8,7 +8,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { m, useInView, useReducedMotion } from "motion/react";
+import { m, useInView } from "motion/react";
+
+import { useHydrated } from "@/components/motion/useHydrated";
+import { useHomeMotionReduced } from "@/components/home/useHomeMotionEnabled";
 
 import {
   HERO_CODE_LINES,
@@ -100,7 +103,7 @@ function HeroCodeSnippetTyping({
   const [showCursor, setShowCursor] = useState(false);
   const commandNs = useMemo(() => commandLineNumbers(), []);
   const staggerIndexRef = useRef(0);
-  const startedRef = useRef(false);
+  const hydrated = useHydrated();
 
   const lineByN = useMemo(() => {
     const map = new Map<number, SnippetLine>();
@@ -162,18 +165,24 @@ function HeroCodeSnippetTyping({
     [beginCommand, commandNs, outputLinesAfterCommand],
   );
 
-  const canStart = ready && inView;
+  const canStart = hydrated && (inView || ready);
 
   useEffect(() => {
-    if (!canStart || startedRef.current) {
+    if (!canStart) {
       return;
     }
-    startedRef.current = true;
-    setRevealed(new Set());
+    let cancelled = false;
     const timer = window.setTimeout(() => {
+      if (cancelled) {
+        return;
+      }
+      setRevealed(new Set());
       beginCommand(0);
     }, 0);
-    return () => window.clearTimeout(timer);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
   }, [beginCommand, canStart]);
 
   useEffect(() => {
@@ -237,9 +246,7 @@ function HeroCodeSnippetTyping({
   const cursorOnLine =
     phase.type === "typing" && showCursor ? phase.lineN : null;
 
-  const showFullBeforeStart = !canStart || phase.type === "idle";
-
-  if (showFullBeforeStart) {
+  if (!canStart) {
     return <HeroCodeSnippetStatic />;
   }
 
@@ -304,7 +311,7 @@ function MotionLineRow({
   onPointerEnter,
   onPointerLeave,
 }: MotionLineRowProps) {
-  const reducedMotion = useReducedMotion();
+  const reducedMotion = useHomeMotionReduced();
   const hoverActive = hovered && revealed;
 
   return (
@@ -395,9 +402,13 @@ function MotionLineRow({
 }
 
 export function HeroCodeSnippetMotion({ ready }: HeroCodeSnippetMotionProps) {
-  const reducedMotion = useReducedMotion();
+  const reducedMotion = useHomeMotionReduced();
   const containerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(containerRef, { once: true, amount: 0.35 });
+  const inView = useInView(containerRef, {
+    once: true,
+    amount: 0.08,
+    margin: "0px 0px -12% 0px",
+  });
 
   if (reducedMotion) {
     return (

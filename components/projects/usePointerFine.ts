@@ -1,17 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const POINTER_FINE_QUERY = "(pointer: fine)";
+
+function subscribe(onStoreChange: () => void): () => void {
+  const media = window.matchMedia(POINTER_FINE_QUERY);
+  media.addEventListener("change", onStoreChange);
+  return () => media.removeEventListener("change", onStoreChange);
+}
+
+function getPointerFineSnapshot(): boolean {
+  return window.matchMedia(POINTER_FINE_QUERY).matches;
+}
+
+function getPointerFineServerSnapshot(): boolean {
+  return false;
+}
 
 export function usePointerFine(): boolean {
-  const [fine, setFine] = useState(false);
-
-  useEffect(() => {
-    const media = window.matchMedia("(pointer: fine)");
-    const sync = () => setFine(media.matches);
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
-
-  return fine;
+  return useSyncExternalStore(
+    subscribe,
+    getPointerFineSnapshot,
+    getPointerFineServerSnapshot,
+  );
 }

@@ -1,15 +1,9 @@
 "use client";
 
-import {
-  m,
-  useMotionTemplate,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-} from "motion/react";
+import { m, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
 import { useCallback, type ReactNode } from "react";
 
-import { usePointerFine } from "@/components/projects/usePointerFine";
+import { useHomePointerEffectsEnabled } from "@/components/home/useHomeMotionEnabled";
 import { homeMagneticMaxPx, homeMagneticSpring } from "@/lib/home-motion";
 import { cn } from "@/lib/utils";
 
@@ -22,18 +16,16 @@ export function HomeMagneticEmailButton({
   children,
   className,
 }: HomeMagneticEmailButtonProps) {
-  const pointerFine = usePointerFine();
-  const reducedMotion = useReducedMotion();
+  const pointerEffects = useHomePointerEffectsEnabled();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, homeMagneticSpring);
   const springY = useSpring(y, homeMagneticSpring);
   const translate = useMotionTemplate`translate3d(${springX}px, ${springY}px, 0)`;
-  const enabled = pointerFine && !reducedMotion;
 
   const onMove = useCallback(
     (event: React.PointerEvent<HTMLSpanElement>) => {
-      if (!enabled) {
+      if (!pointerEffects) {
         return;
       }
       const target = event.currentTarget;
@@ -55,7 +47,7 @@ export function HomeMagneticEmailButton({
         ),
       );
     },
-    [enabled, x, y],
+    [pointerEffects, x, y],
   );
 
   const onLeave = useCallback(() => {
@@ -63,16 +55,12 @@ export function HomeMagneticEmailButton({
     y.set(0);
   }, [x, y]);
 
-  if (!enabled) {
-    return children;
-  }
-
   return (
     <m.span
       className={cn("inline-flex", className)}
-      style={{ translate }}
-      onPointerMove={onMove}
-      onPointerLeave={onLeave}
+      style={pointerEffects ? { translate } : undefined}
+      onPointerMove={pointerEffects ? onMove : undefined}
+      onPointerLeave={pointerEffects ? onLeave : undefined}
     >
       {children}
     </m.span>

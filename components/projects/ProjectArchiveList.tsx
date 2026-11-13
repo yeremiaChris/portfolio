@@ -3,6 +3,11 @@ import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import {
+  projectSurfaceDividerClass,
+  projectSurfaceHairlineClass,
+  projectSurfacePanelClass,
+} from "@/components/projects/projectSurface";
+import {
   getArchiveProjects,
   projectsArchiveIntro,
   type Project,
@@ -41,13 +46,16 @@ export function ProjectArchiveList() {
 
       <Stagger
         preset="calm"
-        className="border-border/40 divide-border/40 flex w-full min-w-0 flex-col divide-y rounded-2xl border"
+        className={cn(projectSurfacePanelClass, "relative p-0")}
       >
-        {archive.map((project) => (
-          <StaggerItem key={project.id}>
-            <ProjectArchiveRow project={project} />
-          </StaggerItem>
-        ))}
+        <div className={projectSurfaceHairlineClass} aria-hidden />
+        <div className={cn("divide-y", projectSurfaceDividerClass)}>
+          {archive.map((project) => (
+            <StaggerItem key={project.id}>
+              <ProjectArchiveRow project={project} />
+            </StaggerItem>
+          ))}
+        </div>
       </Stagger>
     </section>
   );
@@ -55,8 +63,8 @@ export function ProjectArchiveList() {
 
 function ProjectArchiveRow({ project }: { project: Project }) {
   const rowClassName = cn(
-    "project-archive-row group focus-ring grid w-full grid-cols-[1fr_auto] items-start gap-x-3 gap-y-1 px-4 py-3.5 text-left outline-none transition-colors duration-200 motion-reduce:transition-none sm:grid-cols-[minmax(10.5rem,13rem)_minmax(0,1fr)_4.5rem_1.25rem] sm:items-center sm:gap-x-4",
-    "hover:bg-muted/50",
+    "project-archive-row group focus-ring grid w-full grid-cols-[1fr_auto] items-start gap-x-3 gap-y-1 px-5 py-3.5 text-left outline-none transition-colors duration-200 motion-reduce:transition-none sm:grid-cols-[minmax(10.5rem,13rem)_minmax(0,1fr)_4.5rem_1.25rem] sm:items-center sm:gap-x-4 sm:px-6",
+    "hover:bg-secondary/25",
   );
 
   const cells = (

@@ -27,6 +27,7 @@ export default function ProjectsPage() {
           id="projects-contact"
           withContainer={false}
           className="mb-4"
+          panelClassName="ring-1 ring-border/40"
           eyebrow={projectsContactCta.eyebrow}
           title={projectsContactCta.title}
           description={projectsContactCta.description}

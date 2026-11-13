@@ -5,15 +5,16 @@ import { renderToString } from "react-dom/server";
 import { createRoot, type Root } from "react-dom/client";
 import { act } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-
 import { MotionConfig } from "motion/react";
 
 import {
+  useHomeMotion,
   useHomePointerEffectsEnabled,
   useHomeScrollMotionEnabled,
 } from "@/components/home/useHomeMotionEnabled";
 
 function MotionGateProbe() {
+  const motion = useHomeMotion();
   const scroll = useHomeScrollMotionEnabled();
   const pointer = useHomePointerEffectsEnabled();
   return (
@@ -21,11 +22,12 @@ function MotionGateProbe() {
       data-testid="motion-gate"
       data-scroll={scroll ? "1" : "0"}
       data-pointer={pointer ? "1" : "0"}
+      data-reduced={motion.reduced ? "1" : "0"}
     />
   );
 }
 
-describe("useHomeMotionEnabled", () => {
+describe("useHomeMotion", () => {
   let container: HTMLDivElement;
   let root: Root;
 
@@ -73,5 +75,6 @@ describe("useHomeMotionEnabled", () => {
     const node = container.querySelector('[data-testid="motion-gate"]');
     expect(node?.getAttribute("data-scroll")).toBe("1");
     expect(node?.getAttribute("data-pointer")).toBe("1");
+    expect(node?.getAttribute("data-reduced")).toBe("0");
   });
 });

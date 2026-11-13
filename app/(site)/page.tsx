@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative z-0">
       <JsonLd data={buildHomeJsonLd()} />
       <Hero />
       <Milestones />

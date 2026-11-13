@@ -1,4 +1,6 @@
 import { Container } from "@/components/Container";
+import { HomeSectionReveal } from "@/components/home/HomeSectionReveal";
+import { homeSectionSpacingClass } from "@/components/home/homeSurface";
 import { WorkBentoCard } from "@/components/home/work/WorkBentoCard";
 import { WorkBentoFeatured } from "@/components/home/work/WorkBentoFeatured";
 import { SectionIntro } from "@/components/typography/SectionTypography";
@@ -13,10 +15,10 @@ export function Milestones() {
   const secondary = getSecondaryHomeWorkCards();
 
   return (
-    <section
+    <HomeSectionReveal
       id="work"
-      aria-labelledby="milestones-heading"
-      className="w-full scroll-mt-24 py-12 md:py-16"
+      ariaLabelledby="milestones-heading"
+      className={homeSectionSpacingClass}
     >
       <Container className="flex flex-col gap-8 md:gap-10">
         <SectionIntro
@@ -35,6 +37,6 @@ export function Milestones() {
           </div>
         </div>
       </Container>
-    </section>
+    </HomeSectionReveal>
   );
 }

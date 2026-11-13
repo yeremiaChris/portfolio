@@ -7,7 +7,7 @@ import { HeaderScrollBackdropSlot } from "@/components/motion/HeaderScrollBackdr
 
 export function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 isolate z-[100]">
       <HeaderScrollBackdropSlot />
       <Container className="flex h-[var(--nav-height)] items-center justify-between gap-4">
         <div className="flex items-center gap-4">

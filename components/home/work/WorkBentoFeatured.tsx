@@ -1,11 +1,7 @@
-"use client";
-
+import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 
-import {
-  WorkBentoReveal,
-  WorkBentoRevealImage,
-} from "@/components/home/WorkBentoReveal";
+import { HomeProjectCard } from "@/components/home/HomeProjectCard";
 import { homeBentoChipClass } from "@/components/home/homeSurface";
 import { sectionHeadingSmClass } from "@/components/typography/typography-tokens";
 import type { HomeWorkCard } from "@/lib/home-work";
@@ -18,7 +14,7 @@ type WorkBentoFeaturedProps = {
 
 export function WorkBentoFeatured({ card }: WorkBentoFeaturedProps) {
   return (
-    <WorkBentoReveal
+    <HomeProjectCard
       as="article"
       className="grid gap-6 p-5 md:p-6 lg:grid-cols-2 lg:items-center lg:gap-8"
     >
@@ -67,10 +63,19 @@ export function WorkBentoFeatured({ card }: WorkBentoFeaturedProps) {
       </div>
       <a
         href={card.href}
-        className="focus-ring relative block w-full outline-none"
+        className="focus-ring relative block w-full min-w-0 overflow-hidden rounded-xl outline-none"
       >
-        <WorkBentoRevealImage src={card.image} alt={card.imageAlt} />
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl">
+          <Image
+            src={card.image}
+            alt={card.imageAlt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            loading="lazy"
+            className="object-cover object-top"
+          />
+        </div>
       </a>
-    </WorkBentoReveal>
+    </HomeProjectCard>
   );
 }

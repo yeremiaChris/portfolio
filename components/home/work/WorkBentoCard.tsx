@@ -1,9 +1,6 @@
-"use client";
+import Image from "next/image";
 
-import {
-  WorkBentoReveal,
-  WorkBentoRevealImage,
-} from "@/components/home/WorkBentoReveal";
+import { HomeProjectCard } from "@/components/home/HomeProjectCard";
 import { homeBentoChipClass } from "@/components/home/homeSurface";
 import type { HomeWorkCard } from "@/lib/home-work";
 import { tagToneClass } from "@/lib/milestones";
@@ -15,12 +12,20 @@ type WorkBentoCardProps = {
 
 export function WorkBentoCard({ card }: WorkBentoCardProps) {
   return (
-    <WorkBentoReveal
-      as="a"
+    <HomeProjectCard
       href={card.href}
-      className="h-full flex-col gap-4 p-5 md:p-6"
+      className="flex h-full flex-col gap-4 p-5 md:p-6"
     >
-      <WorkBentoRevealImage src={card.image} alt={card.imageAlt} />
+      <div className="relative aspect-[16/10] w-full min-w-0 overflow-hidden rounded-xl">
+        <Image
+          src={card.image}
+          alt={card.imageAlt}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          loading="lazy"
+          className="object-cover object-top"
+        />
+      </div>
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <span
           className={cn(
@@ -44,6 +49,6 @@ export function WorkBentoCard({ card }: WorkBentoCardProps) {
           ))}
         </div>
       </div>
-    </WorkBentoReveal>
+    </HomeProjectCard>
   );
 }

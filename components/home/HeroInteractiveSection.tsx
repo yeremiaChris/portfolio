@@ -3,10 +3,8 @@
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
 
 import { HeroDotGridCanvas } from "@/components/home/HeroDotGridCanvas";
-import {
-  useHomeMotionReduced,
-  useHomePointerEffectsEnabled,
-} from "@/components/home/useHomeMotionEnabled";
+import { useHomeMotion } from "@/components/home/useHomeMotionEnabled";
+import { homeHeroDotGrid } from "@/lib/home-motion";
 import { cn } from "@/lib/utils";
 
 type HeroInteractiveSectionProps = {
@@ -29,12 +27,11 @@ export function HeroInteractiveSection({
   const pointerRef = useRef({ x: -9999, y: -9999, active: false });
   const inViewRef = useRef(true);
   const rafRef = useRef(0);
-  const reduced = useHomeMotionReduced();
-  const pointerEffects = useHomePointerEffectsEnabled();
+  const { reduced, pointer, scroll } = useHomeMotion();
 
   const onPointerMove = useCallback(
     (event: React.PointerEvent<HTMLElement>) => {
-      if (!pointerEffects || !sectionRef.current) return;
+      if (!pointer || !sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
       pointerRef.current = {
         x: event.clientX - rect.left,
@@ -42,7 +39,7 @@ export function HeroInteractiveSection({
         active: true,
       };
     },
-    [pointerEffects],
+    [pointer],
   );
 
   const onPointerLeave = useCallback(() => {
@@ -57,7 +54,7 @@ export function HeroInteractiveSection({
       ([entry]) => {
         inViewRef.current = entry?.isIntersecting ?? false;
       },
-      { threshold: 0.05 },
+      { threshold: 0.02 },
     );
     observer.observe(section);
     return () => observer.disconnect();
@@ -66,12 +63,14 @@ export function HeroInteractiveSection({
   useEffect(() => {
     const canvas = canvasRef.current;
     const section = sectionRef.current;
-    if (!canvas || !section || reduced) return;
+    if (!canvas || !section || reduced || !scroll) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let shimmer = 0;
+    const { spacing, radius, baseAlpha, hotAlpha, fieldRadius, pushStrength } =
+      homeHeroDotGrid;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -94,40 +93,39 @@ export function HeroInteractiveSection({
       const { width, height } = section.getBoundingClientRect();
       ctx.clearRect(0, 0, width, height);
 
-      const spacing = 22;
       const cols = Math.ceil(width / spacing) + 1;
       const rows = Math.ceil(height / spacing) + 1;
       const ptr = pointerRef.current;
-      const fieldR = 140;
-      const useField = pointerEffects && ptr.active;
-      shimmer += 0.012;
+      const useField = pointer && ptr.active;
+      shimmer += 0.008;
 
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
           let x = col * spacing + spacing * 0.5;
           let y = row * spacing + spacing * 0.5;
-          let alpha = 0.14;
+          let alpha = baseAlpha;
 
           if (useField) {
             const dx = x - ptr.x;
             const dy = y - ptr.y;
             const dist = Math.hypot(dx, dy);
-            if (dist < fieldR) {
-              const t = 1 - dist / fieldR;
-              alpha = 0.14 + t * 0.58;
-              const push = t * 18;
+            if (dist < fieldRadius) {
+              const t = 1 - dist / fieldRadius;
+              alpha = baseAlpha + t * (hotAlpha - baseAlpha);
+              const push = t * pushStrength;
               if (dist > 0.5) {
                 x += (dx / dist) * push;
                 y += (dy / dist) * push;
               }
             }
           } else {
-            alpha = 0.14 + Math.sin(shimmer + col * 0.4 + row * 0.35) * 0.06;
+            alpha =
+              baseAlpha + Math.sin(shimmer + col * 0.35 + row * 0.3) * 0.025;
           }
 
           ctx.beginPath();
           ctx.fillStyle = `rgba(76, 215, 246, ${alpha})`;
-          ctx.arc(x, y, 1.1, 0, Math.PI * 2);
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
           ctx.fill();
         }
       }
@@ -149,7 +147,7 @@ export function HeroInteractiveSection({
       document.removeEventListener("visibilitychange", onVisibility);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [pointerEffects, reduced]);
+  }, [pointer, reduced, scroll]);
 
   return (
     <section
@@ -157,11 +155,11 @@ export function HeroInteractiveSection({
       id={id}
       aria-labelledby={ariaLabelledby}
       className={cn(className)}
-      onPointerMove={pointerEffects ? onPointerMove : undefined}
-      onPointerLeave={pointerEffects ? onPointerLeave : undefined}
+      onPointerMove={pointer ? onPointerMove : undefined}
+      onPointerLeave={pointer ? onPointerLeave : undefined}
     >
       {!reduced ? <HeroDotGridCanvas ref={canvasRef} /> : null}
-      {children}
+      <div className="relative z-[2]">{children}</div>
       {footer}
     </section>
   );

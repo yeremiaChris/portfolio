@@ -1,6 +1,10 @@
 import { Container } from "@/components/Container";
 import { HomeContactActions } from "@/components/home/HomeContactActions";
-import { homeBentoCardClass } from "@/components/home/homeSurface";
+import { HomeSectionReveal } from "@/components/home/HomeSectionReveal";
+import {
+  homeBentoCardClass,
+  homeSectionSpacingClass,
+} from "@/components/home/homeSurface";
 import { SectionIntro } from "@/components/typography/SectionTypography";
 import { cn } from "@/lib/utils";
 
@@ -8,10 +12,10 @@ export function HomeContactCta() {
   const headingId = "contact-heading";
 
   return (
-    <section
+    <HomeSectionReveal
       id="contact"
-      aria-labelledby={headingId}
-      className="w-full py-12 md:py-16"
+      ariaLabelledby={headingId}
+      className={homeSectionSpacingClass}
     >
       <Container>
         <div
@@ -31,6 +35,6 @@ export function HomeContactCta() {
           <HomeContactActions />
         </div>
       </Container>
-    </section>
+    </HomeSectionReveal>
   );
 }

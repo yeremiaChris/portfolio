@@ -1,4 +1,8 @@
+"use client";
+
 import { ArrowUpRight } from "lucide-react";
+import { m, useReducedMotion } from "motion/react";
+import { useState } from "react";
 
 import {
   projectSurfaceDividerClass,
@@ -12,8 +16,13 @@ import {
 } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
-export function ProjectArchiveList() {
+import { usePointerFine } from "@/components/projects/usePointerFine";
+
+export function ProjectArchiveListMotion() {
   const archive = getArchiveProjects();
+  const reducedMotion = useReducedMotion();
+  const pointerFine = usePointerFine();
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   if (archive.length === 0) {
     return null;
@@ -42,9 +51,16 @@ export function ProjectArchiveList() {
 
       <div className={cn(projectSurfacePanelClass, "relative p-0")}>
         <div className={projectSurfaceHairlineClass} aria-hidden />
-        <div className={cn("divide-y", projectSurfaceDividerClass)}>
+        <div className={cn("relative divide-y", projectSurfaceDividerClass)}>
           {archive.map((project) => (
-            <ProjectArchiveRow key={project.id} project={project} />
+            <ProjectArchiveRowMotion
+              key={project.id}
+              project={project}
+              hoveredId={hoveredId}
+              reducedMotion={Boolean(reducedMotion)}
+              pointerFine={pointerFine}
+              onHover={setHoveredId}
+            />
           ))}
         </div>
       </div>
@@ -52,9 +68,21 @@ export function ProjectArchiveList() {
   );
 }
 
-function ProjectArchiveRow({ project }: { project: Project }) {
+function ProjectArchiveRowMotion({
+  project,
+  hoveredId,
+  reducedMotion,
+  pointerFine,
+  onHover,
+}: {
+  project: Project;
+  hoveredId: string | null;
+  reducedMotion: boolean;
+  pointerFine: boolean;
+  onHover: (id: string | null) => void;
+}) {
   const rowClassName = cn(
-    "project-archive-row group focus-ring grid w-full grid-cols-[1fr_auto] items-start gap-x-3 gap-y-1 px-5 py-3.5 text-left outline-none transition-colors duration-200 motion-reduce:transition-none sm:grid-cols-[minmax(10.5rem,13rem)_minmax(0,1fr)_4.5rem_1.25rem] sm:items-center sm:gap-x-4 sm:px-6",
+    "project-archive-row group focus-ring relative grid w-full grid-cols-[1fr_auto] items-start gap-x-3 gap-y-1 px-5 py-3.5 text-left outline-none transition-colors duration-200 motion-reduce:transition-none sm:grid-cols-[minmax(10.5rem,13rem)_minmax(0,1fr)_4.5rem_1.25rem] sm:items-center sm:gap-x-4 sm:px-6",
     "hover:bg-secondary/25",
   );
 
@@ -87,6 +115,16 @@ function ProjectArchiveRow({ project }: { project: Project }) {
     </>
   );
 
+  const highlight =
+    pointerFine && !reducedMotion && hoveredId === project.id ? (
+      <m.span
+        layoutId="projects-archive-highlight"
+        className="bg-brand-accent/90 pointer-events-none absolute top-0 bottom-0 left-0 w-[3px] shadow-[0_0_14px_rgb(76_215_246_/_0.75)]"
+        transition={{ type: "spring", stiffness: 500, damping: 42 }}
+        aria-hidden
+      />
+    ) : null;
+
   if (project.href) {
     return (
       <a
@@ -95,14 +133,25 @@ function ProjectArchiveRow({ project }: { project: Project }) {
         target="_blank"
         rel="noopener noreferrer"
         className={cn(rowClassName, "scroll-mt-24")}
+        onMouseEnter={() => onHover(project.id)}
+        onMouseLeave={() => onHover(null)}
+        onFocus={() => onHover(project.id)}
+        onBlur={() => onHover(null)}
       >
+        {highlight}
         {cells}
       </a>
     );
   }
 
   return (
-    <div id={project.id} className={cn(rowClassName, "scroll-mt-24")}>
+    <div
+      id={project.id}
+      className={cn(rowClassName, "scroll-mt-24")}
+      onMouseEnter={() => onHover(project.id)}
+      onMouseLeave={() => onHover(null)}
+    >
+      {highlight}
       {cells}
     </div>
   );

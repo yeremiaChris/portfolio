@@ -38,7 +38,7 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    files: ["components/projects/ProjectBrowserFrame.tsx"],
+    files: ["components/projects/ProjectBrowserFrameMotion.tsx"],
     rules: {
       "@next/next/no-img-element": "off",
     },

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
+import { AboutBelowFoldStatic } from "@/components/about/AboutBelowFoldStatic";
 import { AboutHeader } from "@/components/about/AboutHeader";
-import { AboutStory } from "@/components/about/AboutStory";
-import { AboutWorkflow } from "@/components/about/AboutWorkflow";
+import { AboutLargeViewportMotion } from "@/components/about/AboutLargeViewportMotion";
 import { Container } from "@/components/Container";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { aboutIntro } from "@/lib/about";
@@ -23,8 +23,12 @@ export default function AboutPage() {
       />
       <Container className="flex min-h-[calc(100vh-4rem)] flex-col py-6 md:py-8">
         <AboutHeader />
-        <AboutStory />
-        <AboutWorkflow />
+        <div className="lg:hidden">
+          <AboutBelowFoldStatic />
+        </div>
+        <div className="hidden lg:block">
+          <AboutLargeViewportMotion fallback={<AboutBelowFoldStatic />} />
+        </div>
       </Container>
     </main>
   );

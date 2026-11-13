@@ -193,6 +193,7 @@ describe("INTRO_BOOTSTRAP_SCRIPT", () => {
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain("saveData");
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain("max-width: 767px");
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain("location.pathname");
+    expect(INTRO_BOOTSTRAP_SCRIPT).toContain('"/about"');
     expect(INTRO_BOOTSTRAP_SCRIPT).toContain(
       `d.dataset.intro="${INTRO_SEEN_STATE}"`,
     );

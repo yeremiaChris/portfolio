@@ -1,1 +1,1 @@
-export { AboutStoryStatic as AboutStory } from "@/components/about/AboutStoryStatic";
+export { AboutJourneySection as AboutStory } from "@/components/about/AboutJourneySection";

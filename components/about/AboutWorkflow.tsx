@@ -1,1 +1,1 @@
-export { AboutWorkflowStatic as AboutWorkflow } from "@/components/about/AboutWorkflowStatic";
+export { AboutWorkflowMotion as AboutWorkflow } from "@/components/about/AboutWorkflowMotion";

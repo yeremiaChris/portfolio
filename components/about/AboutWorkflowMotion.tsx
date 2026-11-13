@@ -2,10 +2,16 @@
 
 import Link from "next/link";
 import { m, useInView, useReducedMotion } from "motion/react";
-import { useRef, useState, type ReactNode } from "react";
+import { useRef } from "react";
 
-import { AboutWorkflowDesktopStage } from "@/components/about/workflow/AboutWorkflowDesktopStage";
-import { AboutWorkflowMobileSteps } from "@/components/about/workflow/AboutWorkflowMobileSteps";
+import {
+  aboutPageSectionClass,
+  aboutSectionEyebrowClass,
+  aboutSectionLeadClass,
+  aboutSectionSpacingClass,
+  aboutSectionTitleClass,
+} from "@/components/about/aboutSectionStyles";
+import { AboutWorkflowStepsGrid } from "@/components/about/workflow/AboutWorkflowStepsGrid";
 import {
   aboutSurfaceCardClass,
   projectSurfaceHairlineClass,
@@ -17,300 +23,175 @@ import {
   aboutWorkflowIntro,
   aboutWorkflowSplit,
 } from "@/lib/about";
-import { aboutWorkflowSplitPairs } from "@/lib/about-workflow-map";
-import {
-  aboutStaggerTransition,
-  aboutWorkflowStepSpring,
-} from "@/lib/scroll-motion";
+import { aboutHeroEntranceSpring } from "@/lib/scroll-motion";
 import { cn } from "@/lib/utils";
 
 export function AboutWorkflowMotion() {
-  const reducedMotion = useReducedMotion();
-
   return (
     <section
       aria-labelledby="about-workflow-heading"
-      className="mb-6 w-full min-w-0 md:mb-10"
+      className={cn(aboutPageSectionClass, aboutSectionSpacingClass, "pb-10")}
     >
-      <WorkflowIntro />
-      {!reducedMotion ? <AboutWorkflowDesktopStage /> : null}
-      <AboutWorkflowMobileSteps
-        className={reducedMotion ? "lg:flex" : undefined}
-      />
-      <AboutWorkflowSplitSection />
+      <div className="mb-8 max-w-2xl md:mb-10">
+        <p className={aboutSectionEyebrowClass}>{aboutWorkflowIntro.eyebrow}</p>
+        <h2 id="about-workflow-heading" className={aboutSectionTitleClass}>
+          {aboutWorkflowIntro.title}
+        </h2>
+        <p className={aboutSectionLeadClass}>
+          {aboutWorkflowIntro.description}
+        </p>
+      </div>
+
+      <AboutWorkflowStepsGrid />
+
+      <AboutWorkflowSplit />
       <AboutWorkflowQuote />
-      <p className="text-muted-foreground mt-4 block max-w-2xl text-[15px] leading-relaxed">
+
+      <p className="text-muted-foreground mt-8 max-w-2xl text-[15px] leading-[1.75]">
         {aboutWorkflowClosing}
       </p>
     </section>
   );
 }
 
-function WorkflowIntro() {
-  return (
-    <div className="mb-6 max-w-2xl lg:mb-8">
-      <p className="text-muted-foreground label-caps tracking-widest">
-        {aboutWorkflowIntro.eyebrow}
-      </p>
-      <h2
-        id="about-workflow-heading"
-        className="font-heading text-foreground mt-1 text-2xl font-semibold tracking-tight sm:text-3xl"
-      >
-        {aboutWorkflowIntro.title}
-      </h2>
-      <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed">
-        {aboutWorkflowIntro.description}
-      </p>
-    </div>
-  );
-}
-
-function AboutWorkflowSplitSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+function AboutWorkflowSplit() {
+  const ref = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const inView = useInView(sectionRef, { once: true, amount: 0.2 });
-  const [hoveredPair, setHoveredPair] = useState<number | null>(null);
-
-  const aiItems = aboutWorkflowSplit.ai.items;
-  const meItems = aboutWorkflowSplit.me.items;
+  const inView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <div ref={sectionRef} className="mt-8 min-w-0">
-      <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_1.5rem_minmax(0,1fr)] md:gap-3">
-        <SplitColumn
-          title={aboutWorkflowSplit.ai.title}
-          items={aiItems}
-          tone="accent"
-          side="ai"
-          hoveredPair={hoveredPair}
-          scrollLit={inView && !reducedMotion}
-          onHoverPair={setHoveredPair}
-          reducedMotion={!!reducedMotion}
-        />
-        <div className="relative hidden min-h-[8rem] md:block" aria-hidden>
-          {aboutWorkflowSplitPairs.map((pair, pairIndex) => {
-            const lit =
-              !reducedMotion &&
-              (hoveredPair === pairIndex ||
-                (hoveredPair === null && inView && pairIndex === 0));
-            const topAi = splitListOffsetPercent(pair.aiIndex, aiItems.length);
-            const topMe = splitListOffsetPercent(pair.meIndex, meItems.length);
-            return (
-              <m.span
-                key={`${pair.aiIndex}-${pair.meIndex}`}
-                className="bg-brand-accent/70 absolute right-0 left-0 h-px shadow-[0_0_10px_rgb(76_215_246_/_0.45)]"
-                style={{
-                  top: `calc(3rem + (${topAi}% + ${topMe}%) / 2 * 0.5)`,
-                }}
-                initial={false}
-                animate={{ opacity: lit ? 0.85 : 0.1 }}
-                transition={aboutWorkflowStepSpring}
-              />
-            );
-          })}
-        </div>
-        <SplitColumn
-          title={aboutWorkflowSplit.me.title}
-          items={meItems}
-          tone="primary"
-          side="me"
-          hoveredPair={hoveredPair}
-          scrollLit={inView && !reducedMotion}
-          onHoverPair={setHoveredPair}
-          reducedMotion={!!reducedMotion}
-        />
-      </div>
+    <div
+      ref={ref}
+      className={cn(
+        "mt-12 grid min-w-0 grid-cols-1 gap-6 md:mt-16 md:grid-cols-2 md:gap-8",
+      )}
+    >
+      <SplitCard
+        title={aboutWorkflowSplit.ai.title}
+        items={aboutWorkflowSplit.ai.items}
+        tone="accent"
+        inView={inView}
+        reducedMotion={!!reducedMotion}
+        delay={0}
+      />
+      <SplitCard
+        title={aboutWorkflowSplit.me.title}
+        items={aboutWorkflowSplit.me.items}
+        tone="primary"
+        inView={inView}
+        reducedMotion={!!reducedMotion}
+        delay={0.08}
+      />
     </div>
   );
 }
 
-function splitListOffsetPercent(index: number, count: number) {
-  if (count <= 1) return 50;
-  return (index / (count - 1)) * 100;
-}
-
-function SplitColumn({
+function SplitCard({
   title,
   items,
   tone,
-  side,
-  hoveredPair,
-  scrollLit,
-  onHoverPair,
+  inView,
   reducedMotion,
+  delay,
 }: {
   title: string;
   items: readonly string[];
   tone: "accent" | "primary";
-  side: "ai" | "me";
-  hoveredPair: number | null;
-  scrollLit: boolean;
-  onHoverPair: (index: number | null) => void;
+  inView: boolean;
   reducedMotion: boolean;
+  delay: number;
 }) {
   const toneClass = aboutStoryToneClass[tone];
 
-  return (
-    <SplitPanel className={aboutSurfaceCardClass}>
+  const inner = (
+    <div className={cn(aboutSurfaceCardClass, "h-full")}>
       <div className={projectSurfaceHairlineClass} />
       <h3
         className={cn(
-          "font-heading mb-2 text-base font-semibold tracking-tight",
+          "font-heading mb-4 text-lg font-semibold tracking-tight",
           toneClass,
         )}
       >
         {title}
       </h3>
-      <ul className="text-muted-foreground space-y-1 text-[13px] leading-snug">
-        {items.map((item, index) => {
-          const pairIndices = aboutWorkflowSplitPairs
-            .map((p, i) =>
-              side === "ai"
-                ? p.aiIndex === index
-                  ? i
-                  : -1
-                : p.meIndex === index
-                  ? i
-                  : -1,
-            )
-            .filter((i) => i >= 0);
-          const lit =
-            scrollLit &&
-            (hoveredPair === null
-              ? pairIndices.includes(0)
-              : pairIndices.includes(hoveredPair));
-
-          return (
-            <li key={item}>
-              <m.button
-                type="button"
-                className={cn(
-                  "flex w-full gap-2 rounded-md px-1.5 py-1 text-left",
-                  lit && "bg-brand-accent/8",
-                )}
-                initial={false}
-                animate={
-                  reducedMotion ? undefined : { opacity: lit ? 1 : 0.88 }
-                }
-                transition={aboutWorkflowStepSpring}
-                onMouseEnter={() => {
-                  if (pairIndices[0] !== undefined) {
-                    onHoverPair(pairIndices[0]);
-                  }
-                }}
-                onMouseLeave={() => onHoverPair(null)}
-                onFocus={() => {
-                  if (pairIndices[0] !== undefined) {
-                    onHoverPair(pairIndices[0]);
-                  }
-                }}
-                onBlur={() => onHoverPair(null)}
-              >
-                <span
-                  className={cn(
-                    "mt-1.5 size-1.5 shrink-0 rounded-full",
-                    lit
-                      ? "bg-brand-accent"
-                      : tone === "accent"
-                        ? "bg-brand-accent/50"
-                        : "bg-primary/50",
-                  )}
-                  aria-hidden
-                />
-                <span className={lit ? "text-foreground" : undefined}>
-                  {item}
-                </span>
-              </m.button>
-            </li>
-          );
-        })}
+      <ul className="text-muted-foreground space-y-2.5 text-[14px] leading-relaxed sm:text-[15px]">
+        {items.map((item) => (
+          <li key={item} className="flex gap-2.5">
+            <span
+              className={cn(
+                "mt-2 size-1.5 shrink-0 rounded-full",
+                tone === "accent" ? "bg-brand-accent" : "bg-primary",
+              )}
+              aria-hidden
+            />
+            <span>{item}</span>
+          </li>
+        ))}
       </ul>
-    </SplitPanel>
+    </div>
   );
-}
 
-function SplitPanel({
-  className,
-  children,
-}: {
-  className?: string;
-  children: ReactNode;
-}) {
-  const reducedMotion = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.15 });
+  if (reducedMotion) {
+    return inner;
+  }
 
   return (
     <m.div
-      ref={ref}
-      className={className}
       initial={false}
+      style={{ opacity: 1 }}
       animate={
-        reducedMotion
-          ? { opacity: 1, translateY: 0 }
-          : {
-              opacity: inView ? 1 : 0.92,
-              translateY: inView ? 0 : 8,
-            }
+        inView ? { opacity: 1, translateY: 0 } : { opacity: 1, translateY: 10 }
       }
-      transition={aboutStaggerTransition}
+      transition={{ ...aboutHeroEntranceSpring, delay }}
     >
-      {children}
+      {inner}
     </m.div>
   );
 }
 
 function AboutWorkflowQuote() {
+  const ref = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const ref = useRef<HTMLQuoteElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.35 });
-  const text = `${aboutWorkflowExample.beforeLink}${aboutWorkflowExample.linkLabel}${aboutWorkflowExample.afterLink}`;
-  const words = text.split(/(\s+)/);
 
-  return (
-    <m.blockquote
-      ref={ref}
+  const quote = (
+    <blockquote
       className={cn(
         aboutSurfaceCardClass,
-        "border-brand-accent/30 mt-6 max-w-3xl border-l-2",
+        "border-brand-accent/30 mt-10 max-w-3xl border-l-2 md:mt-12",
       )}
     >
       <div className={projectSurfaceHairlineClass} />
-      <p className="text-foreground text-[15px] leading-relaxed">
-        {words.map((segment, index) => {
-          if (/^\s+$/.test(segment)) {
-            return <span key={`ws-${index}`}>{segment}</span>;
-          }
-          const isLink = segment === aboutWorkflowExample.linkLabel;
-          const content = isLink ? (
-            <Link
-              href={aboutWorkflowExample.linkHref}
-              className="text-foreground decoration-brand-accent hover:text-brand-accent font-medium underline underline-offset-4"
-            >
-              {aboutWorkflowExample.linkLabel}
-            </Link>
-          ) : (
-            segment
-          );
-
-          return (
-            <m.span
-              key={`w-${index}`}
-              className="inline"
-              initial={false}
-              animate={
-                reducedMotion ? { opacity: 1 } : { opacity: inView ? 1 : 0.6 }
-              }
-              transition={{
-                ...aboutStaggerTransition,
-                delay: reducedMotion ? 0 : index * 0.02,
-              }}
-            >
-              {content}
-            </m.span>
-          );
-        })}
+      <p className="text-foreground text-[15px] leading-[1.75] sm:text-base">
+        {aboutWorkflowExample.beforeLink}
+        <Link
+          href={aboutWorkflowExample.linkHref}
+          className="text-foreground decoration-brand-accent hover:text-brand-accent font-medium underline underline-offset-4"
+        >
+          {aboutWorkflowExample.linkLabel}
+        </Link>
+        {aboutWorkflowExample.afterLink}
       </p>
-    </m.blockquote>
+    </blockquote>
+  );
+
+  if (reducedMotion) {
+    return quote;
+  }
+
+  return (
+    <m.div
+      ref={ref}
+      initial={false}
+      style={{ opacity: 1 }}
+      animate={
+        inView
+          ? { opacity: 1, translateY: [10, 0] }
+          : { opacity: 1, translateY: 0 }
+      }
+      transition={aboutHeroEntranceSpring}
+    >
+      {quote}
+    </m.div>
   );
 }

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 
-import { AboutHeader } from "@/components/about/AboutHeader";
-import { AboutLargeViewportMotion } from "@/components/about/AboutLargeViewportMotion";
-import { AboutStoryMotion } from "@/components/about/AboutStoryMotion";
-import { AboutWorkflowStatic } from "@/components/about/AboutWorkflowStatic";
+import { AboutHeroSection } from "@/components/about/AboutHeroSection";
+import { AboutJourneySection } from "@/components/about/AboutJourneySection";
+import { AboutWorkflowMotion } from "@/components/about/AboutWorkflowMotion";
 import { Container } from "@/components/Container";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { aboutIntro } from "@/lib/about";
@@ -22,15 +21,10 @@ export default function AboutPage() {
       <JsonLd
         data={buildProfilePageJsonLd("/about", { includeContact: false })}
       />
-      <Container className="flex min-h-[calc(100vh-4rem)] flex-col py-6 md:py-8">
-        <AboutHeader />
-        <AboutStoryMotion />
-        <div className="lg:hidden">
-          <AboutWorkflowStatic />
-        </div>
-        <div className="hidden lg:block">
-          <AboutLargeViewportMotion fallback={<AboutWorkflowStatic />} />
-        </div>
+      <Container className="flex min-w-0 flex-col overflow-x-hidden py-8 md:py-12">
+        <AboutHeroSection />
+        <AboutJourneySection />
+        <AboutWorkflowMotion />
       </Container>
     </main>
   );

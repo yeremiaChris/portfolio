@@ -28,5 +28,3 @@ export const aboutWorkflowStepSpring = {
   damping: 38,
   mass: 0.85,
 };
-
-export const ABOUT_WORKFLOW_STEP_SCROLL_VH = 72;

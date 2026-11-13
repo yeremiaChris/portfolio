@@ -13,9 +13,3 @@ export const homeTerminalFast = {
   commandPauseMs: 4,
   startDelayMs: 300,
 } as const;
-
-export const homeSectionReveal = {
-  duration: 0.5,
-  offsetY: 16,
-  ease: [0.16, 1, 0.3, 1] as const,
-} as const;

@@ -1,10 +1,12 @@
 import { Container } from "@/components/Container";
-import { HomeSectionReveal } from "@/components/home/HomeSectionReveal";
 import {
-  homeBentoCardClass,
+  homePanelClass,
+  homePanelDividerClass,
+  homePanelHairlineClass,
   homeSectionSpacingClass,
 } from "@/components/home/homeSurface";
 import { TechStackIcon } from "@/components/home/TechStackIcon";
+import { SectionWithReveal } from "@/components/motion/SectionWithReveal";
 import { SectionIntro } from "@/components/typography/SectionTypography";
 import { sectionEyebrowClass } from "@/components/typography/typography-tokens";
 import { getCoreToolIcon, getTechChipIcon } from "@/lib/tech-stack-icons";
@@ -20,7 +22,7 @@ const techChipClass =
 
 export function TechStack() {
   return (
-    <HomeSectionReveal
+    <SectionWithReveal
       id="tech-stack"
       ariaLabelledby="tech-stack-heading"
       className={homeSectionSpacingClass}
@@ -35,11 +37,18 @@ export function TechStack() {
 
         <div
           className={cn(
-            homeBentoCardClass,
-            "flex flex-col overflow-hidden p-0 lg:flex-row lg:items-stretch",
+            homePanelClass,
+            "relative flex flex-col overflow-hidden p-0 lg:flex-row lg:items-stretch",
           )}
         >
-          <div className="border-border/40 flex flex-col gap-4 border-b p-5 md:p-6 lg:w-[40%] lg:shrink-0 lg:border-r lg:border-b-0">
+          <div className={homePanelHairlineClass} aria-hidden />
+          <div
+            className={cn(
+              "flex flex-col gap-4 border-b p-5 md:p-6 lg:w-[40%] lg:shrink-0 lg:border-r lg:border-b-0",
+              homePanelDividerClass,
+              "lg:border-r",
+            )}
+          >
             <p className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
               <span className={sectionEyebrowClass}>
                 {techStackIntro.focusLabel}
@@ -74,11 +83,15 @@ export function TechStack() {
                 key={category.id}
                 className={cn(
                   "flex h-full min-h-0 flex-col gap-3 p-5 md:p-6",
-                  index > 0 && "border-border/40 border-t md:border-t-0",
-                  index === 1 && "md:border-border/40 md:border-l",
+                  index > 0 && cn("border-t", homePanelDividerClass),
+                  index > 0 && "md:border-t-0",
+                  index === 1 && cn("md:border-l", homePanelDividerClass),
                   index === 2 &&
-                    "md:border-border/40 md:border-t md:border-l-0 lg:border-t-0 lg:border-l",
-                  index > 0 && "lg:border-border/40 lg:border-l",
+                    cn(
+                      "md:border-t md:border-l-0 lg:border-t-0 lg:border-l",
+                      homePanelDividerClass,
+                    ),
+                  index > 0 && cn("lg:border-l", homePanelDividerClass),
                 )}
               >
                 <h3 className={sectionEyebrowClass}>{category.title}</h3>
@@ -98,6 +111,6 @@ export function TechStack() {
           </div>
         </div>
       </Container>
-    </HomeSectionReveal>
+    </SectionWithReveal>
   );
 }

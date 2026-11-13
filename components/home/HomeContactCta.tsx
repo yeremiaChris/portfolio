@@ -1,40 +1,23 @@
 import { Container } from "@/components/Container";
-import { HomeContactActions } from "@/components/home/HomeContactActions";
-import { HomeSectionReveal } from "@/components/home/HomeSectionReveal";
-import {
-  homeBentoCardClass,
-  homeSectionSpacingClass,
-} from "@/components/home/homeSurface";
-import { SectionIntro } from "@/components/typography/SectionTypography";
-import { cn } from "@/lib/utils";
+import { ContactCtaPanel } from "@/components/home/ContactCta";
+import { homeSectionSpacingClass } from "@/components/home/homeSurface";
+import { SectionWithReveal } from "@/components/motion/SectionWithReveal";
 
 export function HomeContactCta() {
   const headingId = "contact-heading";
 
   return (
-    <HomeSectionReveal
+    <SectionWithReveal
       id="contact"
       ariaLabelledby={headingId}
       className={homeSectionSpacingClass}
     >
       <Container>
-        <div
-          className={cn(
-            homeBentoCardClass,
-            "flex flex-col items-stretch justify-between gap-8 p-6 md:flex-row md:items-center md:gap-10 md:p-8",
-          )}
-        >
-          <SectionIntro
-            eyebrow="Open to full-time or scoped contracts"
-            title="Let's talk about a full-time role or a scoped remote build."
-            description="Invoice or hourly is fine. Frontend-heavy work in React, Next.js, or Vue — health-tech, logistics, and product platforms. Remote-friendly (Indonesia / UTC+7)."
-            headingId={headingId}
-            className="max-w-2xl gap-2.5"
-          />
-
-          <HomeContactActions />
-        </div>
+        <ContactCtaPanel
+          headingId={headingId}
+          panelClassName="ring-1 ring-border/40"
+        />
       </Container>
-    </HomeSectionReveal>
+    </SectionWithReveal>
   );
 }

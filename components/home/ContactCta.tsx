@@ -56,19 +56,24 @@ const DEFAULT_ACTIONS: ContactCtaAction[] = [
   },
 ];
 
-export function ContactCta({
-  id = "contact",
+export type ContactCtaPanelProps = {
+  headingId: string;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  actions?: ContactCtaAction[];
+  panelClassName?: string;
+};
+
+export function ContactCtaPanel({
+  headingId,
   eyebrow = "Open to full-time or scoped contracts",
   title = "Let's talk about a full-time role or a scoped remote build.",
   description = "Invoice or hourly is fine. Frontend-heavy work in React, Next.js, or Vue — health-tech, logistics, and product platforms. Remote-friendly (Indonesia / UTC+7).",
   actions = DEFAULT_ACTIONS,
-  withContainer = true,
-  className,
   panelClassName,
-}: ContactCtaProps) {
-  const headingId = `${id}-heading`;
-
-  const panel = (
+}: ContactCtaPanelProps) {
+  return (
     <div
       className={cn(
         "border-gradient bg-muted relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl p-8 shadow-xl md:flex-row md:items-center md:gap-10 md:p-12",
@@ -108,6 +113,30 @@ export function ContactCta({
         ))}
       </div>
     </div>
+  );
+}
+
+export function ContactCta({
+  id = "contact",
+  eyebrow = "Open to full-time or scoped contracts",
+  title = "Let's talk about a full-time role or a scoped remote build.",
+  description = "Invoice or hourly is fine. Frontend-heavy work in React, Next.js, or Vue — health-tech, logistics, and product platforms. Remote-friendly (Indonesia / UTC+7).",
+  actions = DEFAULT_ACTIONS,
+  withContainer = true,
+  className,
+  panelClassName,
+}: ContactCtaProps) {
+  const headingId = `${id}-heading`;
+
+  const panel = (
+    <ContactCtaPanel
+      headingId={headingId}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+      actions={actions}
+      panelClassName={panelClassName}
+    />
   );
 
   return (

@@ -3,6 +3,12 @@ export {
   aboutBentoChipClass as homeBentoChipClass,
 } from "@/components/about/aboutSurface";
 
+export {
+  projectSurfaceDividerClass as homePanelDividerClass,
+  projectSurfaceHairlineClass as homePanelHairlineClass,
+  projectSurfacePanelClass as homePanelClass,
+} from "@/components/projects/projectSurface";
+
 export const homeSectionSpacingClass =
   "w-full scroll-mt-[calc(var(--nav-height)+0.75rem)] py-12 md:py-16";
 

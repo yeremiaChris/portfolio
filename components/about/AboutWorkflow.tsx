@@ -8,16 +8,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { Reveal } from "@/components/motion/Reveal";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
-import { Badge } from "@/components/ui/badge";
 import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  aboutBentoCardClass,
+  aboutBentoChipClass,
+  aboutStepNumberClass,
+} from "@/components/about/aboutSurface";
 import {
   aboutStoryToneClass,
   aboutWorkflowClosing,
@@ -40,13 +35,26 @@ const STEP_ICONS: Record<AboutWorkflowStep["icon"], LucideIcon> = {
   ship: GitMerge,
 };
 
+const STEP_LG_COL_SPAN: Record<AboutWorkflowStep["id"], string> = {
+  plan: "lg:col-span-2",
+  ticket: "lg:col-span-2",
+  agent: "lg:col-span-2",
+  review: "lg:col-span-3",
+  merge: "lg:col-span-3",
+};
+
+const TOOL_GROUP_ROWS: AboutWorkflowToolGroup["id"][][] = [
+  ["editor", "agents", "planning"],
+  ["ship", "quality"],
+];
+
 export function AboutWorkflow() {
   return (
     <section
       aria-labelledby="about-workflow-heading"
       className="mb-8 w-full md:mb-12"
     >
-      <Reveal className="mb-6 max-w-2xl">
+      <header className="mb-6 max-w-2xl px-1 md:mb-8">
         <p className="text-muted-foreground label-caps tracking-widest">
           {aboutWorkflowIntro.eyebrow}
         </p>
@@ -56,98 +64,113 @@ export function AboutWorkflow() {
         >
           {aboutWorkflowIntro.title}
         </h2>
-        <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed">
+        <p className="text-muted-foreground mt-3 text-[15px] leading-relaxed sm:text-base">
           {aboutWorkflowIntro.description}
         </p>
-      </Reveal>
+      </header>
 
-      <Stagger className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
-        {aboutWorkflowToolGroups.map((group) => (
-          <StaggerItem key={group.id}>
-            <ToolGroupCard group={group} />
-          </StaggerItem>
-        ))}
-      </Stagger>
+      <div className="flex flex-col gap-4 md:gap-5">
+        <ToolsBentoCard />
 
-      <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5 xl:gap-4">
-        {aboutWorkflowSteps.map((step) => (
-          <StaggerItem key={step.id}>
-            <WorkflowStepCard step={step} />
-          </StaggerItem>
-        ))}
-      </Stagger>
+        <div className="grid grid-cols-1 items-start gap-3.5 md:grid-cols-2 md:gap-4 lg:grid-cols-6 lg:gap-4">
+          {aboutWorkflowSteps.map((step) => (
+            <WorkflowStepCard key={step.id} step={step} />
+          ))}
+        </div>
 
-      <Stagger className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-        <StaggerItem>
+        <div className="grid grid-cols-1 items-start gap-3.5 md:grid-cols-2 md:gap-4">
           <SplitCard
             title={aboutWorkflowSplit.ai.title}
             items={aboutWorkflowSplit.ai.items}
             tone="accent"
           />
-        </StaggerItem>
-        <StaggerItem>
           <SplitCard
             title={aboutWorkflowSplit.me.title}
             items={aboutWorkflowSplit.me.items}
             tone="primary"
           />
-        </StaggerItem>
-      </Stagger>
+        </div>
 
-      <Reveal className="border-brand-accent/30 bg-muted/40 ring-border/20 mt-8 max-w-3xl rounded-2xl border-l-2 px-5 py-4 ring-1">
-        <blockquote className="text-foreground text-[15px] leading-relaxed">
-          {aboutWorkflowExample.beforeLink}
-          <Link
-            href={aboutWorkflowExample.linkHref}
-            className="text-brand-accent hover:text-brand-accent/80 underline-offset-4 transition-colors duration-200 hover:underline motion-reduce:transition-none"
-          >
-            {aboutWorkflowExample.linkLabel}
-          </Link>
-          {aboutWorkflowExample.afterLink}
-        </blockquote>
-      </Reveal>
-
-      <Reveal className="text-muted-foreground mt-6 block max-w-2xl text-[15px] leading-relaxed">
-        {aboutWorkflowClosing}
-      </Reveal>
+        <figure className={cn(aboutBentoCardClass, "w-full space-y-3")}>
+          <blockquote className="text-foreground text-[15px] leading-relaxed sm:text-base">
+            {aboutWorkflowExample.beforeLink}
+            <Link
+              href={aboutWorkflowExample.linkHref}
+              className="text-brand-accent hover:text-brand-accent/85 underline underline-offset-4 transition-colors duration-200 motion-reduce:transition-none"
+            >
+              {aboutWorkflowExample.linkLabel}
+            </Link>
+            {aboutWorkflowExample.afterLink}
+          </blockquote>
+          <figcaption className="text-muted-foreground text-[14px] leading-relaxed sm:text-[15px]">
+            {aboutWorkflowClosing}
+          </figcaption>
+        </figure>
+      </div>
     </section>
   );
 }
 
-function ToolGroupCard({ group }: { group: AboutWorkflowToolGroup }) {
+function ToolsBentoCard() {
+  const groupsById = new Map(
+    aboutWorkflowToolGroups.map((group) => [group.id, group]),
+  );
+
   return (
-    <Card className="group bg-muted ring-border/20 hover:bg-muted/90 hover:ring-primary/25 h-full rounded-2xl transition-[background-color,box-shadow] duration-200 motion-reduce:transition-none">
-      <CardHeader className="gap-2 px-4 py-4 sm:px-5">
-        <p className="text-muted-foreground label-caps tracking-widest">
-          {group.label}
-        </p>
-        <ul className="text-foreground space-y-1 text-[13px] leading-snug font-medium">
-          {group.items.map((item) => (
-            <li key={item.label}>
-              <ToolItem item={item} />
-            </li>
-          ))}
-        </ul>
-      </CardHeader>
-    </Card>
+    <article className={cn(aboutBentoCardClass, "w-full")}>
+      <div className="flex flex-col gap-3">
+        {TOOL_GROUP_ROWS.map((rowIds) => (
+          <div
+            key={rowIds.join("-")}
+            className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2"
+          >
+            {rowIds.map((id) => {
+              const group = groupsById.get(id);
+              if (!group) return null;
+              return <ToolGroupRow key={group.id} group={group} />;
+            })}
+          </div>
+        ))}
+      </div>
+    </article>
   );
 }
 
-function ToolItem({ item }: { item: AboutWorkflowToolItem }) {
+function ToolGroupRow({ group }: { group: AboutWorkflowToolGroup }) {
+  return (
+    <div className="flex min-w-0 flex-wrap items-center gap-2">
+      <span className="text-muted-foreground label-caps shrink-0 tracking-widest">
+        {group.label}
+      </span>
+      <ul className="flex flex-wrap gap-1.5">
+        {group.items.map((item) => (
+          <li key={item.label}>
+            <ToolChip item={item} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function ToolChip({ item }: { item: AboutWorkflowToolItem }) {
   if (item.href) {
     return (
       <Link
         href={item.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-brand-accent hover:text-brand-accent/80 inline-block underline-offset-4 transition-colors duration-200 hover:underline motion-reduce:transition-none"
+        className={cn(
+          aboutBentoChipClass,
+          "text-brand-accent hover:border-brand-accent/45 hover:text-brand-accent/85 transition-colors duration-200 motion-reduce:transition-none",
+        )}
       >
         {item.label}
       </Link>
     );
   }
 
-  return <span>{item.label}</span>;
+  return <span className={aboutBentoChipClass}>{item.label}</span>;
 }
 
 function WorkflowStepCard({ step }: { step: AboutWorkflowStep }) {
@@ -155,41 +178,31 @@ function WorkflowStepCard({ step }: { step: AboutWorkflowStep }) {
   const toneClass = aboutStoryToneClass[step.tone];
 
   return (
-    <Card
+    <article
       className={cn(
-        "group bg-muted ring-border/20 hover:bg-muted/90 hover:ring-primary/25 flex h-full flex-col justify-between rounded-3xl transition-[background-color,box-shadow] duration-200 motion-reduce:transition-none",
+        aboutBentoCardClass,
+        "flex flex-col items-start",
+        STEP_LG_COL_SPAN[step.id],
       )}
     >
-      <CardHeader className="gap-4">
-        <div className="flex items-center justify-between gap-2">
-          <div
-            className={cn(
-              "bg-secondary group-hover:text-brand-accent flex size-10 items-center justify-center rounded-lg transition-colors duration-200 motion-reduce:transition-none",
-              toneClass,
-            )}
-          >
-            <Icon className="size-5" aria-hidden />
-          </div>
-          <Badge
-            variant="secondary"
-            className={cn("text-xs tracking-widest", toneClass)}
-          >
+      <div className="space-y-2.5">
+        <h3 className="flex flex-wrap items-center gap-2 gap-y-1.5">
+          <span className={aboutStepNumberClass}>
+            <Icon className="size-3.5" aria-hidden />
             {step.step}
-          </Badge>
-        </div>
-        <div className="space-y-2">
-          <CardTitle className="font-heading text-lg font-semibold tracking-tight">
-            <h3>{step.title}</h3>
-          </CardTitle>
-          <CardDescription className="text-[14px] leading-relaxed">
-            {step.description}
-          </CardDescription>
-        </div>
-      </CardHeader>
-      <CardFooter className="border-t-0 bg-transparent">
-        <p className={cn("text-[12px]", toneClass)}>{step.footer}</p>
-      </CardFooter>
-    </Card>
+          </span>
+          <span className="font-heading text-foreground text-base font-semibold tracking-tight sm:text-lg">
+            {step.title}
+          </span>
+        </h3>
+        <p className="text-muted-foreground text-[14px] leading-relaxed">
+          {step.description}
+        </p>
+      </div>
+      <p className={cn("mt-3 text-[12px] font-medium", toneClass)}>
+        {step.footer}
+      </p>
+    </article>
   );
 }
 
@@ -205,31 +218,30 @@ function SplitCard({
   const toneClass = aboutStoryToneClass[tone];
 
   return (
-    <Card className="group bg-muted ring-border/20 hover:bg-muted/90 hover:ring-primary/25 rounded-3xl transition-[background-color,box-shadow] duration-200 motion-reduce:transition-none">
-      <CardHeader className="gap-3">
-        <CardTitle
-          className={cn(
-            "font-heading text-lg font-semibold tracking-tight",
-            toneClass,
-          )}
-        >
-          <h3>{title}</h3>
-        </CardTitle>
-        <ul className="text-muted-foreground space-y-2 text-[14px] leading-relaxed">
-          {items.map((item) => (
-            <li key={item} className="flex gap-2">
-              <span
-                className={cn(
-                  "mt-2 size-1.5 shrink-0 rounded-full",
-                  tone === "accent" ? "bg-brand-accent" : "bg-primary",
-                )}
-                aria-hidden
-              />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </CardHeader>
-    </Card>
+    <article className={cn(aboutBentoCardClass, "flex flex-col items-start")}>
+      <h3
+        className={cn(
+          "font-heading text-base font-semibold tracking-tight sm:text-lg",
+          toneClass,
+        )}
+      >
+        {title}
+      </h3>
+      <ul className="mt-2.5 flex flex-wrap gap-1.5">
+        {items.map((item) => (
+          <li key={item}>
+            <span
+              className={cn(
+                aboutBentoChipClass,
+                tone === "accent" &&
+                  "border-brand-accent/30 text-foreground bg-brand-accent/5",
+              )}
+            >
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </article>
   );
 }

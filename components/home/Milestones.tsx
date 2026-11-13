@@ -1,58 +1,39 @@
 import { Container } from "@/components/Container";
-import { CaseStudyCard } from "@/components/home/milestones/CaseStudyCard";
-import { FeaturedCaseStudy } from "@/components/home/milestones/FeaturedCaseStudy";
-import { Reveal } from "@/components/motion/Reveal";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
-import { Badge } from "@/components/ui/badge";
+import { WorkBentoCard } from "@/components/home/work/WorkBentoCard";
+import { WorkBentoFeatured } from "@/components/home/work/WorkBentoFeatured";
+import { SectionIntro } from "@/components/typography/SectionTypography";
 import {
-  featuredMilestone,
-  milestonesIntro,
-  secondaryMilestones,
-} from "@/lib/milestones";
+  getFeaturedHomeWorkCard,
+  getSecondaryHomeWorkCards,
+} from "@/lib/home-work";
+import { milestonesIntro } from "@/lib/milestones";
 
 export function Milestones() {
+  const featured = getFeaturedHomeWorkCard();
+  const secondary = getSecondaryHomeWorkCards();
+
   return (
     <section
       id="work"
       aria-labelledby="milestones-heading"
-      className="w-full scroll-mt-24 py-16 md:py-24"
+      className="w-full scroll-mt-24 py-12 md:py-16"
     >
-      <Container className="flex flex-col gap-10 md:gap-12">
-        <Reveal preset="expressive">
-          <header className="flex max-w-2xl flex-col gap-1">
-            <Badge
-              variant="secondary"
-              className="text-primary label-caps mb-1 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
-            >
-              <span className="bg-primary size-2.5 rounded-full" aria-hidden />
-              {milestonesIntro.eyebrow}
-            </Badge>
-            <h2
-              id="milestones-heading"
-              className="font-heading text-foreground text-3xl font-bold tracking-tight sm:text-4xl"
-            >
-              {milestonesIntro.title}
-            </h2>
-            <p className="text-muted-foreground text-[15px] leading-6">
-              {milestonesIntro.description}
-            </p>
-          </header>
-        </Reveal>
+      <Container className="flex flex-col gap-8 md:gap-10">
+        <SectionIntro
+          eyebrow={milestonesIntro.eyebrow}
+          title={milestonesIntro.title}
+          description={milestonesIntro.description}
+          headingId="milestones-heading"
+        />
 
-        <Reveal preset="expressive" delay={0.05}>
-          <FeaturedCaseStudy study={featuredMilestone} />
-        </Reveal>
-
-        <Stagger
-          preset="expressive"
-          className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8"
-        >
-          {secondaryMilestones.map((study) => (
-            <StaggerItem key={study.id}>
-              <CaseStudyCard study={study} />
-            </StaggerItem>
-          ))}
-        </Stagger>
+        <div className="flex flex-col gap-4 md:gap-5">
+          <WorkBentoFeatured card={featured} />
+          <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2">
+            {secondary.map((study) => (
+              <WorkBentoCard key={study.id} card={study} />
+            ))}
+          </div>
+        </div>
       </Container>
     </section>
   );

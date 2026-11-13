@@ -16,18 +16,7 @@ export function HeroHeadlineCopy() {
     <div className="w-full min-w-0">
       <p
         className={cn(
-          "text-muted-foreground mt-2 text-left text-lg font-medium tracking-tight md:mt-3 md:text-xl md:whitespace-nowrap",
-        )}
-      >
-        Software Engineer ·{" "}
-        <HeroHighlightPhrase delayClass="hero-highlight-phrase--delay-0">
-          Frontend-Heavy
-        </HeroHighlightPhrase>
-      </p>
-
-      <p
-        className={cn(
-          "hero-lcp-intro text-foreground/80 mt-5 max-w-[65ch] text-left text-lg leading-[1.7] sm:text-xl md:mt-6",
+          "hero-lcp-intro text-foreground/80 mt-5 max-w-[60ch] text-left text-lg leading-[1.7] sm:text-xl md:mt-6",
         )}
       >
         {yearsLabel} years on frontend-heavy platforms across{" "}

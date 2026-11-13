@@ -645,7 +645,8 @@ html[data-intro="playing"] [data-intro-bar] {
 
 .hero-name-display {
   font-size: clamp(2.65rem, 4.2vw + 1.1rem, 3.75rem);
-  line-height: 1.04;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
 }
 
 @media (min-width: 768px) {

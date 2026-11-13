@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { BadgeCheck, GitBranch, MapPin } from "lucide-react";
 
+import { AboutProfilePhotoGlow } from "@/components/about/AboutProfilePhotoGlow";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { Badge } from "@/components/ui/badge";
@@ -50,29 +51,31 @@ export function AboutStory() {
               </span>
             </div>
 
-            <div className="ring-border/40 relative aspect-4/3 overflow-hidden rounded-xl bg-[#0a0e14] ring-1">
-              <Image
-                src={aboutProfile.image}
-                alt={aboutProfile.imageAlt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover object-top"
-                priority
-              />
-              <div
-                className="absolute inset-0 bg-linear-to-t from-[#0a0e14] via-[#0a0e14]/20 to-transparent"
-                aria-hidden
-              />
-              <div className="absolute inset-x-3 bottom-3">
-                <Badge
-                  variant="secondary"
-                  className="gap-1 bg-[#0a0e14]/80 text-xs backdrop-blur-md"
-                >
-                  <MapPin className="text-primary size-3" aria-hidden />
-                  {aboutProfile.location}
-                </Badge>
+            <AboutProfilePhotoGlow>
+              <div className="ring-border/40 relative aspect-4/3 overflow-hidden rounded-xl bg-[#0a0e14] ring-1">
+                <Image
+                  src={aboutProfile.image}
+                  alt={aboutProfile.imageAlt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover object-top"
+                  priority
+                />
+                <div
+                  className="absolute inset-0 bg-linear-to-t from-[#0a0e14] via-[#0a0e14]/20 to-transparent"
+                  aria-hidden
+                />
+                <div className="absolute inset-x-3 bottom-3">
+                  <Badge
+                    variant="secondary"
+                    className="gap-1 bg-[#0a0e14]/80 text-xs backdrop-blur-md"
+                  >
+                    <MapPin className="text-primary size-3" aria-hidden />
+                    {aboutProfile.location}
+                  </Badge>
+                </div>
               </div>
-            </div>
+            </AboutProfilePhotoGlow>
           </CardHeader>
 
           <CardContent className="relative flex flex-col gap-2">

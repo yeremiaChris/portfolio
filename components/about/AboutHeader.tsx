@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 
+import { AboutIntroWordReveal } from "@/components/about/AboutIntroWordReveal";
 import { Reveal } from "@/components/motion/Reveal";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { aboutIntro } from "@/lib/about";
@@ -26,9 +27,10 @@ export function AboutHeader() {
           <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-5xl">
             {aboutIntro.title}
           </h1>
-          <p className="text-muted-foreground mt-4 max-w-2xl text-[15px] leading-[1.7] sm:text-base">
-            {aboutIntro.description}
-          </p>
+          <AboutIntroWordReveal
+            text={aboutIntro.description}
+            className="hero-lcp-intro text-muted-foreground mt-4 max-w-2xl text-[15px] leading-[1.7] sm:text-base"
+          />
         </div>
 
         <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">

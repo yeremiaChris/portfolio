@@ -1,44 +1,20 @@
 import Link from "next/link";
-import {
-  Bot,
-  GitMerge,
-  ListChecks,
-  Search,
-  Ticket,
-  type LucideIcon,
-} from "lucide-react";
 
+import { AboutWorkflowStepsBento } from "@/components/about/workflow/AboutWorkflowStepsBento";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   aboutStoryToneClass,
   aboutWorkflowClosing,
   aboutWorkflowExample,
   aboutWorkflowIntro,
   aboutWorkflowSplit,
-  aboutWorkflowSteps,
   aboutWorkflowToolGroups,
-  type AboutWorkflowStep,
   type AboutWorkflowToolGroup,
   type AboutWorkflowToolItem,
 } from "@/lib/about";
 import { cn } from "@/lib/utils";
-
-const STEP_ICONS: Record<AboutWorkflowStep["icon"], LucideIcon> = {
-  plan: Search,
-  ticket: Ticket,
-  agent: Bot,
-  review: ListChecks,
-  ship: GitMerge,
-};
 
 export function AboutWorkflow() {
   return (
@@ -69,13 +45,7 @@ export function AboutWorkflow() {
         ))}
       </Stagger>
 
-      <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5 xl:gap-4">
-        {aboutWorkflowSteps.map((step) => (
-          <StaggerItem key={step.id}>
-            <WorkflowStepCard step={step} />
-          </StaggerItem>
-        ))}
-      </Stagger>
+      <AboutWorkflowStepsBento />
 
       <Stagger className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
         <StaggerItem>
@@ -99,7 +69,7 @@ export function AboutWorkflow() {
           {aboutWorkflowExample.beforeLink}
           <Link
             href={aboutWorkflowExample.linkHref}
-            className="text-brand-accent hover:text-brand-accent/80 underline-offset-4 transition-colors duration-200 hover:underline motion-reduce:transition-none"
+            className="text-brand-accent decoration-brand-accent hover:text-brand-accent/80 underline underline-offset-4 transition-colors duration-200 motion-reduce:transition-none"
           >
             {aboutWorkflowExample.linkLabel}
           </Link>
@@ -148,49 +118,6 @@ function ToolItem({ item }: { item: AboutWorkflowToolItem }) {
   }
 
   return <span>{item.label}</span>;
-}
-
-function WorkflowStepCard({ step }: { step: AboutWorkflowStep }) {
-  const Icon = STEP_ICONS[step.icon];
-  const toneClass = aboutStoryToneClass[step.tone];
-
-  return (
-    <Card
-      className={cn(
-        "group bg-muted ring-border/20 hover:bg-muted/90 hover:ring-primary/25 flex h-full flex-col justify-between rounded-3xl transition-[background-color,box-shadow] duration-200 motion-reduce:transition-none",
-      )}
-    >
-      <CardHeader className="gap-4">
-        <div className="flex items-center justify-between gap-2">
-          <div
-            className={cn(
-              "bg-secondary group-hover:text-brand-accent flex size-10 items-center justify-center rounded-lg transition-colors duration-200 motion-reduce:transition-none",
-              toneClass,
-            )}
-          >
-            <Icon className="size-5" aria-hidden />
-          </div>
-          <Badge
-            variant="secondary"
-            className={cn("text-xs tracking-widest", toneClass)}
-          >
-            {step.step}
-          </Badge>
-        </div>
-        <div className="space-y-2">
-          <CardTitle className="font-heading text-lg font-semibold tracking-tight">
-            <h3>{step.title}</h3>
-          </CardTitle>
-          <CardDescription className="text-[14px] leading-relaxed">
-            {step.description}
-          </CardDescription>
-        </div>
-      </CardHeader>
-      <CardFooter className="border-t-0 bg-transparent">
-        <p className={cn("text-[12px]", toneClass)}>{step.footer}</p>
-      </CardFooter>
-    </Card>
-  );
 }
 
 function SplitCard({

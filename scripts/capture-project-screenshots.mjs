@@ -12,7 +12,7 @@ const QUALITY_STEPS = [82, 72, 62, 52, 42];
 
 const TARGETS = [
   { id: "mazecare", url: "https://www.mazecare.com/" },
-  { id: "kiriminaja", url: "https://app.kiriminaja.com" },
+  { id: "kiriminaja", url: "https://kiriminaja.com" },
   { id: "primaku", url: "https://www.primaku.com" },
   { id: "primacare", url: "https://www.primacare.ai" },
 ];

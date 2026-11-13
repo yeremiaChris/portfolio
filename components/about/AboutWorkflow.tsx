@@ -11,6 +11,7 @@ import {
 import {
   aboutBentoCardClass,
   aboutBentoChipClass,
+  aboutStepNumberClass,
 } from "@/components/about/aboutSurface";
 import {
   aboutStoryToneClass,
@@ -21,6 +22,7 @@ import {
   aboutWorkflowSteps,
   aboutWorkflowToolGroups,
   type AboutWorkflowStep,
+  type AboutWorkflowToolGroup,
   type AboutWorkflowToolItem,
 } from "@/lib/about";
 import { cn } from "@/lib/utils";
@@ -33,8 +35,18 @@ const STEP_ICONS: Record<AboutWorkflowStep["icon"], LucideIcon> = {
   ship: GitMerge,
 };
 
-const PRIMARY_STEP_ID = "plan";
-const WIDE_STEP_ID = "review";
+const STEP_LG_COL_SPAN: Record<AboutWorkflowStep["id"], string> = {
+  plan: "lg:col-span-2",
+  ticket: "lg:col-span-2",
+  agent: "lg:col-span-2",
+  review: "lg:col-span-3",
+  merge: "lg:col-span-3",
+};
+
+const TOOL_GROUP_ROWS: AboutWorkflowToolGroup["id"][][] = [
+  ["editor", "agents", "planning"],
+  ["ship", "quality"],
+];
 
 export function AboutWorkflow() {
   return (
@@ -42,7 +54,7 @@ export function AboutWorkflow() {
       aria-labelledby="about-workflow-heading"
       className="mb-8 w-full md:mb-12"
     >
-      <header className="mb-8 max-w-2xl px-1 md:mb-10">
+      <header className="mb-6 max-w-2xl px-1 md:mb-8">
         <p className="text-muted-foreground label-caps tracking-widest">
           {aboutWorkflowIntro.eyebrow}
         </p>
@@ -57,16 +69,16 @@ export function AboutWorkflow() {
         </p>
       </header>
 
-      <div className="flex flex-col gap-5 md:gap-6 lg:gap-7">
+      <div className="flex flex-col gap-4 md:gap-5">
         <ToolsBentoCard />
 
-        <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 md:gap-5 lg:grid-cols-3 lg:gap-6">
+        <div className="grid grid-cols-1 items-start gap-3.5 md:grid-cols-2 md:gap-4 lg:grid-cols-6 lg:gap-4">
           {aboutWorkflowSteps.map((step) => (
             <WorkflowStepCard key={step.id} step={step} />
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 md:gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 items-start gap-3.5 md:grid-cols-2 md:gap-4">
           <SplitCard
             title={aboutWorkflowSplit.ai.title}
             items={aboutWorkflowSplit.ai.items}
@@ -79,7 +91,7 @@ export function AboutWorkflow() {
           />
         </div>
 
-        <figure className={cn(aboutBentoCardClass, "w-full")}>
+        <figure className={cn(aboutBentoCardClass, "w-full space-y-3")}>
           <blockquote className="text-foreground text-[15px] leading-relaxed sm:text-base">
             {aboutWorkflowExample.beforeLink}
             <Link
@@ -90,36 +102,54 @@ export function AboutWorkflow() {
             </Link>
             {aboutWorkflowExample.afterLink}
           </blockquote>
+          <figcaption className="text-muted-foreground text-[14px] leading-relaxed sm:text-[15px]">
+            {aboutWorkflowClosing}
+          </figcaption>
         </figure>
-
-        <p className="text-muted-foreground max-w-2xl px-1 text-[15px] leading-relaxed sm:text-base">
-          {aboutWorkflowClosing}
-        </p>
       </div>
     </section>
   );
 }
 
 function ToolsBentoCard() {
+  const groupsById = new Map(
+    aboutWorkflowToolGroups.map((group) => [group.id, group]),
+  );
+
   return (
-    <article className={cn(aboutBentoCardClass, "w-full lg:col-span-3")}>
-      <div className="grid grid-cols-1 gap-6 sm:gap-7 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-        {aboutWorkflowToolGroups.map((group) => (
-          <div key={group.id} className="min-w-0 space-y-3">
-            <p className="text-muted-foreground label-caps tracking-widest">
-              {group.label}
-            </p>
-            <ul className="flex flex-wrap gap-2">
-              {group.items.map((item) => (
-                <li key={item.label}>
-                  <ToolChip item={item} />
-                </li>
-              ))}
-            </ul>
+    <article className={cn(aboutBentoCardClass, "w-full")}>
+      <div className="flex flex-col gap-3">
+        {TOOL_GROUP_ROWS.map((rowIds) => (
+          <div
+            key={rowIds.join("-")}
+            className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2"
+          >
+            {rowIds.map((id) => {
+              const group = groupsById.get(id);
+              if (!group) return null;
+              return <ToolGroupRow key={group.id} group={group} />;
+            })}
           </div>
         ))}
       </div>
     </article>
+  );
+}
+
+function ToolGroupRow({ group }: { group: AboutWorkflowToolGroup }) {
+  return (
+    <div className="flex min-w-0 flex-wrap items-center gap-2">
+      <span className="text-muted-foreground label-caps shrink-0 tracking-widest">
+        {group.label}
+      </span>
+      <ul className="flex flex-wrap gap-1.5">
+        {group.items.map((item) => (
+          <li key={item.label}>
+            <ToolChip item={item} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -143,61 +173,33 @@ function ToolChip({ item }: { item: AboutWorkflowToolItem }) {
   return <span className={aboutBentoChipClass}>{item.label}</span>;
 }
 
-function stepGridClass(step: AboutWorkflowStep) {
-  if (step.id === PRIMARY_STEP_ID) {
-    return "md:col-span-2 lg:col-span-2 lg:row-span-2";
-  }
-  if (step.id === WIDE_STEP_ID) {
-    return "lg:col-span-2";
-  }
-  return undefined;
-}
-
 function WorkflowStepCard({ step }: { step: AboutWorkflowStep }) {
   const Icon = STEP_ICONS[step.icon];
   const toneClass = aboutStoryToneClass[step.tone];
-  const isPrimary = step.id === PRIMARY_STEP_ID;
 
   return (
     <article
       className={cn(
         aboutBentoCardClass,
-        "flex h-full flex-col justify-between",
-        stepGridClass(step),
-        isPrimary && "lg:min-h-[18.5rem]",
+        "flex flex-col items-start",
+        STEP_LG_COL_SPAN[step.id],
       )}
     >
-      <div className="space-y-4">
-        <div className="flex items-start justify-between gap-3">
-          <div
-            className={cn(
-              "bg-secondary/80 flex size-10 shrink-0 items-center justify-center rounded-lg",
-              toneClass,
-            )}
-          >
-            <Icon className="size-5" aria-hidden />
-          </div>
-          <span
-            className={cn(
-              "font-mono text-xs font-semibold tracking-[0.2em]",
-              toneClass,
-            )}
-          >
+      <div className="space-y-2.5">
+        <h3 className="flex flex-wrap items-center gap-2 gap-y-1.5">
+          <span className={aboutStepNumberClass}>
+            <Icon className="size-3.5" aria-hidden />
             {step.step}
           </span>
-        </div>
-        <div className="space-y-2.5">
-          <h3 className="font-heading text-foreground text-lg font-semibold tracking-tight sm:text-xl">
+          <span className="font-heading text-foreground text-base font-semibold tracking-tight sm:text-lg">
             {step.title}
-          </h3>
-          <p className="text-muted-foreground text-[14px] leading-relaxed sm:text-[15px]">
-            {step.description}
-          </p>
-        </div>
+          </span>
+        </h3>
+        <p className="text-muted-foreground text-[14px] leading-relaxed">
+          {step.description}
+        </p>
       </div>
-      <p
-        className={cn("mt-6 text-[12px] font-medium sm:text-[13px]", toneClass)}
-      >
+      <p className={cn("mt-3 text-[12px] font-medium", toneClass)}>
         {step.footer}
       </p>
     </article>
@@ -216,26 +218,27 @@ function SplitCard({
   const toneClass = aboutStoryToneClass[tone];
 
   return (
-    <article className={cn(aboutBentoCardClass, "h-full")}>
+    <article className={cn(aboutBentoCardClass, "flex flex-col items-start")}>
       <h3
         className={cn(
-          "font-heading text-lg font-semibold tracking-tight sm:text-xl",
+          "font-heading text-base font-semibold tracking-tight sm:text-lg",
           toneClass,
         )}
       >
         {title}
       </h3>
-      <ul className="text-muted-foreground mt-4 space-y-2.5 text-[14px] leading-relaxed sm:text-[15px]">
+      <ul className="mt-2.5 flex flex-wrap gap-1.5">
         {items.map((item) => (
-          <li key={item} className="flex gap-2.5">
+          <li key={item}>
             <span
               className={cn(
-                "mt-2 size-1.5 shrink-0 rounded-full",
-                tone === "accent" ? "bg-brand-accent" : "bg-brand-accent/70",
+                aboutBentoChipClass,
+                tone === "accent" &&
+                  "border-brand-accent/30 text-foreground bg-brand-accent/5",
               )}
-              aria-hidden
-            />
-            <span>{item}</span>
+            >
+              {item}
+            </span>
           </li>
         ))}
       </ul>

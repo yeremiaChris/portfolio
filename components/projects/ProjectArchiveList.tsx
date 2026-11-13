@@ -86,7 +86,7 @@ function ProjectArchiveRow({ project }: { project: Project }) {
       <span className="order-4 flex justify-end sm:order-none">
         {project.href ? (
           <ArrowUpRight
-            className="text-primary size-4 opacity-60 transition-opacity group-hover:opacity-100 motion-reduce:opacity-100 motion-reduce:transition-none"
+            className="text-primary group-hover:text-brand-accent size-4 -translate-x-0.5 opacity-50 transition-[transform,opacity,color] duration-200 group-hover:translate-x-0 group-hover:opacity-100 motion-reduce:transition-none sm:opacity-30 sm:group-hover:opacity-100"
             aria-hidden
           />
         ) : (

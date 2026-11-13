@@ -1,10 +1,10 @@
 import { ProjectArchiveList } from "@/components/projects/ProjectArchiveList";
-import { ProjectsFeaturedGrid } from "@/components/projects/ProjectsFeaturedGrid";
+import { ProjectsFeaturedCaseStudies } from "@/components/projects/ProjectsFeaturedCaseStudies";
 
 export function ProjectsGrid() {
   return (
     <div className="flex w-full min-w-0 flex-col">
-      <ProjectsFeaturedGrid />
+      <ProjectsFeaturedCaseStudies />
       <ProjectArchiveList />
     </div>
   );

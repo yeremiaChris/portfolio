@@ -102,12 +102,7 @@ export function FeaturedCaseStudyMotion({
     <article
       ref={articleRef}
       id={project.id}
-      data-defer-shot-frame={index > 0 ? "" : undefined}
-      className={cn(
-        "flex w-full min-w-0 scroll-mt-24 flex-col gap-8 md:gap-10 lg:gap-12",
-        index > 0 &&
-          "[contain-intrinsic-size:auto_640px] [content-visibility:auto]",
-      )}
+      className="flex w-full min-w-0 scroll-mt-24 flex-col gap-8 md:gap-10 lg:gap-12"
     >
       <div
         className={cn(
@@ -121,7 +116,6 @@ export function FeaturedCaseStudyMotion({
             alt={project.imageAlt}
             revealFrom={revealFrom}
             revealFromStart={index === 0}
-            deferMobileSrc
           />
         </div>
 

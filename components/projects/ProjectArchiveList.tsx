@@ -1,7 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
 
-import { Reveal } from "@/components/motion/Reveal";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import {
   projectSurfaceDividerClass,
   projectSurfaceHairlineClass,
@@ -27,36 +25,29 @@ export function ProjectArchiveList() {
       aria-labelledby="projects-archive-heading"
       className="mb-8 md:mb-12"
     >
-      <Reveal>
-        <header className="mb-5 flex max-w-2xl flex-col gap-1 md:mb-6">
-          <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
-            {projectsArchiveIntro.eyebrow}
-          </p>
-          <h2
-            id="projects-archive-heading"
-            className="font-heading text-foreground text-2xl font-bold tracking-tight sm:text-3xl"
-          >
-            {projectsArchiveIntro.title}
-          </h2>
-          <p className="text-muted-foreground text-[15px] leading-6">
-            {projectsArchiveIntro.description}
-          </p>
-        </header>
-      </Reveal>
+      <header className="mb-5 flex max-w-2xl flex-col gap-1 md:mb-6">
+        <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
+          {projectsArchiveIntro.eyebrow}
+        </p>
+        <h2
+          id="projects-archive-heading"
+          className="font-heading text-foreground text-2xl font-bold tracking-tight sm:text-3xl"
+        >
+          {projectsArchiveIntro.title}
+        </h2>
+        <p className="text-muted-foreground text-[15px] leading-6">
+          {projectsArchiveIntro.description}
+        </p>
+      </header>
 
-      <Stagger
-        preset="calm"
-        className={cn(projectSurfacePanelClass, "relative p-0")}
-      >
+      <div className={cn(projectSurfacePanelClass, "relative p-0")}>
         <div className={projectSurfaceHairlineClass} aria-hidden />
         <div className={cn("divide-y", projectSurfaceDividerClass)}>
           {archive.map((project) => (
-            <StaggerItem key={project.id}>
-              <ProjectArchiveRow project={project} />
-            </StaggerItem>
+            <ProjectArchiveRow key={project.id} project={project} />
           ))}
         </div>
-      </Stagger>
+      </div>
     </section>
   );
 }

@@ -37,6 +37,12 @@ const eslintConfig = defineConfig([
       "react/jsx-no-useless-fragment": "error",
     },
   },
+  {
+    files: ["components/projects/ProjectBrowserFrame.tsx"],
+    rules: {
+      "@next/next/no-img-element": "off",
+    },
+  },
   prettier,
   globalIgnores([
     ".next/**",

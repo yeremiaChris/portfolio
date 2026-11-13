@@ -1,5 +1,3 @@
-"use client";
-
 import { ExternalLink } from "lucide-react";
 
 import { ProjectBrowserFrame } from "@/components/projects/ProjectBrowserFrame";
@@ -35,6 +33,7 @@ export function FeaturedCaseStudy({
   return (
     <article
       id={project.id}
+      data-defer-shot-frame={index > 0 ? "" : undefined}
       className={cn(
         "flex w-full min-w-0 scroll-mt-24 flex-col gap-8 md:gap-10 lg:gap-12",
         index > 0 &&
@@ -52,6 +51,7 @@ export function FeaturedCaseStudy({
             src={project.image}
             alt={project.imageAlt}
             tilt={reverse ? "right" : "left"}
+            deferMobileSrc
           />
         </div>
 

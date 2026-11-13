@@ -42,11 +42,11 @@ export function AboutStoryMotion() {
   return (
     <section
       aria-labelledby="about-story-heading"
-      className="mb-12 grid w-full min-w-0 grid-cols-1 items-start gap-8 lg:mb-16 lg:grid-cols-12 lg:gap-10"
+      className="mb-8 grid w-full min-w-0 grid-cols-1 items-stretch gap-6 lg:mb-10 lg:grid-cols-12 lg:gap-8"
     >
       <m.div
         ref={profileRef}
-        className="min-w-0 lg:col-span-5"
+        className="flex min-h-0 min-w-0 flex-col lg:col-span-5"
         initial={false}
         animate={
           reducedMotion
@@ -58,7 +58,7 @@ export function AboutStoryMotion() {
         }
         transition={aboutStaggerTransition}
       >
-        <Card className="bg-muted ring-border/20 relative overflow-hidden rounded-3xl">
+        <Card className="bg-muted ring-border/20 relative flex h-full min-h-0 flex-col overflow-hidden rounded-3xl">
           <div
             className="bg-primary/10 pointer-events-none absolute -top-12 -right-12 size-32 rounded-full blur-2xl"
             aria-hidden
@@ -209,7 +209,7 @@ function JourneyTimeline({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <div
       ref={sectionRef}
-      className="relative flex min-w-0 flex-col gap-6 lg:col-span-7"
+      className="relative flex min-h-0 min-w-0 flex-col gap-4 lg:col-span-7"
     >
       <m.div
         ref={headerRef}
@@ -255,7 +255,7 @@ function JourneyTimeline({ reducedMotion }: { reducedMotion: boolean }) {
             segmentCount={aboutStoryEras.length}
           />
         </div>
-        <div data-journey-list className="flex flex-col gap-4 pl-0 lg:pl-5">
+        <div data-journey-list className="flex flex-col gap-3 pl-0 lg:pl-5">
           {aboutStoryEras.map((era, index) => (
             <JourneyEraCard
               key={era.id}

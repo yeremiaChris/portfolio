@@ -1,62 +1,100 @@
 import Link from "next/link";
-import {
-  Bot,
-  GitMerge,
-  ListChecks,
-  Search,
-  Ticket,
-  type LucideIcon,
-} from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { WorkflowStepVisual } from "@/components/about/workflow/WorkflowStepVisual";
+import { getWorkflowStepToolLabels } from "@/components/about/workflow/workflow-step-tools";
 import {
   projectSurfaceHairlineClass,
   projectSurfacePanelClass,
 } from "@/components/projects/projectSurface";
 import {
-  aboutStoryToneClass,
   aboutWorkflowClosing,
   aboutWorkflowExample,
   aboutWorkflowIntro,
   aboutWorkflowSplit,
   aboutWorkflowSteps,
-  aboutWorkflowToolGroups,
-  type AboutWorkflowStep,
-  type AboutWorkflowToolItem,
+  aboutStoryToneClass,
 } from "@/lib/about";
 import { cn } from "@/lib/utils";
-
-const STEP_ICONS: Record<AboutWorkflowStep["icon"], LucideIcon> = {
-  plan: Search,
-  ticket: Ticket,
-  agent: Bot,
-  review: ListChecks,
-  ship: GitMerge,
-};
 
 export function AboutWorkflowStatic() {
   return (
     <section
       aria-labelledby="about-workflow-heading"
-      className="mb-8 w-full min-w-0 md:mb-12"
+      className="mb-6 w-full min-w-0 md:mb-10"
     >
-      <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-10">
-        <div className="mb-8 min-w-0 lg:col-span-4 lg:mb-0">
-          <WorkflowIntroStatic />
-          <ToolsPanelStatic />
+      <WorkflowIntroStatic />
+      <ol className="flex flex-col gap-4 lg:hidden">
+        {aboutWorkflowSteps.map((step) => (
+          <li key={step.id} className="list-none">
+            <div className={cn(projectSurfacePanelClass, "p-4")}>
+              <div className={projectSurfaceHairlineClass} />
+              <span className="text-brand-accent text-xs font-semibold tracking-widest">
+                {step.step}
+              </span>
+              <h3 className="font-heading text-foreground mt-1 text-lg font-semibold tracking-tight">
+                {step.title}
+              </h3>
+              <p className="text-muted-foreground mt-1 text-[14px] leading-relaxed">
+                {step.description}
+              </p>
+              <div className="mt-3">
+                <WorkflowStepVisual stepId={step.id} active />
+              </div>
+              <StepToolChips stepId={step.id} />
+              <p className="text-brand-accent mt-2 text-[12px]">
+                {step.footer}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div className="hidden lg:grid lg:grid-cols-12 lg:gap-6">
+        <ol className="relative col-span-5 flex flex-col gap-2 pl-5">
+          {aboutWorkflowSteps.map((step, index) => (
+            <li
+              key={step.id}
+              className={cn(
+                "list-none rounded-xl px-3 py-2.5 ring-1",
+                index === 0
+                  ? "bg-brand-accent/8 ring-brand-accent/30"
+                  : "bg-secondary/35 ring-border/20",
+              )}
+            >
+              <span className="text-brand-accent text-xs font-semibold tracking-widest">
+                {step.step}
+              </span>
+              <h3 className="font-heading text-[15px] font-semibold tracking-tight">
+                {step.title}
+              </h3>
+              <p className="text-muted-foreground text-[13px] leading-snug">
+                {step.footer}
+              </p>
+              <StepToolChips stepId={step.id} active={index === 0} />
+            </li>
+          ))}
+        </ol>
+        <div className="col-span-7">
+          <div className={cn(projectSurfacePanelClass, "p-4 sm:p-5")}>
+            <div className={projectSurfaceHairlineClass} />
+            <p className="text-muted-foreground mb-3 text-[12px] leading-relaxed">
+              {aboutWorkflowSteps[0].description}
+            </p>
+            <WorkflowStepVisual stepId={aboutWorkflowSteps[0].id} active />
+          </div>
         </div>
-        <WorkflowStepsStatic />
       </div>
       <SplitStatic />
       <QuoteStatic />
-      <WorkflowClosingStatic />
+      <p className="text-muted-foreground mt-4 block max-w-2xl text-[15px] leading-relaxed">
+        {aboutWorkflowClosing}
+      </p>
     </section>
   );
 }
 
 function WorkflowIntroStatic() {
   return (
-    <div className="mb-6 max-w-2xl">
+    <div className="mb-6 max-w-2xl lg:mb-8">
       <p className="text-muted-foreground label-caps tracking-widest">
         {aboutWorkflowIntro.eyebrow}
       </p>
@@ -73,108 +111,39 @@ function WorkflowIntroStatic() {
   );
 }
 
-function ToolsPanelStatic() {
-  return (
-    <div className={cn(projectSurfacePanelClass, "w-full min-w-0 p-4 sm:p-5")}>
-      <div className={projectSurfaceHairlineClass} />
-      <ul className="flex flex-col gap-3">
-        {aboutWorkflowToolGroups.map((group) => (
-          <li
-            key={group.id}
-            className="bg-secondary/40 ring-border/25 rounded-xl px-3 py-2.5 ring-1"
-          >
-            <p className="text-muted-foreground label-caps mb-1.5 text-[11px] tracking-widest">
-              {group.label}
-            </p>
-            <ul className="text-foreground flex flex-wrap gap-x-2 gap-y-1 text-[13px] font-medium">
-              {group.items.map((item) => (
-                <li key={item.label}>
-                  <ToolChipStatic item={item} />
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function ToolChipStatic({ item }: { item: AboutWorkflowToolItem }) {
-  const className = "inline-block rounded-md px-1.5 py-0.5 text-foreground";
-
-  if (item.href) {
-    return (
-      <Link
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-          className,
-          "text-brand-accent hover:text-brand-accent/80 underline-offset-4 hover:underline",
-        )}
-      >
-        {item.label}
-      </Link>
-    );
+function StepToolChips({
+  stepId,
+  active = false,
+}: {
+  stepId: (typeof aboutWorkflowSteps)[number]["id"];
+  active?: boolean;
+}) {
+  const labels = getWorkflowStepToolLabels(stepId);
+  if (labels.length === 0) {
+    return null;
   }
-
-  return <span className={className}>{item.label}</span>;
-}
-
-function WorkflowStepsStatic() {
   return (
-    <div className="flex min-w-0 flex-col gap-10 lg:col-span-8 lg:gap-14">
-      {aboutWorkflowSteps.map((step) => (
-        <StepCardStatic key={step.id} step={step} />
+    <ul className="mt-2 flex flex-wrap gap-1">
+      {labels.map((label) => (
+        <li
+          key={label}
+          className={cn(
+            "rounded-md px-1.5 py-0.5 text-[11px] font-medium",
+            active
+              ? "bg-brand-accent/12 text-brand-accent"
+              : "bg-secondary text-muted-foreground",
+          )}
+        >
+          {label}
+        </li>
       ))}
-    </div>
-  );
-}
-
-function StepCardStatic({ step }: { step: AboutWorkflowStep }) {
-  const Icon = STEP_ICONS[step.icon];
-  const toneClass = aboutStoryToneClass[step.tone];
-
-  return (
-    <article className="min-w-0">
-      <div className={cn(projectSurfacePanelClass, "min-w-0 p-5 sm:p-6")}>
-        <div className={projectSurfaceHairlineClass} />
-        <div className="mb-4 flex items-center justify-between gap-2">
-          <div
-            className={cn(
-              "bg-secondary flex size-10 items-center justify-center rounded-lg",
-              toneClass,
-            )}
-          >
-            <Icon className="size-5" aria-hidden />
-          </div>
-          <Badge
-            variant="secondary"
-            className={cn("text-xs tracking-widest", toneClass)}
-          >
-            {step.step}
-          </Badge>
-        </div>
-        <div
-          className="border-border/30 bg-secondary/40 ring-border/20 mb-4 aspect-[5/3] w-full rounded-xl border ring-1"
-          aria-hidden
-        />
-        <h3 className="font-heading text-foreground text-lg font-semibold tracking-tight">
-          {step.title}
-        </h3>
-        <p className="text-muted-foreground mt-2 text-[14px] leading-relaxed">
-          {step.description}
-        </p>
-        <p className={cn("mt-3 text-[12px]", toneClass)}>{step.footer}</p>
-      </div>
-    </article>
+    </ul>
   );
 }
 
 function SplitStatic() {
   return (
-    <div className="mt-12 grid min-w-0 grid-cols-1 gap-6 md:mt-16 md:grid-cols-2 md:gap-8">
+    <div className="mt-8 grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
       <SplitCardStatic
         title={aboutWorkflowSplit.ai.title}
         items={aboutWorkflowSplit.ai.items}
@@ -201,22 +170,22 @@ function SplitCardStatic({
   const toneClass = aboutStoryToneClass[tone];
 
   return (
-    <div className={cn(projectSurfacePanelClass, "p-5 sm:p-6")}>
+    <div className={cn(projectSurfacePanelClass, "p-4 sm:p-5")}>
       <div className={projectSurfaceHairlineClass} />
       <h3
         className={cn(
-          "font-heading mb-3 text-lg font-semibold tracking-tight",
+          "font-heading mb-2 text-base font-semibold tracking-tight",
           toneClass,
         )}
       >
         {title}
       </h3>
-      <ul className="text-muted-foreground space-y-2 text-[14px] leading-relaxed">
+      <ul className="text-muted-foreground space-y-1 text-[13px] leading-snug">
         {items.map((item) => (
-          <li key={item} className="flex gap-2 px-2 py-1.5">
+          <li key={item} className="flex gap-2 px-1">
             <span
               className={cn(
-                "mt-2 size-1.5 shrink-0 rounded-full",
+                "mt-1.5 size-1.5 shrink-0 rounded-full",
                 tone === "accent" ? "bg-brand-accent" : "bg-primary",
               )}
               aria-hidden
@@ -229,20 +198,12 @@ function SplitCardStatic({
   );
 }
 
-function WorkflowClosingStatic() {
-  return (
-    <p className="text-muted-foreground mt-6 block max-w-2xl text-[15px] leading-relaxed">
-      {aboutWorkflowClosing}
-    </p>
-  );
-}
-
 function QuoteStatic() {
   return (
     <blockquote
       className={cn(
         projectSurfacePanelClass,
-        "border-brand-accent/30 mt-8 max-w-3xl border-l-2 px-5 py-4",
+        "border-brand-accent/30 mt-6 max-w-3xl border-l-2 px-4 py-3 sm:px-5 sm:py-4",
       )}
     >
       <div className={projectSurfaceHairlineClass} />

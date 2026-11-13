@@ -29,10 +29,10 @@ export function AboutStoryStatic() {
   return (
     <section
       aria-labelledby="about-story-heading"
-      className="mb-12 grid w-full min-w-0 grid-cols-1 items-start gap-8 lg:mb-16 lg:grid-cols-12 lg:gap-10"
+      className="mb-8 grid w-full min-w-0 grid-cols-1 items-stretch gap-6 lg:mb-10 lg:grid-cols-12 lg:gap-8"
     >
-      <div className="min-w-0 lg:col-span-5">
-        <Card className="bg-muted ring-border/20 relative overflow-hidden rounded-3xl">
+      <div className="flex min-h-0 min-w-0 flex-col lg:col-span-5">
+        <Card className="bg-muted ring-border/20 relative flex h-full flex-col overflow-hidden rounded-3xl">
           <CardHeader className="relative gap-4">
             <div className="flex items-center justify-between gap-3">
               <Badge
@@ -99,7 +99,7 @@ export function AboutStoryStatic() {
         </Card>
       </div>
 
-      <div className="flex min-w-0 flex-col gap-6 lg:col-span-7">
+      <div className="flex min-h-0 min-w-0 flex-col gap-4 lg:col-span-7">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <GitBranch className="text-brand-accent size-5" aria-hidden />
@@ -114,7 +114,7 @@ export function AboutStoryStatic() {
             {aboutStoryIntro.meta}
           </span>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           {aboutStoryEras.map((era) => (
             <div
               key={era.id}

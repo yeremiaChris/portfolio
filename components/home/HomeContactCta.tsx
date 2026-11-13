@@ -16,6 +16,7 @@ export function HomeContactCta() {
         <ContactCtaPanel
           headingId={headingId}
           panelClassName="ring-1 ring-border/40"
+          primaryGlow={false}
         />
       </Container>
     </SectionWithReveal>

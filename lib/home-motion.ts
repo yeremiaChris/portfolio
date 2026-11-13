@@ -1,10 +1,10 @@
 export const homeHeroDotGrid = {
-  spacing: 28,
-  radius: 1,
-  baseAlpha: 0.07,
-  hotAlpha: 0.3,
-  fieldRadius: 96,
-  pushStrength: 5,
+  spacing: 32,
+  radius: 0.85,
+  baseAlpha: 0.04,
+  hotAlpha: 0.11,
+  fieldRadius: 80,
+  pushStrength: 0,
 } as const;
 
 export const homeTerminalFast = {

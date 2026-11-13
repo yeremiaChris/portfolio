@@ -97,7 +97,7 @@ export function HeroInteractiveSection({
       const rows = Math.ceil(height / spacing) + 1;
       const ptr = pointerRef.current;
       const useField = pointer && ptr.active;
-      shimmer += 0.008;
+      shimmer += 0.0035;
 
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
@@ -112,15 +112,15 @@ export function HeroInteractiveSection({
             if (dist < fieldRadius) {
               const t = 1 - dist / fieldRadius;
               alpha = baseAlpha + t * (hotAlpha - baseAlpha);
-              const push = t * pushStrength;
-              if (dist > 0.5) {
+              if (pushStrength > 0 && dist > 0.5) {
+                const push = t * pushStrength;
                 x += (dx / dist) * push;
                 y += (dy / dist) * push;
               }
             }
           } else {
             alpha =
-              baseAlpha + Math.sin(shimmer + col * 0.35 + row * 0.3) * 0.025;
+              baseAlpha + Math.sin(shimmer + col * 0.35 + row * 0.3) * 0.01;
           }
 
           ctx.beginPath();

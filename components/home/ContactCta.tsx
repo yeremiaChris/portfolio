@@ -63,6 +63,7 @@ export type ContactCtaPanelProps = {
   description?: string;
   actions?: ContactCtaAction[];
   panelClassName?: string;
+  primaryGlow?: boolean;
 };
 
 export function ContactCtaPanel({
@@ -72,6 +73,7 @@ export function ContactCtaPanel({
   description = "Invoice or hourly is fine. Frontend-heavy work in React, Next.js, or Vue — health-tech, logistics, and product platforms. Remote-friendly (Indonesia / UTC+7).",
   actions = DEFAULT_ACTIONS,
   panelClassName,
+  primaryGlow = true,
 }: ContactCtaPanelProps) {
   return (
     <div
@@ -109,6 +111,7 @@ export function ContactCtaPanel({
           <ContactActionLink
             key={`${action.href}-${action.label}`}
             action={action}
+            primaryGlow={primaryGlow}
           />
         ))}
       </div>
@@ -153,7 +156,13 @@ export function ContactCta({
   );
 }
 
-function ContactActionLink({ action }: { action: ContactCtaAction }) {
+function ContactActionLink({
+  action,
+  primaryGlow = true,
+}: {
+  action: ContactCtaAction;
+  primaryGlow?: boolean;
+}) {
   const Icon = ACTION_ICONS[action.icon];
   const isPrimary = action.primary || action.variant === "default";
 
@@ -170,7 +179,8 @@ function ContactActionLink({ action }: { action: ContactCtaAction }) {
         }),
         "h-11 w-full max-w-full gap-2 px-5 text-[15px] font-medium sm:w-auto",
         isPrimary &&
-          "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover font-semibold shadow-[0_0_20px_rgba(76,215,246,0.25)]",
+          "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover font-semibold",
+        isPrimary && primaryGlow && "shadow-[0_0_20px_rgba(76,215,246,0.25)]",
       )}
     >
       <Icon

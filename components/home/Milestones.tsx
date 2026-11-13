@@ -1,5 +1,9 @@
 import { Container } from "@/components/Container";
-import { homeSectionSpacingClass } from "@/components/home/homeSurface";
+import {
+  homeBentoWorkGridClass,
+  homeSectionSpacingClass,
+  homeSectionStackClass,
+} from "@/components/home/homeSurface";
 import { WorkBentoCard } from "@/components/home/work/WorkBentoCard";
 import { WorkBentoFeatured } from "@/components/home/work/WorkBentoFeatured";
 import { Reveal } from "@/components/motion/Reveal";
@@ -21,7 +25,7 @@ export function Milestones() {
       aria-labelledby="milestones-heading"
       className={homeSectionSpacingClass}
     >
-      <Container className="flex flex-col gap-8 md:gap-10">
+      <Container className={homeSectionStackClass}>
         <Reveal when="inView">
           <SectionIntro
             eyebrow={milestonesIntro.eyebrow}
@@ -31,10 +35,7 @@ export function Milestones() {
           />
         </Reveal>
 
-        <Stagger
-          when="inView"
-          className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2"
-        >
+        <Stagger when="inView" className={homeBentoWorkGridClass}>
           <StaggerItem className="col-span-full">
             <WorkBentoFeatured card={featured} />
           </StaggerItem>

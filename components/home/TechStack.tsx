@@ -4,6 +4,7 @@ import {
   homePanelDividerClass,
   homePanelHairlineClass,
   homeSectionSpacingClass,
+  homeSectionStackClass,
 } from "@/components/home/homeSurface";
 import { TechStackIcon } from "@/components/home/TechStackIcon";
 import { SectionWithReveal } from "@/components/motion/SectionWithReveal";
@@ -27,7 +28,7 @@ export function TechStack() {
       ariaLabelledby="tech-stack-heading"
       className={homeSectionSpacingClass}
     >
-      <Container className="flex flex-col gap-8 md:gap-10">
+      <Container className={homeSectionStackClass}>
         <SectionIntro
           eyebrow={techStackIntro.eyebrow}
           title={techStackIntro.title}

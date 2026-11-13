@@ -1,6 +1,7 @@
 "use client";
 
 import { HeroProductionProjectCard } from "@/components/home/HeroProductionProjectCard";
+import { homeBentoGridClass } from "@/components/home/homeSurface";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import {
@@ -17,7 +18,7 @@ export function HeroProduction() {
       aria-labelledby="production-heading"
       className="flex w-full flex-col gap-4"
     >
-      <Reveal preset="expressive" when="inView" className="flex flex-col gap-2">
+      <Reveal when="inView" className="flex flex-col gap-2">
         <h2
           id="production-heading"
           className="text-muted-foreground text-left font-mono text-[11px] tracking-[0.16em] uppercase"
@@ -30,11 +31,7 @@ export function HeroProduction() {
       </Reveal>
 
       <nav aria-label="Selected production work">
-        <Stagger
-          preset="expressive"
-          when="inView"
-          className="grid grid-cols-1 gap-3 md:grid-cols-3 md:items-stretch md:gap-3"
-        >
+        <Stagger when="inView" className={homeBentoGridClass}>
           {productionProjects.map((project) => (
             <StaggerItem key={project.id} className="flex h-full min-h-0">
               <HeroProductionProjectCard project={project} />

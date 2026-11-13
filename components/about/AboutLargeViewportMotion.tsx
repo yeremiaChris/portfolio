@@ -27,13 +27,10 @@ function getLargeViewportSnapshot() {
 }
 
 function getLargeViewportServerSnapshot() {
-  return false;
+  return true;
 }
 
-type MotionSections = {
-  Story: ComponentType;
-  Workflow: ComponentType;
-} | null;
+type MotionWorkflow = ComponentType | null;
 
 export function AboutLargeViewportMotion({
   fallback,
@@ -43,7 +40,7 @@ export function AboutLargeViewportMotion({
     getLargeViewportSnapshot,
     getLargeViewportServerSnapshot,
   );
-  const [sections, setSections] = useState<MotionSections>(null);
+  const [Workflow, setWorkflow] = useState<MotionWorkflow>(null);
 
   useEffect(() => {
     if (!isLarge) {
@@ -54,17 +51,13 @@ export function AboutLargeViewportMotion({
     }
     let cancelled = false;
     const cancelIdle = scheduleIdle(() => {
-      void Promise.all([
-        import("@/components/about/AboutStoryMotion"),
-        import("@/components/about/AboutWorkflowMotion"),
-      ]).then(([storyMod, workflowMod]) => {
-        if (!cancelled) {
-          setSections({
-            Story: storyMod.AboutStoryMotion,
-            Workflow: workflowMod.AboutWorkflowMotion,
-          });
-        }
-      });
+      void import("@/components/about/AboutWorkflowMotion").then(
+        (workflowMod) => {
+          if (!cancelled) {
+            setWorkflow(() => workflowMod.AboutWorkflowMotion);
+          }
+        },
+      );
     }, 600);
     return () => {
       cancelled = true;
@@ -76,16 +69,9 @@ export function AboutLargeViewportMotion({
     return null;
   }
 
-  if (!sections) {
+  if (!Workflow) {
     return fallback;
   }
 
-  const { Story, Workflow } = sections;
-
-  return (
-    <>
-      <Story />
-      <Workflow />
-    </>
-  );
+  return <Workflow />;
 }

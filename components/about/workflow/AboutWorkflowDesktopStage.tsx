@@ -56,7 +56,7 @@ export function AboutWorkflowDesktopStage() {
     >
       <div className="sticky top-[calc(var(--nav-height,4rem)+1.5rem)] flex max-h-[min(72vh,42rem)] w-full min-w-0 items-stretch">
         <div className="grid min-h-0 w-full min-w-0 grid-cols-12 gap-6 xl:gap-8">
-          <ol className="relative col-span-5 flex min-h-0 flex-col gap-1.5 pl-9">
+          <div className="relative col-span-5 pl-9">
             <div className="pointer-events-none absolute top-1 bottom-1 left-0 w-5">
               <ScrollProgressRail
                 progress={scrollYProgress}
@@ -64,15 +64,17 @@ export function AboutWorkflowDesktopStage() {
                 segmentCount={STEP_COUNT}
               />
             </div>
-            {aboutWorkflowSteps.map((step, index) => (
-              <WorkflowStepListItem
-                key={step.id}
-                step={step}
-                active={index === activeIndex}
-                reducedMotion={!!reducedMotion}
-              />
-            ))}
-          </ol>
+            <ol className="flex min-h-0 flex-col gap-1.5">
+              {aboutWorkflowSteps.map((step, index) => (
+                <WorkflowStepListItem
+                  key={step.id}
+                  step={step}
+                  active={index === activeIndex}
+                  reducedMotion={!!reducedMotion}
+                />
+              ))}
+            </ol>
+          </div>
           <MotionStagePanel
             className="col-span-7 min-w-0 self-start"
             reducedMotion={!!reducedMotion}

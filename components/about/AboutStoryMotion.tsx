@@ -1,147 +1,38 @@
 "use client";
 
-import Image from "next/image";
-import { BadgeCheck, GitBranch, MapPin } from "lucide-react";
-import { m, useInView, useReducedMotion, useScroll } from "motion/react";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { m, useReducedMotion, useScroll } from "motion/react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
+import {
+  AboutStoryHeroLayout,
+  JourneyTimelineRow,
+} from "@/components/about/story/AboutStoryHeroLayout";
 import { ScrollProgressRail } from "@/components/motion/ScrollProgressRail";
+import { aboutStoryEras } from "@/lib/about";
+import type { AboutStoryEra } from "@/lib/about";
 import {
-  aboutSurfaceCardClass,
-  projectSurfaceHairlineClass,
-} from "@/components/about/aboutSurface";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import {
-  aboutProfile,
-  aboutProfileMetrics,
-  aboutProfileMetricToneClass,
-  aboutStoryDotClass,
-  aboutStoryEras,
-  aboutStoryIntro,
-  aboutStoryToneClass,
-  type AboutStoryEra,
-} from "@/lib/about";
-import { aboutStaggerTransition } from "@/lib/scroll-motion";
-import { cn } from "@/lib/utils";
+  ABOUT_HERO_ENTRANCE_BASE_DELAY_S,
+  ABOUT_HERO_ENTRANCE_STAGGER_S,
+  aboutHeroEntranceSpring,
+} from "@/lib/scroll-motion";
 
 type TrackBounds = { top: number; height: number };
 
+const HERO_METRIC_START = 4;
+const HERO_INTENT_ORDER = HERO_METRIC_START + 3;
+const HERO_JOURNEY_HEADER_ORDER = HERO_INTENT_ORDER + 1;
+const HERO_JOURNEY_ITEM_START = HERO_JOURNEY_HEADER_ORDER + 1;
+
 export function AboutStoryMotion() {
   const reducedMotion = useReducedMotion();
-  const profileRef = useRef<HTMLDivElement>(null);
-  const profileInView = useInView(profileRef, { once: true, amount: 0.2 });
-
-  return (
-    <section
-      aria-labelledby="about-story-heading"
-      className="mb-8 grid w-full min-w-0 grid-cols-1 items-stretch gap-6 lg:mb-10 lg:grid-cols-12 lg:gap-8"
-    >
-      <m.div
-        ref={profileRef}
-        className="flex min-h-0 min-w-0 flex-col lg:col-span-5"
-        initial={false}
-        animate={
-          reducedMotion
-            ? { opacity: 1, translateY: 0 }
-            : {
-                opacity: profileInView ? 1 : 0.92,
-                translateY: profileInView ? 0 : 14,
-              }
-        }
-        transition={aboutStaggerTransition}
-      >
-        <Card className="bg-muted ring-border/20 relative flex h-full min-h-0 flex-col overflow-hidden rounded-3xl">
-          <div
-            className="bg-primary/10 pointer-events-none absolute -top-12 -right-12 size-32 rounded-full blur-2xl"
-            aria-hidden
-          />
-
-          <CardHeader className="relative gap-4">
-            <div className="flex items-center justify-between gap-3">
-              <Badge
-                variant="secondary"
-                className="text-primary label-caps gap-2 tracking-widest"
-              >
-                <span className="bg-status-available size-2.5 shrink-0 rounded-full" />
-                {aboutProfile.status}
-              </Badge>
-              <span className="text-muted-foreground label-caps tracking-wider">
-                {aboutProfile.nodeId}
-              </span>
-            </div>
-
-            <div className="ring-border/40 relative aspect-4/3 overflow-hidden rounded-xl bg-[#0a0e14] ring-1">
-              <Image
-                src={aboutProfile.image}
-                alt={aboutProfile.imageAlt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover object-top"
-                priority
-              />
-              <div
-                className="absolute inset-0 bg-linear-to-t from-[#0a0e14] via-[#0a0e14]/20 to-transparent"
-                aria-hidden
-              />
-              <div className="absolute inset-x-3 bottom-3">
-                <Badge
-                  variant="secondary"
-                  className="gap-1 bg-[#0a0e14]/80 text-xs backdrop-blur-md"
-                >
-                  <MapPin className="text-primary size-3" aria-hidden />
-                  {aboutProfile.location}
-                </Badge>
-              </div>
-            </div>
-          </CardHeader>
-
-          <CardContent className="relative flex flex-col gap-2">
-            {aboutProfileMetrics.map((metric) => (
-              <div
-                key={metric.label}
-                className="bg-secondary/60 flex items-center justify-between gap-3 rounded-lg px-3 py-2"
-              >
-                <span className="text-muted-foreground text-[13px]">
-                  {metric.label}
-                </span>
-                <span
-                  className={cn(
-                    "text-right text-[12px] font-medium",
-                    aboutProfileMetricToneClass[metric.tone],
-                  )}
-                >
-                  {metric.value}
-                </span>
-              </div>
-            ))}
-          </CardContent>
-
-          <CardFooter className="relative items-start gap-2 border-t-0 bg-transparent">
-            <div className="bg-secondary/80 flex w-full items-start gap-2 rounded-xl p-3">
-              <BadgeCheck
-                className="text-primary mt-0.5 size-5 shrink-0"
-                aria-hidden
-              />
-              <p className="text-foreground text-[13px] leading-relaxed">
-                {aboutProfile.intent}
-              </p>
-            </div>
-          </CardFooter>
-        </Card>
-      </m.div>
-
-      <JourneyTimeline reducedMotion={!!reducedMotion} />
-    </section>
-  );
-}
-
-function JourneyTimeline({ reducedMotion }: { reducedMotion: boolean }) {
+  const [run, setRun] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -149,22 +40,28 @@ function JourneyTimeline({ reducedMotion }: { reducedMotion: boolean }) {
     top: 0,
     height: 0,
   });
-  const headerRef = useRef<HTMLDivElement>(null);
-  const headerInView = useInView(headerRef, { once: true, amount: 0.5 });
 
   const { scrollYProgress } = useScroll({
-    target: trackRef,
-    offset: ["start start", "end end"],
+    target: sectionRef,
+    offset: ["start end", "end start"],
   });
+
+  useEffect(() => {
+    if (reducedMotion) {
+      return;
+    }
+    const frame = requestAnimationFrame(() => setRun(true));
+    return () => cancelAnimationFrame(frame);
+  }, [reducedMotion]);
 
   const measureTrack = useCallback(() => {
     const section = sectionRef.current;
     if (!section) return;
     const list = section.querySelector("[data-journey-list]");
     if (!list) return;
-    const articles = list.querySelectorAll(":scope > article");
-    const first = articles[0];
-    const last = articles[articles.length - 1];
+    const items = list.querySelectorAll(":scope > li");
+    const first = items[0];
+    const last = items[items.length - 1];
     if (!first || !last) return;
     const sectionRect = section.getBoundingClientRect();
     const firstRect = first.getBoundingClientRect();
@@ -187,9 +84,9 @@ function JourneyTimeline({ reducedMotion }: { reducedMotion: boolean }) {
     const list = section.querySelector("[data-journey-list]");
     if (list) {
       observer.observe(list);
-      for (const article of list.querySelectorAll(":scope > article")) {
-        observer.observe(article);
-      }
+      list
+        .querySelectorAll(":scope > li")
+        .forEach((item) => observer.observe(item));
     }
     const onResize = () => requestAnimationFrame(measureTrack);
     window.addEventListener("resize", onResize);
@@ -200,155 +97,139 @@ function JourneyTimeline({ reducedMotion }: { reducedMotion: boolean }) {
     };
   }, [measureTrack]);
 
-  const handleVisible = useCallback((index: number) => {
-    setActiveIndex(index);
-  }, []);
+  const wrapEntrance = useCallback(
+    (node: ReactNode, order: number) => {
+      if (reducedMotion) {
+        return node;
+      }
+      const delay =
+        ABOUT_HERO_ENTRANCE_BASE_DELAY_S +
+        order * ABOUT_HERO_ENTRANCE_STAGGER_S;
+      return (
+        <m.div
+          initial={false}
+          style={{ opacity: 1 }}
+          animate={
+            run
+              ? { opacity: 1, translateY: [10, 0] }
+              : { opacity: 1, translateY: 0 }
+          }
+          transition={{ ...aboutHeroEntranceSpring, delay }}
+        >
+          {node}
+        </m.div>
+      );
+    },
+    [reducedMotion, run],
+  );
+
+  const journeyRail = reducedMotion ? (
+    <div
+      className="border-brand-accent/35 pointer-events-none absolute top-2 bottom-2 left-3 hidden w-px border-l-2 lg:block"
+      aria-hidden
+    />
+  ) : (
+    <div
+      ref={trackRef}
+      className="pointer-events-none absolute left-2 hidden w-5 lg:block"
+      style={{
+        top: trackBounds.top,
+        height: Math.max(trackBounds.height, 1),
+      }}
+    >
+      <ScrollProgressRail
+        progress={scrollYProgress}
+        activeIndex={activeIndex}
+        segmentCount={aboutStoryEras.length}
+      />
+    </div>
+  );
 
   return (
-    <div
-      ref={sectionRef}
-      className="relative flex min-h-0 min-w-0 flex-col gap-4 lg:col-span-7"
-    >
-      <m.div
-        ref={headerRef}
-        initial={false}
-        animate={
-          reducedMotion
-            ? { opacity: 1, translateY: 0 }
-            : {
-                opacity: headerInView ? 1 : 0.9,
-                translateY: headerInView ? 0 : 10,
-              }
+    <div ref={sectionRef}>
+      <AboutStoryHeroLayout
+        profileSlot={(node) => wrapEntrance(node, 3)}
+        metricSlot={(node, index) =>
+          wrapEntrance(node, HERO_METRIC_START + index)
         }
-        transition={aboutStaggerTransition}
-      >
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <GitBranch className="text-brand-accent size-5" aria-hidden />
-            <h2
-              id="about-story-heading"
-              className="font-heading text-foreground text-2xl font-semibold tracking-tight"
-            >
-              {aboutStoryIntro.title}
-            </h2>
-          </div>
-          <span className="text-muted-foreground text-[12px]">
-            {aboutStoryIntro.meta}
-          </span>
-        </div>
-      </m.div>
-
-      <div className="relative min-w-0">
-        <div
-          ref={trackRef}
-          className="pointer-events-none absolute left-0 hidden w-5 lg:block"
-          style={{
-            top: trackBounds.top,
-            height: Math.max(trackBounds.height, 1),
-          }}
-        >
-          <ScrollProgressRail
-            progress={scrollYProgress}
-            activeIndex={activeIndex}
-            segmentCount={aboutStoryEras.length}
+        intentSlot={(node) => wrapEntrance(node, HERO_INTENT_ORDER)}
+        journeyHeaderSlot={(node) =>
+          wrapEntrance(node, HERO_JOURNEY_HEADER_ORDER)
+        }
+        journeyRail={journeyRail}
+        journeyItemSlot={(era, index) => (
+          <JourneyTimelineMotionRow
+            key={era.id}
+            era={era}
+            order={HERO_JOURNEY_ITEM_START + index}
+            reducedMotion={!!reducedMotion}
+            run={run}
+            active={activeIndex === index}
+            onActive={() => setActiveIndex(index)}
           />
-        </div>
-        <div data-journey-list className="flex flex-col gap-3 pl-0 lg:pl-9">
-          {aboutStoryEras.map((era, index) => (
-            <JourneyEraCard
-              key={era.id}
-              era={era}
-              index={index}
-              active={activeIndex === index}
-              onVisible={handleVisible}
-              reducedMotion={reducedMotion}
-            />
-          ))}
-        </div>
-      </div>
+        )}
+      />
     </div>
   );
 }
 
-function JourneyEraCard({
+function JourneyTimelineMotionRow({
   era,
-  index,
-  active,
-  onVisible,
+  order,
   reducedMotion,
+  run,
+  active,
+  onActive,
 }: {
   era: AboutStoryEra;
-  index: number;
-  active: boolean;
-  onVisible: (index: number) => void;
+  order: number;
   reducedMotion: boolean;
+  run: boolean;
+  active: boolean;
+  onActive: () => void;
 }) {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, {
-    amount: 0.35,
-    margin: "0px 0px -8% 0px",
-  });
+  const ref = useRef<HTMLLIElement>(null);
 
   useLayoutEffect(() => {
-    if (inView) {
-      onVisible(index);
-    }
-  }, [inView, index, onVisible]);
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          onActive();
+        }
+      },
+      { rootMargin: "-20% 0px -55% 0px", threshold: 0.2 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [onActive]);
+
+  if (reducedMotion) {
+    return (
+      <li ref={ref} className="list-none">
+        <JourneyTimelineRow era={era} active={active} />
+      </li>
+    );
+  }
+
+  const delay =
+    ABOUT_HERO_ENTRANCE_BASE_DELAY_S + order * ABOUT_HERO_ENTRANCE_STAGGER_S;
 
   return (
-    <article ref={ref} className="min-w-0 scroll-mt-24">
-      <m.div
-        className={cn(
-          aboutSurfaceCardClass,
-          era.current && "ring-primary/30",
-          active && "ring-brand-accent/25",
-        )}
-        initial={false}
-        animate={
-          reducedMotion
-            ? { opacity: 1, translateY: 0 }
-            : {
-                opacity: inView ? 1 : 0.88,
-                translateY: inView ? 0 : 12,
-              }
-        }
-        transition={{
-          ...aboutStaggerTransition,
-          delay: reducedMotion ? 0 : index * 0.05,
-        }}
-      >
-        <div className={projectSurfaceHairlineClass} />
-        <p
-          className={cn(
-            "text-[12px] leading-relaxed font-medium",
-            aboutStoryToneClass[era.tone],
-          )}
-        >
-          <span
-            className={cn(
-              "mr-1.5 inline-block size-1.5 rounded-full align-middle",
-              aboutStoryDotClass[era.tone],
-            )}
-            aria-hidden
-          />
-          <span className="align-middle break-words">{era.label}</span>
-          <span className="text-muted-foreground align-middle"> · </span>
-          <span
-            className={cn(
-              "text-muted-foreground align-middle break-words",
-              era.current && "text-primary",
-            )}
-          >
-            {era.period}
-          </span>
-        </p>
-        <h3 className="font-heading text-foreground mt-3 text-lg font-semibold tracking-tight">
-          {era.title}
-        </h3>
-        <p className="text-muted-foreground mt-2 text-[14px] leading-relaxed">
-          {era.body}
-        </p>
-      </m.div>
-    </article>
+    <m.li
+      ref={ref}
+      className="list-none"
+      initial={false}
+      style={{ opacity: 1 }}
+      animate={
+        run
+          ? { opacity: 1, translateY: [10, 0] }
+          : { opacity: 1, translateY: 0 }
+      }
+      transition={{ ...aboutHeroEntranceSpring, delay }}
+    >
+      <JourneyTimelineRow era={era} active={active} />
+    </m.li>
   );
 }

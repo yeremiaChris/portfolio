@@ -33,7 +33,7 @@ function HeroNameHeading({
     <h1
       id="hero-heading"
       className={cn(
-        "font-heading hero-name-display text-left font-bold tracking-tight text-balance",
+        "font-heading hero-name-display text-left font-bold tracking-[-0.045em] text-balance",
         "max-w-[18ch] sm:max-w-none",
         className,
       )}

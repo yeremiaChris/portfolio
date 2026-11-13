@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ContactCta } from "@/components/home/ContactCta";
+import { HomeContactCta } from "@/components/home/HomeContactCta";
 import { Hero } from "@/components/home/Hero";
 import { Milestones } from "@/components/home/Milestones";
 import { TechStack } from "@/components/home/TechStack";
@@ -37,7 +37,7 @@ export default function Home() {
       <Hero />
       <Milestones />
       <TechStack />
-      <ContactCta />
+      <HomeContactCta />
     </main>
   );
 }

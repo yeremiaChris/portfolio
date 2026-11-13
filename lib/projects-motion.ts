@@ -1,6 +1,11 @@
-import { scrollProgressRailSpring } from "@/lib/scroll-motion";
+import { motionSpring } from "@/lib/motion-tokens";
 
-export const projectsFeaturedSpring = scrollProgressRailSpring;
+export const projectsFeaturedSpring = {
+  ...motionSpring,
+  stiffness: 380,
+  damping: 42,
+  mass: 0.9,
+};
 
 export const projectsMagneticSpring = {
   type: "spring" as const,

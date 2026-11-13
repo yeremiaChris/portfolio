@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { AboutHeroSection } from "@/components/about/AboutHeroSection";
-import { AboutJourneySection } from "@/components/about/AboutJourneySection";
-import { AboutWorkflowMotion } from "@/components/about/AboutWorkflowMotion";
+import { AboutHeader } from "@/components/about/AboutHeader";
+import { AboutStory } from "@/components/about/AboutStory";
+import { AboutWorkflow } from "@/components/about/AboutWorkflow";
 import { Container } from "@/components/Container";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { aboutIntro } from "@/lib/about";
@@ -21,10 +21,10 @@ export default function AboutPage() {
       <JsonLd
         data={buildProfilePageJsonLd("/about", { includeContact: false })}
       />
-      <Container className="flex min-w-0 flex-col overflow-x-hidden py-8 md:py-12">
-        <AboutHeroSection />
-        <AboutJourneySection />
-        <AboutWorkflowMotion />
+      <Container className="flex min-h-[calc(100vh-4rem)] flex-col py-6 md:py-8">
+        <AboutHeader />
+        <AboutStory />
+        <AboutWorkflow />
       </Container>
     </main>
   );

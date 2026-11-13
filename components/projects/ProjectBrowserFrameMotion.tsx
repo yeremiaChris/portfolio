@@ -34,7 +34,6 @@ type ProjectBrowserFrameMotionProps = {
   alt: string;
   revealFrom: RevealSide;
   revealFromStart?: boolean;
-  deferMobileSrc?: boolean;
   className?: string;
 };
 
@@ -43,7 +42,6 @@ export function ProjectBrowserFrameMotion({
   alt,
   revealFrom,
   revealFromStart = false,
-  deferMobileSrc = false,
   className,
 }: ProjectBrowserFrameMotionProps) {
   const mobileSrc = getFeaturedScreenshotMobileSrc(src);
@@ -98,6 +96,7 @@ export function ProjectBrowserFrameMotion({
   const parallaxEnabled = pointerFine && !reducedMotion;
   const magneticEnabled = pointerFine && !reducedMotion;
   const panEnabled = hovered && pointerFine && !reducedMotion;
+  const curtainEnabled = pointerFine && !reducedMotion;
 
   const handlePointerMove = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
@@ -148,7 +147,7 @@ export function ProjectBrowserFrameMotion({
       >
         <m.div
           className="bg-muted ring-border/40 overflow-hidden rounded-2xl shadow-xl ring-1"
-          style={{ clipPath }}
+          style={curtainEnabled ? { clipPath } : undefined}
         >
           <div
             className="border-border/40 bg-background/80 flex items-center gap-1.5 border-b px-3 py-2.5"
@@ -176,30 +175,16 @@ export function ProjectBrowserFrameMotion({
                     srcSet={src}
                     type="image/webp"
                   />
-                  {deferMobileSrc ? (
-                    <img
-                      data-deferred-shot=""
-                      data-src={mobileSrc}
-                      alt={alt}
-                      width={featuredScreenshotMobileWidth}
-                      height={featuredScreenshotMobileHeight}
-                      decoding="async"
-                      loading="lazy"
-                      fetchPriority="low"
-                      className="size-full object-cover object-top"
-                    />
-                  ) : (
-                    <img
-                      src={mobileSrc}
-                      alt={alt}
-                      width={featuredScreenshotMobileWidth}
-                      height={featuredScreenshotMobileHeight}
-                      decoding="async"
-                      loading="lazy"
-                      fetchPriority="low"
-                      className="size-full object-cover object-top"
-                    />
-                  )}
+                  <img
+                    src={mobileSrc}
+                    alt={alt}
+                    width={featuredScreenshotMobileWidth}
+                    height={featuredScreenshotMobileHeight}
+                    decoding="async"
+                    loading={revealFromStart ? "eager" : "lazy"}
+                    fetchPriority={revealFromStart ? "high" : "low"}
+                    className="size-full object-cover object-top"
+                  />
                 </picture>
               </m.div>
             </m.div>

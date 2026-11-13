@@ -1,24 +1,22 @@
-import { Calendar, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
-import { ProjectCardVisual } from "@/components/projects/ProjectCardVisual";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
-import { getProjectToolChips, type Project } from "@/lib/projects";
+import {
+  featuredProjectRole,
+  getProjectToolChips,
+  type Project,
+} from "@/lib/projects";
 import { cn } from "@/lib/utils";
-
-export type ProjectCardSize = "large" | "compact";
 
 interface ProjectCardProps {
   project: Project;
-  size?: ProjectCardSize;
 }
 
-export function ProjectCard({ project, size = "compact" }: ProjectCardProps) {
-  const isLarge = size === "large";
+export function ProjectCard({ project }: ProjectCardProps) {
   const toolChips = getProjectToolChips(project.tools, project.featured);
-  const visualSize = isLarge ? "large" : "compact";
-
-  const visual = <ProjectCardVisual projectId={project.id} size={visualSize} />;
+  const tagline = project.tagline ?? project.summary;
+  const highlights = project.highlights ?? [];
 
   return (
     <div
@@ -30,56 +28,63 @@ export function ProjectCard({ project, size = "compact" }: ProjectCardProps) {
           "project-card border-gradient group bg-muted flex h-full min-w-0 flex-col overflow-hidden rounded-3xl",
         )}
       >
-        {project.href ? (
-          <a
-            href={project.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${project.title} — ${project.ctaLabel ?? "Open Site"}`}
-            className={cn(
-              "focus-ring block outline-none",
-              "p-3 pb-0",
-              isLarge && "p-4 pb-0",
-            )}
-          >
-            {visual}
-          </a>
-        ) : (
-          <div className={cn("p-3 pb-0", isLarge && "p-4 pb-0")}>{visual}</div>
-        )}
-
-        <div
-          className={cn(
-            "flex min-h-0 flex-1 flex-col gap-3 px-4 pt-4 pb-4",
-            isLarge && "gap-3.5 px-5 pt-5 pb-5",
-          )}
-        >
-          <div className="flex min-w-0 flex-wrap items-center gap-2">
-            <p
-              className={cn(
-                "font-heading text-foreground min-w-0 font-semibold tracking-tight wrap-break-word",
-                isLarge ? "text-xl sm:text-2xl" : "text-lg",
-              )}
-            >
+        <header className="border-border/35 border-b px-5 pt-5 pb-4">
+          <div className="flex min-w-0 flex-wrap items-start justify-between gap-2">
+            <p className="font-heading text-foreground min-w-0 text-lg font-semibold tracking-tight wrap-break-word">
               <span className="project-card-title">{project.title}</span>
             </p>
-            {project.tag === "personal" ? (
-              <span className="text-muted-foreground text-[11px] font-medium">
-                Personal
-              </span>
+            {project.domain ? (
+              <Badge
+                variant="secondary"
+                className="border-brand-accent/25 bg-brand-accent/10 text-brand-accent shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-medium"
+              >
+                {project.domain}
+              </Badge>
             ) : null}
           </div>
+          <dl className="text-muted-foreground mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px]">
+            <div className="flex items-center gap-1.5">
+              <dt className="sr-only">Role</dt>
+              <dd>{featuredProjectRole}</dd>
+            </div>
+            <span className="text-border/80 hidden sm:inline" aria-hidden>
+              ·
+            </span>
+            <div className="flex items-center gap-1.5">
+              <dt className="sr-only">Years</dt>
+              <dd className="tabular-nums">{project.year}</dd>
+            </div>
+            {project.tag === "personal" ? (
+              <>
+                <span className="text-border/80 hidden sm:inline" aria-hidden>
+                  ·
+                </span>
+                <dd className="text-[11px] font-medium">Personal</dd>
+              </>
+            ) : null}
+          </dl>
+        </header>
 
-          <p
-            className={cn(
-              "text-muted-foreground leading-relaxed wrap-break-word",
-              isLarge ? "line-clamp-4 text-[15px]" : "line-clamp-3 text-[13px]",
-            )}
-          >
-            {project.summary}
+        <div className="flex min-h-0 flex-1 flex-col gap-3 px-5 py-4">
+          <p className="text-foreground text-[14px] leading-snug font-medium">
+            {tagline}
           </p>
 
-          <div className="flex min-w-0 flex-wrap gap-1.5 pt-0.5">
+          {highlights.length > 0 ? (
+            <ul className="text-muted-foreground list-none space-y-2 text-[13px] leading-snug">
+              {highlights.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span
+                    className="bg-brand-accent/80 mt-1.5 size-1.5 shrink-0 rounded-full"
+                    aria-hidden
+                  />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          <div className="flex min-w-0 flex-wrap gap-1.5 pt-1">
             {toolChips.map((tool) => (
               <Badge
                 key={tool}
@@ -91,13 +96,8 @@ export function ProjectCard({ project, size = "compact" }: ProjectCardProps) {
             ))}
           </div>
 
-          <div className="border-border/30 mt-auto flex flex-wrap items-center justify-between gap-3 border-t pt-4">
-            <span className="text-muted-foreground inline-flex items-center gap-2 text-[12px]">
-              <Calendar className="size-3.5 shrink-0" aria-hidden />
-              {project.year}
-            </span>
-
-            {project.href && project.ctaLabel ? (
+          {project.href && project.ctaLabel ? (
+            <div className="mt-auto pt-2">
               <a
                 href={project.href}
                 target="_blank"
@@ -108,19 +108,19 @@ export function ProjectCard({ project, size = "compact" }: ProjectCardProps) {
                       project.ctaLabel === "Webview" ? "link" : "default",
                     size: "sm",
                   }),
-                  "shrink-0",
+                  "w-full justify-center sm:w-auto",
                   project.ctaLabel === "Webview"
                     ? "h-auto px-0 text-[13px]"
                     : "h-9 gap-1.5",
                 )}
               >
                 {project.ctaLabel}
-                {project.ctaLabel === "Webview" ? (
+                {project.ctaLabel === "Open Site" ? (
                   <ExternalLink className="size-3.5" aria-hidden />
                 ) : null}
               </a>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
       </article>
     </div>

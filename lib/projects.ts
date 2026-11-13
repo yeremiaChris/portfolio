@@ -12,6 +12,10 @@ export const projectsArchiveIntro = {
 
 export type ProjectTag = "work" | "personal";
 
+export type ProjectDomain = "Health-tech" | "Logistics";
+
+export const featuredProjectRole = "Frontend Engineer" as const;
+
 export const maxFeaturedProjectToolChips = 4;
 export const maxArchiveProjectToolChips = 3;
 export const maxProjectToolChips = maxFeaturedProjectToolChips;
@@ -26,6 +30,9 @@ export type Project = {
   image: string;
   imageAlt: string;
   featured: boolean;
+  domain?: ProjectDomain;
+  tagline?: string;
+  highlights?: string[];
   href?: string;
   ctaLabel?: "Open Site" | "Webview";
 };
@@ -52,6 +59,14 @@ export const projects: Project[] = [
     image: "/projects/mazecare.png",
     imageAlt: "Mazecare receptionist dashboard and queue management",
     featured: true,
+    domain: "Health-tech",
+    tagline:
+      "FHIR-compliant clinic and hospital OS covering visit, queue, teleconsult, and billing.",
+    highlights: [
+      "Visit, queue, teleconsult, and billing UI on the operating system.",
+      "GraphQL + FHIR on the clinic/hospital stack.",
+      "AI-assisted notes used in real clinic workflows.",
+    ],
     href: "https://www.mazecare.com/",
     ctaLabel: "Open Site",
   },
@@ -66,6 +81,14 @@ export const projects: Project[] = [
     image: "/projects/kiriminaja.jpg",
     imageAlt: "KiriminAja logistics platform",
     featured: true,
+    domain: "Logistics",
+    tagline:
+      "High-density logistics web UI for rates, manifests, and scanning.",
+    highlights: [
+      "Live rate UI across 15+ couriers.",
+      "Virtualized parcel manifests.",
+      "Batch barcode scanning powered by Web Workers.",
+    ],
     href: "https://app.kiriminaja.com",
     ctaLabel: "Open Site",
   },
@@ -80,6 +103,14 @@ export const projects: Project[] = [
     image: "/projects/primaku.png",
     imageAlt: "PrimaKu parent-facing vaccine and medical services catalog",
     featured: true,
+    domain: "Health-tech",
+    tagline:
+      "Web platform for vaccines and medical services, Parenthood Institute, and shared clinician UI.",
+    highlights: [
+      "Parent-facing SSR catalog on primaku.com for vaccines and medical services.",
+      "Parenthood Institute program site with registration and reward points.",
+      "Clinician-facing PrimaCare UI on a shared design system—I work on the web platform, not the app.",
+    ],
     href: "https://www.primaku.com",
     ctaLabel: "Open Site",
   },
@@ -94,6 +125,13 @@ export const projects: Project[] = [
     image: "/projects/primacare.jpg",
     imageAlt: "PrimaCare clinic management",
     featured: true,
+    domain: "Health-tech",
+    tagline:
+      "Clinician-facing web UI on PrimaKu's stack for clinic day-to-day work.",
+    highlights: [
+      "Health-record and SatuSehat-related flows.",
+      "Forms and day-to-day clinic screens.",
+    ],
     href: "https://www.primacare.ai",
     ctaLabel: "Open Site",
   },

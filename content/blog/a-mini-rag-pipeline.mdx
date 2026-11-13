@@ -1,6 +1,6 @@
 ---
 title: "Two Layers That Stop the Bot from Making Things Up"
-description: "Retrieve top-k facts, refuse below 0.6 without calling the LLM, otherwise answer from a grounded prompt with citations — plus model fallback when backoff on one flash model is not enough."
+description: "Retrieve top-k facts, refuse below a similarity threshold (0.6 in this demo, 0.45 on live /lab) without calling the LLM, otherwise answer from a grounded prompt with citations — plus model fallback when backoff on one flash model is not enough."
 date: "2026-10-16"
 tags: ["ai-engineering", "learning-in-public", "rag", "embeddings", "llm"]
 featured: false

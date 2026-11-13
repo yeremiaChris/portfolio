@@ -12,6 +12,10 @@ export const projectsArchiveIntro = {
 
 export type ProjectTag = "work" | "personal";
 
+export type ProjectDomain = "Health-tech" | "Logistics";
+
+export const featuredProjectRole = "Frontend Engineer" as const;
+
 export const maxFeaturedProjectToolChips = 4;
 export const maxArchiveProjectToolChips = 3;
 export const maxProjectToolChips = maxFeaturedProjectToolChips;
@@ -26,6 +30,9 @@ export type Project = {
   image: string;
   imageAlt: string;
   featured: boolean;
+  domain?: ProjectDomain;
+  tagline?: string;
+  highlights?: string[];
   href?: string;
   ctaLabel?: "Open Site" | "Webview";
 };
@@ -49,9 +56,17 @@ export const projects: Project[] = [
     summary:
       "Visit, queue, teleconsult, and billing UI on a FHIR-compliant clinic/hospital OS — GraphQL + FHIR, plus AI-assisted notes used in real clinic workflows.",
     tools: ["Vue 3", "Nuxt 3", "GraphQL", "FHIR"],
-    image: "/projects/mazecare.png",
+    image: "/projects/featured-mazecare.webp",
     imageAlt: "Mazecare receptionist dashboard and queue management",
     featured: true,
+    domain: "Health-tech",
+    tagline:
+      "FHIR-compliant clinic and hospital OS covering visit, queue, teleconsult, and billing.",
+    highlights: [
+      "Visit, queue, teleconsult, and billing UI on the operating system.",
+      "GraphQL + FHIR on the clinic/hospital stack.",
+      "AI-assisted notes used in real clinic workflows.",
+    ],
     href: "https://www.mazecare.com/",
     ctaLabel: "Open Site",
   },
@@ -63,9 +78,17 @@ export const projects: Project[] = [
     summary:
       "Developed high-density logistics web UI: a live rate UI across 15+ couriers, plus virtualized parcel manifests and batch barcode scanning powered by Web Workers.",
     tools: ["Vue", "Nuxt.js", "TypeScript", "Pinia / Vuex"],
-    image: "/projects/kiriminaja.jpg",
+    image: "/projects/featured-kiriminaja.webp",
     imageAlt: "KiriminAja logistics platform",
     featured: true,
+    domain: "Logistics",
+    tagline:
+      "High-density logistics web UI for rates, manifests, and scanning.",
+    highlights: [
+      "Live rate UI across 15+ couriers.",
+      "Virtualized parcel manifests.",
+      "Batch barcode scanning powered by Web Workers.",
+    ],
     href: "https://app.kiriminaja.com",
     ctaLabel: "Open Site",
   },
@@ -77,9 +100,17 @@ export const projects: Project[] = [
     summary:
       "Web platform only: parent-facing primaku.com (SSR catalog for vaccines and medical services), the Parenthood Institute program site (registration and reward points), and clinician-facing PrimaCare UI, all on a shared design system. The company's mobile app has 1M+ Play downloads; I work on the web platform, not the app.",
     tools: ["Next.js", "TypeScript", "React Hook Form", "TanStack Query"],
-    image: "/projects/primaku.png",
+    image: "/projects/featured-primaku.webp",
     imageAlt: "PrimaKu parent-facing vaccine and medical services catalog",
     featured: true,
+    domain: "Health-tech",
+    tagline:
+      "Web platform for vaccines and medical services, Parenthood Institute, and shared clinician UI.",
+    highlights: [
+      "Parent-facing SSR catalog on primaku.com for vaccines and medical services.",
+      "Parenthood Institute program site with registration and reward points.",
+      "Clinician-facing PrimaCare UI on a shared design system—I work on the web platform, not the app.",
+    ],
     href: "https://www.primaku.com",
     ctaLabel: "Open Site",
   },
@@ -91,9 +122,16 @@ export const projects: Project[] = [
     summary:
       "Clinician-facing PrimaCare web UI on PrimaKu's web stack: health-record and SatuSehat-related flows, forms, and day-to-day clinic screens.",
     tools: ["Next.js", "TypeScript", "React Hook Form", "TanStack Query"],
-    image: "/projects/primacare.jpg",
+    image: "/projects/featured-primacare.webp",
     imageAlt: "PrimaCare clinic management",
     featured: true,
+    domain: "Health-tech",
+    tagline:
+      "Clinician-facing web UI on PrimaKu's stack for clinic day-to-day work.",
+    highlights: [
+      "Health-record and SatuSehat-related flows.",
+      "Forms and day-to-day clinic screens.",
+    ],
     href: "https://www.primacare.ai",
     ctaLabel: "Open Site",
   },

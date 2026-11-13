@@ -1,7 +1,6 @@
 import { FileText, Link2, Mail, MessageCircle } from "lucide-react";
 
 import { Container } from "@/components/Container";
-import { Reveal } from "@/components/motion/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { site } from "@/lib/site";
@@ -120,13 +119,7 @@ export function ContactCta({
         className,
       )}
     >
-      {withContainer ? (
-        <Container>
-          <Reveal preset="expressive">{panel}</Reveal>
-        </Container>
-      ) : (
-        <Reveal preset="expressive">{panel}</Reveal>
-      )}
+      {withContainer ? <Container>{panel}</Container> : panel}
     </section>
   );
 }

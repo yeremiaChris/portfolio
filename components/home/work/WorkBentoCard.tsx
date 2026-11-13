@@ -1,5 +1,5 @@
-import Image from "next/image";
-
+import { HomeSpotlightSurface } from "@/components/home/HomeSpotlightSurface";
+import { HomeWorkImageParallax } from "@/components/home/HomeWorkImageParallax";
 import {
   homeBentoCardClass,
   homeBentoChipClass,
@@ -14,23 +14,15 @@ type WorkBentoCardProps = {
 
 export function WorkBentoCard({ card }: WorkBentoCardProps) {
   return (
-    <a
+    <HomeSpotlightSurface
+      as="a"
       href={card.href}
       className={cn(
         homeBentoCardClass,
         "focus-ring flex h-full flex-col gap-4 p-5 outline-none md:p-6",
       )}
     >
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl">
-        <Image
-          src={card.image}
-          alt={card.imageAlt}
-          fill
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          loading="lazy"
-          className="object-cover object-top"
-        />
-      </div>
+      <HomeWorkImageParallax src={card.image} alt={card.imageAlt} />
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <span
           className={cn(
@@ -54,6 +46,6 @@ export function WorkBentoCard({ card }: WorkBentoCardProps) {
           ))}
         </div>
       </div>
-    </a>
+    </HomeSpotlightSurface>
   );
 }

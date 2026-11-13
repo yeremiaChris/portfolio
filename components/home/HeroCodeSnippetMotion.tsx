@@ -7,9 +7,8 @@ import {
   useMemo,
   useRef,
   useState,
-  type ReactNode,
 } from "react";
-import { m, useReducedMotion } from "motion/react";
+import { m, useInView, useReducedMotion } from "motion/react";
 
 import {
   HERO_CODE_LINES,
@@ -19,25 +18,14 @@ import {
   linePlainText,
   type SnippetLine,
 } from "@/lib/hero-code-lines";
-import {
-  motionDuration,
-  motionEase,
-  motionHeroTerminal,
-  motionPresetRevealTransition,
-} from "@/lib/motion-tokens";
+import { motionDuration, motionHeroTerminal } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
 const LINE_ROW_CLASS =
   "relative grid grid-cols-[1.25rem_minmax(0,1fr)] items-baseline gap-x-2.5 rounded-sm px-0.5 -mx-0.5";
 
 const HERO_TERMINAL_HOVER_TEXT = "text-[#f5fcfe]";
-
-function terminalHoverTransition(reducedMotion: boolean) {
-  return {
-    duration: reducedMotion ? 0 : motionHeroTerminal.lineHoverDuration,
-    ease: motionEase,
-  };
-}
+const HERO_CURSOR_CLASS = "text-[#4cd7f6]";
 
 type HeroCodeSnippetMotionProps = {
   ready: boolean;
@@ -49,70 +37,65 @@ type Phase =
   | { type: "stagger"; lineNs: number[]; nextCommandIndex: number }
   | { type: "done" };
 
+function renderLineTokens(line: SnippetLine, hovered: boolean) {
+  if (line.tokens.length === 0) {
+    return "\u00A0";
+  }
+
+  return line.tokens.map((token, index) => (
+    <span
+      key={`${line.n}-${index}`}
+      className={cn(
+        "transition-colors motion-reduce:transition-none",
+        hovered
+          ? HERO_TERMINAL_HOVER_TEXT
+          : token.tone
+            ? TONE_CLASS[token.tone]
+            : undefined,
+      )}
+      style={{
+        transitionDuration: `${motionHeroTerminal.lineHoverDuration * 1000}ms`,
+      }}
+    >
+      {token.text}
+    </span>
+  ));
+}
+
 function HeroCodeSnippetStatic() {
   const liveRegionId = useId();
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
-
-  const renderTokens = (line: SnippetLine, text: string, hovered: boolean) => {
-    if (line.tokens.length === 0) {
-      return "\u00A0";
-    }
-
-    return line.tokens.map((token, index) => (
-      <span
-        key={`${line.n}-${index}`}
-        className={cn(
-          "transition-colors motion-reduce:transition-none",
-          hovered
-            ? HERO_TERMINAL_HOVER_TEXT
-            : token.tone
-              ? TONE_CLASS[token.tone]
-              : undefined,
-        )}
-        style={{
-          transitionDuration: `${motionHeroTerminal.lineHoverDuration * 1000}ms`,
-        }}
-      >
-        {token.text}
-      </span>
-    ));
-  };
 
   return (
     <div className="hero-code-snippet grid gap-y-0.5">
       <p id={liveRegionId} className="sr-only">
         {HERO_CODE_SNIPPET_ARIA_LABEL}
       </p>
-      {HERO_CODE_LINES.map((line) => {
-        const hovered = hoveredLine === line.n;
-        const plain = linePlainText(line);
-
-        return (
-          <MotionLineRow
-            key={line.n}
-            line={line}
-            visible
-            hovered={hovered}
-            plain={plain}
-            typedText={plain}
-            showCursor={false}
-            onPointerEnter={() => setHoveredLine(line.n)}
-            onPointerLeave={() =>
-              setHoveredLine((current) => (current === line.n ? null : current))
-            }
-            renderTokens={renderTokens}
-          />
-        );
-      })}
+      {HERO_CODE_LINES.map((line) => (
+        <MotionLineRow
+          key={line.n}
+          line={line}
+          hovered={hoveredLine === line.n}
+          revealed
+          clipPercent={100}
+          showCursor={false}
+          onPointerEnter={() => setHoveredLine(line.n)}
+          onPointerLeave={() =>
+            setHoveredLine((current) => (current === line.n ? null : current))
+          }
+        />
+      ))}
     </div>
   );
 }
 
-function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
+function HeroCodeSnippetTyping({
+  ready,
+  inView,
+}: HeroCodeSnippetMotionProps & { inView: boolean }) {
   const liveRegionId = useId();
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
   const [revealed, setRevealed] = useState<Set<number>>(() => new Set());
-  const [typedByLine, setTypedByLine] = useState<Record<number, string>>({});
   const [phase, setPhase] = useState<Phase>({ type: "idle" });
   const [showCursor, setShowCursor] = useState(false);
   const commandNs = useMemo(() => commandLineNumbers(), []);
@@ -179,16 +162,19 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
     [beginCommand, commandNs, outputLinesAfterCommand],
   );
 
+  const canStart = ready && inView;
+
   useEffect(() => {
-    if (!ready || startedRef.current) {
+    if (!canStart || startedRef.current) {
       return;
     }
     startedRef.current = true;
+    setRevealed(new Set());
     const timer = window.setTimeout(() => {
       beginCommand(0);
     }, 0);
     return () => window.clearTimeout(timer);
-  }, [beginCommand, ready]);
+  }, [beginCommand, canStart]);
 
   useEffect(() => {
     if (phase.type !== "typing") {
@@ -204,7 +190,6 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
     if (phase.visibleChars >= full.length) {
       const commandIndex = commandNs.indexOf(phase.lineN);
       const timer = window.setTimeout(() => {
-        setTypedByLine((prev) => ({ ...prev, [phase.lineN]: full }));
         startStaggerAfterCommand(commandIndex);
       }, motionHeroTerminal.commandPauseMs);
       return () => window.clearTimeout(timer);
@@ -252,40 +237,9 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
   const cursorOnLine =
     phase.type === "typing" && showCursor ? phase.lineN : null;
 
-  const renderTokens = (line: SnippetLine, text: string, hovered: boolean) => {
-    if (line.tokens.length === 0) {
-      return "\u00A0";
-    }
+  const showFullBeforeStart = !canStart || phase.type === "idle";
 
-    let remaining = text;
-    return line.tokens.map((token, index) => {
-      const slice = remaining.slice(0, token.text.length);
-      remaining = remaining.slice(token.text.length);
-      if (!slice) {
-        return null;
-      }
-      return (
-        <span
-          key={`${line.n}-${index}`}
-          className={cn(
-            "transition-colors motion-reduce:transition-none",
-            hovered
-              ? HERO_TERMINAL_HOVER_TEXT
-              : token.tone
-                ? TONE_CLASS[token.tone]
-                : undefined,
-          )}
-          style={{
-            transitionDuration: `${motionHeroTerminal.lineHoverDuration * 1000}ms`,
-          }}
-        >
-          {slice}
-        </span>
-      );
-    });
-  };
-
-  if (!ready || phase.type === "idle") {
+  if (showFullBeforeStart) {
     return <HeroCodeSnippetStatic />;
   }
 
@@ -295,31 +249,35 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
         {HERO_CODE_SNIPPET_ARIA_LABEL}
       </p>
       {HERO_CODE_LINES.map((line) => {
-        const visible = revealed.has(line.n);
-        const hovered = hoveredLine === line.n;
         const plain = linePlainText(line);
-        const typedText =
-          line.kind === "command"
-            ? (typedByLine[line.n] ??
-              (phase.type === "typing" && phase.lineN === line.n
-                ? plain.slice(0, phase.visibleChars)
-                : ""))
-            : plain;
+        const isBlank = line.kind === "blank";
+        const lineRevealed = isBlank || revealed.has(line.n);
+        const hovered = hoveredLine === line.n;
+
+        let clipPercent = 100;
+        if (line.kind === "command") {
+          if (phase.type === "typing" && phase.lineN === line.n) {
+            clipPercent =
+              plain.length === 0
+                ? 100
+                : (phase.visibleChars / plain.length) * 100;
+          } else if (!lineRevealed) {
+            clipPercent = 0;
+          }
+        }
 
         return (
           <MotionLineRow
             key={line.n}
             line={line}
-            visible={visible}
             hovered={hovered}
-            plain={plain}
-            typedText={typedText}
+            revealed={lineRevealed}
+            clipPercent={clipPercent}
             showCursor={cursorOnLine === line.n}
             onPointerEnter={() => setHoveredLine(line.n)}
             onPointerLeave={() =>
               setHoveredLine((current) => (current === line.n ? null : current))
             }
-            renderTokens={renderTokens}
           />
         );
       })}
@@ -329,48 +287,36 @@ function HeroCodeSnippetTyping({ ready }: HeroCodeSnippetMotionProps) {
 
 type MotionLineRowProps = {
   line: SnippetLine;
-  visible: boolean;
   hovered: boolean;
-  plain: string;
-  typedText: string;
+  revealed: boolean;
+  clipPercent: number;
   showCursor: boolean;
   onPointerEnter: () => void;
   onPointerLeave: () => void;
-  renderTokens: (
-    line: SnippetLine,
-    text: string,
-    hovered: boolean,
-  ) => ReactNode;
 };
 
 function MotionLineRow({
   line,
-  visible,
   hovered,
-  plain,
-  typedText,
+  revealed,
+  clipPercent,
   showCursor,
   onPointerEnter,
   onPointerLeave,
-  renderTokens,
 }: MotionLineRowProps) {
   const reducedMotion = useReducedMotion();
-  const hoverTransition = terminalHoverTransition(Boolean(reducedMotion));
-  const hoverActive = hovered && visible;
+  const hoverActive = hovered && revealed;
 
   return (
     <m.div
       role="presentation"
       aria-hidden
-      className={cn(LINE_ROW_CLASS, !visible && "pointer-events-none")}
+      className={cn(LINE_ROW_CLASS, !revealed && "pointer-events-none")}
       initial={false}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        opacity: motionPresetRevealTransition("calm", "inView"),
-        y: motionPresetRevealTransition("calm", "inView"),
-      }}
-      onPointerEnter={visible ? onPointerEnter : undefined}
-      onPointerLeave={visible ? onPointerLeave : undefined}
+      animate={{ opacity: revealed ? 1 : 0 }}
+      transition={{ duration: reducedMotion ? 0 : 0.12 }}
+      onPointerEnter={revealed ? onPointerEnter : undefined}
+      onPointerLeave={revealed ? onPointerLeave : undefined}
       style={{ minHeight: "1.55em" }}
     >
       <m.span
@@ -378,7 +324,9 @@ function MotionLineRow({
         className="pointer-events-none absolute inset-0 -mx-0.5 rounded-sm"
         initial={false}
         animate={{ opacity: hoverActive ? 1 : 0 }}
-        transition={hoverTransition}
+        transition={{
+          duration: reducedMotion ? 0 : motionHeroTerminal.lineHoverDuration,
+        }}
         style={{
           background:
             "linear-gradient(90deg, rgb(76 215 246 / 0.1) 0%, transparent 68%)",
@@ -392,7 +340,9 @@ function MotionLineRow({
           scaleY: hoverActive ? 1 : 0,
           opacity: hoverActive ? 1 : 0,
         }}
-        transition={hoverTransition}
+        transition={{
+          duration: reducedMotion ? 0 : motionHeroTerminal.lineHoverDuration,
+        }}
         style={{
           transformOrigin: "center center",
           background:
@@ -415,20 +365,25 @@ function MotionLineRow({
         {line.n}
       </span>
       <span className="min-w-0 font-mono text-[10px] leading-[1.55] break-all sm:text-[10.5px] sm:break-normal sm:whitespace-pre">
-        {line.kind === "command" && visible
-          ? renderTokens(line, typedText, hovered)
-          : visible
-            ? renderTokens(line, plain, hovered)
-            : "\u00A0"}
+        <span
+          className="inline-block max-w-full overflow-hidden align-bottom"
+          style={{
+            clipPath: `inset(0 ${100 - Math.min(100, Math.max(0, clipPercent))}% 0 0)`,
+          }}
+        >
+          {renderLineTokens(line, hovered)}
+        </span>
         {showCursor ? (
           <m.span
             aria-hidden
-            className="text-brand-accent ml-px inline-block w-[0.45em] font-normal"
+            className={cn(
+              "ml-px inline-block w-[0.45em] font-normal",
+              HERO_CURSOR_CLASS,
+            )}
             animate={{ opacity: [1, 0.2, 1] }}
             transition={{
               duration: motionDuration.reveal,
               repeat: Infinity,
-              ease: motionPresetRevealTransition("calm", "inView").ease,
             }}
           >
             ▍
@@ -441,10 +396,20 @@ function MotionLineRow({
 
 export function HeroCodeSnippetMotion({ ready }: HeroCodeSnippetMotionProps) {
   const reducedMotion = useReducedMotion();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(containerRef, { once: true, amount: 0.35 });
 
   if (reducedMotion) {
-    return <HeroCodeSnippetStatic />;
+    return (
+      <div ref={containerRef}>
+        <HeroCodeSnippetStatic />
+      </div>
+    );
   }
 
-  return <HeroCodeSnippetTyping ready={ready} />;
+  return (
+    <div ref={containerRef}>
+      <HeroCodeSnippetTyping ready={ready} inView={inView} />
+    </div>
+  );
 }

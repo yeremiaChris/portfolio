@@ -7,9 +7,9 @@ import { useRef, useState, type ReactNode } from "react";
 import { AboutWorkflowDesktopStage } from "@/components/about/workflow/AboutWorkflowDesktopStage";
 import { AboutWorkflowMobileSteps } from "@/components/about/workflow/AboutWorkflowMobileSteps";
 import {
+  aboutSurfaceCardClass,
   projectSurfaceHairlineClass,
-  projectSurfacePanelClass,
-} from "@/components/projects/projectSurface";
+} from "@/components/about/aboutSurface";
 import {
   aboutStoryToneClass,
   aboutWorkflowClosing,
@@ -151,7 +151,7 @@ function SplitColumn({
   const toneClass = aboutStoryToneClass[tone];
 
   return (
-    <SplitPanel className={cn(projectSurfacePanelClass, "p-4 sm:p-5")}>
+    <SplitPanel className={aboutSurfaceCardClass}>
       <div className={projectSurfaceHairlineClass} />
       <h3
         className={cn(
@@ -271,8 +271,8 @@ function AboutWorkflowQuote() {
     <m.blockquote
       ref={ref}
       className={cn(
-        projectSurfacePanelClass,
-        "border-brand-accent/30 mt-6 max-w-3xl border-l-2 px-4 py-3 sm:px-5 sm:py-4",
+        aboutSurfaceCardClass,
+        "border-brand-accent/30 mt-6 max-w-3xl border-l-2",
       )}
     >
       <div className={projectSurfaceHairlineClass} />

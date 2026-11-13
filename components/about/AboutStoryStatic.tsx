@@ -2,17 +2,15 @@ import Image from "next/image";
 import { BadgeCheck, GitBranch, MapPin } from "lucide-react";
 
 import {
+  aboutSurfaceCardClass,
   projectSurfaceHairlineClass,
-  projectSurfacePanelClass,
-} from "@/components/projects/projectSurface";
+} from "@/components/about/aboutSurface";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   aboutProfile,
@@ -114,50 +112,46 @@ export function AboutStoryStatic() {
             {aboutStoryIntro.meta}
           </span>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 lg:pl-9">
           {aboutStoryEras.map((era) => (
             <div
               key={era.id}
               className={cn(
-                projectSurfacePanelClass,
-                "min-w-0",
+                aboutSurfaceCardClass,
                 era.current && "ring-primary/30",
               )}
             >
               <div className={projectSurfaceHairlineClass} />
-              <CardHeader className="gap-2">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <Badge
-                    variant="secondary"
-                    className={cn(
-                      "label-caps gap-1.5 tracking-widest",
-                      aboutStoryToneClass[era.tone],
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "size-1.5 shrink-0 rounded-full",
-                        aboutStoryDotClass[era.tone],
-                      )}
-                    />
-                    {era.label}
-                  </Badge>
-                  <span
-                    className={cn(
-                      "label-caps tracking-wider",
-                      era.current ? "text-primary" : "text-muted-foreground",
-                    )}
-                  >
-                    {era.period}
-                  </span>
-                </div>
-                <CardTitle className="font-heading text-lg font-semibold tracking-tight">
-                  <h3>{era.title}</h3>
-                </CardTitle>
-                <CardDescription className="text-[14px] leading-relaxed">
-                  {era.body}
-                </CardDescription>
-              </CardHeader>
+              <p
+                className={cn(
+                  "text-[12px] leading-relaxed font-medium",
+                  aboutStoryToneClass[era.tone],
+                )}
+              >
+                <span
+                  className={cn(
+                    "mr-1.5 inline-block size-1.5 rounded-full align-middle",
+                    aboutStoryDotClass[era.tone],
+                  )}
+                  aria-hidden
+                />
+                <span className="align-middle break-words">{era.label}</span>
+                <span className="text-muted-foreground align-middle"> · </span>
+                <span
+                  className={cn(
+                    "text-muted-foreground align-middle break-words",
+                    era.current && "text-primary",
+                  )}
+                >
+                  {era.period}
+                </span>
+              </p>
+              <h3 className="font-heading text-foreground mt-3 text-lg font-semibold tracking-tight">
+                {era.title}
+              </h3>
+              <p className="text-muted-foreground mt-2 text-[14px] leading-relaxed">
+                {era.body}
+              </p>
             </div>
           ))}
         </div>

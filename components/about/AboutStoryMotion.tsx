@@ -7,17 +7,15 @@ import { useCallback, useLayoutEffect, useRef, useState } from "react";
 
 import { ScrollProgressRail } from "@/components/motion/ScrollProgressRail";
 import {
+  aboutSurfaceCardClass,
   projectSurfaceHairlineClass,
-  projectSurfacePanelClass,
-} from "@/components/projects/projectSurface";
+} from "@/components/about/aboutSurface";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   aboutProfile,
@@ -255,7 +253,7 @@ function JourneyTimeline({ reducedMotion }: { reducedMotion: boolean }) {
             segmentCount={aboutStoryEras.length}
           />
         </div>
-        <div data-journey-list className="flex flex-col gap-3 pl-0 lg:pl-5">
+        <div data-journey-list className="flex flex-col gap-3 pl-0 lg:pl-9">
           {aboutStoryEras.map((era, index) => (
             <JourneyEraCard
               key={era.id}
@@ -301,10 +299,9 @@ function JourneyEraCard({
     <article ref={ref} className="min-w-0 scroll-mt-24">
       <m.div
         className={cn(
-          projectSurfacePanelClass,
-          "min-w-0",
+          aboutSurfaceCardClass,
           era.current && "ring-primary/30",
-          active && "ring-brand-accent/20",
+          active && "ring-brand-accent/25",
         )}
         initial={false}
         animate={
@@ -321,39 +318,36 @@ function JourneyEraCard({
         }}
       >
         <div className={projectSurfaceHairlineClass} />
-        <CardHeader className="gap-2">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <Badge
-              variant="secondary"
-              className={cn(
-                "label-caps gap-1.5 tracking-widest",
-                aboutStoryToneClass[era.tone],
-              )}
-            >
-              <span
-                className={cn(
-                  "size-1.5 shrink-0 rounded-full",
-                  aboutStoryDotClass[era.tone],
-                )}
-              />
-              {era.label}
-            </Badge>
-            <span
-              className={cn(
-                "label-caps tracking-wider",
-                era.current ? "text-primary" : "text-muted-foreground",
-              )}
-            >
-              {era.period}
-            </span>
-          </div>
-          <CardTitle className="font-heading text-lg font-semibold tracking-tight">
-            <h3>{era.title}</h3>
-          </CardTitle>
-          <CardDescription className="text-[14px] leading-relaxed">
-            {era.body}
-          </CardDescription>
-        </CardHeader>
+        <p
+          className={cn(
+            "text-[12px] leading-relaxed font-medium",
+            aboutStoryToneClass[era.tone],
+          )}
+        >
+          <span
+            className={cn(
+              "mr-1.5 inline-block size-1.5 rounded-full align-middle",
+              aboutStoryDotClass[era.tone],
+            )}
+            aria-hidden
+          />
+          <span className="align-middle break-words">{era.label}</span>
+          <span className="text-muted-foreground align-middle"> · </span>
+          <span
+            className={cn(
+              "text-muted-foreground align-middle break-words",
+              era.current && "text-primary",
+            )}
+          >
+            {era.period}
+          </span>
+        </p>
+        <h3 className="font-heading text-foreground mt-3 text-lg font-semibold tracking-tight">
+          {era.title}
+        </h3>
+        <p className="text-muted-foreground mt-2 text-[14px] leading-relaxed">
+          {era.body}
+        </p>
       </m.div>
     </article>
   );

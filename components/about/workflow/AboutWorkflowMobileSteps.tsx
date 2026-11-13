@@ -6,9 +6,9 @@ import { useRef } from "react";
 import { WorkflowStepVisual } from "@/components/about/workflow/WorkflowStepVisual";
 import { getWorkflowStepToolLabels } from "@/components/about/workflow/workflow-step-tools";
 import {
+  aboutSurfaceCardClass,
   projectSurfaceHairlineClass,
-  projectSurfacePanelClass,
-} from "@/components/projects/projectSurface";
+} from "@/components/about/aboutSurface";
 import { aboutWorkflowSteps, type AboutWorkflowStep } from "@/lib/about";
 import { aboutStaggerTransition } from "@/lib/scroll-motion";
 import { cn } from "@/lib/utils";
@@ -44,7 +44,7 @@ function MobileStepCard({
   return (
     <li ref={ref} className="list-none">
       <m.div
-        className={cn(projectSurfacePanelClass, "p-4")}
+        className={aboutSurfaceCardClass}
         initial={false}
         animate={
           reducedMotion

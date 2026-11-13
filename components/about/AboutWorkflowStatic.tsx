@@ -3,9 +3,9 @@ import Link from "next/link";
 import { WorkflowStepVisual } from "@/components/about/workflow/WorkflowStepVisual";
 import { getWorkflowStepToolLabels } from "@/components/about/workflow/workflow-step-tools";
 import {
+  aboutSurfaceCardClass,
   projectSurfaceHairlineClass,
-  projectSurfacePanelClass,
-} from "@/components/projects/projectSurface";
+} from "@/components/about/aboutSurface";
 import {
   aboutWorkflowClosing,
   aboutWorkflowExample,
@@ -26,7 +26,7 @@ export function AboutWorkflowStatic() {
       <ol className="flex flex-col gap-4 lg:hidden">
         {aboutWorkflowSteps.map((step) => (
           <li key={step.id} className="list-none">
-            <div className={cn(projectSurfacePanelClass, "p-4")}>
+            <div className={aboutSurfaceCardClass}>
               <div className={projectSurfaceHairlineClass} />
               <span className="text-brand-accent text-xs font-semibold tracking-widest">
                 {step.step}
@@ -49,34 +49,48 @@ export function AboutWorkflowStatic() {
         ))}
       </ol>
       <div className="hidden lg:grid lg:grid-cols-12 lg:gap-6">
-        <ol className="relative col-span-5 flex flex-col gap-2 pl-5">
+        <ol className="relative col-span-5 flex flex-col gap-1.5 pl-9">
           {aboutWorkflowSteps.map((step, index) => (
             <li
               key={step.id}
               className={cn(
-                "list-none rounded-xl px-3 py-2.5 ring-1",
+                "list-none overflow-hidden rounded-2xl ring-1",
                 index === 0
-                  ? "bg-brand-accent/8 ring-brand-accent/30"
-                  : "bg-secondary/35 ring-border/20",
+                  ? "bg-brand-accent/8 ring-brand-accent/35"
+                  : "bg-secondary/30 ring-border/20",
               )}
             >
-              <span className="text-brand-accent text-xs font-semibold tracking-widest">
-                {step.step}
-              </span>
-              <h3 className="font-heading text-[15px] font-semibold tracking-tight">
-                {step.title}
-              </h3>
-              <p className="text-muted-foreground text-[13px] leading-snug">
-                {step.footer}
-              </p>
-              <StepToolChips stepId={step.id} active={index === 0} />
+              <div className="flex items-baseline gap-2 px-4 py-2.5">
+                <span className="text-brand-accent text-xs font-semibold tracking-widest">
+                  {step.step}
+                </span>
+                <h3 className="font-heading text-[15px] font-semibold tracking-tight">
+                  {step.title}
+                </h3>
+              </div>
+              {index === 0 ? (
+                <div className="space-y-2 px-4 pt-0 pb-3.5">
+                  <p className="text-muted-foreground text-[13px] leading-snug">
+                    {step.footer}
+                  </p>
+                  <StepToolChips stepId={step.id} active />
+                </div>
+              ) : null}
             </li>
           ))}
         </ol>
         <div className="col-span-7">
-          <div className={cn(projectSurfacePanelClass, "p-4 sm:p-5")}>
+          <div className={aboutSurfaceCardClass}>
             <div className={projectSurfaceHairlineClass} />
-            <p className="text-muted-foreground mb-3 text-[12px] leading-relaxed">
+            <div className="border-border/30 mb-4 flex items-baseline gap-2 border-b pb-4">
+              <span className="text-brand-accent text-xs font-semibold tracking-widest">
+                {aboutWorkflowSteps[0].step}
+              </span>
+              <h3 className="font-heading text-lg font-semibold tracking-tight">
+                {aboutWorkflowSteps[0].title}
+              </h3>
+            </div>
+            <p className="text-muted-foreground mb-4 text-[13px] leading-relaxed">
               {aboutWorkflowSteps[0].description}
             </p>
             <WorkflowStepVisual stepId={aboutWorkflowSteps[0].id} active />
@@ -170,7 +184,7 @@ function SplitCardStatic({
   const toneClass = aboutStoryToneClass[tone];
 
   return (
-    <div className={cn(projectSurfacePanelClass, "p-4 sm:p-5")}>
+    <div className={aboutSurfaceCardClass}>
       <div className={projectSurfaceHairlineClass} />
       <h3
         className={cn(
@@ -202,8 +216,8 @@ function QuoteStatic() {
   return (
     <blockquote
       className={cn(
-        projectSurfacePanelClass,
-        "border-brand-accent/30 mt-6 max-w-3xl border-l-2 px-4 py-3 sm:px-5 sm:py-4",
+        aboutSurfaceCardClass,
+        "border-brand-accent/30 mt-6 max-w-3xl border-l-2",
       )}
     >
       <div className={projectSurfaceHairlineClass} />

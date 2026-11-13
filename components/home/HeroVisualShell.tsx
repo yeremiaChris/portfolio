@@ -6,8 +6,7 @@ import { homeSignalTerminalShellClassName } from "@/lib/home-signal-card";
 export function HeroVisualShell() {
   return (
     <div className="flex w-full min-w-0 justify-center xl:justify-end xl:self-center">
-      <div className="hero-code-stage relative w-full max-w-[min(420px,100%)] p-2.5">
-        <div aria-hidden className="hero-terminal-glow pointer-events-none" />
+      <div className="hero-code-stage relative w-full max-w-[min(420px,100%)]">
         <div className={homeSignalTerminalShellClassName}>
           <div className="flex flex-col">
             <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-3 py-2.5">

@@ -56,6 +56,12 @@ export function ProjectBrowserFrameMotion({
   const magneticY = useMotionValue(0);
   const springX = useSpring(magneticX, projectsMagneticSpring);
   const springY = useSpring(magneticY, projectsMagneticSpring);
+  const clampedSpringX = useTransform(springX, (value) =>
+    Math.max(-projectsMagneticMaxPx, Math.min(projectsMagneticMaxPx, value)),
+  );
+  const clampedSpringY = useTransform(springY, (value) =>
+    Math.max(-projectsMagneticMaxPx, Math.min(projectsMagneticMaxPx, value)),
+  );
 
   const { scrollYProgress } = useScroll({
     target: frameRef,
@@ -88,7 +94,7 @@ export function ProjectBrowserFrameMotion({
     [projectsParallaxMaxPx, -projectsParallaxMaxPx],
   );
 
-  const shellX = useMotionTemplate`translate3d(${springX}px, ${springY}px, 0)`;
+  const shellX = useMotionTemplate`translate3d(${clampedSpringX}px, ${clampedSpringY}px, 0)`;
   const parallaxEnabled = pointerFine && !reducedMotion;
   const magneticEnabled = pointerFine && !reducedMotion;
   const panEnabled = hovered && pointerFine && !reducedMotion;
@@ -101,8 +107,18 @@ export function ProjectBrowserFrameMotion({
       const cy = rect.top + rect.height / 2;
       const dx = (event.clientX - cx) / (rect.width / 2);
       const dy = (event.clientY - cy) / (rect.height / 2);
-      magneticX.set(dx * projectsMagneticMaxPx);
-      magneticY.set(dy * projectsMagneticMaxPx);
+      magneticX.set(
+        Math.max(
+          -projectsMagneticMaxPx,
+          Math.min(projectsMagneticMaxPx, dx * projectsMagneticMaxPx),
+        ),
+      );
+      magneticY.set(
+        Math.max(
+          -projectsMagneticMaxPx,
+          Math.min(projectsMagneticMaxPx, dy * projectsMagneticMaxPx),
+        ),
+      );
     },
     [magneticEnabled, magneticX, magneticY],
   );
@@ -114,9 +130,12 @@ export function ProjectBrowserFrameMotion({
   }, [magneticX, magneticY]);
 
   return (
-    <div ref={frameRef} className={cn("relative min-w-0", className)}>
+    <div
+      ref={frameRef}
+      className={cn("relative max-w-full min-w-0 overflow-x-clip", className)}
+    >
       <div
-        className="bg-brand-accent/14 pointer-events-none absolute top-1/2 left-1/2 -z-10 size-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl md:blur-[80px]"
+        className="bg-brand-accent/14 pointer-events-none absolute top-1/2 left-1/2 -z-10 size-[72%] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl md:blur-[80px]"
         aria-hidden
       />
       <m.div

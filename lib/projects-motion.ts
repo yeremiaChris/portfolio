@@ -31,7 +31,7 @@ export const projectsStaggerTransition = {
   ease: [0.16, 1, 0.3, 1] as const,
 };
 
-export const projectsMagneticMaxPx = 10;
+export const projectsMagneticMaxPx = 6;
 
 export const projectsParallaxMaxPx = 22;
 

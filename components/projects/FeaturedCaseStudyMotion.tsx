@@ -115,7 +115,7 @@ export function FeaturedCaseStudyMotion({
           reverse ? "md:flex-row-reverse" : "md:flex-row",
         )}
       >
-        <div className="order-1 w-full min-w-0 md:order-none md:flex-1">
+        <div className="order-1 w-full max-w-full min-w-0 overflow-x-clip md:order-none md:flex-1">
           <ProjectBrowserFrameMotion
             src={project.image}
             alt={project.imageAlt}

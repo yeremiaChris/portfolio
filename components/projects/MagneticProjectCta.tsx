@@ -36,8 +36,9 @@ export function MagneticProjectCta({
       const cy = rect.top + rect.height / 2;
       const dx = (event.clientX - cx) / (rect.width / 2);
       const dy = (event.clientY - cy) / (rect.height / 2);
-      x.set(dx * projectsMagneticMaxPx * 0.85);
-      y.set(dy * projectsMagneticMaxPx * 0.85);
+      const cap = projectsMagneticMaxPx * 0.85;
+      x.set(Math.max(-cap, Math.min(cap, dx * cap)));
+      y.set(Math.max(-cap, Math.min(cap, dy * cap)));
     },
     [pointerFine, x, y],
   );

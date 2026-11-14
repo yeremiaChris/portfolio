@@ -5,6 +5,7 @@ import {
   linePlainText,
   type SnippetLine,
 } from "@/lib/hero-code-lines";
+import { cn } from "@/lib/utils";
 const LINE_ROW_CLASS =
   "relative grid grid-cols-[1.25rem_minmax(0,1fr)] items-baseline gap-x-2.5 rounded-sm px-0.5 -mx-0.5";
 
@@ -23,9 +24,20 @@ function renderTokens(line: SnippetLine) {
   ));
 }
 
-export function HeroCodeSnippetPreview() {
+type HeroCodeSnippetPreviewProps = {
+  className?: string;
+};
+
+export function HeroCodeSnippetPreview({
+  className,
+}: HeroCodeSnippetPreviewProps) {
   return (
-    <div className="hero-code-snippet hero-code-snippet-preview grid gap-y-0.5">
+    <div
+      className={cn(
+        "hero-code-snippet hero-code-snippet-preview grid gap-y-0.5",
+        className,
+      )}
+    >
       <p className="sr-only">{HERO_CODE_SNIPPET_ARIA_LABEL}</p>
       {HERO_CODE_LINES.map((line) => (
         <div

@@ -28,7 +28,10 @@ export function HeroCodeSnippetMotionSlot() {
   }
 
   return (
-    <div data-hero-code-motion-mounted="" className="hero-code-motion-layer">
+    <div
+      data-hero-code-motion-mounted=""
+      className="hero-code-snippet-motion col-start-1 row-start-1 min-w-0"
+    >
       <HeroCodeSnippetMotion ready={ready} />
     </div>
   );

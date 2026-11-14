@@ -30,8 +30,10 @@ export function HeroVisualShell({ motionSlot }: HeroVisualShellProps) {
               className="hero-code-body relative px-3 py-3.5 sm:px-4 sm:py-4"
               style={{ minHeight: heroCodeBodyMinHeight }}
             >
-              <HeroCodeSnippetPreview />
-              {motionSlot}
+              <div className="hero-code-snippet-stack grid">
+                <HeroCodeSnippetPreview className="col-start-1 row-start-1" />
+                {motionSlot}
+              </div>
             </div>
           </div>
         </div>

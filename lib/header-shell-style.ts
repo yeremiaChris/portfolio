@@ -15,7 +15,7 @@ export function headerShellMotionStyle(compact: boolean): CSSProperties {
   }
 
   return {
-    borderRadius: 20,
+    borderRadius: 9999,
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: "rgb(223 226 235 / 0.35)",

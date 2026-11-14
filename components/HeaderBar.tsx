@@ -5,6 +5,7 @@ import { useReducedMotion } from "motion/react";
 import { useRef } from "react";
 
 import { Container } from "@/components/Container";
+import { HeaderAvailabilityBadge } from "@/components/HeaderAvailabilityBadge";
 import { HeaderMobileMenu } from "@/components/HeaderMobileMenu";
 import { HeaderNav } from "@/components/HeaderNav";
 import { HeaderResumeLink } from "@/components/HeaderResumeLink";
@@ -64,12 +65,7 @@ function HeaderBarLayout() {
             </span>
           </Link>
 
-          {!compact ? (
-            <span className="text-muted-foreground bg-foreground/[0.06] hidden h-8 shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-medium tracking-[0.08em] whitespace-nowrap uppercase min-[860px]:inline-flex">
-              <span className="bg-status-available size-2 shrink-0 rounded-full" />
-              Available for work
-            </span>
-          ) : null}
+          <HeaderAvailabilityBadge />
         </div>
 
         <div

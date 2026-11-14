@@ -3,17 +3,28 @@
 import Link from "next/link";
 import { m, useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import {
   headerNavIndicatorClass,
   headerNavLinkClass,
   headerNavPillClass,
 } from "@/lib/header-nav-styles";
-import { motionHeaderMorphSpring } from "@/lib/motion-tokens";
+import {
+  motionHeaderFlipTransition,
+  motionHeaderNavIndicatorHideTransition,
+  motionHeaderNavIndicatorTransition,
+} from "@/lib/keffi-header-motion";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
-const navIndicatorLayoutId = "header-nav-indicator";
+type IndicatorBox = {
+  x: number;
+  width: number;
+  visible: boolean;
+};
+
+const hiddenIndicator: IndicatorBox = { x: 0, width: 0, visible: false };
 
 type HeaderNavProps = {
   embedded?: boolean;
@@ -22,40 +33,87 @@ type HeaderNavProps = {
 export function HeaderNav({ embedded = false }: HeaderNavProps) {
   const pathname = usePathname();
   const reducedMotion = useReducedMotion();
-  const morphTransition = reducedMotion
-    ? { duration: 0 }
-    : motionHeaderMorphSpring;
+  const navRef = useRef<HTMLElement>(null);
+  const [indicator, setIndicator] = useState<IndicatorBox>(hiddenIndicator);
+  const flipTransition = motionHeaderFlipTransition(!!reducedMotion);
+
+  useLayoutEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const measure = () => {
+      const activeLink = nav.querySelector<HTMLElement>(
+        '[aria-current="page"]',
+      );
+      if (!activeLink) {
+        setIndicator(hiddenIndicator);
+        return;
+      }
+      const navRect = nav.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      setIndicator({
+        x: linkRect.left - navRect.left,
+        width: linkRect.width,
+        visible: true,
+      });
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(nav);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [pathname, embedded]);
 
   return (
     <m.nav
       layout="position"
+      ref={navRef}
       aria-label="Primary"
       className={cn(
         "relative flex h-8 shrink-0 items-center gap-0.5 whitespace-nowrap",
-        embedded ? "p-0" : headerNavPillClass(),
+        "transition-[background,box-shadow] duration-500 ease-out",
+        embedded
+          ? "bg-transparent p-0 shadow-none backdrop-blur-none"
+          : headerNavPillClass(),
       )}
-      transition={morphTransition}
+      transition={flipTransition}
     >
+      <m.span
+        aria-hidden
+        className={headerNavIndicatorClass}
+        initial={false}
+        animate={{
+          x: indicator.x,
+          width: indicator.width,
+          opacity: indicator.visible ? 1 : 0,
+        }}
+        transition={
+          indicator.visible
+            ? motionHeaderNavIndicatorTransition(!!reducedMotion)
+            : motionHeaderNavIndicatorHideTransition(!!reducedMotion)
+        }
+      />
       {HEADER_NAV.map((item) => {
         const active = isNavActive(pathname, item.href);
         return (
-          <Link
+          <m.div
             key={item.href}
-            href={item.href}
-            aria-current={active ? "page" : undefined}
-            className={headerNavLinkClass(active)}
+            layout="position"
+            className="relative shrink-0"
           >
-            {active ? (
-              <m.span
-                layoutId={navIndicatorLayoutId}
-                className={headerNavIndicatorClass}
-                transition={morphTransition}
-              />
-            ) : null}
-            <m.span layout="position" className="relative z-10">
+            <Link
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={headerNavLinkClass(active)}
+            >
               {item.label}
-            </m.span>
-          </Link>
+            </Link>
+          </m.div>
         );
       })}
     </m.nav>

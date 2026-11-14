@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 export const headerNavPillClass = () =>
   cn(
-    "w-max shrink-0 items-center gap-0.5 rounded-full border border-border/20 bg-muted/55 p-1",
+    "w-max shrink-0 items-center gap-0.5 rounded-full border border-border/20 bg-muted/55 p-1 shadow-[inset_0_0_0_1px_rgb(223_226_235/0.2)] backdrop-blur-[14px]",
   );
 
 export const headerNavLinkClass = (active: boolean) =>

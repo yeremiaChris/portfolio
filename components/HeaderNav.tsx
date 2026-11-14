@@ -12,7 +12,6 @@ import {
   headerNavPillClass,
 } from "@/lib/header-nav-styles";
 import {
-  motionHeaderFlipTransition,
   motionHeaderNavIndicatorHideTransition,
   motionHeaderNavIndicatorTransition,
 } from "@/lib/keffi-header-motion";
@@ -36,7 +35,6 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
   const reducedMotion = useReducedMotion();
   const navRef = useRef<HTMLElement>(null);
   const [indicator, setIndicator] = useState<IndicatorBox>(hiddenIndicator);
-  const flipTransition = motionHeaderFlipTransition(!!reducedMotion);
 
   useLayoutEffect(() => {
     const nav = navRef.current;
@@ -71,16 +69,11 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
   }, [pathname, embedded]);
 
   return (
-    <m.nav
-      layout="position"
+    <nav
       ref={navRef}
       aria-label="Primary"
       data-flip-item=""
-      className={cn(
-        "relative whitespace-nowrap",
-        embedded ? headerNavEmbeddedClass() : headerNavPillClass(),
-      )}
-      transition={flipTransition}
+      className={cn(embedded ? headerNavEmbeddedClass() : headerNavPillClass())}
     >
       <m.span
         aria-hidden
@@ -100,12 +93,7 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
       {HEADER_NAV.map((item) => {
         const active = isNavActive(pathname, item.href);
         return (
-          <m.div
-            key={item.href}
-            layout="position"
-            data-flip-item=""
-            className="relative shrink-0"
-          >
+          <div key={item.href} data-flip-item="" className="relative shrink-0">
             <Link
               href={item.href}
               aria-current={active ? "page" : undefined}
@@ -113,9 +101,9 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
             >
               {item.label}
             </Link>
-          </m.div>
+          </div>
         );
       })}
-    </m.nav>
+    </nav>
   );
 }

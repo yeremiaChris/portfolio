@@ -3,11 +3,26 @@ import { describe, expect, it } from "vitest";
 import { HEADER_BAR_CHROME_DELAY_MS } from "./header-bar-flip";
 import {
   headerBarChromeTransitionClass,
+  headerBarCompactClass,
   headerNavEmbeddedClass,
   headerNavExpandedClass,
   headerNavIndicatorClass,
   headerNavLinksRowClass,
 } from "./header-nav-styles";
+
+describe("headerBarCompactClass", () => {
+  it("centers a shrink-wrapped pill on mobile with symmetric inset padding", () => {
+    const compact = headerBarCompactClass();
+    expect(compact).toContain("mx-auto");
+    expect(compact).toContain("w-max");
+    expect(compact).toContain("justify-start");
+    expect(compact).toContain("gap-2");
+    expect(compact).toContain("px-3");
+    expect(compact).toContain("max-w-full");
+    expect(compact).not.toContain("justify-between");
+    expect(compact).not.toContain("pl-3.5");
+  });
+});
 
 describe("headerNavLinksRowClass", () => {
   it("keeps links in a single horizontal non-wrapping row", () => {

@@ -31,7 +31,12 @@ function HeaderBarLayout() {
   useHeaderBarFlip(barRef, compact, !!reducedMotion);
 
   return (
-    <Container className="flex h-[var(--nav-height)] items-center">
+    <Container
+      className={cn(
+        "flex h-[var(--nav-height)] items-center",
+        compact && "justify-center",
+      )}
+    >
       <div
         ref={barRef}
         data-flip-bar=""

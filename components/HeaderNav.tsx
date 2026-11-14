@@ -1,44 +1,118 @@
 "use client";
 
 import Link from "next/link";
-import { m } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
+import { useLayoutEffect, useRef, useState } from "react";
 
-import { buttonVariants } from "@/components/ui/button-variants";
-import { motionSpring } from "@/lib/motion-tokens";
+import {
+  headerNavEmbeddedClass,
+  headerNavExpandedClass,
+  headerNavIndicatorClass,
+  headerNavIndicatorTransitionClass,
+  headerNavLinkClass,
+} from "@/lib/header-nav-styles";
+import { isElementRenderedForAnimation } from "@/lib/header-bar-flip";
+import {
+  buildHeaderNavIndicatorBox,
+  buildHeaderNavIndicatorStyle,
+  headerNavIndicatorBoxesEqual,
+  hiddenHeaderNavIndicator,
+  type HeaderNavIndicatorBox,
+} from "@/lib/header-nav-indicator";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
-const navIndicatorLayoutId = "header-nav-indicator";
+type HeaderNavProps = {
+  embedded?: boolean;
+};
 
-export function HeaderNav() {
+export function HeaderNav({ embedded = false }: HeaderNavProps) {
   const pathname = usePathname();
+  const reducedMotion = useReducedMotion();
+  const navRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HeaderNavIndicatorBox>(hiddenHeaderNavIndicator);
+  const [indicator, setIndicator] = useState<HeaderNavIndicatorBox>(
+    hiddenHeaderNavIndicator,
+  );
+
+  useLayoutEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const applyMeasure = () => {
+      if (!isElementRenderedForAnimation(nav)) {
+        return;
+      }
+
+      const activeLink = nav.querySelector<HTMLElement>(
+        '[aria-current="page"]',
+      );
+      if (!activeLink) {
+        if (
+          !headerNavIndicatorBoxesEqual(
+            indicatorRef.current,
+            hiddenHeaderNavIndicator,
+          )
+        ) {
+          indicatorRef.current = hiddenHeaderNavIndicator;
+          setIndicator(hiddenHeaderNavIndicator);
+        }
+        return;
+      }
+
+      const nextBox = buildHeaderNavIndicatorBox(
+        nav.getBoundingClientRect(),
+        activeLink.getBoundingClientRect(),
+      );
+      const resolved = nextBox ?? hiddenHeaderNavIndicator;
+      if (headerNavIndicatorBoxesEqual(indicatorRef.current, resolved)) {
+        return;
+      }
+      indicatorRef.current = resolved;
+      setIndicator(resolved);
+    };
+
+    applyMeasure();
+    const observer = new ResizeObserver(applyMeasure);
+    observer.observe(nav);
+    window.addEventListener("resize", applyMeasure);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", applyMeasure);
+    };
+  }, [pathname, embedded]);
 
   return (
-    <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
+    <nav
+      ref={navRef}
+      aria-label="Primary"
+      data-flip-item=""
+      className={cn(
+        embedded ? headerNavEmbeddedClass() : headerNavExpandedClass(),
+      )}
+    >
+      <span
+        aria-hidden
+        className={cn(
+          headerNavIndicatorClass(embedded),
+          headerNavIndicatorTransitionClass(indicator.visible, !!reducedMotion),
+        )}
+        style={buildHeaderNavIndicatorStyle(indicator)}
+      />
       {HEADER_NAV.map((item) => {
         const active = isNavActive(pathname, item.href);
         return (
-          <Link
-            key={item.href}
-            href={item.href}
-            aria-current={active ? "page" : undefined}
-            className={cn(
-              buttonVariants({ variant: "ghost", size: "sm" }),
-              "text-[13px]",
-              "relative",
-              active && "text-foreground font-semibold",
-            )}
-          >
-            {active ? (
-              <m.span
-                layoutId={navIndicatorLayoutId}
-                className="bg-brand-accent/18 ring-brand-accent/35 absolute inset-0 rounded-lg ring-1 ring-inset"
-                transition={motionSpring}
-              />
-            ) : null}
-            <span className="relative z-10">{item.label}</span>
-          </Link>
+          <div key={item.href} data-flip-item="" className="relative shrink-0">
+            <Link
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={headerNavLinkClass(active, embedded)}
+            >
+              {item.label}
+            </Link>
+          </div>
         );
       })}
     </nav>

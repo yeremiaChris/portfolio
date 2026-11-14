@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 const headerBarChromeTransitionBase =
   "transition-[background-color,box-shadow,backdrop-filter] duration-500 ease-out";
 
-export const headerBarChromeTransitionClass = (compact: boolean) =>
-  cn(headerBarChromeTransitionBase, compact ? "delay-[150ms]" : "delay-0");
+export const headerBarChromeTransitionClass = () =>
+  cn(headerBarChromeTransitionBase, "delay-[150ms]");
 
 export const headerBarExpandedClass = () =>
   cn(

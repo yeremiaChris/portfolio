@@ -34,7 +34,7 @@ function HeaderBarLayout() {
         ref={barRef}
         data-flip-bar=""
         className={cn(
-          headerBarChromeTransitionClass(compact),
+          headerBarChromeTransitionClass(),
           compact ? headerBarCompactClass() : headerBarExpandedClass(),
         )}
         style={{ borderRadius: 9999 }}

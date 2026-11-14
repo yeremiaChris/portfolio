@@ -30,7 +30,7 @@ export function HeaderCompactProvider({ children }: { children: ReactNode }) {
     setCompact((current) => {
       const next = resolveHeaderCompact(value, current);
       if (next !== current) {
-        captureHeaderFlipFirstRects(next);
+        captureHeaderFlipFirstRects();
       }
       return next;
     });

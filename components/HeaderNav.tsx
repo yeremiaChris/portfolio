@@ -3,39 +3,81 @@
 import Link from "next/link";
 import { m, useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
+import { useLayoutEffect, useRef, useState } from "react";
 
+import { useHeaderCompact } from "@/components/motion/HeaderCompactContext";
 import {
   headerNavIndicatorClass,
   headerNavLinkClass,
-  headerNavPillClass,
 } from "@/lib/header-nav-styles";
-import { motionHeaderMorphSpring } from "@/lib/motion-tokens";
+import { motionHeaderBackdropTransition } from "@/lib/header-backdrop-motion";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
-import { cn } from "@/lib/utils";
 
-const navIndicatorLayoutId = "header-nav-indicator";
-
-type HeaderNavProps = {
-  embedded?: boolean;
+type IndicatorBox = {
+  x: number;
+  width: number;
+  visible: boolean;
 };
 
-export function HeaderNav({ embedded = false }: HeaderNavProps) {
+const hiddenIndicator: IndicatorBox = { x: 0, width: 0, visible: false };
+
+export function HeaderNav() {
   const pathname = usePathname();
+  const compact = useHeaderCompact();
   const reducedMotion = useReducedMotion();
-  const morphTransition = reducedMotion
-    ? { duration: 0 }
-    : motionHeaderMorphSpring;
+  const navRef = useRef<HTMLElement>(null);
+  const [indicator, setIndicator] = useState<IndicatorBox>(hiddenIndicator);
+  const indicatorTransition = motionHeaderBackdropTransition(!!reducedMotion);
+
+  useLayoutEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const measure = () => {
+      const activeLink = nav.querySelector<HTMLElement>(
+        '[aria-current="page"]',
+      );
+      if (!activeLink) {
+        setIndicator(hiddenIndicator);
+        return;
+      }
+      const navRect = nav.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      setIndicator({
+        x: linkRect.left - navRect.left,
+        width: linkRect.width,
+        visible: true,
+      });
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(nav);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [pathname, compact]);
 
   return (
-    <m.nav
-      layout={embedded ? "position" : true}
+    <nav
+      ref={navRef}
       aria-label="Primary"
-      className={cn(
-        "pointer-events-auto hidden items-center gap-0.5 lg:flex",
-        embedded ? "p-0" : cn(headerNavPillClass(), "lg:justify-self-center"),
-      )}
-      transition={morphTransition}
+      className="relative hidden items-center gap-0.5 lg:flex"
     >
+      <m.span
+        aria-hidden
+        className={headerNavIndicatorClass}
+        initial={false}
+        animate={{
+          x: indicator.x,
+          width: indicator.width,
+          opacity: indicator.visible ? 1 : 0,
+        }}
+        transition={indicatorTransition}
+      />
       {HEADER_NAV.map((item) => {
         const active = isNavActive(pathname, item.href);
         return (
@@ -45,19 +87,10 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
             aria-current={active ? "page" : undefined}
             className={headerNavLinkClass(active)}
           >
-            {active ? (
-              <m.span
-                layoutId={navIndicatorLayoutId}
-                className={headerNavIndicatorClass}
-                transition={morphTransition}
-              />
-            ) : null}
-            <m.span layout="position" className="relative z-10">
-              {item.label}
-            </m.span>
+            {item.label}
           </Link>
         );
       })}
-    </m.nav>
+    </nav>
   );
 }

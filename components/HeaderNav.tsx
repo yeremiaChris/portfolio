@@ -9,7 +9,7 @@ import {
   headerNavLinkClass,
   headerNavPillClass,
 } from "@/lib/header-nav-styles";
-import { motionSpring } from "@/lib/motion-tokens";
+import { motionHeaderMorphSpring } from "@/lib/motion-tokens";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +22,9 @@ type HeaderNavProps = {
 export function HeaderNav({ embedded = false }: HeaderNavProps) {
   const pathname = usePathname();
   const reducedMotion = useReducedMotion();
-  const indicatorTransition = reducedMotion ? { duration: 0 } : motionSpring;
+  const morphTransition = reducedMotion
+    ? { duration: 0 }
+    : motionHeaderMorphSpring;
 
   return (
     <m.nav
@@ -32,7 +34,7 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
         "pointer-events-auto hidden items-center gap-0.5 lg:flex",
         embedded ? "p-0" : cn(headerNavPillClass(), "lg:justify-self-center"),
       )}
-      transition={indicatorTransition}
+      transition={morphTransition}
     >
       {HEADER_NAV.map((item) => {
         const active = isNavActive(pathname, item.href);
@@ -47,7 +49,7 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
               <m.span
                 layoutId={navIndicatorLayoutId}
                 className={headerNavIndicatorClass}
-                transition={indicatorTransition}
+                transition={morphTransition}
               />
             ) : null}
             <m.span layout="position" className="relative z-10">

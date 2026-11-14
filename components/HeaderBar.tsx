@@ -13,19 +13,22 @@ import {
 } from "@/components/motion/HeaderCompactContext";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { headerShellCompactClass } from "@/lib/header-nav-styles";
-import { motionSpring } from "@/lib/motion-tokens";
+import { motionHeaderMorphSpring } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
 function HeaderBarLayout() {
   const compact = useHeaderCompact();
   const reducedMotion = useReducedMotion();
-  const layoutTransition = reducedMotion ? { duration: 0 } : motionSpring;
+  const layoutTransition = reducedMotion
+    ? { duration: 0 }
+    : motionHeaderMorphSpring;
 
   return (
     <Container className="flex h-[var(--nav-height)] items-center justify-center">
       <LayoutGroup id="header-layout">
         <m.div
           layout
+          layoutRoot
           transition={layoutTransition}
           className={cn(
             "pointer-events-auto w-full items-center gap-2 sm:gap-3",

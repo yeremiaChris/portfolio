@@ -19,6 +19,13 @@ export const motionSpring = {
   mass: 1,
 };
 
+export const motionHeaderMorphSpring = {
+  type: "spring" as const,
+  stiffness: 300,
+  damping: 32,
+  mass: 1,
+};
+
 export const motionHeroScrollCue = {
   duration: 1.4,
   ease: motionEase,

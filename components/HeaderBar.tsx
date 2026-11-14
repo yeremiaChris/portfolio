@@ -15,7 +15,10 @@ import {
 } from "@/components/motion/HeaderCompactContext";
 import { useHeaderBarFlip } from "@/components/motion/useHeaderBarFlip";
 import { buttonVariants } from "@/components/ui/button-variants";
-import { headerLogoDomainClass } from "@/lib/header-availability-badge";
+import {
+  headerLogoDomainClass,
+  headerLogoMarkClass,
+} from "@/lib/header-availability-badge";
 import {
   headerBarChromeTransitionClass,
   headerBarCompactClass,
@@ -49,10 +52,7 @@ function HeaderBarLayout() {
             href="/"
             className="focus-ring flex h-8 items-center gap-3 rounded-md outline-none"
           >
-            <span
-              data-flip-item=""
-              className="text-primary h-[17px] shrink-0 text-[13px] leading-none font-bold tracking-tight"
-            >
+            <span data-flip-item="" className={headerLogoMarkClass()}>
               {"<YC />"}
             </span>
             <span data-flip-item="" className={headerLogoDomainClass()}>

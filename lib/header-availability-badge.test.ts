@@ -8,6 +8,7 @@ import {
   headerAvailabilityBadgeShellClass,
   headerAvailabilityBadgeUsesSrOnly,
   headerLogoDomainClass,
+  headerLogoMarkClass,
 } from "./header-availability-badge";
 
 describe("header availability badge", () => {
@@ -41,8 +42,17 @@ describe("header availability badge", () => {
 
   it("keeps the logo domain visible in compact mode", () => {
     const domainClass = headerLogoDomainClass();
-    expect(domainClass).toContain("sm:inline-block");
+    expect(domainClass).toContain("sm:inline-flex");
     expect(domainClass).not.toContain("!hidden");
+  });
+
+  it("aligns the logo mark in the same h-8 row as header controls", () => {
+    const markClass = headerLogoMarkClass();
+    expect(markClass).toContain("inline-flex");
+    expect(markClass).toContain("h-8");
+    expect(markClass).toContain("items-center");
+    expect(markClass).toContain("font-mono");
+    expect(markClass).toContain("text-box-trim:trim-both");
   });
 
   it("disables morph transitions under reduced motion", () => {

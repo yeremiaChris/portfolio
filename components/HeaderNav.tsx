@@ -1,21 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { m } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
 
-import { buttonVariants } from "@/components/ui/button-variants";
+import { useHeaderCompact } from "@/components/motion/HeaderCompactContext";
+import {
+  headerNavIndicatorClass,
+  headerNavLinkClass,
+  headerNavPillClass,
+} from "@/lib/header-nav-styles";
 import { motionSpring } from "@/lib/motion-tokens";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
-import { cn } from "@/lib/utils";
 
 const navIndicatorLayoutId = "header-nav-indicator";
 
 export function HeaderNav() {
   const pathname = usePathname();
+  const compact = useHeaderCompact();
+  const reducedMotion = useReducedMotion();
+  const indicatorTransition = reducedMotion ? { duration: 0 } : motionSpring;
+  const pillTransition = reducedMotion ? { duration: 0 } : motionSpring;
 
   return (
-    <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
+    <m.nav
+      layout
+      aria-label="Primary"
+      className={`pointer-events-auto hidden lg:flex ${headerNavPillClass(compact)}`}
+      transition={pillTransition}
+    >
       {HEADER_NAV.map((item) => {
         const active = isNavActive(pathname, item.href);
         return (
@@ -23,24 +36,19 @@ export function HeaderNav() {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={cn(
-              buttonVariants({ variant: "ghost", size: "sm" }),
-              "text-[13px]",
-              "relative",
-              active && "text-foreground font-semibold",
-            )}
+            className={headerNavLinkClass(active)}
           >
             {active ? (
               <m.span
                 layoutId={navIndicatorLayoutId}
-                className="bg-brand-accent/18 ring-brand-accent/35 absolute inset-0 rounded-lg ring-1 ring-inset"
-                transition={motionSpring}
+                className={headerNavIndicatorClass}
+                transition={indicatorTransition}
               />
             ) : null}
             <span className="relative z-10">{item.label}</span>
           </Link>
         );
       })}
-    </nav>
+    </m.nav>
   );
 }

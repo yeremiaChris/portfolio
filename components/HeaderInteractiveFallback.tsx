@@ -10,12 +10,12 @@ export function HeaderInteractiveFallback() {
   return (
     <>
       <HeaderNavLinks />
-      <div className="flex items-center gap-2">
+      <div className="pointer-events-auto ml-auto flex items-center justify-end gap-2 lg:ml-0">
         <Link
           href="/#contact"
           className={cn(
             buttonVariants({ size: "sm" }),
-            "bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover hidden sm:inline-flex",
+            "focus-ring bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover hidden rounded-full sm:inline-flex",
           )}
         >
           Get in Touch

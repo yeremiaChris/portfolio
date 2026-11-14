@@ -286,11 +286,6 @@ html[data-intro="playing"] [data-intro-bar] {
   opacity: 1 !important;
 }
 
-.header-scroll-backdrop-static {
-  background-color: rgb(16 20 26 / 0.55);
-  border-color: rgb(223 226 235 / 0.2);
-}
-
 .border-gradient {
   position: relative;
   isolation: isolate;

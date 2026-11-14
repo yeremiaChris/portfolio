@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { HEADER_BAR_CHROME_DELAY_MS } from "./header-bar-flip";
 import {
   headerBarChromeTransitionClass,
   headerNavEmbeddedClass,
@@ -29,8 +30,10 @@ describe("headerNavLinksRowClass", () => {
     expect(headerNavIndicatorClass(true)).toContain("bg-white/[0.06]");
   });
 
-  it("delays bar chrome so morph leads scroll-up and scroll-down", () => {
-    expect(headerBarChromeTransitionClass()).toContain("delay-[150ms]");
+  it("reverses chrome timing: compact delayed, expand immediate", () => {
+    expect(HEADER_BAR_CHROME_DELAY_MS).toBe(150);
+    expect(headerBarChromeTransitionClass(true)).toContain("delay-[150ms]");
+    expect(headerBarChromeTransitionClass(false)).toContain("delay-0");
     expect(headerNavEmbeddedClass()).toContain("delay-[150ms]");
   });
 });

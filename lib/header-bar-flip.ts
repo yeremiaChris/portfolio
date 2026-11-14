@@ -12,26 +12,45 @@ export function captureFlipRects(
   return rects;
 }
 
+function isHeaderFlipAnimation(anim: Animation): boolean {
+  const effect = anim.effect;
+  if (
+    !effect ||
+    !("getKeyframes" in effect) ||
+    typeof effect.getKeyframes !== "function"
+  ) {
+    return false;
+  }
+  const keyframes = effect.getKeyframes() as Keyframe[];
+  if (!keyframes.some((frame) => frame.transform !== undefined)) return false;
+  const timing = effect.getTiming();
+  return timing.duration === HEADER_FLIP_DURATION_MS;
+}
+
+export function hasActiveHeaderFlipAnimation(element: HTMLElement): boolean {
+  if (typeof element.getAnimations !== "function") return false;
+
+  for (const anim of element.getAnimations()) {
+    if (anim.playState === "finished" || anim.playState === "idle") continue;
+    if (!isHeaderFlipAnimation(anim)) continue;
+    return true;
+  }
+
+  return false;
+}
+
 export function settleFlipAnimations(element: HTMLElement): void {
   if (typeof element.getAnimations !== "function") return;
 
   for (const anim of element.getAnimations()) {
-    const effect = anim.effect;
-    if (
-      !effect ||
-      !("getKeyframes" in effect) ||
-      typeof effect.getKeyframes !== "function"
-    ) {
-      continue;
-    }
-    const keyframes = effect.getKeyframes() as Keyframe[];
-    if (!keyframes.some((frame) => frame.transform !== undefined)) continue;
+    if (!isHeaderFlipAnimation(anim)) continue;
+    if (anim.playState !== "running" && anim.playState !== "paused") continue;
     anim.commitStyles();
     anim.cancel();
   }
 }
 
-function playHeaderBarFlip(
+export function playHeaderBarFlip(
   elements: HTMLElement[],
   firstRects: Map<Element, DOMRect>,
 ): Animation[] {
@@ -69,14 +88,21 @@ function playHeaderBarFlip(
   return animations;
 }
 
-export function runHeaderBarFlip(elements: HTMLElement[]): Animation[] {
-  for (const element of elements) {
-    settleFlipAnimations(element);
-  }
+export function runHeaderBarFlip(
+  elements: HTMLElement[],
+  firstRects: Map<Element, DOMRect>,
+): Animation[] {
+  const interrupted = elements.some(hasActiveHeaderFlipAnimation);
 
-  const firstRects = captureFlipRects(elements);
-  for (const element of elements) {
-    element.style.transform = "";
+  if (interrupted) {
+    for (const element of elements) {
+      settleFlipAnimations(element);
+    }
+    const visualFirst = captureFlipRects(elements);
+    for (const element of elements) {
+      element.style.transform = "";
+    }
+    return playHeaderBarFlip(elements, visualFirst);
   }
 
   return playHeaderBarFlip(elements, firstRects);

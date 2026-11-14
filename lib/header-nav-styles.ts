@@ -14,10 +14,10 @@ export const headerBarExpandedClass = () =>
 
 export const headerBarCompactClass = () =>
   cn(
-    "pointer-events-auto mx-auto flex h-11 min-h-11 max-h-11 w-max max-w-full flex-row flex-nowrap items-center justify-start gap-2 rounded-full",
-    "bg-[rgb(22_27_34/0.9)] px-3 py-1 backdrop-blur-[14px]",
+    "pointer-events-auto flex h-11 min-h-11 max-h-11 w-full max-w-full flex-row flex-nowrap items-center justify-between rounded-full",
+    "bg-[rgb(22_27_34/0.9)] py-1 pr-1 pl-3.5 backdrop-blur-[14px]",
     "shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06),0_12px_32px_-18px_rgb(0_0_0/0.45)]",
-    "min-[860px]:pl-4 min-[860px]:pr-1",
+    "min-[860px]:mx-auto min-[860px]:w-max min-[860px]:max-w-full min-[860px]:justify-start min-[860px]:gap-2 min-[860px]:pr-1 min-[860px]:pl-4",
   );
 
 export const headerNavLinksRowClass = () =>

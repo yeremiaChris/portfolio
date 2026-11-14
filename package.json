@@ -61,7 +61,6 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.4.3",
-    "@playwright/test": "1.51.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^22.20.2",

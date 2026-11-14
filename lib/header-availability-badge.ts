@@ -42,5 +42,17 @@ export function headerAvailabilityBadgeUsesSrOnly(compact: boolean): boolean {
   return compact;
 }
 
+const headerLogoTextTrimClass =
+  "[text-box-trim:trim-both] [text-box-edge:cap_alphabetic]";
+
+export const headerLogoMarkClass = () =>
+  cn(
+    "text-primary font-mono inline-flex h-8 max-h-8 min-h-8 shrink-0 items-center justify-center text-[13px] leading-none font-bold tracking-tight",
+    headerLogoTextTrimClass,
+  );
+
 export const headerLogoDomainClass = () =>
-  "font-heading text-foreground hidden h-[17px] shrink-0 leading-none font-semibold tracking-tight whitespace-nowrap sm:inline-block";
+  cn(
+    "font-heading text-foreground hidden h-8 max-h-8 shrink-0 items-center leading-none font-semibold tracking-tight whitespace-nowrap sm:inline-flex",
+    headerLogoTextTrimClass,
+  );

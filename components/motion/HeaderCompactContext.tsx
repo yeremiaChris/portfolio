@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 
+import { captureHeaderFlipFirstRects } from "@/lib/header-flip-snapshot";
 import { resolveHeaderCompact } from "@/lib/header-compact";
 
 const HeaderCompactContext = createContext(false);
@@ -26,7 +27,13 @@ export function HeaderCompactProvider({ children }: { children: ReactNode }) {
   );
 
   useMotionValueEvent(scrollY, "change", (value) => {
-    setCompact((current) => resolveHeaderCompact(value, current));
+    setCompact((current) => {
+      const next = resolveHeaderCompact(value, current);
+      if (next !== current) {
+        captureHeaderFlipFirstRects();
+      }
+      return next;
+    });
   });
 
   const contextValue = useMemo(() => compact, [compact]);

@@ -12,6 +12,11 @@ export function captureFlipRects(
   return rects;
 }
 
+function forceLayoutRead(elements: HTMLElement[]): void {
+  const root = elements[0];
+  if (root) void root.offsetHeight;
+}
+
 function isHeaderFlipAnimation(anim: Animation): boolean {
   const effect = anim.effect;
   if (
@@ -50,10 +55,17 @@ export function settleFlipAnimations(element: HTMLElement): void {
   }
 }
 
+export function settleHeaderFlipTargets(elements: HTMLElement[]): void {
+  for (const element of elements) {
+    settleFlipAnimations(element);
+  }
+}
+
 export function playHeaderBarFlip(
   elements: HTMLElement[],
   firstRects: Map<Element, DOMRect>,
 ): Animation[] {
+  forceLayoutRead(elements);
   const animations: Animation[] = [];
 
   for (const element of elements) {
@@ -88,16 +100,26 @@ export function playHeaderBarFlip(
   return animations;
 }
 
+export type HeaderBarFlipOptions = {
+  preToggleFirst?: boolean;
+};
+
 export function runHeaderBarFlip(
   elements: HTMLElement[],
   firstRects: Map<Element, DOMRect>,
+  options?: HeaderBarFlipOptions,
 ): Animation[] {
-  const interrupted = elements.some(hasActiveHeaderFlipAnimation);
+  const hasRunningFlip = elements.some(hasActiveHeaderFlipAnimation);
 
-  if (interrupted) {
-    for (const element of elements) {
-      settleFlipAnimations(element);
+  if (options?.preToggleFirst) {
+    if (hasRunningFlip) {
+      settleHeaderFlipTargets(elements);
     }
+    return playHeaderBarFlip(elements, firstRects);
+  }
+
+  if (hasRunningFlip) {
+    settleHeaderFlipTargets(elements);
     const visualFirst = captureFlipRects(elements);
     for (const element of elements) {
       element.style.transform = "";

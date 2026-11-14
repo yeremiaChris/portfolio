@@ -157,7 +157,7 @@ describe("header-bar-flip", () => {
     el.animate = createSpy;
     el.getAnimations = vi.fn(() => [runningAnim as unknown as Animation]);
 
-    runHeaderBarFlip([el], captureFlipRects([el]));
+    runHeaderBarFlip([el], captureFlipRects([el]), { preToggleFirst: false });
 
     expect(runningAnim.commitStyles).toHaveBeenCalled();
     expect(createSpy).toHaveBeenCalledTimes(1);

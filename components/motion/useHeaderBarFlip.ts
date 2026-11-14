@@ -2,11 +2,11 @@
 
 import { type RefObject, useLayoutEffect, useRef } from "react";
 
+import { runHeaderBarFlip } from "@/lib/header-bar-flip";
 import {
-  captureFlipRects,
-  hasActiveHeaderFlipAnimation,
-  runHeaderBarFlip,
-} from "@/lib/header-bar-flip";
+  consumeHeaderFlipFirstRects,
+  registerHeaderFlipBar,
+} from "@/lib/header-flip-snapshot";
 
 const FLIP_ITEM_SELECTOR = "[data-flip-item]";
 
@@ -15,8 +15,12 @@ export function useHeaderBarFlip(
   compact: boolean,
   reducedMotion: boolean,
 ) {
-  const previousRectsRef = useRef<Map<Element, DOMRect> | null>(null);
   const compactRef = useRef(compact);
+
+  useLayoutEffect(() => {
+    registerHeaderFlipBar(barRef.current);
+    return () => registerHeaderFlipBar(null);
+  }, [barRef]);
 
   useLayoutEffect(() => {
     const bar = barRef.current;
@@ -28,24 +32,13 @@ export function useHeaderBarFlip(
 
     const compactChanged = compactRef.current !== compact;
 
-    if (
-      !reducedMotion &&
-      previousRectsRef.current &&
-      compactChanged &&
-      items.length > 0
-    ) {
-      runHeaderBarFlip(items, previousRectsRef.current);
+    if (!reducedMotion && compactChanged && items.length > 0) {
+      const firstRects = consumeHeaderFlipFirstRects();
+      if (firstRects) {
+        runHeaderBarFlip(items, firstRects, { preToggleFirst: true });
+      }
     }
 
     compactRef.current = compact;
-
-    if (reducedMotion) {
-      previousRectsRef.current = null;
-      return;
-    }
-
-    if (!items.some(hasActiveHeaderFlipAnimation)) {
-      previousRectsRef.current = captureFlipRects(items);
-    }
   }, [barRef, compact, reducedMotion]);
 }

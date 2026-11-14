@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { m, useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
 
 import { buttonVariants } from "@/components/ui/button-variants";
@@ -11,6 +12,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { motionEase, motionStaggerGap } from "@/lib/motion-tokens";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +26,10 @@ export function HeaderMobileSheet({
   onOpenChange,
 }: HeaderMobileSheetProps) {
   const pathname = usePathname();
+  const reducedMotion = useReducedMotion();
+  const itemTransition = reducedMotion
+    ? { duration: 0 }
+    : { duration: 0.28, ease: motionEase };
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -31,44 +37,81 @@ export function HeaderMobileSheet({
         <SheetHeader>
           <SheetTitle className="text-primary">{"<YC />"}</SheetTitle>
         </SheetHeader>
-        <nav aria-label="Mobile" className="flex flex-col gap-1 px-4 pb-4">
-          {HEADER_NAV.map((item) => {
+        <m.nav
+          aria-label="Mobile"
+          className="flex flex-col gap-1 px-4 pb-4"
+          initial={false}
+          animate={open ? "open" : "closed"}
+          variants={{
+            open: {
+              transition: {
+                staggerChildren: reducedMotion ? 0 : motionStaggerGap,
+              },
+            },
+            closed: {},
+          }}
+        >
+          {HEADER_NAV.map((item, index) => {
             const active = isNavActive(pathname, item.href);
             return (
-              <SheetClose
+              <m.div
                 key={item.href}
-                nativeButton={false}
-                render={
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={cn(
-                      buttonVariants({ variant: "ghost" }),
-                      "focus-ring justify-start outline-none",
-                      active && "bg-secondary font-semibold",
-                    )}
-                  />
-                }
+                variants={{
+                  open: { opacity: 1, x: 0, transition: itemTransition },
+                  closed: {
+                    opacity: reducedMotion ? 1 : 0,
+                    x: reducedMotion ? 0 : 10,
+                    transition: itemTransition,
+                  },
+                }}
+                custom={index}
               >
-                {item.label}
-              </SheetClose>
+                <SheetClose
+                  nativeButton={false}
+                  render={
+                    <Link
+                      href={item.href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        buttonVariants({ variant: "ghost" }),
+                        "focus-ring justify-start rounded-lg outline-none",
+                        active &&
+                          "bg-brand-accent/12 text-foreground font-semibold",
+                      )}
+                    />
+                  }
+                >
+                  {item.label}
+                </SheetClose>
+              </m.div>
             );
           })}
-          <SheetClose
-            nativeButton={false}
-            render={
-              <Link
-                href="/#contact"
-                className={cn(
-                  buttonVariants({ variant: "default" }),
-                  "focus-ring bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover mt-2 justify-start outline-none",
-                )}
-              />
-            }
+          <m.div
+            variants={{
+              open: { opacity: 1, x: 0, transition: itemTransition },
+              closed: {
+                opacity: reducedMotion ? 1 : 0,
+                x: reducedMotion ? 0 : 10,
+                transition: itemTransition,
+              },
+            }}
           >
-            Get in Touch
-          </SheetClose>
-        </nav>
+            <SheetClose
+              nativeButton={false}
+              render={
+                <Link
+                  href="/#contact"
+                  className={cn(
+                    buttonVariants({ variant: "default" }),
+                    "focus-ring bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover mt-2 justify-start rounded-lg outline-none",
+                  )}
+                />
+              }
+            >
+              Get in Touch
+            </SheetClose>
+          </m.div>
+        </m.nav>
       </SheetContent>
     </Sheet>
   );

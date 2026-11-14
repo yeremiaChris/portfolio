@@ -2,7 +2,7 @@ export const motionKeffiExpoOut = [0.19, 1, 0.22, 1] as const;
 
 export const motionKeffiPower2Out = [0.5, 1, 0.89, 1] as const;
 
-export const motionKeffiBarCssDurationMs = 500;
+export const motionKeffiBarChromeDurationS = 0.8;
 
 export const motionHeaderFlipTransition = (reducedMotion: boolean) =>
   reducedMotion

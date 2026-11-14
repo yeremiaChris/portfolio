@@ -1,15 +1,18 @@
 import { describe, expect, it } from "vitest";
 
-import { headerShellMotionStyle } from "./header-shell-style";
+import { headerShellBackdropStyle } from "./header-shell-style";
 
-describe("headerShellMotionStyle", () => {
-  it("keeps layout radius stable for motion scale correction", () => {
-    expect(headerShellMotionStyle(false).borderRadius).toBe(9999);
-    expect(headerShellMotionStyle(true).borderRadius).toBe(9999);
+describe("headerShellBackdropStyle", () => {
+  it("stays invisible when expanded", () => {
+    const style = headerShellBackdropStyle(false);
+    expect(style.backgroundColor).toBe("rgb(22 27 34 / 0)");
+    expect(style.boxShadow).toBe("none");
   });
 
-  it("reveals shell border only in compact state", () => {
-    expect(headerShellMotionStyle(false).borderWidth).toBe(0);
-    expect(headerShellMotionStyle(true).borderWidth).toBe(1);
+  it("uses a borderless translucent pill when compact", () => {
+    const style = headerShellBackdropStyle(true);
+    expect(style.backgroundColor).toBe("rgb(22 27 34 / 0.82)");
+    expect(style.backdropFilter).toBe("blur(14px)");
+    expect(style.borderRadius).toBe(9999);
   });
 });

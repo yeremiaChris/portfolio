@@ -76,7 +76,7 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
       aria-label="Primary"
       className={cn(
         "relative flex h-8 shrink-0 items-center gap-0.5 whitespace-nowrap",
-        "transition-[background,box-shadow] duration-500 ease-out",
+        "transition-[background,opacity] duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)]",
         embedded
           ? "bg-transparent p-0 shadow-none backdrop-blur-none"
           : headerNavPillClass(),

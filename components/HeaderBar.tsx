@@ -13,16 +13,14 @@ import {
 } from "@/components/motion/HeaderCompactContext";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { motionHeaderFlipTransition } from "@/lib/keffi-header-motion";
-import { headerShellMotionStyle } from "@/lib/header-shell-style";
 import { cn } from "@/lib/utils";
 
 function HeaderBarLayout() {
   const compact = useHeaderCompact();
   const reducedMotion = useReducedMotion();
   const flipTransition = motionHeaderFlipTransition(!!reducedMotion);
-
   return (
-    <Container className="flex h-[var(--nav-height)] items-center justify-center">
+    <Container className="flex h-[var(--nav-height)] items-center">
       <LayoutGroup id="header-layout">
         <m.div
           layout
@@ -30,78 +28,100 @@ function HeaderBarLayout() {
           layoutDependency={compact}
           transition={flipTransition}
           className={cn(
-            "pointer-events-auto h-11 items-center rounded-full",
-            "transition-[background-color,box-shadow,backdrop-filter] duration-500 ease-out",
-            compact
-              ? "bg-card/90 mx-auto flex w-full max-w-full justify-between gap-1 px-3.5 shadow-[inset_0_0_0_1px_rgb(223_226_235/0.35),0_12px_32px_-18px_rgb(0_0_0/0.5)] backdrop-blur-[14px] sm:w-max sm:justify-start sm:pr-1 sm:pl-4"
-              : "grid w-full grid-cols-[1fr_auto_1fr] bg-transparent shadow-none backdrop-blur-none",
+            "pointer-events-auto relative h-11 w-full",
+            compact && "px-1 sm:px-1.5",
           )}
-          style={headerShellMotionStyle(compact)}
         >
           <m.div
-            layout="position"
-            className="flex h-8 min-w-0 shrink-0 items-center gap-3 whitespace-nowrap sm:gap-4 lg:justify-self-start"
-          >
-            <Link
-              href="/"
-              className="focus-ring flex h-8 items-center gap-3 rounded-md outline-none"
-            >
-              <m.span
-                layout="position"
-                className="text-primary h-[17px] shrink-0 text-[13px] leading-none font-bold tracking-tight"
-              >
-                {"<YC />"}
-              </m.span>
-              <m.span
-                layout="position"
-                className={cn(
-                  "font-heading text-foreground hidden h-[17px] shrink-0 leading-none font-semibold tracking-tight whitespace-nowrap sm:inline-block",
-                  compact && "!hidden",
-                )}
-              >
-                yeremiachris.com
-              </m.span>
-            </Link>
-
-            {!compact ? (
-              <m.span
-                layout="position"
-                className="bg-muted text-primary border-border/25 hidden h-8 shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-medium tracking-[0.08em] whitespace-nowrap uppercase xl:inline-flex"
-              >
-                <span className="bg-status-available size-2 shrink-0 rounded-full" />
-                Available for work
-              </m.span>
-            ) : null}
-          </m.div>
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -z-10 rounded-full"
+            initial={false}
+            animate={{
+              opacity: compact ? 1 : 0,
+              backgroundColor: compact
+                ? "rgb(22 27 34 / 0.82)"
+                : "rgb(22 27 34 / 0)",
+              boxShadow: compact
+                ? "0 12px 40px -16px rgb(0 0 0 / 0.5)"
+                : "0 0 0 rgb(0 0 0 / 0)",
+            }}
+            transition={flipTransition}
+            style={{
+              borderRadius: 9999,
+              backdropFilter: compact ? "blur(14px)" : "blur(0px)",
+              WebkitBackdropFilter: compact ? "blur(14px)" : "blur(0px)",
+            }}
+          />
 
           <m.div
             layout="position"
-            className="hidden h-8 shrink-0 items-center lg:flex lg:justify-self-center"
+            className="absolute top-1/2 left-1/2 z-20 hidden -translate-x-1/2 -translate-y-1/2 lg:block"
           >
             <HeaderNav embedded={compact} />
           </m.div>
 
           <m.div
             layout="position"
-            className="flex h-8 shrink-0 items-center justify-end gap-2 whitespace-nowrap lg:justify-self-end"
+            className="relative flex h-11 w-full items-center"
           >
-            <m.div layout="position" className="shrink-0">
+            <m.div
+              layout="position"
+              className="flex min-w-0 flex-1 items-center justify-start gap-3 whitespace-nowrap sm:gap-4"
+            >
               <Link
-                href="/#contact"
-                className={cn(
-                  buttonVariants({ size: "sm" }),
-                  "focus-ring bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover hidden h-8 shrink-0 rounded-full whitespace-nowrap sm:inline-flex",
-                  compact && "px-3.5 py-1.5",
-                )}
+                href="/"
+                className="focus-ring flex h-8 items-center gap-3 rounded-md outline-none"
               >
-                Get in Touch
+                <m.span
+                  layout="position"
+                  className="text-primary h-[17px] shrink-0 text-[13px] leading-none font-bold tracking-tight"
+                >
+                  {"<YC />"}
+                </m.span>
+                <m.span
+                  layout="position"
+                  className={cn(
+                    "font-heading text-foreground hidden h-[17px] shrink-0 leading-none font-semibold tracking-tight whitespace-nowrap sm:inline-block",
+                    compact && "!hidden",
+                  )}
+                >
+                  yeremiachris.com
+                </m.span>
               </Link>
+
+              {!compact ? (
+                <m.span
+                  layout="position"
+                  className="text-muted-foreground bg-foreground/[0.06] hidden h-8 shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-medium tracking-[0.08em] whitespace-nowrap uppercase xl:inline-flex"
+                >
+                  <span className="bg-status-available size-2 shrink-0 rounded-full" />
+                  Available for work
+                </m.span>
+              ) : null}
             </m.div>
-            <m.div layout="position" className="shrink-0">
-              <HeaderResumeLink />
-            </m.div>
-            <m.div layout="position" className="shrink-0">
-              <HeaderMobileMenu />
+
+            <m.div
+              layout="position"
+              className="flex flex-1 items-center justify-end gap-2 whitespace-nowrap"
+            >
+              <m.div layout="position" className="shrink-0">
+                <Link
+                  href="/#contact"
+                  className={cn(
+                    buttonVariants({ size: "sm" }),
+                    "focus-ring bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover hidden h-8 shrink-0 rounded-full whitespace-nowrap sm:inline-flex",
+                    compact ? "px-3.5" : "px-4",
+                  )}
+                >
+                  Get in Touch
+                </Link>
+              </m.div>
+              <m.div layout="position" className="shrink-0">
+                <HeaderResumeLink />
+              </m.div>
+              <m.div layout="position" className="shrink-0">
+                <HeaderMobileMenu />
+              </m.div>
             </m.div>
           </m.div>
         </m.div>

@@ -25,7 +25,7 @@ function renderTokens(line: SnippetLine) {
 
 export function HeroCodeSnippetPreview() {
   return (
-    <div className="hero-code-snippet grid gap-y-0.5">
+    <div className="hero-code-snippet hero-code-snippet-preview grid gap-y-0.5">
       <p className="sr-only">{HERO_CODE_SNIPPET_ARIA_LABEL}</p>
       {HERO_CODE_LINES.map((line) => (
         <div

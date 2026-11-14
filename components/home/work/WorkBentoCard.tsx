@@ -26,7 +26,7 @@ export function WorkBentoCard({ card }: WorkBentoCardProps) {
           src={card.image}
           alt={card.imageAlt}
           fill
-          sizes="(max-width: 1024px) 100vw, 50vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 50vw"
           loading="lazy"
           className="object-cover object-top"
         />

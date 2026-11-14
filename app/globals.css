@@ -395,6 +395,30 @@ html[data-intro="playing"] [data-intro-bar] {
   isolation: isolate;
 }
 
+.hero-build-rotator-wrap:has(.hero-build-rotator-mounted)
+  .hero-build-rotator-fallback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hero-code-motion-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero-code-body:has([data-hero-code-motion-mounted])
+  .hero-code-snippet-preview {
+  visibility: hidden;
+}
+
 .hero-signal-atmosphere {
   contain: layout style paint;
   z-index: 0;

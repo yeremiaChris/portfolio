@@ -33,13 +33,13 @@ function HeroNameHeading({
     <h1
       id="hero-heading"
       className={cn(
-        "font-heading hero-name-display text-left font-bold tracking-[-0.045em] text-balance",
+        "font-heading hero-name-display text-left font-bold",
         "max-w-[18ch] sm:max-w-none",
         className,
       )}
     >
       <span className="sr-only">{site.fullName}</span>
-      <span aria-hidden className="inline">
+      <span aria-hidden className="inline md:whitespace-nowrap">
         <span className="hero-name-yeremia">{nameBeforeLast}</span>
         <span
           className={cn(

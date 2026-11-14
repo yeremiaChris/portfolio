@@ -1,4 +1,6 @@
+import { HeroBuildRotatorFallback } from "@/components/home/HeroBuildRotatorFallback";
 import { HeroBuildRotatorSlot } from "@/components/home/HeroBuildRotatorSlot";
+import { HeroCodeSnippetMotionSlot } from "@/components/home/HeroCodeSnippetMotionSlot";
 import { HeroEyebrow } from "@/components/home/HeroEyebrow";
 import { HeroHeadlineCopy } from "@/components/home/HeroHeadlineCopy";
 import { HeroHeadlineRoot } from "@/components/home/HeroHeadlineRoot";
@@ -8,7 +10,7 @@ import {
   HeroReadyAttribute,
   HeroReadyProvider,
 } from "@/components/home/HeroReady";
-import { HeroVisualSlot } from "@/components/home/HeroVisualSlot";
+import { HeroVisualShell } from "@/components/home/HeroVisualShell";
 
 export function HeroFold() {
   return (
@@ -19,10 +21,13 @@ export function HeroFold() {
           <HeroEyebrow />
           <HeroNameRevealBridge />
           <HeroStatusPill />
-          <HeroBuildRotatorSlot />
+          <div className="hero-build-rotator-wrap relative grid">
+            <HeroBuildRotatorFallback className="hero-build-rotator-fallback col-start-1 row-start-1" />
+            <HeroBuildRotatorSlot className="col-start-1 row-start-1" />
+          </div>
           <HeroHeadlineCopy />
         </HeroHeadlineRoot>
-        <HeroVisualSlot />
+        <HeroVisualShell motionSlot={<HeroCodeSnippetMotionSlot />} />
       </div>
     </HeroReadyProvider>
   );

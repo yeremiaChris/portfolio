@@ -1,9 +1,15 @@
+import type { ReactNode } from "react";
+
 import { HeroCodeSnippetPreview } from "@/components/home/HeroCodeSnippetPreview";
 import { HeroTerminalLiveStatus } from "@/components/home/HeroTerminalLiveStatus";
 import { heroCodeBodyMinHeight } from "@/lib/hero-code-lines";
 import { homeSignalTerminalShellClassName } from "@/lib/home-signal-card";
 
-export function HeroVisualShell() {
+type HeroVisualShellProps = {
+  motionSlot?: ReactNode;
+};
+
+export function HeroVisualShell({ motionSlot }: HeroVisualShellProps) {
   return (
     <div className="flex w-full min-w-0 justify-center xl:justify-end xl:self-center">
       <div className="hero-code-stage relative w-full max-w-[min(420px,100%)]">
@@ -24,7 +30,10 @@ export function HeroVisualShell() {
               className="hero-code-body relative px-3 py-3.5 sm:px-4 sm:py-4"
               style={{ minHeight: heroCodeBodyMinHeight }}
             >
-              <HeroCodeSnippetPreview />
+              <div className="hero-code-snippet-stack grid">
+                <HeroCodeSnippetPreview className="col-start-1 row-start-1" />
+                {motionSlot}
+              </div>
             </div>
           </div>
         </div>

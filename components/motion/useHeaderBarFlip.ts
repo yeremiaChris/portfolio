@@ -4,11 +4,11 @@ import { type RefObject, useLayoutEffect, useRef } from "react";
 
 import { runHeaderBarFlip } from "@/lib/header-bar-flip";
 import {
+  collectHeaderFlipTargets,
+  consumeHeaderFlipCompactDirection,
   consumeHeaderFlipFirstRects,
   registerHeaderFlipBar,
 } from "@/lib/header-flip-snapshot";
-
-const FLIP_ITEM_SELECTOR = "[data-flip-item]";
 
 export function useHeaderBarFlip(
   barRef: RefObject<HTMLElement | null>,
@@ -26,16 +26,17 @@ export function useHeaderBarFlip(
     const bar = barRef.current;
     if (!bar) return;
 
-    const items = Array.from(bar.querySelectorAll(FLIP_ITEM_SELECTOR)).filter(
-      (element): element is HTMLElement => element instanceof HTMLElement,
-    );
-
+    const items = collectHeaderFlipTargets(bar);
     const compactChanged = compactRef.current !== compact;
 
     if (!reducedMotion && compactChanged && items.length > 0) {
       const firstRects = consumeHeaderFlipFirstRects();
+      const nextCompact = consumeHeaderFlipCompactDirection();
       if (firstRects) {
-        runHeaderBarFlip(items, firstRects, { preToggleFirst: true });
+        runHeaderBarFlip(items, firstRects, {
+          preToggleFirst: true,
+          expanding: nextCompact === false,
+        });
       }
     }
 

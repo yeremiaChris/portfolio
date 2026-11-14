@@ -17,6 +17,10 @@ function forceLayoutRead(elements: HTMLElement[]): void {
   if (root) void root.offsetHeight;
 }
 
+function isBarFlipContainer(element: HTMLElement): boolean {
+  return element.dataset.flipBar !== undefined;
+}
+
 function isHeaderFlipAnimation(anim: Animation): boolean {
   const effect = anim.effect;
   if (
@@ -27,7 +31,10 @@ function isHeaderFlipAnimation(anim: Animation): boolean {
     return false;
   }
   const keyframes = effect.getKeyframes() as Keyframe[];
-  if (!keyframes.some((frame) => frame.transform !== undefined)) return false;
+  const animatesFlip =
+    keyframes.some((frame) => frame.transform !== undefined) ||
+    keyframes.some((frame) => frame.width !== undefined);
+  if (!animatesFlip) return false;
   const timing = effect.getTiming();
   return timing.duration === HEADER_FLIP_DURATION_MS;
 }
@@ -75,11 +82,44 @@ export function playHeaderBarFlip(
     const last = element.getBoundingClientRect();
     const dx = first.left - last.left;
     const dy = first.top - last.top;
-    if (dx === 0 && dy === 0) continue;
+    const isBar = isBarFlipContainer(element);
+    const widthDelta = isBar ? first.width - last.width : 0;
+    if (dx === 0 && dy === 0 && widthDelta === 0) continue;
 
-    element.style.transform = `translate(${dx}px, ${dy}px)`;
     if (typeof element.animate !== "function") continue;
 
+    if (isBar && widthDelta !== 0) {
+      element.style.boxSizing = "border-box";
+      element.style.width = `${first.width}px`;
+      element.style.transform = `translate(${dx}px, ${dy}px)`;
+
+      const animation = element.animate(
+        [
+          {
+            width: `${first.width}px`,
+            transform: `translate(${dx}px, ${dy}px)`,
+          },
+          {
+            width: `${last.width}px`,
+            transform: "translate(0px, 0px)",
+          },
+        ],
+        {
+          duration: HEADER_FLIP_DURATION_MS,
+          easing: HEADER_FLIP_EASING,
+          fill: "both",
+        },
+      );
+      animation.onfinish = () => {
+        element.style.transform = "";
+        element.style.width = "";
+        element.style.boxSizing = "";
+      };
+      animations.push(animation);
+      continue;
+    }
+
+    element.style.transform = `translate(${dx}px, ${dy}px)`;
     const animation = element.animate(
       [
         { transform: `translate(${dx}px, ${dy}px)` },
@@ -102,6 +142,7 @@ export function playHeaderBarFlip(
 
 export type HeaderBarFlipOptions = {
   preToggleFirst?: boolean;
+  expanding?: boolean;
 };
 
 export function runHeaderBarFlip(
@@ -109,6 +150,7 @@ export function runHeaderBarFlip(
   firstRects: Map<Element, DOMRect>,
   options?: HeaderBarFlipOptions,
 ): Animation[] {
+  void options?.expanding;
   const hasRunningFlip = elements.some(hasActiveHeaderFlipAnimation);
 
   if (options?.preToggleFirst) {
@@ -123,6 +165,9 @@ export function runHeaderBarFlip(
     const visualFirst = captureFlipRects(elements);
     for (const element of elements) {
       element.style.transform = "";
+      if (isBarFlipContainer(element)) {
+        element.style.width = "";
+      }
     }
     return playHeaderBarFlip(elements, visualFirst);
   }

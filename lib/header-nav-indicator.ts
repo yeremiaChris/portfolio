@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 export type HeaderNavIndicatorBox = {
   x: number;
   width: number;
@@ -29,4 +31,19 @@ export function headerNavIndicatorBoxesEqual(
   b: HeaderNavIndicatorBox,
 ): boolean {
   return a.x === b.x && a.width === b.width && a.visible === b.visible;
+}
+
+export function buildHeaderNavIndicatorStyle(
+  indicator: HeaderNavIndicatorBox,
+): CSSProperties {
+  const x = Number.isFinite(indicator.x) ? indicator.x : 0;
+  const width = Number.isFinite(indicator.width)
+    ? Math.max(0, indicator.width)
+    : 0;
+
+  return {
+    transform: `translateX(${x}px)`,
+    width: `${width}px`,
+    opacity: indicator.visible ? 1 : 0,
+  };
 }

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildHeaderNavIndicatorBox,
+  buildHeaderNavIndicatorStyle,
   headerNavIndicatorBoxesEqual,
   hiddenHeaderNavIndicator,
 } from "./header-nav-indicator";
@@ -34,6 +35,18 @@ describe("buildHeaderNavIndicatorBox", () => {
     expect(
       headerNavIndicatorBoxesEqual(first!, second ?? hiddenHeaderNavIndicator),
     ).toBe(true);
+  });
+
+  it("never writes non-finite values into indicator inline styles", () => {
+    const polluted = buildHeaderNavIndicatorStyle({
+      x: Number.NaN,
+      width: Number.NaN,
+      visible: true,
+    });
+    const serialized = JSON.stringify(polluted);
+    expect(serialized).not.toContain("NaN");
+    expect(polluted.transform).toBe("translateX(0px)");
+    expect(polluted.width).toBe("0px");
   });
 
   it("bounds repeated measure calls to stable state updates", () => {

@@ -51,3 +51,16 @@ export const headerNavIndicatorClass = (embedded: boolean) =>
     "pointer-events-none absolute top-0 left-0 h-8 rounded-full",
     embedded ? "bg-white/[0.06]" : "bg-[rgb(76_215_246/0.08)]",
   );
+
+export const headerNavIndicatorTransitionClass = (
+  visible: boolean,
+  reducedMotion: boolean,
+) =>
+  cn(
+    "transition-[transform,width,opacity]",
+    reducedMotion
+      ? "motion-reduce:transition-none"
+      : visible
+        ? "duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
+        : "duration-400 ease-[cubic-bezier(0.5,1,0.89,1)]",
+  );

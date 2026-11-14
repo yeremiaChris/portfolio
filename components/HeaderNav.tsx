@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { m, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, useState } from "react";
 
@@ -9,18 +9,17 @@ import {
   headerNavEmbeddedClass,
   headerNavExpandedClass,
   headerNavIndicatorClass,
+  headerNavIndicatorTransitionClass,
   headerNavLinkClass,
 } from "@/lib/header-nav-styles";
+import { isElementRenderedForAnimation } from "@/lib/header-bar-flip";
 import {
   buildHeaderNavIndicatorBox,
+  buildHeaderNavIndicatorStyle,
   headerNavIndicatorBoxesEqual,
   hiddenHeaderNavIndicator,
   type HeaderNavIndicatorBox,
 } from "@/lib/header-nav-indicator";
-import {
-  motionHeaderNavIndicatorHideTransition,
-  motionHeaderNavIndicatorTransition,
-} from "@/lib/keffi-header-motion";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
@@ -42,6 +41,10 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
     if (!nav) return;
 
     const applyMeasure = () => {
+      if (!isElementRenderedForAnimation(nav)) {
+        return;
+      }
+
       const activeLink = nav.querySelector<HTMLElement>(
         '[aria-current="page"]',
       );
@@ -81,9 +84,6 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
     };
   }, [pathname, embedded]);
 
-  const indicatorX = Number.isFinite(indicator.x) ? indicator.x : 0;
-  const indicatorWidth = Number.isFinite(indicator.width) ? indicator.width : 0;
-
   return (
     <nav
       ref={navRef}
@@ -93,20 +93,13 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
         embedded ? headerNavEmbeddedClass() : headerNavExpandedClass(),
       )}
     >
-      <m.span
+      <span
         aria-hidden
-        className={headerNavIndicatorClass(embedded)}
-        initial={false}
-        animate={{
-          x: indicatorX,
-          width: indicatorWidth,
-          opacity: indicator.visible ? 1 : 0,
-        }}
-        transition={
-          indicator.visible
-            ? motionHeaderNavIndicatorTransition(!!reducedMotion)
-            : motionHeaderNavIndicatorHideTransition(!!reducedMotion)
-        }
+        className={cn(
+          headerNavIndicatorClass(embedded),
+          headerNavIndicatorTransitionClass(indicator.visible, !!reducedMotion),
+        )}
+        style={buildHeaderNavIndicatorStyle(indicator)}
       />
       {HEADER_NAV.map((item) => {
         const active = isNavActive(pathname, item.href);

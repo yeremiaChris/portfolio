@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import {
+  headerNavEmbeddedClass,
   headerNavIndicatorClass,
   headerNavLinkClass,
   headerNavPillClass,
@@ -74,12 +75,10 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
       layout="position"
       ref={navRef}
       aria-label="Primary"
+      data-flip-item=""
       className={cn(
-        "relative flex h-8 shrink-0 items-center gap-0.5 whitespace-nowrap",
-        "transition-[background,opacity] duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)]",
-        embedded
-          ? "bg-transparent p-0 shadow-none backdrop-blur-none"
-          : headerNavPillClass(),
+        "relative whitespace-nowrap",
+        embedded ? headerNavEmbeddedClass() : headerNavPillClass(),
       )}
       transition={flipTransition}
     >
@@ -104,6 +103,7 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
           <m.div
             key={item.href}
             layout="position"
+            data-flip-item=""
             className="relative shrink-0"
           >
             <Link

@@ -35,7 +35,7 @@ export function HeaderMobileMenu() {
         type="button"
         className={cn(
           buttonVariants({ variant: "ghost", size: "icon-sm" }),
-          "focus-ring lg:hidden",
+          "focus-ring min-[860px]:hidden",
         )}
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}

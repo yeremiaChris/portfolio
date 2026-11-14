@@ -16,9 +16,9 @@ describe("resolveHeaderCompact", () => {
     expect(resolveHeaderCompact(HEADER_COMPACT_ENTER_PX + 1, false)).toBe(true);
   });
 
-  it("holds compact between exit and enter thresholds", () => {
+  it("holds compact in the hysteresis band", () => {
     expect(resolveHeaderCompact(HEADER_COMPACT_EXIT_PX, true)).toBe(true);
-    expect(resolveHeaderCompact(52, true)).toBe(true);
+    expect(resolveHeaderCompact(58, true)).toBe(true);
   });
 
   it("exits compact below the exit threshold", () => {

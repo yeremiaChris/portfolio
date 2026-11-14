@@ -1,5 +1,5 @@
-export const HEADER_COMPACT_ENTER_PX = 64;
-export const HEADER_COMPACT_EXIT_PX = 40;
+export const HEADER_COMPACT_ENTER_PX = 60;
+export const HEADER_COMPACT_EXIT_PX = 56;
 
 export function resolveHeaderCompact(
   scrollY: number,

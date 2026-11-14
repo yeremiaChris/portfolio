@@ -19,7 +19,7 @@ export function HeaderResumeLink() {
       rel="noopener noreferrer"
       className={cn(
         buttonVariants({ variant: "ghost", size: "sm" }),
-        "focus-ring text-muted-foreground about-hide-header-resume rounded-full text-[13px]",
+        "focus-ring text-muted-foreground about-hide-header-resume inline-flex h-8 shrink-0 items-center rounded-full text-[13px] whitespace-nowrap",
       )}
     >
       CV.pdf

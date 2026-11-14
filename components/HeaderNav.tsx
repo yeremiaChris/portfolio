@@ -28,11 +28,11 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
 
   return (
     <m.nav
-      layout={embedded ? "position" : true}
+      layout="position"
       aria-label="Primary"
       className={cn(
-        "pointer-events-auto hidden items-center gap-0.5 lg:flex",
-        embedded ? "p-0" : cn(headerNavPillClass(), "lg:justify-self-center"),
+        "relative flex h-8 shrink-0 items-center gap-0.5 whitespace-nowrap",
+        embedded ? "p-0" : headerNavPillClass(),
       )}
       transition={morphTransition}
     >

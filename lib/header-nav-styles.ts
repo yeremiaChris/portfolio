@@ -2,17 +2,12 @@ import { cn } from "@/lib/utils";
 
 export const headerNavPillClass = () =>
   cn(
-    "w-max items-center gap-0.5 rounded-full border border-border/20 bg-muted/55 p-1",
-  );
-
-export const headerShellCompactClass = () =>
-  cn(
-    "border-border/35 bg-card/72 backdrop-blur-md border shadow-[0_8px_32px_rgb(0_0_0_/0.28)]",
+    "w-max shrink-0 items-center gap-0.5 rounded-full border border-border/20 bg-muted/55 p-1",
   );
 
 export const headerNavLinkClass = (active: boolean) =>
   cn(
-    "focus-ring text-muted-foreground hover:text-foreground hover:bg-foreground/6 relative inline-flex h-8 items-center justify-center rounded-full px-3 text-[13px] font-medium outline-none transition-colors duration-200 motion-reduce:transition-none",
+    "focus-ring text-muted-foreground hover:text-foreground hover:bg-foreground/6 relative inline-flex h-8 shrink-0 items-center justify-center whitespace-nowrap rounded-full px-3 text-[13px] font-medium outline-none transition-colors duration-200 motion-reduce:transition-none",
     active && "text-foreground font-semibold",
   );
 

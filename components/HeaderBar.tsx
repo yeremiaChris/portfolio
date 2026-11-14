@@ -12,14 +12,14 @@ import {
   useHeaderCompact,
 } from "@/components/motion/HeaderCompactContext";
 import { buttonVariants } from "@/components/ui/button-variants";
-import { headerShellCompactClass } from "@/lib/header-nav-styles";
+import { headerShellMotionStyle } from "@/lib/header-shell-style";
 import { motionHeaderMorphSpring } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 
 function HeaderBarLayout() {
   const compact = useHeaderCompact();
   const reducedMotion = useReducedMotion();
-  const layoutTransition = reducedMotion
+  const morphTransition = reducedMotion
     ? { duration: 0 }
     : motionHeaderMorphSpring;
 
@@ -29,36 +29,35 @@ function HeaderBarLayout() {
         <m.div
           layout
           layoutRoot
-          transition={layoutTransition}
+          layoutDependency={compact}
+          transition={morphTransition}
           className={cn(
-            "pointer-events-auto w-full items-center gap-2 sm:gap-3",
+            "pointer-events-auto flex h-11 w-full items-center",
             compact
-              ? cn(
-                  headerShellCompactClass(),
-                  "mx-auto flex w-[calc(100%-0.5rem)] max-w-full rounded-2xl p-1.5 sm:w-max sm:rounded-full sm:px-2",
-                )
-              : "grid grid-cols-[minmax(0,1fr)_auto] gap-3 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-4",
+              ? "mx-auto w-[calc(100%-0.5rem)] max-w-full justify-center gap-2 rounded-2xl px-2 sm:w-max sm:gap-3 sm:rounded-full sm:px-2"
+              : "justify-between gap-3 lg:gap-4",
           )}
+          style={headerShellMotionStyle(compact)}
         >
           <m.div
             layout="position"
-            className="flex min-w-0 items-center gap-3 sm:gap-4"
+            className="flex h-8 min-w-0 shrink-0 items-center gap-3 whitespace-nowrap sm:gap-4"
           >
             <Link
               href="/"
-              className="focus-ring flex items-center gap-3 rounded-md outline-none"
+              className="focus-ring flex h-8 items-center gap-3 rounded-md outline-none"
             >
               <m.span
                 layout="position"
-                className="text-primary text-[13px] font-bold tracking-tight"
+                className="text-primary shrink-0 text-[13px] font-bold tracking-tight"
               >
                 {"<YC />"}
               </m.span>
               <m.span
                 layout="position"
                 className={cn(
-                  "font-heading text-foreground font-semibold tracking-tight",
-                  compact ? "hidden" : "hidden sm:inline-block",
+                  "font-heading text-foreground hidden shrink-0 font-semibold tracking-tight whitespace-nowrap sm:inline-block",
+                  compact && "!hidden",
                 )}
               >
                 yeremiachris.com
@@ -68,7 +67,7 @@ function HeaderBarLayout() {
             {!compact ? (
               <m.span
                 layout="position"
-                className="bg-muted text-primary border-border/25 hidden items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-medium tracking-[0.08em] uppercase xl:inline-flex"
+                className="bg-muted text-primary border-border/25 hidden h-8 shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-medium tracking-[0.08em] whitespace-nowrap uppercase xl:inline-flex"
               >
                 <span className="bg-status-available size-2 shrink-0 rounded-full" />
                 Available for work
@@ -76,26 +75,32 @@ function HeaderBarLayout() {
             ) : null}
           </m.div>
 
-          <HeaderNav embedded={compact} />
+          <m.div
+            layout="position"
+            className="hidden h-8 shrink-0 items-center lg:flex"
+          >
+            <HeaderNav embedded={compact} />
+          </m.div>
 
           <m.div
             layout="position"
-            className={cn(
-              "flex items-center justify-end gap-2",
-              compact ? "" : "lg:ml-0",
-            )}
+            className="flex h-8 shrink-0 items-center justify-end gap-2 whitespace-nowrap"
           >
             <Link
               href="/#contact"
               className={cn(
                 buttonVariants({ size: "sm" }),
-                "focus-ring bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover hidden rounded-full sm:inline-flex",
+                "focus-ring bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent-hover hidden h-8 shrink-0 rounded-full whitespace-nowrap sm:inline-flex",
               )}
             >
               <m.span layout="position">Get in Touch</m.span>
             </Link>
-            <HeaderResumeLink />
-            <HeaderMobileMenu />
+            <m.div layout="position" className="shrink-0">
+              <HeaderResumeLink />
+            </m.div>
+            <m.div layout="position" className="shrink-0">
+              <HeaderMobileMenu />
+            </m.div>
           </m.div>
         </m.div>
       </LayoutGroup>

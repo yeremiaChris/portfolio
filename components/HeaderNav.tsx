@@ -7,9 +7,9 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 import {
   headerNavEmbeddedClass,
+  headerNavExpandedClass,
   headerNavIndicatorClass,
   headerNavLinkClass,
-  headerNavPillClass,
 } from "@/lib/header-nav-styles";
 import {
   motionHeaderNavIndicatorHideTransition,
@@ -73,11 +73,13 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
       ref={navRef}
       aria-label="Primary"
       data-flip-item=""
-      className={cn(embedded ? headerNavEmbeddedClass() : headerNavPillClass())}
+      className={cn(
+        embedded ? headerNavEmbeddedClass() : headerNavExpandedClass(),
+      )}
     >
       <m.span
         aria-hidden
-        className={headerNavIndicatorClass}
+        className={headerNavIndicatorClass(embedded)}
         initial={false}
         animate={{
           x: indicator.x,
@@ -97,7 +99,7 @@ export function HeaderNav({ embedded = false }: HeaderNavProps) {
             <Link
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={headerNavLinkClass(active)}
+              className={headerNavLinkClass(active, embedded)}
             >
               {item.label}
             </Link>

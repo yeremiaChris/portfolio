@@ -34,14 +34,14 @@ function HeaderBarLayout() {
         ref={barRef}
         data-flip-bar=""
         className={cn(
-          headerBarChromeTransitionClass,
+          headerBarChromeTransitionClass(),
           compact ? headerBarCompactClass() : headerBarExpandedClass(),
         )}
         style={{ borderRadius: 9999 }}
       >
         <div
           data-flip-item=""
-          className="flex h-8 max-h-8 min-h-8 min-w-0 items-center gap-3 justify-self-start whitespace-nowrap sm:gap-4"
+          className="flex h-8 max-h-8 min-h-8 min-w-0 items-center gap-2.5 justify-self-start whitespace-nowrap sm:gap-3"
         >
           <Link
             href="/"
@@ -81,7 +81,7 @@ function HeaderBarLayout() {
 
         <div
           data-flip-item=""
-          className="flex h-8 max-h-8 min-h-8 shrink-0 items-center gap-2 justify-self-end whitespace-nowrap"
+          className="flex h-8 max-h-8 min-h-8 shrink-0 items-center gap-2.5 justify-self-end whitespace-nowrap"
         >
           <Link
             data-flip-item=""

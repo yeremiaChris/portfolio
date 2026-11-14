@@ -2,7 +2,7 @@
 
 import { type RefObject, useLayoutEffect, useRef } from "react";
 
-import { captureFlipRects, runHeaderBarFlip } from "@/lib/header-bar-flip";
+import { runHeaderBarFlip } from "@/lib/header-bar-flip";
 
 const FLIP_ITEM_SELECTOR = "[data-flip-item]";
 
@@ -11,24 +11,20 @@ export function useHeaderBarFlip(
   compact: boolean,
   reducedMotion: boolean,
 ) {
-  const previousRectsRef = useRef<Map<Element, DOMRect> | null>(null);
   const compactRef = useRef(compact);
 
   useLayoutEffect(() => {
     const bar = barRef.current;
     if (!bar) return;
 
-    const items = Array.from(bar.querySelectorAll(FLIP_ITEM_SELECTOR));
+    const items = Array.from(bar.querySelectorAll(FLIP_ITEM_SELECTOR)).filter(
+      (element): element is HTMLElement => element instanceof HTMLElement,
+    );
 
-    if (
-      !reducedMotion &&
-      previousRectsRef.current &&
-      compactRef.current !== compact
-    ) {
-      runHeaderBarFlip(items, previousRectsRef.current);
+    if (!reducedMotion && compactRef.current !== compact && items.length > 0) {
+      runHeaderBarFlip(items);
     }
 
     compactRef.current = compact;
-    previousRectsRef.current = reducedMotion ? null : captureFlipRects(items);
   }, [barRef, compact, reducedMotion]);
 }

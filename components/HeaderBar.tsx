@@ -15,6 +15,7 @@ import {
 } from "@/components/motion/HeaderCompactContext";
 import { useHeaderBarFlip } from "@/components/motion/useHeaderBarFlip";
 import { buttonVariants } from "@/components/ui/button-variants";
+import { headerLogoDomainClass } from "@/lib/header-availability-badge";
 import {
   headerBarChromeTransitionClass,
   headerBarCompactClass,
@@ -54,13 +55,7 @@ function HeaderBarLayout() {
             >
               {"<YC />"}
             </span>
-            <span
-              data-flip-item=""
-              className={cn(
-                "font-heading text-foreground hidden h-[17px] shrink-0 leading-none font-semibold tracking-tight whitespace-nowrap sm:inline-block",
-                compact && "!hidden",
-              )}
-            >
+            <span data-flip-item="" className={headerLogoDomainClass()}>
               yeremiachris.com
             </span>
           </Link>

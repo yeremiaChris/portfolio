@@ -3,7 +3,10 @@
  */
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { runHeaderBarFlip } from "./header-bar-flip";
+import {
+  isElementRenderedForAnimation,
+  runHeaderBarFlip,
+} from "./header-bar-flip";
 import {
   captureHeaderFlipFirstRects,
   consumeHeaderFlipFirstRects,
@@ -24,14 +27,21 @@ function mockRect(left: number, top: number, width = 48, height = 32): DOMRect {
   } as DOMRect;
 }
 
+function wireFlipClientRects(element: HTMLElement, rect: DOMRect): void {
+  element.getBoundingClientRect = () => rect;
+  element.getClientRects = () => [rect] as unknown as DOMRectList;
+}
+
 function createFlipBar(
   positions: Record<string, { left: number; top: number }>,
 ): HTMLElement {
   const bar = document.createElement("div");
+  bar.dataset.flipBar = "";
+  wireFlipClientRects(bar, mockRect(24, 8, 400));
   for (const [id, position] of Object.entries(positions)) {
     const item = document.createElement("div");
     item.dataset.flipItem = id;
-    item.getBoundingClientRect = () => mockRect(position.left, position.top);
+    wireFlipClientRects(item, mockRect(position.left, position.top));
     bar.appendChild(item);
   }
   return bar;
@@ -46,7 +56,7 @@ function setBarPositions(
     if (!id || !(child instanceof HTMLElement)) continue;
     const position = positions[id];
     if (!position) continue;
-    child.getBoundingClientRect = () => mockRect(position.left, position.top);
+    wireFlipClientRects(child, mockRect(position.left, position.top));
   }
 }
 
@@ -60,7 +70,9 @@ describe("header-flip-snapshot scroll sequence", () => {
       nav: { left: 320, top: 12 },
       cta: { left: 840, top: 12 },
     });
+    document.body.appendChild(bar);
     registerHeaderFlipBar(bar);
+    expect(isElementRenderedForAnimation(bar)).toBe(true);
 
     captureHeaderFlipFirstRects();
     const firstDown = consumeHeaderFlipFirstRects();
@@ -100,15 +112,19 @@ describe("header-flip-snapshot scroll sequence", () => {
     expect(createSpy).toHaveBeenCalled();
     const upKeyframes = createSpy.mock.calls[0][0] as Keyframe[];
     expect(upKeyframes[0].transform).toBe("translate(-40px, 0px)");
+    bar.remove();
   });
 
   it("preserves pre-toggle capture through consume", () => {
     const bar = createFlipBar({ logo: { left: 48, top: 10 } });
+    document.body.appendChild(bar);
     registerHeaderFlipBar(bar);
 
     const captured = captureHeaderFlipFirstRects();
-    expect(captured?.get(bar.firstChild! as Element)?.left).toBe(48);
+    const logo = bar.querySelector("[data-flip-item]") as HTMLElement;
+    expect(captured?.get(logo)?.left).toBe(48);
     expect(consumeHeaderFlipFirstRects()).toBe(captured);
     expect(consumeHeaderFlipFirstRects()).toBeNull();
+    bar.remove();
   });
 });

@@ -1,4 +1,7 @@
-import { captureFlipRects } from "@/lib/header-bar-flip";
+import {
+  captureFlipRects,
+  isElementRenderedForAnimation,
+} from "@/lib/header-bar-flip";
 
 export const HEADER_FLIP_ITEM_SELECTOR = "[data-flip-item]";
 
@@ -9,12 +12,19 @@ export function registerHeaderFlipBar(element: HTMLElement | null): void {
   flipBarElement = element;
 }
 
+export function collectHeaderFlipTargets(bar: HTMLElement): HTMLElement[] {
+  return Array.from(
+    bar.querySelectorAll<HTMLElement>(HEADER_FLIP_ITEM_SELECTOR),
+  ).filter(
+    (element): element is HTMLElement =>
+      element instanceof HTMLElement && isElementRenderedForAnimation(element),
+  );
+}
+
 export function captureHeaderFlipFirstRects(): Map<Element, DOMRect> | null {
   if (!flipBarElement) return null;
 
-  const items = Array.from(
-    flipBarElement.querySelectorAll(HEADER_FLIP_ITEM_SELECTOR),
-  );
+  const items = collectHeaderFlipTargets(flipBarElement);
   if (items.length === 0) return null;
 
   pendingFirstRects = captureFlipRects(items);

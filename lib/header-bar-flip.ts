@@ -12,6 +12,19 @@ export function captureFlipRects(
   return rects;
 }
 
+export function isElementRenderedForAnimation(element: HTMLElement): boolean {
+  if (!element.isConnected) return false;
+  if (typeof getComputedStyle !== "undefined") {
+    const { display, visibility } = getComputedStyle(element);
+    if (display === "none" || visibility === "hidden") return false;
+  }
+  return element.getClientRects().length > 0;
+}
+
+export function canCommitAnimationStyles(element: HTMLElement): boolean {
+  return isElementRenderedForAnimation(element);
+}
+
 function forceLayoutRead(elements: HTMLElement[]): void {
   const root = elements[0];
   if (root) void root.offsetHeight;
@@ -44,14 +57,34 @@ export function hasActiveHeaderFlipAnimation(element: HTMLElement): boolean {
   return false;
 }
 
+function safelySettleAnimation(anim: Animation, element: HTMLElement): void {
+  try {
+    if (canCommitAnimationStyles(element)) {
+      anim.commitStyles();
+    }
+  } catch {
+    try {
+      anim.cancel();
+    } catch {
+      return;
+    }
+    return;
+  }
+
+  try {
+    anim.cancel();
+  } catch {
+    return;
+  }
+}
+
 export function settleFlipAnimations(element: HTMLElement): void {
   if (typeof element.getAnimations !== "function") return;
 
   for (const anim of element.getAnimations()) {
     if (!isHeaderFlipAnimation(anim)) continue;
     if (anim.playState !== "running" && anim.playState !== "paused") continue;
-    anim.commitStyles();
-    anim.cancel();
+    safelySettleAnimation(anim, element);
   }
 }
 
@@ -75,6 +108,7 @@ export function playHeaderBarFlip(
     const last = element.getBoundingClientRect();
     const dx = first.left - last.left;
     const dy = first.top - last.top;
+    if (!Number.isFinite(dx) || !Number.isFinite(dy)) continue;
     if (dx === 0 && dy === 0) continue;
 
     element.style.transform = `translate(${dx}px, ${dy}px)`;
@@ -109,23 +143,24 @@ export function runHeaderBarFlip(
   firstRects: Map<Element, DOMRect>,
   options?: HeaderBarFlipOptions,
 ): Animation[] {
-  const hasRunningFlip = elements.some(hasActiveHeaderFlipAnimation);
+  const renderedElements = elements.filter(isElementRenderedForAnimation);
+  const hasRunningFlip = renderedElements.some(hasActiveHeaderFlipAnimation);
 
   if (options?.preToggleFirst) {
     if (hasRunningFlip) {
-      settleHeaderFlipTargets(elements);
+      settleHeaderFlipTargets(renderedElements);
     }
-    return playHeaderBarFlip(elements, firstRects);
+    return playHeaderBarFlip(renderedElements, firstRects);
   }
 
   if (hasRunningFlip) {
-    settleHeaderFlipTargets(elements);
-    const visualFirst = captureFlipRects(elements);
-    for (const element of elements) {
+    settleHeaderFlipTargets(renderedElements);
+    const visualFirst = captureFlipRects(renderedElements);
+    for (const element of renderedElements) {
       element.style.transform = "";
     }
-    return playHeaderBarFlip(elements, visualFirst);
+    return playHeaderBarFlip(renderedElements, visualFirst);
   }
 
-  return playHeaderBarFlip(elements, firstRects);
+  return playHeaderBarFlip(renderedElements, firstRects);
 }

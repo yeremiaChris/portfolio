@@ -9,23 +9,19 @@ import {
   headerAvailabilityBadgeLabelClass,
   headerAvailabilityBadgeLabelWrapClass,
   headerAvailabilityBadgeShellClass,
-  headerAvailabilityBadgeUsesAriaLabel,
+  headerAvailabilityBadgeUsesSrOnly,
 } from "@/lib/header-availability-badge";
 
 export function HeaderAvailabilityBadge() {
   const compact = useHeaderCompact();
   const reducedMotion = useReducedMotion();
+
   return (
     <span
       role="status"
-      aria-label={
-        headerAvailabilityBadgeUsesAriaLabel(compact)
-          ? HEADER_AVAILABILITY_LABEL
-          : undefined
-      }
       className={headerAvailabilityBadgeShellClass(compact, !!reducedMotion)}
     >
-      <span className={headerAvailabilityBadgeDotClass()} aria-hidden />
+      <span className={headerAvailabilityBadgeDotClass(compact)} aria-hidden />
       <span
         className={headerAvailabilityBadgeLabelWrapClass(
           compact,
@@ -39,6 +35,9 @@ export function HeaderAvailabilityBadge() {
           </span>
         </span>
       </span>
+      {headerAvailabilityBadgeUsesSrOnly(compact) ? (
+        <span className="sr-only">{HEADER_AVAILABILITY_LABEL}</span>
+      ) : null}
     </span>
   );
 }

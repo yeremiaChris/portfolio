@@ -4,6 +4,7 @@
 import { describe, expect, it, vi } from "vitest";
 
 import {
+  canCommitAnimationStyles,
   HEADER_BAR_CHROME_DELAY_MS,
   HEADER_FLIP_DURATION_MS,
   HEADER_FLIP_EASING,
@@ -157,15 +158,19 @@ describe("header-bar-flip", () => {
     el.animate = createSpy;
     el.getAnimations = vi.fn(() => [runningAnim as unknown as Animation]);
 
+    document.body.appendChild(el);
+    el.getClientRects = () => [mockRect(60, 0)] as unknown as DOMRectList;
+
     runHeaderBarFlip([el], captureFlipRects([el]), { preToggleFirst: false });
 
     expect(runningAnim.commitStyles).toHaveBeenCalled();
     expect(createSpy).toHaveBeenCalledTimes(1);
     const keyframes = createSpy.mock.calls[0][0] as Keyframe[];
     expect(keyframes[0].transform).toBe("translate(-60px, -4px)");
+    el.remove();
   });
 
-  it("commits in-flight transform animations before reversing", () => {
+  it("does not commitStyles when the animation target is not rendered", () => {
     const el = document.createElement("section") as HTMLElement;
     const mockAnim = {
       playState: "running",
@@ -178,9 +183,36 @@ describe("header-bar-flip", () => {
     };
     el.getAnimations = vi.fn(() => [mockAnim as unknown as Animation]);
 
+    expect(canCommitAnimationStyles(el)).toBe(false);
+    settleFlipAnimations(el);
+
+    expect(mockAnim.commitStyles).not.toHaveBeenCalled();
+    expect(mockAnim.cancel).toHaveBeenCalled();
+  });
+
+  it("commits in-flight transform animations before reversing when rendered", () => {
+    const el = document.createElement("section") as HTMLElement;
+    document.body.appendChild(el);
+    el.getBoundingClientRect = () => mockRect(0, 0, 100, 40);
+    el.getClientRects = () =>
+      [mockRect(0, 0, 100, 40)] as unknown as DOMRectList;
+
+    const mockAnim = {
+      playState: "running",
+      effect: {
+        getKeyframes: () => [{ transform: "translate(40px, 0px)" }, {}],
+        getTiming: () => ({ duration: HEADER_FLIP_DURATION_MS }),
+      },
+      commitStyles: vi.fn(),
+      cancel: vi.fn(),
+    };
+    el.getAnimations = vi.fn(() => [mockAnim as unknown as Animation]);
+
+    expect(canCommitAnimationStyles(el)).toBe(true);
     settleFlipAnimations(el);
 
     expect(mockAnim.commitStyles).toHaveBeenCalled();
     expect(mockAnim.cancel).toHaveBeenCalled();
+    el.remove();
   });
 });

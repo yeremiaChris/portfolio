@@ -4,7 +4,6 @@ import Link from "next/link";
 import { m, useReducedMotion } from "motion/react";
 import { usePathname } from "next/navigation";
 
-import { useHeaderCompact } from "@/components/motion/HeaderCompactContext";
 import {
   headerNavIndicatorClass,
   headerNavLinkClass,
@@ -12,22 +11,28 @@ import {
 } from "@/lib/header-nav-styles";
 import { motionSpring } from "@/lib/motion-tokens";
 import { HEADER_NAV, isNavActive } from "@/lib/nav";
+import { cn } from "@/lib/utils";
 
 const navIndicatorLayoutId = "header-nav-indicator";
 
-export function HeaderNav() {
+type HeaderNavProps = {
+  embedded?: boolean;
+};
+
+export function HeaderNav({ embedded = false }: HeaderNavProps) {
   const pathname = usePathname();
-  const compact = useHeaderCompact();
   const reducedMotion = useReducedMotion();
   const indicatorTransition = reducedMotion ? { duration: 0 } : motionSpring;
-  const pillTransition = reducedMotion ? { duration: 0 } : motionSpring;
 
   return (
     <m.nav
-      layout
+      layout={embedded ? "position" : true}
       aria-label="Primary"
-      className={`pointer-events-auto hidden lg:flex ${headerNavPillClass(compact)}`}
-      transition={pillTransition}
+      className={cn(
+        "pointer-events-auto hidden items-center gap-0.5 lg:flex",
+        embedded ? "p-0" : cn(headerNavPillClass(), "lg:justify-self-center"),
+      )}
+      transition={indicatorTransition}
     >
       {HEADER_NAV.map((item) => {
         const active = isNavActive(pathname, item.href);
@@ -45,7 +50,9 @@ export function HeaderNav() {
                 transition={indicatorTransition}
               />
             ) : null}
-            <span className="relative z-10">{item.label}</span>
+            <m.span layout="position" className="relative z-10">
+              {item.label}
+            </m.span>
           </Link>
         );
       })}

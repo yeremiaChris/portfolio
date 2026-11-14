@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils";
 
-export const headerNavPillClass = (compact: boolean) =>
+export const headerNavPillClass = () =>
   cn(
-    "w-max items-center gap-0.5 rounded-full p-1",
-    compact
-      ? "border-border/35 bg-card/72 backdrop-blur-md border shadow-[0_8px_32px_rgb(0_0_0_/0.28)]"
-      : "border-border/20 bg-muted/55 border",
+    "w-max items-center gap-0.5 rounded-full border border-border/20 bg-muted/55 p-1",
+  );
+
+export const headerShellCompactClass = () =>
+  cn(
+    "border-border/35 bg-card/72 backdrop-blur-md border shadow-[0_8px_32px_rgb(0_0_0_/0.28)]",
   );
 
 export const headerNavLinkClass = (active: boolean) =>

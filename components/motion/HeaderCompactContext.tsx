@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 
-import { isHeaderCompact } from "@/lib/header-compact";
+import { resolveHeaderCompact } from "@/lib/header-compact";
 
 const HeaderCompactContext = createContext(false);
 
@@ -20,11 +20,13 @@ export function useHeaderCompact(): boolean {
 export function HeaderCompactProvider({ children }: { children: ReactNode }) {
   const { scrollY } = useScroll();
   const [compact, setCompact] = useState(() =>
-    typeof window !== "undefined" ? isHeaderCompact(window.scrollY) : false,
+    typeof window !== "undefined"
+      ? resolveHeaderCompact(window.scrollY, false)
+      : false,
   );
 
   useMotionValueEvent(scrollY, "change", (value) => {
-    setCompact(isHeaderCompact(value));
+    setCompact((current) => resolveHeaderCompact(value, current));
   });
 
   const contextValue = useMemo(() => compact, [compact]);

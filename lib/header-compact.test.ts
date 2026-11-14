@@ -1,18 +1,27 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  HEADER_COMPACT_SCROLL_THRESHOLD_PX,
-  isHeaderCompact,
+  HEADER_COMPACT_ENTER_PX,
+  HEADER_COMPACT_EXIT_PX,
+  resolveHeaderCompact,
 } from "./header-compact";
 
-describe("isHeaderCompact", () => {
-  it("stays expanded at and below the scroll threshold", () => {
-    expect(isHeaderCompact(0)).toBe(false);
-    expect(isHeaderCompact(HEADER_COMPACT_SCROLL_THRESHOLD_PX)).toBe(false);
+describe("resolveHeaderCompact", () => {
+  it("stays expanded through the enter threshold", () => {
+    expect(resolveHeaderCompact(0, false)).toBe(false);
+    expect(resolveHeaderCompact(HEADER_COMPACT_ENTER_PX, false)).toBe(false);
   });
 
-  it("enters compact state above the threshold", () => {
-    expect(isHeaderCompact(HEADER_COMPACT_SCROLL_THRESHOLD_PX + 1)).toBe(true);
-    expect(isHeaderCompact(240)).toBe(true);
+  it("enters compact above the enter threshold", () => {
+    expect(resolveHeaderCompact(HEADER_COMPACT_ENTER_PX + 1, false)).toBe(true);
+  });
+
+  it("holds compact between exit and enter thresholds", () => {
+    expect(resolveHeaderCompact(HEADER_COMPACT_EXIT_PX, true)).toBe(true);
+    expect(resolveHeaderCompact(52, true)).toBe(true);
+  });
+
+  it("exits compact below the exit threshold", () => {
+    expect(resolveHeaderCompact(HEADER_COMPACT_EXIT_PX - 1, true)).toBe(false);
   });
 });

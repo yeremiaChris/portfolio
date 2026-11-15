@@ -110,6 +110,7 @@ export function ServiceOfferingCardMotion({
               </span>
               <Link
                 href={projectHref}
+                aria-label={`${projectShortName} project`}
                 className={cn(
                   aboutBentoChipClass,
                   "text-brand-accent hover:border-brand-accent/45 hover:text-brand-accent/90 transition-colors duration-200 motion-reduce:transition-none",

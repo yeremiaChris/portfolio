@@ -16,6 +16,9 @@ export const servicesHero = {
   whatsappCtaLabel: "Chat on WhatsApp",
 } as const;
 
+export const servicesPageMetaDescription =
+  "Websites, landing pages, and web systems for businesses — dashboards, admin panels, and internal tools. Free consultation with an estimate within 24 hours.";
+
 export const servicesHeroLines = [
   "I build fast, reliable",
   "websites and web systems",

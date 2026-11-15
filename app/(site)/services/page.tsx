@@ -8,18 +8,23 @@ import {
 import { ServicesHeader } from "@/components/services/ServicesHeader";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
-import { servicesContactCta, servicesHero } from "@/lib/services";
-import { buildPageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  servicesContactCta,
+  servicesPageMetaDescription,
+} from "@/lib/services";
+import { buildPageMetadata, buildServicesPageJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Services | Yeremia Chris Saragi",
-  description: servicesHero.title,
+  description: servicesPageMetaDescription,
   path: "/services",
 });
 
 export default function ServicesPage() {
   return (
     <main>
+      <JsonLd data={buildServicesPageJsonLd()} />
       <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
         <ServicesHeader />
         <ServicesOfferings />

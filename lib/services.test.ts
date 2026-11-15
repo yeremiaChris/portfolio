@@ -6,6 +6,7 @@ import {
   getServiceOfferingProjectShortName,
   servicesHero,
   servicesHeroLines,
+  servicesPageMetaDescription,
   servicesHowItWorksSteps,
   servicesOfferings,
   servicesPricingLine,
@@ -29,6 +30,12 @@ describe("servicesHero", () => {
   it("keeps line splits aligned with the full headline", () => {
     expect(servicesHeroLinesJoin()).toBe(servicesHero.title);
     expect(servicesHeroLines.join(" ")).toBe(servicesHero.title);
+  });
+
+  it("uses a dedicated meta description without prices", () => {
+    expect(servicesPageMetaDescription).not.toBe(servicesHero.title);
+    expect(servicesPageMetaDescription).not.toMatch(/\$/);
+    expect(servicesPageMetaDescription.toLowerCase()).toContain("consultation");
   });
 });
 

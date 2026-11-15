@@ -8,7 +8,7 @@ export function ServicesHeroVisual({ className }: ServicesHeroVisualProps) {
   return (
     <div
       className={cn(
-        "relative h-[200px] min-h-[200px] w-full max-w-[340px] sm:h-[220px] sm:min-h-[220px]",
+        "relative h-[200px] min-h-[200px] w-full max-w-[340px] sm:h-[220px] sm:min-h-[220px] lg:h-[280px] lg:min-h-[280px] lg:max-w-[420px]",
         className,
       )}
       aria-hidden
@@ -26,8 +26,8 @@ export function ServicesHeroVisual({ className }: ServicesHeroVisualProps) {
             <span className="bg-foreground/12 block h-2 w-full rounded-sm" />
             <span className="bg-foreground/10 block h-2 w-[88%] rounded-sm" />
             <span className="mt-2 flex gap-2">
-              <span className="bg-brand-accent/25 border-brand-accent/20 h-14 min-w-0 flex-1 rounded-lg border" />
-              <span className="bg-foreground/[0.06] border-border/40 h-14 min-w-0 flex-1 rounded-lg border" />
+              <span className="bg-brand-accent/25 border-brand-accent/20 h-16 min-w-0 flex-1 rounded-lg border lg:h-[4.5rem]" />
+              <span className="bg-foreground/[0.06] border-border/40 h-16 min-w-0 flex-1 rounded-lg border lg:h-[4.5rem]" />
             </span>
           </div>
         </div>

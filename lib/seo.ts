@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { aboutProfile } from "@/lib/about";
 import { personSameAs } from "@/lib/person-same-as";
+import { servicesOfferings, servicesPageMetaDescription } from "@/lib/services";
 import { getSiteUrl, site } from "@/lib/site";
 
 export type PageMetadataInput = {
@@ -181,5 +182,65 @@ export function buildBlogPostingJsonLd({
     ...(dateModified ? { dateModified } : {}),
     author: { "@id": personId },
     ...(image ? { image: toAbsoluteUrl(image, origin) } : {}),
+  };
+}
+
+export function buildServicesPageJsonLd() {
+  const origin = getSiteUrl();
+  const path = toCanonicalPath("/services");
+  const pageUrl = toAbsoluteUrl(path, origin);
+  const personId = buildPersonJsonLd({ includeContact: false })["@id"];
+  const websiteId = `${origin}/#website`;
+
+  const webPage = {
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: "Services | Yeremia Chris Saragi",
+    description: servicesPageMetaDescription,
+    inLanguage: "en",
+    isPartOf: { "@id": websiteId },
+    about: { "@id": personId },
+  };
+
+  const breadcrumb = {
+    "@type": "BreadcrumbList",
+    "@id": `${pageUrl}#breadcrumb`,
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Overview",
+        item: origin,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Services",
+        item: pageUrl,
+      },
+    ],
+  };
+
+  const serviceList = {
+    "@type": "ItemList",
+    "@id": `${pageUrl}#service-list`,
+    name: "Services offered",
+    itemListElement: servicesOfferings.map((offering, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        name: offering.title,
+        description: offering.description,
+        provider: { "@id": personId },
+        areaServed: "Worldwide",
+      },
+    })),
+  };
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [webPage, breadcrumb, serviceList],
   };
 }

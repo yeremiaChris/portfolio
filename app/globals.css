@@ -610,7 +610,13 @@ html[data-intro="playing"] [data-intro-bar] {
 
 .hero-name-reveal {
   overflow: hidden;
-  min-height: calc(2 * 1.02 * clamp(2.65rem, 4.2vw + 1.1rem, 3.75rem));
+  min-height: calc(1.02 * clamp(2.65rem, 4.2vw + 1.1rem, 3.75rem));
+}
+
+@media (max-width: 389px) {
+  .hero-name-reveal {
+    min-height: calc(2 * 1.02 * clamp(2.65rem, 4.2vw + 1.1rem, 3.75rem));
+  }
 }
 
 @media (min-width: 768px) {

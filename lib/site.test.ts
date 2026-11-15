@@ -52,6 +52,13 @@ describe("site.links", () => {
   it("does not expose a public footer path to /analytics", () => {
     expect("analytics" in site.links).toBe(false);
   });
+
+  it("exposes X and Threads profile URLs and handles", () => {
+    expect(site.links.x).toBe("https://x.com/YeremiaChria");
+    expect(site.links.xHandle).toBe("@YeremiaChria");
+    expect(site.links.threads).toBe("https://www.threads.com/@yeremiachris3");
+    expect(site.links.threadsHandle).toBe("@yeremiachris3");
+  });
 });
 
 describe("getSiteUrl", () => {

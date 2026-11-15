@@ -14,6 +14,7 @@ import {
   toAbsoluteUrl,
   toCanonicalPath,
 } from "./seo";
+import { personSameAs } from "./person-same-as";
 import { getSiteUrl, site } from "./site";
 
 describe("toAbsoluteUrl", () => {
@@ -116,7 +117,9 @@ describe("JSON-LD", () => {
     expect(person["@type"]).toBe("Person");
     expect(person.name).toBe(site.fullName);
     expect(person.alternateName).toBe(site.name);
-    expect(person.sameAs).toEqual([site.links.github, site.links.linkedin]);
+    expect(person.sameAs).toEqual([...personSameAs]);
+    expect(person.sameAs).toContain(site.links.x);
+    expect(person.sameAs).toContain(site.links.threads);
     expect(person.sameAs).not.toContain("https://twitter.com/");
     expect(person.email).toBe("yeremia997@gmail.com");
     expect(person.image).toBe(toAbsoluteUrl(aboutProfile.image, getSiteUrl()));

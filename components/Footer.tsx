@@ -1,37 +1,77 @@
+import {
+  GithubChannelIcon,
+  LinkedinChannelIcon,
+  MailChannelIcon,
+  ResumeChannelIcon,
+  ThreadsChannelIcon,
+  WhatsappChannelIcon,
+  XChannelIcon,
+} from "@/components/contact/InlineChannelIcons";
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button-variants";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const footerLinks = [
+type FooterContactChannel = {
+  href: string;
+  ariaLabel: string;
+  icon: typeof MailChannelIcon;
+  external?: boolean;
+  profile?: boolean;
+  accent?: boolean;
+};
+
+const footerContactChannels: FooterContactChannel[] = [
   {
-    href: site.links.email,
-    label: site.links.emailLabel,
-    external: false,
+    href: site.links.whatsapp,
+    ariaLabel: `WhatsApp ${site.links.whatsappLabel}`,
+    icon: WhatsappChannelIcon,
+    external: true,
   },
   {
-    href: site.links.linkedin,
-    label: "LinkedIn",
-    external: true,
+    href: site.links.email,
+    ariaLabel: site.links.emailLabel,
+    icon: MailChannelIcon,
   },
   {
     href: site.links.github,
-    label: "GitHub",
+    ariaLabel: "GitHub",
+    icon: GithubChannelIcon,
     external: true,
+    profile: true,
+  },
+  {
+    href: site.links.linkedin,
+    ariaLabel: "LinkedIn",
+    icon: LinkedinChannelIcon,
+    external: true,
+    profile: true,
   },
   {
     href: site.links.resume,
-    label: "Resume",
+    ariaLabel: "Resume",
+    icon: ResumeChannelIcon,
     external: true,
     accent: true,
   },
   {
-    href: site.links.whatsapp,
-    label: `WhatsApp ${site.links.whatsappLabel}`,
+    href: site.links.x,
+    ariaLabel: site.links.xHandle,
+    icon: XChannelIcon,
     external: true,
+    profile: true,
   },
-] as const;
+  {
+    href: site.links.threads,
+    ariaLabel: site.links.threadsHandle,
+    icon: ThreadsChannelIcon,
+    external: true,
+    profile: true,
+  },
+];
+
+const footerContactLinkClass =
+  "focus-ring inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-[#4cd7f6] motion-reduce:transition-none";
 
 export function Footer() {
   return (
@@ -54,26 +94,33 @@ export function Footer() {
 
           <nav
             aria-label="Contact"
-            className="flex flex-wrap items-center gap-2"
+            className="flex max-w-full flex-wrap items-center gap-2"
           >
-            {footerLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                {...(link.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-                className={cn(
-                  buttonVariants({ variant: "secondary", size: "sm" }),
-                  "text-muted-foreground hover:text-foreground h-auto px-3 py-1.5 text-[13px] font-normal",
-                  "accent" in link &&
-                    link.accent &&
-                    "text-primary hover:text-primary",
-                )}
-              >
-                {link.label}
-              </a>
-            ))}
+            {footerContactChannels.map((channel) => {
+              const Icon = channel.icon;
+
+              return (
+                <a
+                  key={channel.href}
+                  href={channel.href}
+                  aria-label={channel.ariaLabel}
+                  {...(channel.external
+                    ? {
+                        target: "_blank",
+                        rel: channel.profile
+                          ? "me noopener noreferrer"
+                          : "noopener noreferrer",
+                      }
+                    : {})}
+                  className={cn(
+                    footerContactLinkClass,
+                    channel.accent && "text-primary hover:text-[#4cd7f6]",
+                  )}
+                >
+                  <Icon />
+                </a>
+              );
+            })}
           </nav>
         </div>
 

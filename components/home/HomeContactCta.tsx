@@ -1,5 +1,9 @@
 import { FileText, Link2, Mail } from "lucide-react";
 
+import {
+  ThreadsChannelIcon,
+  XChannelIcon,
+} from "@/components/contact/InlineChannelIcons";
 import { Container } from "@/components/Container";
 import { homeBentoCardClass } from "@/components/home/homeSurface";
 import { SectionIntro } from "@/components/typography/SectionTypography";
@@ -10,9 +14,10 @@ import { cn } from "@/lib/utils";
 type HomeContactAction = {
   href: string;
   label: string;
-  icon: typeof Mail;
+  icon: typeof Mail | typeof XChannelIcon;
   primary?: boolean;
   external?: boolean;
+  profile?: boolean;
 };
 
 const HOME_ACTIONS: HomeContactAction[] = [
@@ -27,6 +32,21 @@ const HOME_ACTIONS: HomeContactAction[] = [
     label: "LinkedIn",
     icon: Link2,
     external: true,
+    profile: true,
+  },
+  {
+    href: site.links.x,
+    label: site.links.xHandle,
+    icon: XChannelIcon,
+    external: true,
+    profile: true,
+  },
+  {
+    href: site.links.threads,
+    label: site.links.threadsHandle,
+    icon: ThreadsChannelIcon,
+    external: true,
+    profile: true,
   },
   {
     href: site.links.resume,
@@ -69,7 +89,12 @@ export function HomeContactCta() {
                   key={action.label}
                   href={action.href}
                   {...(action.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    ? {
+                        target: "_blank",
+                        rel: action.profile
+                          ? "me noopener noreferrer"
+                          : "noopener noreferrer",
+                      }
                     : {})}
                   className={cn(
                     buttonVariants({

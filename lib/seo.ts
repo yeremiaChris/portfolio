@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { aboutProfile } from "@/lib/about";
+import { personSameAs } from "@/lib/person-same-as";
 import { getSiteUrl, site } from "@/lib/site";
 
 export type PageMetadataInput = {
@@ -101,7 +102,7 @@ export function buildPersonJsonLd({
     ...(includeContact && {
       email: site.links.email.replace(/^mailto:/, ""),
     }),
-    sameAs: [site.links.github, site.links.linkedin],
+    sameAs: [...personSameAs],
     knowsAbout: [...PERSON_KNOWS_ABOUT],
   };
 }

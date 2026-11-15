@@ -16,6 +16,18 @@ const footerLinks = [
     external: true,
   },
   {
+    href: site.links.x,
+    label: "X",
+    external: true,
+    profile: true,
+  },
+  {
+    href: site.links.threads,
+    label: "Threads",
+    external: true,
+    profile: true,
+  },
+  {
     href: site.links.github,
     label: "GitHub",
     external: true,
@@ -61,7 +73,13 @@ export function Footer() {
                 key={link.href}
                 href={link.href}
                 {...(link.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  ? {
+                      target: "_blank",
+                      rel:
+                        "profile" in link && link.profile
+                          ? "me noopener noreferrer"
+                          : "noopener noreferrer",
+                    }
                   : {})}
                 className={cn(
                   buttonVariants({ variant: "secondary", size: "sm" }),

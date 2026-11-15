@@ -1,15 +1,20 @@
 import { FileText, Link2, Mail, MessageCircle } from "lucide-react";
 
+import {
+  ThreadsChannelIcon,
+  XChannelIcon,
+} from "@/components/contact/InlineChannelIcons";
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
+import { xAndThreadsContactActions } from "@/lib/contact-social-actions";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export type ContactCtaAction = {
   href: string;
   label: string;
-  icon: "mail" | "whatsapp" | "file" | "linkedin";
+  icon: "mail" | "whatsapp" | "file" | "linkedin" | "x" | "threads";
   variant?: "default" | "secondary";
   external?: boolean;
   primary?: boolean;
@@ -31,6 +36,8 @@ const ACTION_ICONS = {
   whatsapp: MessageCircle,
   file: FileText,
   linkedin: Link2,
+  x: XChannelIcon,
+  threads: ThreadsChannelIcon,
 } as const;
 
 const DEFAULT_ACTIONS: ContactCtaAction[] = [
@@ -48,6 +55,7 @@ const DEFAULT_ACTIONS: ContactCtaAction[] = [
     variant: "secondary",
     external: true,
   },
+  ...xAndThreadsContactActions(),
   {
     href: site.links.resume,
     label: "CV (PDF)",
@@ -132,7 +140,15 @@ function ContactActionLink({ action }: { action: ContactCtaAction }) {
     <a
       href={action.href}
       {...(action.external
-        ? { target: "_blank", rel: "noopener noreferrer" }
+        ? {
+            target: "_blank",
+            rel:
+              action.icon === "linkedin" ||
+              action.icon === "x" ||
+              action.icon === "threads"
+                ? "me noopener noreferrer"
+                : "noopener noreferrer",
+          }
         : {})}
       className={cn(
         buttonVariants({
@@ -169,6 +185,7 @@ export function experienceContactActions(): ContactCtaAction[] {
       variant: "secondary",
       external: true,
     },
+    ...xAndThreadsContactActions(),
     {
       href: site.links.resume,
       label: "CV (PDF)",
@@ -201,6 +218,7 @@ export function projectsContactActions(): ContactCtaAction[] {
       variant: "secondary",
       external: true,
     },
+    ...xAndThreadsContactActions(),
     {
       href: site.links.resume,
       label: "CV (PDF)",
@@ -233,6 +251,7 @@ export function blogContactActions(): ContactCtaAction[] {
       variant: "secondary",
       external: true,
     },
+    ...xAndThreadsContactActions(),
     {
       href: site.links.resume,
       label: "CV (PDF)",

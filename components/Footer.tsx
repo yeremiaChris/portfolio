@@ -1,77 +1,49 @@
-import {
-  GithubChannelIcon,
-  LinkedinChannelIcon,
-  MailChannelIcon,
-  ResumeChannelIcon,
-  ThreadsChannelIcon,
-  WhatsappChannelIcon,
-  XChannelIcon,
-} from "@/components/contact/InlineChannelIcons";
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-type FooterContactChannel = {
-  href: string;
-  ariaLabel: string;
-  icon: typeof MailChannelIcon;
-  external?: boolean;
-  profile?: boolean;
-  accent?: boolean;
-};
-
-const footerContactChannels: FooterContactChannel[] = [
-  {
-    href: site.links.whatsapp,
-    ariaLabel: `WhatsApp ${site.links.whatsappLabel}`,
-    icon: WhatsappChannelIcon,
-    external: true,
-  },
+const footerLinks = [
   {
     href: site.links.email,
-    ariaLabel: site.links.emailLabel,
-    icon: MailChannelIcon,
-  },
-  {
-    href: site.links.github,
-    ariaLabel: "GitHub",
-    icon: GithubChannelIcon,
-    external: true,
-    profile: true,
+    label: site.links.emailLabel,
+    external: false,
   },
   {
     href: site.links.linkedin,
-    ariaLabel: "LinkedIn",
-    icon: LinkedinChannelIcon,
+    label: "LinkedIn",
     external: true,
-    profile: true,
-  },
-  {
-    href: site.links.resume,
-    ariaLabel: "Resume",
-    icon: ResumeChannelIcon,
-    external: true,
-    accent: true,
   },
   {
     href: site.links.x,
-    ariaLabel: site.links.xHandle,
-    icon: XChannelIcon,
+    label: "X",
     external: true,
     profile: true,
   },
   {
     href: site.links.threads,
-    ariaLabel: site.links.threadsHandle,
-    icon: ThreadsChannelIcon,
+    label: "Threads",
     external: true,
     profile: true,
   },
-];
-
-const footerContactLinkClass =
-  "focus-ring inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-[#4cd7f6] motion-reduce:transition-none";
+  {
+    href: site.links.github,
+    label: "GitHub",
+    external: true,
+  },
+  {
+    href: site.links.resume,
+    label: "Resume",
+    external: true,
+    accent: true,
+  },
+  {
+    href: site.links.whatsapp,
+    label: `WhatsApp ${site.links.whatsappLabel}`,
+    external: true,
+  },
+] as const;
 
 export function Footer() {
   return (
@@ -94,33 +66,32 @@ export function Footer() {
 
           <nav
             aria-label="Contact"
-            className="flex max-w-full flex-wrap items-center gap-2"
+            className="flex flex-wrap items-center gap-2"
           >
-            {footerContactChannels.map((channel) => {
-              const Icon = channel.icon;
-
-              return (
-                <a
-                  key={channel.href}
-                  href={channel.href}
-                  aria-label={channel.ariaLabel}
-                  {...(channel.external
-                    ? {
-                        target: "_blank",
-                        rel: channel.profile
+            {footerLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                {...(link.external
+                  ? {
+                      target: "_blank",
+                      rel:
+                        "profile" in link && link.profile
                           ? "me noopener noreferrer"
                           : "noopener noreferrer",
-                      }
-                    : {})}
-                  className={cn(
-                    footerContactLinkClass,
-                    channel.accent && "text-primary hover:text-[#4cd7f6]",
-                  )}
-                >
-                  <Icon />
-                </a>
-              );
-            })}
+                    }
+                  : {})}
+                className={cn(
+                  buttonVariants({ variant: "secondary", size: "sm" }),
+                  "text-muted-foreground hover:text-foreground h-auto px-3 py-1.5 text-[13px] font-normal",
+                  "accent" in link &&
+                    link.accent &&
+                    "text-primary hover:text-primary",
+                )}
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
         </div>
 

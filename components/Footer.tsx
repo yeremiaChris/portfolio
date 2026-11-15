@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 import { Container } from "@/components/Container";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
+import { HEADER_NAV } from "@/lib/nav";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -64,35 +67,54 @@ export function Footer() {
             </p>
           </div>
 
-          <nav
-            aria-label="Contact"
-            className="flex flex-wrap items-center gap-2"
-          >
-            {footerLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                {...(link.external
-                  ? {
-                      target: "_blank",
-                      rel:
-                        "profile" in link && link.profile
-                          ? "me noopener noreferrer"
-                          : "noopener noreferrer",
-                    }
-                  : {})}
-                className={cn(
-                  buttonVariants({ variant: "secondary", size: "sm" }),
-                  "text-muted-foreground hover:text-foreground h-auto px-3 py-1.5 text-[13px] font-normal",
-                  "accent" in link &&
-                    link.accent &&
-                    "text-primary hover:text-primary",
-                )}
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+          <div className="flex flex-col gap-4">
+            <nav
+              aria-label="Site"
+              className="flex flex-wrap items-center gap-2"
+            >
+              {HEADER_NAV.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    buttonVariants({ variant: "secondary", size: "sm" }),
+                    "text-muted-foreground hover:text-foreground h-auto px-3 py-1.5 text-[13px] font-normal",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <nav
+              aria-label="Contact"
+              className="flex flex-wrap items-center gap-2"
+            >
+              {footerLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  {...(link.external
+                    ? {
+                        target: "_blank",
+                        rel:
+                          "profile" in link && link.profile
+                            ? "me noopener noreferrer"
+                            : "noopener noreferrer",
+                      }
+                    : {})}
+                  className={cn(
+                    buttonVariants({ variant: "secondary", size: "sm" }),
+                    "text-muted-foreground hover:text-foreground h-auto px-3 py-1.5 text-[13px] font-normal",
+                    "accent" in link &&
+                      link.accent &&
+                      "text-primary hover:text-primary",
+                  )}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          </div>
         </div>
 
         <div className="border-border/40 border-t pt-6">

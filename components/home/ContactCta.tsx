@@ -102,9 +102,11 @@ export function ContactCta({
         >
           {title}
         </h2>
-        <p className="text-muted-foreground mt-3 text-[15px] leading-6">
-          {description}
-        </p>
+        {description ? (
+          <p className="text-muted-foreground mt-3 text-[15px] leading-6">
+            {description}
+          </p>
+        ) : null}
       </div>
 
       <div className="relative z-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
@@ -231,6 +233,25 @@ export function projectsContactActions(): ContactCtaAction[] {
       icon: "whatsapp",
       variant: "secondary",
       external: true,
+    },
+  ];
+}
+
+export function servicesContactActions(): ContactCtaAction[] {
+  return [
+    {
+      href: site.links.whatsapp,
+      label: "WhatsApp",
+      icon: "whatsapp",
+      variant: "default",
+      primary: true,
+      external: true,
+    },
+    {
+      href: site.links.email,
+      label: site.links.emailLabel,
+      icon: "mail",
+      variant: "secondary",
     },
   ];
 }

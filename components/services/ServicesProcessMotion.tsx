@@ -17,109 +17,151 @@ import {
   servicesLabTeaser,
   servicesPricingLine,
 } from "@/lib/services";
+import {
+  servicesMotionViewport,
+  servicesStepRevealTransition,
+} from "@/lib/services-motion";
 import { cn } from "@/lib/utils";
 
-const STEP_BADGE_ROW_CLASS = aboutStepNumberClass;
+function PricingLabStrip({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "border-border/50 bg-muted/60 flex flex-col gap-2 rounded-2xl border px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4",
+        className,
+      )}
+    >
+      <p className="text-foreground text-[14px] font-medium sm:text-[15px]">
+        {servicesPricingLine}
+      </p>
+      <p className="text-muted-foreground text-[12px] leading-relaxed sm:text-right sm:text-[13px]">
+        {servicesLabTeaser.beforeLink}
+        <Link
+          href={servicesLabTeaser.linkHref}
+          className="text-brand-accent hover:text-brand-accent/85 underline underline-offset-4 transition-colors duration-200 motion-reduce:transition-none"
+        >
+          {servicesLabTeaser.linkLabel}
+        </Link>
+        {servicesLabTeaser.afterLink}
+      </p>
+    </div>
+  );
+}
+
+function StepContent({ step, index }: { step: string; index: number }) {
+  return (
+    <div className="flex flex-col items-start gap-3">
+      <span className={aboutStepNumberClass}>{index + 1}</span>
+      <p className="font-heading text-foreground text-[15px] leading-snug font-semibold tracking-tight sm:text-base">
+        {step}
+      </p>
+    </div>
+  );
+}
+
+function ServicesProcessMobile({ reduced }: { reduced: boolean }) {
+  return (
+    <div className="flex flex-col gap-5 lg:hidden">
+      <h2 className="font-heading text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+        {servicesHowItWorksHeading}
+      </h2>
+      <ol className="flex flex-col gap-3">
+        {servicesHowItWorksSteps.map((step, index) => (
+          <m.li
+            key={step}
+            initial={reduced ? false : { y: 20, opacity: 0.75 }}
+            whileInView={reduced ? undefined : { y: 0, opacity: 1 }}
+            viewport={reduced ? undefined : servicesMotionViewport}
+            transition={
+              reduced ? { duration: 0 } : servicesStepRevealTransition(index)
+            }
+          >
+            <article className="border-border/50 bg-muted/90 rounded-2xl border p-4">
+              <h3 className="sr-only">
+                Step {index + 1}: {step}
+              </h3>
+              <StepContent step={step} index={index} />
+            </article>
+          </m.li>
+        ))}
+      </ol>
+      <PricingLabStrip />
+    </div>
+  );
+}
 
 export function ServicesProcessMotion() {
   const sectionRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const reduced = reducedMotion === true;
-  const [litCount, setLitCount] = useState(reduced ? 3 : 0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const { scrollYProgress } = useScroll({
-    target: trackRef,
-    offset: ["start 0.85", "end 0.35"],
+    target: sectionRef,
+    offset: ["start 0.15", "end 0.85"],
   });
 
-  const lineScale = useTransform(scrollYProgress, [0.05, 0.95], [0, 1]);
-  const activeLitCount = reduced ? 3 : litCount;
+  const progressBarScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   useMotionValueEvent(scrollYProgress, "change", (value) => {
     if (reduced) {
       return;
     }
-    if (value < 0.15) {
-      setLitCount(0);
-    } else if (value < 0.42) {
-      setLitCount(1);
-    } else if (value < 0.72) {
-      setLitCount(2);
+    if (value < 0.3) {
+      setActiveStep(0);
+    } else if (value < 0.62) {
+      setActiveStep(1);
     } else {
-      setLitCount(3);
+      setActiveStep(2);
     }
   });
 
   return (
     <section
       ref={sectionRef}
-      aria-labelledby="services-process-heading"
+      aria-label={servicesHowItWorksHeading}
       className="mb-8 w-full md:mb-10"
     >
-      <h2
-        id="services-process-heading"
-        className="font-heading text-foreground mb-5 text-2xl font-semibold tracking-tight sm:text-3xl md:mb-6"
-      >
-        {servicesHowItWorksHeading}
-      </h2>
+      <ServicesProcessMobile reduced={reduced} />
 
-      <div ref={trackRef} className="relative">
-        <m.div
-          aria-hidden
-          className="bg-brand-accent/40 pointer-events-none absolute top-[1.125rem] right-[16.666%] left-[16.666%] z-0 hidden h-0.5 origin-left md:block"
-          style={{ scaleX: reduced ? 1 : lineScale }}
-        />
-        <m.div
-          aria-hidden
-          className="bg-brand-accent/40 pointer-events-none absolute top-[1.125rem] bottom-[1.125rem] left-5 z-0 w-0.5 origin-top md:hidden"
-          style={{ scaleY: reduced ? 1 : lineScale }}
-        />
+      <div className="relative hidden lg:grid lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12 xl:gap-14">
+        <aside className="sticky top-24 self-start">
+          <h2 className="font-heading text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+            {servicesHowItWorksHeading}
+          </h2>
+          <div className="mt-6 flex gap-4">
+            <div className="bg-border/40 relative h-44 w-0.5 shrink-0 overflow-hidden rounded-full">
+              <m.div
+                aria-hidden
+                className="bg-brand-accent absolute inset-0 w-full origin-top"
+                style={{ scaleY: reduced ? 1 : progressBarScale }}
+              />
+            </div>
+            <PricingLabStrip className="min-w-0 flex-1" />
+          </div>
+        </aside>
 
-        <ol className="relative z-10 grid grid-cols-1 gap-3 pl-9 md:grid-cols-3 md:gap-4 md:pl-0">
+        <ol className="relative flex flex-col">
           {servicesHowItWorksSteps.map((step, index) => (
-            <li key={step} className="min-h-0">
-              <article
-                className={cn(
-                  "border-border/50 bg-muted/90 flex h-full min-h-[7.25rem] flex-col rounded-2xl border p-4 transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none md:min-h-[7.5rem] md:p-4",
-                  "hover:border-brand-accent/35",
-                )}
+            <li
+              key={step}
+              className="flex min-h-[55vh] items-start py-6 first:pt-0 last:pb-0 xl:min-h-[62vh]"
+            >
+              <m.article
+                className="border-border/50 bg-muted/90 w-full rounded-2xl border p-5"
+                animate={{
+                  opacity: reduced || index === activeStep ? 1 : 0.35,
+                }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               >
-                <h3 className="flex h-full flex-col items-start gap-3">
-                  <span
-                    className={cn(
-                      STEP_BADGE_ROW_CLASS,
-                      "shrink-0 transition-[box-shadow,background-color,border-color] duration-500 motion-reduce:transition-none",
-                      index < activeLitCount &&
-                        "border-brand-accent bg-brand-accent/20 shadow-[0_0_16px_rgb(76_215_246_/_0.45)]",
-                    )}
-                  >
-                    {index + 1}
-                  </span>
-                  <span className="font-heading text-foreground text-[15px] leading-snug font-semibold tracking-tight sm:text-base">
-                    {step}
-                  </span>
+                <h3 className="sr-only">
+                  Step {index + 1}: {step}
                 </h3>
-              </article>
+                <StepContent step={step} index={index} />
+              </m.article>
             </li>
           ))}
         </ol>
-
-        <div className="border-border/50 bg-muted/60 mt-4 flex flex-col gap-2 rounded-2xl border px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 md:mt-5">
-          <p className="text-foreground text-[14px] font-medium sm:text-[15px]">
-            {servicesPricingLine}
-          </p>
-          <p className="text-muted-foreground text-[12px] leading-relaxed sm:text-right sm:text-[13px]">
-            {servicesLabTeaser.beforeLink}
-            <Link
-              href={servicesLabTeaser.linkHref}
-              className="text-brand-accent hover:text-brand-accent/85 underline underline-offset-4 transition-colors duration-200 motion-reduce:transition-none"
-            >
-              {servicesLabTeaser.linkLabel}
-            </Link>
-            {servicesLabTeaser.afterLink}
-          </p>
-        </div>
       </div>
     </section>
   );

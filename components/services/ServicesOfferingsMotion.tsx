@@ -20,9 +20,8 @@ export function ServicesOfferingsMotion() {
         {servicesOfferings.map((offering, index) => (
           <m.div
             key={offering.id}
-            style={{ opacity: 1 }}
             initial={
-              reduced ? false : { y: servicesCardRevealOffsetPx, opacity: 1 }
+              reduced ? false : { y: servicesCardRevealOffsetPx, opacity: 0.72 }
             }
             whileInView={reduced ? undefined : { y: 0, opacity: 1 }}
             viewport={reduced ? undefined : servicesMotionViewport}

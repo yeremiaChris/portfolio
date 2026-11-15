@@ -16,6 +16,21 @@ export const servicesHero = {
   whatsappCtaLabel: "Chat on WhatsApp",
 } as const;
 
+export const servicesHeroLines = [
+  "I build fast, reliable",
+  "websites and web systems",
+  "for businesses.",
+] as const;
+
+const SERVICE_PROJECT_SHORT_NAMES: Record<string, string> = {
+  primaku: "PrimaKu",
+  mazecare: "Mazecare",
+};
+
+export function servicesHeroLinesJoin(): string {
+  return servicesHeroLines.join(" ");
+}
+
 export const servicesOfferings: readonly ServiceOffering[] = [
   {
     id: "websites",
@@ -80,4 +95,11 @@ export function getServiceOfferingProjectTitle(
   if (!offering.projectAnchorId) return undefined;
   return projects.find((project) => project.id === offering.projectAnchorId)
     ?.title;
+}
+
+export function getServiceOfferingProjectShortName(
+  offering: ServiceOffering,
+): string | undefined {
+  if (!offering.projectAnchorId) return undefined;
+  return SERVICE_PROJECT_SHORT_NAMES[offering.projectAnchorId];
 }

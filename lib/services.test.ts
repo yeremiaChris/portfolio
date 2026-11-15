@@ -3,10 +3,13 @@ import { describe, expect, it } from "vitest";
 import { projects } from "./projects";
 import {
   getServiceOfferingProjectHref,
+  getServiceOfferingProjectShortName,
   servicesHero,
+  servicesHeroLines,
   servicesHowItWorksSteps,
   servicesOfferings,
   servicesPricingLine,
+  servicesHeroLinesJoin,
   type ServiceOffering,
 } from "./services";
 
@@ -21,6 +24,11 @@ describe("servicesHero", () => {
     expect(servicesHero.title).toBe(
       "I build fast, reliable websites and web systems for businesses.",
     );
+  });
+
+  it("keeps line splits aligned with the full headline", () => {
+    expect(servicesHeroLinesJoin()).toBe(servicesHero.title);
+    expect(servicesHeroLines.join(" ")).toBe(servicesHero.title);
   });
 });
 
@@ -43,6 +51,10 @@ describe("servicesOfferings project links", () => {
     );
     expect(offeringAnchorId(byId.websites)).toBe("primaku");
     expect(offeringAnchorId(byId["web-systems"])).toBe("mazecare");
+    expect(getServiceOfferingProjectShortName(byId.websites)).toBe("PrimaKu");
+    expect(getServiceOfferingProjectShortName(byId["web-systems"])).toBe(
+      "Mazecare",
+    );
   });
 });
 

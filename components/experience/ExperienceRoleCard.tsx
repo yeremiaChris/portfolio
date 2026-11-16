@@ -1,13 +1,18 @@
 "use client";
 
 import { CircleCheck } from "lucide-react";
-import { m, useMotionValue, useReducedMotion } from "motion/react";
-
-import { useExperienceCardScrollProgress } from "@/components/experience/ExperienceScrollMotion";
 import {
-  useServicesBulletMotion,
-  useServicesMotionHover,
-} from "@/components/services/ServicesScrollMotion";
+  m,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "motion/react";
+
+import {
+  useExperienceBulletMotion,
+  useExperienceRoleCardScroll,
+} from "@/components/experience/ExperienceScrollMotion";
+import { useServicesMotionHover } from "@/components/services/ServicesScrollMotion";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -33,10 +38,21 @@ function HighlightItem({
   toneClass: string;
 }) {
   const reducedMotion = useReducedMotion();
-  const progress = useExperienceCardScrollProgress();
-  const fallback = useMotionValue(0);
-  const source = progress ?? fallback;
-  const { x, opacity } = useServicesBulletMotion(source, bulletIndex);
+  const scroll = useExperienceRoleCardScroll();
+  const fallbackEnter = useMotionValue(0);
+  const fallbackFocus = useMotionValue(0);
+  const enterProgress = scroll?.enterProgress ?? fallbackEnter;
+  const focus = scroll?.focus ?? fallbackFocus;
+  const { x, opacity } = useExperienceBulletMotion(enterProgress, bulletIndex);
+  const iconColor = useTransform(
+    focus,
+    [0, 0.55, 1],
+    [
+      "rgba(148, 163, 184, 0.85)",
+      "rgba(76, 215, 246, 0.65)",
+      "rgba(76, 215, 246, 1)",
+    ],
+  );
 
   if (reducedMotion) {
     return (
@@ -52,10 +68,9 @@ function HighlightItem({
 
   return (
     <m.li className="flex items-start gap-2" style={{ x, opacity }}>
-      <CircleCheck
-        className={cn("mt-0.5 size-4.5 shrink-0", toneClass)}
-        aria-hidden
-      />
+      <m.span className="mt-0.5 shrink-0" style={{ color: iconColor }}>
+        <CircleCheck className="size-4.5" aria-hidden />
+      </m.span>
       <span>{item}</span>
     </m.li>
   );
@@ -69,7 +84,7 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
     <Card
       id={role.id}
       className={cn(
-        "bg-muted ring-border/20 scroll-mt-24 rounded-3xl py-6 md:py-8",
+        "bg-muted ring-border/20 scroll-mt-24 rounded-3xl border-0 py-6 shadow-none ring-1 md:py-8",
         !motionHover && "hover:bg-muted/80 transition-colors",
       )}
     >

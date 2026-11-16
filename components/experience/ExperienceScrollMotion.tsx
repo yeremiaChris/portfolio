@@ -6,49 +6,124 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
-import { useScroll, type MotionValue } from "motion/react";
+import { useScroll, useTransform, type MotionValue } from "motion/react";
 
 export const experienceRailScrollOffset: ["start center", "end center"] = [
   "start center",
   "end center",
 ];
 
-export const experienceCardScrollOffset: ["start end", "start 0.45"] = [
+export const experienceRoleEnterOffset: ["start end", "start 0.45"] = [
   "start end",
   "start 0.45",
 ];
 
-const ExperienceCardScrollProgressContext =
-  createContext<MotionValue<number> | null>(null);
+export const experienceRoleFocusOffset: ["start end", "end start"] = [
+  "start end",
+  "end start",
+];
 
-export function useExperienceCardScrollProgress() {
-  return useContext(ExperienceCardScrollProgressContext);
+type ExperienceRoleCardScrollValue = {
+  enterProgress: MotionValue<number>;
+  focus: MotionValue<number>;
+};
+
+const ExperienceRoleCardScrollContext =
+  createContext<ExperienceRoleCardScrollValue | null>(null);
+
+export function useExperienceRoleCardScroll() {
+  return useContext(ExperienceRoleCardScrollContext);
 }
 
-export function ExperienceCardScrollProvider({
-  progress,
+export function ExperienceRoleCardScrollProvider({
+  value,
   children,
 }: {
-  progress: MotionValue<number>;
+  value: ExperienceRoleCardScrollValue;
   children: ReactNode;
 }) {
   return (
-    <ExperienceCardScrollProgressContext.Provider value={progress}>
+    <ExperienceRoleCardScrollContext.Provider value={value}>
       {children}
-    </ExperienceCardScrollProgressContext.Provider>
+    </ExperienceRoleCardScrollContext.Provider>
   );
 }
 
-export function useExperienceTimelineScroll(
+export function useExperienceTimelineRailScroll(
   containerRef: RefObject<HTMLElement | null>,
 ) {
   const { scrollYProgress: railProgress } = useScroll({
     target: containerRef,
     offset: experienceRailScrollOffset,
   });
-  const { scrollYProgress: cardProgress } = useScroll({
-    target: containerRef,
-    offset: experienceCardScrollOffset,
+  return railProgress;
+}
+
+export function useExperienceRoleCardMotion(
+  cardRef: RefObject<HTMLElement | null>,
+) {
+  const { scrollYProgress: enterProgress } = useScroll({
+    target: cardRef,
+    offset: experienceRoleEnterOffset,
   });
-  return { railProgress, cardProgress };
+  const { scrollYProgress: focusProgress } = useScroll({
+    target: cardRef,
+    offset: experienceRoleFocusOffset,
+  });
+
+  const focus = useTransform(focusProgress, [0, 0.5, 1], [0, 1, 0]);
+  const y = useTransform(enterProgress, [0, 1], [56, 0]);
+  const enterOpacity = useTransform(enterProgress, [0, 1], [0.3, 1]);
+  const shellOpacity = useTransform(
+    [enterOpacity, focus],
+    ([enter, focusAmount]) =>
+      (enter as number) * (0.6 + 0.4 * (focusAmount as number)),
+  );
+  const borderColor = useTransform(
+    focus,
+    [0, 0.45, 1],
+    [
+      "rgba(76, 215, 246, 0.08)",
+      "rgba(76, 215, 246, 0.32)",
+      "rgba(76, 215, 246, 0.55)",
+    ],
+  );
+  const boxShadow = useTransform(
+    focus,
+    [0, 1],
+    ["0 0 0 0 rgba(76, 215, 246, 0)", "0 0 32px rgba(76, 215, 246, 0.16)"],
+  );
+
+  return {
+    enterProgress,
+    focus,
+    y,
+    shellOpacity,
+    borderColor,
+    boxShadow,
+  };
+}
+
+export function useExperienceBulletMotion(
+  progress: MotionValue<number>,
+  bulletIndex: number,
+) {
+  const start = 0.38 + bulletIndex * 0.11;
+  const end = start + 0.13;
+
+  const local = useTransform(progress, (value) => {
+    const v = Math.min(1, Math.max(0, value));
+    if (v <= start) {
+      return 0;
+    }
+    if (v >= end) {
+      return 1;
+    }
+    return (v - start) / (end - start);
+  });
+
+  const x = useTransform(local, [0, 1], [-18, 0]);
+  const opacity = useTransform(local, [0, 1], [0.2, 1]);
+
+  return { x, opacity };
 }

@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { Fragment } from "react";
 
+import { RouteScrollToTop } from "@/components/motion/RouteScrollToTop";
 import { SmoothScrollLenisMount } from "@/components/motion/SmoothScrollLenis";
 
 type SmoothScrollProps = {
@@ -13,6 +14,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
   return (
     <Fragment>
       {children}
+      <RouteScrollToTop />
       <SmoothScrollLenisMount />
     </Fragment>
   );

@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { Globe, LayoutDashboard } from "lucide-react";
 
-import {
-  servicesSectionClass,
-  servicesSectionHeadingClass,
-} from "@/components/services/servicesSurface";
+import { servicesSectionClass } from "@/components/services/servicesSurface";
+import { SectionHeading } from "@/components/typography/SectionTypography";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -22,14 +20,14 @@ const OFFERING_ICONS: Record<ServiceOfferingId, typeof Globe> = {
   "web-systems": LayoutDashboard,
 };
 
-function OfferingCell({ offering }: { offering: ServiceOffering }) {
+function OfferingRow({ offering }: { offering: ServiceOffering }) {
   const projectHref = getServiceOfferingProjectHref(offering);
   const projectShortName = getServiceOfferingProjectShortName(offering);
   const Icon = OFFERING_ICONS[offering.id];
 
   return (
-    <article className="flex min-h-full min-w-0 flex-col p-5 md:p-6">
-      <div className="flex flex-1 flex-col gap-3.5">
+    <article className="p-5 md:p-6 lg:grid lg:grid-cols-12 lg:items-start lg:gap-8">
+      <div className="flex min-w-0 flex-col gap-3.5 lg:col-span-7">
         <div className="bg-brand-accent/10 text-brand-accent border-brand-accent/35 inline-flex size-10 items-center justify-center rounded-lg border">
           <Icon className="size-5" aria-hidden />
         </div>
@@ -53,12 +51,12 @@ function OfferingCell({ offering }: { offering: ServiceOffering }) {
           ))}
         </ul>
       </div>
-      <div className="border-border/40 mt-5 flex flex-col gap-2.5 border-t pt-3.5">
+      <div className="border-border/40 mt-5 flex flex-col gap-2.5 border-t pt-3.5 lg:col-span-5 lg:mt-0 lg:border-t-0 lg:pt-0">
         <p className="text-brand-accent text-[12px] font-medium tracking-wide">
           {offering.stack}
         </p>
         {projectHref && projectShortName ? (
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 lg:flex-col lg:items-start">
             <Badge
               variant="secondary"
               className="text-muted-foreground label-caps bg-transparent px-0 text-[10px] tracking-[0.14em]"
@@ -93,18 +91,15 @@ export function ServicesOfferings() {
       aria-labelledby="services-offerings-heading"
       className={servicesSectionClass}
     >
-      <h2
-        id="services-offerings-heading"
-        className={servicesSectionHeadingClass}
-      >
+      <SectionHeading id="services-offerings-heading" className="mb-6 md:mb-8">
         {servicesOfferingsHeading}
-      </h2>
+      </SectionHeading>
 
       <Card className="border-border/50 bg-muted/90 ring-border/30 hover:border-brand-accent/40 overflow-hidden rounded-2xl border shadow-sm ring-1 transition-[border-color,box-shadow] duration-200 hover:shadow-[0_0_0_1px_rgba(76,215,246,0.14)] motion-reduce:transition-none md:rounded-3xl">
         <CardContent className="p-0">
-          <div className="divide-border/40 grid grid-cols-1 divide-y md:grid-cols-2 md:divide-x md:divide-y-0">
+          <div className="divide-border/40 divide-y">
             {servicesOfferings.map((offering) => (
-              <OfferingCell key={offering.id} offering={offering} />
+              <OfferingRow key={offering.id} offering={offering} />
             ))}
           </div>
         </CardContent>

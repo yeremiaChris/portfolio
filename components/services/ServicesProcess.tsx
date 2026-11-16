@@ -1,10 +1,8 @@
 import Link from "next/link";
 
 import { aboutStepNumberClass } from "@/components/about/aboutSurface";
-import {
-  servicesSectionClass,
-  servicesSectionHeadingClass,
-} from "@/components/services/servicesSurface";
+import { servicesSectionClass } from "@/components/services/servicesSurface";
+import { SectionHeading } from "@/components/typography/SectionTypography";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   servicesHowItWorksHeading,
@@ -19,9 +17,9 @@ export function ServicesProcess() {
       aria-labelledby="services-process-heading"
       className={servicesSectionClass}
     >
-      <h2 id="services-process-heading" className={servicesSectionHeadingClass}>
+      <SectionHeading id="services-process-heading" className="mb-6 md:mb-8">
         {servicesHowItWorksHeading}
-      </h2>
+      </SectionHeading>
 
       <Card className="border-border/50 bg-muted/90 ring-border/30 overflow-hidden rounded-2xl border shadow-sm ring-1 md:rounded-3xl">
         <CardContent className="p-0">

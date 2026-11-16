@@ -1,7 +1,6 @@
 import { ServiceOfferingCard } from "@/components/services/ServiceOfferingCard";
 import {
   servicesEyebrowBadgeClass,
-  servicesPageContent,
   servicesSectionClass,
 } from "@/components/services/servicesSurface";
 import { Badge } from "@/components/ui/badge";
@@ -19,35 +18,33 @@ export function ServicesOfferings() {
       aria-labelledby="services-offerings-heading"
       className={servicesSectionClass}
     >
-      <div className={servicesPageContent}>
-        <header
-          id="services-offerings-heading"
-          className="mx-auto mb-6 max-w-2xl text-center md:mb-8"
+      <header
+        id="services-offerings-heading"
+        className="mx-auto mb-6 max-w-2xl text-center md:mb-8"
+      >
+        <Badge
+          variant="secondary"
+          className={cn(servicesEyebrowBadgeClass, "mx-auto")}
         >
-          <Badge
-            variant="secondary"
-            className={cn(servicesEyebrowBadgeClass, "mx-auto")}
+          <span
+            className="bg-brand-accent size-2 shrink-0 rounded-full"
+            aria-hidden
+          />
+          Services
+        </Badge>
+      </header>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-5">
+        {servicesOfferings.map((offering) => (
+          <div
+            key={offering.id}
+            className={cn(
+              "flex h-full min-h-0",
+              OFFERING_COL_SPAN[offering.id],
+            )}
           >
-            <span
-              className="bg-brand-accent size-2 shrink-0 rounded-full"
-              aria-hidden
-            />
-            Services
-          </Badge>
-        </header>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-5">
-          {servicesOfferings.map((offering) => (
-            <div
-              key={offering.id}
-              className={cn(
-                "flex h-full min-h-0",
-                OFFERING_COL_SPAN[offering.id],
-              )}
-            >
-              <ServiceOfferingCard offering={offering} className="w-full" />
-            </div>
-          ))}
-        </div>
+            <ServiceOfferingCard offering={offering} className="w-full" />
+          </div>
+        ))}
       </div>
     </section>
   );

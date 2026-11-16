@@ -10,11 +10,13 @@ import {
   buildPageMetadata,
   buildPersonJsonLd,
   buildProfilePageJsonLd,
+  buildServicesPageJsonLd,
   buildWebSiteJsonLd,
   toAbsoluteUrl,
   toCanonicalPath,
 } from "./seo";
 import { personSameAs } from "./person-same-as";
+import { servicesOfferings, servicesPageMetaDescription } from "./services";
 import { getSiteUrl, site } from "./site";
 
 describe("toAbsoluteUrl", () => {
@@ -199,5 +201,49 @@ describe("JSON-LD", () => {
 
     expect(posting.dateModified).toBe("2026-02-01");
     expect(posting.image).toBe(`${getSiteUrl()}/blog/cover.jpg`);
+  });
+
+  it("describes the services page with breadcrumbs and service items", () => {
+    const graph = buildServicesPageJsonLd();
+    const origin = getSiteUrl();
+    const pageUrl = `${origin}/services`;
+    const nodes = graph["@graph"];
+
+    expect(nodes.map((node) => node["@type"])).toEqual([
+      "WebPage",
+      "BreadcrumbList",
+      "ItemList",
+    ]);
+
+    const webPage = nodes.find((node) => node["@type"] === "WebPage");
+    expect(webPage).toMatchObject({
+      url: pageUrl,
+      description: servicesPageMetaDescription,
+      isPartOf: { "@id": `${origin}/#website` },
+    });
+
+    const breadcrumb = nodes.find(
+      (node) => node["@type"] === "BreadcrumbList",
+    ) as { itemListElement: { name: string; item: string }[] };
+    expect(breadcrumb.itemListElement).toHaveLength(2);
+    expect(breadcrumb.itemListElement[1]).toMatchObject({
+      name: "Services",
+      item: pageUrl,
+    });
+
+    const itemList = nodes.find((node) => node["@type"] === "ItemList") as {
+      itemListElement: { item: Record<string, unknown> }[];
+    };
+    expect(itemList.itemListElement).toHaveLength(servicesOfferings.length);
+    const firstService = itemList.itemListElement[0].item as {
+      "@type": string;
+      provider: { "@id": string };
+      offers?: unknown;
+    };
+    expect(firstService["@type"]).toBe("Service");
+    expect(firstService).not.toHaveProperty("offers");
+    expect(firstService.provider).toEqual({
+      "@id": buildPersonJsonLd({ includeContact: false })["@id"],
+    });
   });
 });

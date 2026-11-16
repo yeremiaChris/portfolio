@@ -6,6 +6,7 @@ import { getBlogTopicSlugs } from "@/lib/blog-topics.constants";
 export const sitemapPages = [
   { path: "", changeFrequency: "weekly", priority: 1 },
   { path: "/about", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/services", changeFrequency: "monthly", priority: 0.8 },
   { path: "/experience", changeFrequency: "monthly", priority: 0.8 },
   { path: "/projects", changeFrequency: "monthly", priority: 0.8 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.7 },

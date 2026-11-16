@@ -3,12 +3,14 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { List } from "lucide-react";
+import { m, useReducedMotion } from "motion/react";
 
-import { Reveal } from "@/components/motion/Reveal";
+import { useBlogPostTocActive } from "@/components/blog/BlogPostReadingMotion";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { BlogHeading } from "@/lib/blog";
+import { projectsFeaturedSpring } from "@/lib/projects-motion";
 import { cn } from "@/lib/utils";
 
 const MIN_HEADINGS = 3;
@@ -31,17 +33,23 @@ export function BlogTocNav({
   items,
   itemClassName,
   renderLink,
+  activeHeadingId,
 }: {
   items: ReturnType<typeof getTocItems>;
   itemClassName?: string;
   renderLink?: (props: TocLinkProps) => ReactNode;
+  activeHeadingId?: string | null;
 }) {
+  const reducedMotion = useReducedMotion();
+
   return (
     <ol className="flex flex-col gap-0.5">
       {items.map((heading, index) => {
+        const isActive = activeHeadingId === heading.id;
         const className = cn(
           buttonVariants({ variant: "ghost", size: "sm" }),
-          "h-auto w-full justify-start gap-2 px-2 py-1.5 font-normal whitespace-normal text-muted-foreground",
+          "relative h-auto w-full justify-start gap-2 px-2 py-1.5 font-normal whitespace-normal",
+          isActive ? "text-brand-accent" : "text-muted-foreground",
           itemClassName,
         );
 
@@ -61,7 +69,15 @@ export function BlogTocNav({
         };
 
         return (
-          <li key={heading.id}>
+          <li key={heading.id} className="relative">
+            {isActive && !reducedMotion ? (
+              <m.span
+                layoutId="blog-toc-active-marker"
+                className="bg-brand-accent pointer-events-none absolute top-1 bottom-1 left-0 w-0.5 rounded-full shadow-[0_0_10px_rgb(76_215_246_/_0.55)]"
+                transition={projectsFeaturedSpring}
+                aria-hidden
+              />
+            ) : null}
             {renderLink ? renderLink(linkProps) : <Link {...linkProps} />}
           </li>
         );
@@ -89,20 +105,23 @@ export function BlogTocHeader({ count }: { count: number }) {
 
 export function BlogToc({ headings }: { headings: BlogHeading[] }) {
   const items = getTocItems(headings);
+  const tocMotion = useBlogPostTocActive();
   if (items.length < MIN_HEADINGS) return null;
 
+  const activeHeadingId = tocMotion?.tocEnabled
+    ? tocMotion.activeHeadingId
+    : undefined;
+
   return (
-    <Reveal when="mount" preset="calm">
-      <Card className="bg-muted ring-border/40 hidden gap-0 rounded-xl py-0 lg:block">
-        <CardHeader className="border-border/40 border-b p-4 pb-3">
-          <BlogTocHeader count={items.length} />
-        </CardHeader>
-        <CardContent className="p-2">
-          <nav aria-label="On this page">
-            <BlogTocNav items={items} />
-          </nav>
-        </CardContent>
-      </Card>
-    </Reveal>
+    <Card className="bg-muted ring-border/40 hidden gap-0 rounded-xl py-0 lg:block">
+      <CardHeader className="border-border/40 border-b p-4 pb-3">
+        <BlogTocHeader count={items.length} />
+      </CardHeader>
+      <CardContent className="p-2">
+        <nav aria-label="On this page">
+          <BlogTocNav items={items} activeHeadingId={activeHeadingId} />
+        </nav>
+      </CardContent>
+    </Card>
   );
 }

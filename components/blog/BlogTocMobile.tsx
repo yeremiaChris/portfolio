@@ -10,7 +10,7 @@ import {
   getTocItems,
   shouldShowToc,
 } from "@/components/blog/BlogToc";
-import { Reveal } from "@/components/motion/Reveal";
+import { useBlogPostTocActive } from "@/components/blog/BlogPostReadingMotion";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -28,11 +28,16 @@ import { cn } from "@/lib/utils";
 export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
   const [open, setOpen] = useState(false);
   const items = getTocItems(headings);
+  const tocMotion = useBlogPostTocActive();
 
   if (!shouldShowToc(headings)) return null;
 
+  const activeHeadingId = tocMotion?.tocEnabled
+    ? tocMotion.activeHeadingId
+    : undefined;
+
   return (
-    <Reveal when="mount" preset="calm" className="lg:hidden">
+    <div className="contents lg:hidden">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
           render={
@@ -67,6 +72,7 @@ export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
             <nav aria-label="On this page" className="px-2 py-3">
               <BlogTocNav
                 items={items}
+                activeHeadingId={activeHeadingId}
                 itemClassName="py-2.5"
                 renderLink={({ children, ...props }) => (
                   <SheetClose nativeButton={false} render={<Link {...props} />}>
@@ -78,6 +84,6 @@ export function BlogTocMobile({ headings }: { headings: BlogHeading[] }) {
           </ScrollArea>
         </SheetContent>
       </Sheet>
-    </Reveal>
+    </div>
   );
 }

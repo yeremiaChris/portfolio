@@ -1,4 +1,3 @@
-import { Reveal } from "@/components/motion/Reveal";
 import { blogIntro } from "@/lib/blog";
 
 export function BlogHeader() {
@@ -13,14 +12,14 @@ export function BlogHeader() {
         aria-hidden
       />
 
-      <Reveal when="mount" preset="calm" className="max-w-3xl min-w-0">
+      <div className="max-w-3xl min-w-0">
         <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-5xl">
           {blogIntro.title}
         </h1>
         <p className="text-muted-foreground mt-3 text-[15px] leading-[1.7] sm:text-base">
           {blogIntro.description}
         </p>
-      </Reveal>
+      </div>
     </section>
   );
 }

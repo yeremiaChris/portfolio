@@ -2,10 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { FileSearch } from "lucide-react";
+import { AnimatePresence, LayoutGroup, m } from "motion/react";
 
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
+import { blogGridLayoutTransition } from "@/components/blog/BlogScrollMotion";
 import { Reveal } from "@/components/motion/Reveal";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { BlogSearchInput } from "@/components/blog/BlogSearchInput";
 import { BlogTopicChips } from "@/components/blog/BlogTopicChips";
 import { FeaturedPost } from "@/components/blog/FeaturedPost";
@@ -110,16 +111,28 @@ export function BlogIndexExplore({
             The featured post above is the only match for this filter.
           </p>
         ) : (
-          <Stagger
-            preset="calm"
-            className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3"
-          >
-            {remaining.map((post) => (
-              <StaggerItem key={post.slug}>
-                <BlogPostCard post={post} />
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <LayoutGroup id="blog-index-grid">
+            <m.div
+              layout
+              className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3"
+            >
+              <AnimatePresence initial={false} mode="popLayout">
+                {remaining.map((post) => (
+                  <m.div
+                    key={post.slug}
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={blogGridLayoutTransition}
+                    className="min-w-0"
+                  >
+                    <BlogPostCard post={post} scrollMotion />
+                  </m.div>
+                ))}
+              </AnimatePresence>
+            </m.div>
+          </LayoutGroup>
         )}
       </section>
     </div>

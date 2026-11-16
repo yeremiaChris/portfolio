@@ -29,6 +29,7 @@ export type ContactCtaProps = {
   withContainer?: boolean;
   className?: string;
   panelClassName?: string;
+  compact?: boolean;
 };
 
 const ACTION_ICONS = {
@@ -73,22 +74,33 @@ export function ContactCta({
   withContainer = true,
   className,
   panelClassName,
+  compact = false,
 }: ContactCtaProps) {
   const headingId = `${id}-heading`;
 
   const panel = (
     <div
       className={cn(
-        "border-gradient bg-muted relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl p-8 shadow-xl md:flex-row md:items-center md:gap-10 md:p-12",
+        "border-gradient bg-muted relative flex w-full flex-col items-start justify-between overflow-hidden",
+        compact
+          ? "border-border/50 gap-4 rounded-2xl border p-5 shadow-sm md:flex-row md:items-center md:gap-6 md:p-6"
+          : "gap-8 rounded-3xl p-8 shadow-xl md:flex-row md:items-center md:gap-10 md:p-12",
         panelClassName,
       )}
     >
-      <div
-        className="bg-primary/10 pointer-events-none absolute -right-20 -bottom-20 size-80 rounded-full blur-3xl"
-        aria-hidden
-      />
+      {compact ? null : (
+        <div
+          className="bg-primary/10 pointer-events-none absolute -right-20 -bottom-20 size-80 rounded-full blur-3xl"
+          aria-hidden
+        />
+      )}
 
-      <div className="relative z-10 flex max-w-2xl flex-col">
+      <div
+        className={cn(
+          "relative z-10 flex min-w-0 flex-col",
+          compact ? "flex-1" : "max-w-2xl",
+        )}
+      >
         {eyebrow ? (
           <Badge
             variant="secondary"
@@ -100,7 +112,10 @@ export function ContactCta({
         ) : null}
         <h2
           id={headingId}
-          className="font-heading text-foreground text-2xl font-semibold tracking-tight sm:text-3xl"
+          className={cn(
+            "font-heading text-foreground font-semibold tracking-tight",
+            compact ? "text-lg sm:text-xl" : "text-2xl sm:text-3xl",
+          )}
         >
           {title}
         </h2>
@@ -111,7 +126,12 @@ export function ContactCta({
         ) : null}
       </div>
 
-      <div className="relative z-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
+      <div
+        className={cn(
+          "relative z-10 flex w-full flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center",
+          compact ? "md:w-auto md:shrink-0" : "gap-3 sm:w-auto",
+        )}
+      >
         {actions.map((action) => (
           <ContactActionLink
             key={`${action.href}-${action.label}`}

@@ -1,7 +1,10 @@
 import Link from "next/link";
 
 import { aboutStepNumberClass } from "@/components/about/aboutSurface";
-import { servicesSectionClass } from "@/components/services/servicesSurface";
+import {
+  servicesSectionClass,
+  servicesSectionHeadingGap,
+} from "@/components/services/servicesSurface";
 import { SectionHeading } from "@/components/typography/SectionTypography";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
@@ -10,6 +13,7 @@ import {
   servicesLabTeaser,
   servicesPricingLine,
 } from "@/lib/services";
+import { cn } from "@/lib/utils";
 
 export function ServicesProcess() {
   return (
@@ -17,7 +21,10 @@ export function ServicesProcess() {
       aria-labelledby="services-process-heading"
       className={servicesSectionClass}
     >
-      <SectionHeading id="services-process-heading" className="mb-6 md:mb-8">
+      <SectionHeading
+        id="services-process-heading"
+        className={servicesSectionHeadingGap}
+      >
         {servicesHowItWorksHeading}
       </SectionHeading>
 
@@ -29,9 +36,16 @@ export function ServicesProcess() {
                 <h3 className="sr-only">
                   Step {index + 1}: {step}
                 </h3>
-                <div className="flex flex-col items-start gap-3 p-5 md:p-6">
-                  <span className={aboutStepNumberClass}>{index + 1}</span>
-                  <p className="font-heading text-foreground text-[15px] leading-snug font-semibold tracking-tight sm:text-base">
+                <div className="flex flex-wrap items-center gap-2 px-3 py-3 md:px-4 md:py-3.5">
+                  <span
+                    className={cn(
+                      aboutStepNumberClass,
+                      "px-1.5 py-0 text-xs leading-none",
+                    )}
+                  >
+                    {index + 1}
+                  </span>
+                  <p className="font-heading text-foreground min-w-0 flex-1 text-[14px] leading-snug font-semibold tracking-tight sm:text-[15px]">
                     {step}
                   </p>
                 </div>

@@ -1,5 +1,3 @@
-"use client";
-
 import { MessageCircle } from "lucide-react";
 
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";

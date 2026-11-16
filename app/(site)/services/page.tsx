@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
-import { servicesContactActions } from "@/components/home/ContactCta";
-import { ServicesContactCta } from "@/components/services/ServicesContactCta";
+import {
+  ContactCta,
+  servicesContactActions,
+} from "@/components/home/ContactCta";
+import { Reveal } from "@/components/motion/Reveal";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
@@ -29,16 +32,18 @@ export default function ServicesPage() {
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <ServicesContactCta
-          id="services-contact"
-          withContainer={false}
-          compact
-          className={cn(servicesSectionClass, "mb-3")}
-          eyebrow=""
-          title={servicesContactCta.title}
-          description=""
-          actions={servicesContactActions()}
-        />
+        <Reveal when="inView" preset="calm">
+          <ContactCta
+            id="services-contact"
+            withContainer={false}
+            compact
+            className={cn(servicesSectionClass, "mb-3")}
+            eyebrow=""
+            title={servicesContactCta.title}
+            description=""
+            actions={servicesContactActions()}
+          />
+        </Reveal>
       </Container>
     </main>
   );

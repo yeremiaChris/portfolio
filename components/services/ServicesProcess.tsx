@@ -363,7 +363,7 @@ export function ServicesProcess() {
         </SectionHeading>
       </div>
 
-      <ServicesScrollReveal shareProgress>
+      <ServicesScrollReveal shareProgress scrollRange="bottom">
         <Card className="border-border/50 bg-muted/90 ring-border/30 overflow-hidden rounded-2xl border shadow-sm ring-1 md:rounded-3xl">
           <CardContent className="p-0">
             <ProcessSteps

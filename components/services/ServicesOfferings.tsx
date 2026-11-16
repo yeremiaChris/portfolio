@@ -30,7 +30,7 @@ const offeringCardBaseClass =
 const offeringCardHoverClass =
   "transition-[border-color,box-shadow] duration-200 hover:border-brand-accent/45 hover:shadow-[0_0_0_1px_rgba(76,215,246,0.14)] motion-reduce:transition-none";
 
-const offeringParallax = [1, 1.22] as const;
+const offeringParallax = [1, 1.35] as const;
 
 function formatOfferingIndex(index: number): string {
   return String(index + 1).padStart(2, "0");

@@ -20,12 +20,17 @@ import { usePointerFine } from "@/components/projects/usePointerFine";
 import { projectsFeaturedSpring } from "@/lib/projects-motion";
 import { cn } from "@/lib/utils";
 
-const servicesScrollOffset: ["start end", "start 0.86"] = [
+const servicesStandardScrollOffset: ["start end", "start 0.45"] = [
   "start end",
-  "start 0.86",
+  "start 0.45",
 ];
 
-const servicesProgressSettleAt = 0.62;
+const servicesBottomScrollOffset: ["start end", "end end"] = [
+  "start end",
+  "end end",
+];
+
+type ServicesScrollRange = "standard" | "bottom";
 
 const ServicesScrollProgressContext = createContext<MotionValue<number> | null>(
   null,
@@ -33,19 +38,17 @@ const ServicesScrollProgressContext = createContext<MotionValue<number> | null>(
 
 function useServicesScrollProgress(
   targetRef: RefObject<HTMLElement | null>,
+  range: ServicesScrollRange,
 ): MotionValue<number> {
+  const offset =
+    range === "bottom"
+      ? servicesBottomScrollOffset
+      : servicesStandardScrollOffset;
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: servicesScrollOffset,
+    offset,
   });
-  const spring = useSpring(scrollYProgress, projectsFeaturedSpring);
-  return useTransform(spring, (value) => {
-    const clamped = Math.min(1, Math.max(0, value));
-    if (clamped >= servicesProgressSettleAt) {
-      return 1;
-    }
-    return clamped / servicesProgressSettleAt;
-  });
+  return useSpring(scrollYProgress, projectsFeaturedSpring);
 }
 
 export function useServicesStepHighlight(
@@ -87,8 +90,8 @@ export function useServicesBulletMotion(
     return (v - start) / (end - start);
   });
 
-  const x = useTransform(local, [0, 1], [-12, 0]);
-  const opacity = useTransform(local, [0, 1], [0.25, 1]);
+  const x = useTransform(local, [0, 1], [-18, 0]);
+  const opacity = useTransform(local, [0, 1], [0.2, 1]);
 
   return { x, opacity };
 }
@@ -98,6 +101,7 @@ type ServicesScrollRevealProps = {
   className?: string;
   parallaxY?: number;
   shareProgress?: boolean;
+  scrollRange?: ServicesScrollRange;
 };
 
 export function ServicesScrollReveal({
@@ -105,13 +109,14 @@ export function ServicesScrollReveal({
   className,
   parallaxY = 1,
   shareProgress = false,
+  scrollRange = "standard",
 }: ServicesScrollRevealProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const progress = useServicesScrollProgress(targetRef);
-  const y = useTransform(progress, [0, 1], [40 * parallaxY, 0]);
-  const scale = useTransform(progress, [0, 1], [0.96, 1]);
-  const opacity = useTransform(progress, [0, 1], [0.4, 1]);
+  const progress = useServicesScrollProgress(targetRef, scrollRange);
+  const y = useTransform(progress, [0, 1], [56 * parallaxY, 0]);
+  const scale = useTransform(progress, [0, 1], [0.94, 1]);
+  const opacity = useTransform(progress, [0, 1], [0.3, 1]);
 
   if (reducedMotion) {
     return (

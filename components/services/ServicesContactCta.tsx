@@ -23,7 +23,7 @@ function ServicesContactPanel() {
   const progress = useServicesScrollSectionProgress();
   const fallback = useMotionValue(1);
   const source = progress ?? fallback;
-  const whatsappScale = useTransform(source, [0.45, 1], [0.97, 1]);
+  const whatsappScale = useTransform(source, [0.4, 1], [0.95, 1]);
 
   const headingId = "services-contact-heading";
 
@@ -93,6 +93,7 @@ export function ServicesContactCta() {
   return (
     <ServicesScrollReveal
       shareProgress
+      scrollRange="bottom"
       className={cn(servicesSectionClass, "mb-0")}
     >
       <ServicesContactPanel />

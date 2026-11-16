@@ -3,10 +3,10 @@
 import { CircleCheck } from "lucide-react";
 import { m, useMotionValue, useReducedMotion } from "motion/react";
 
+import { useExperienceCardScrollProgress } from "@/components/experience/ExperienceScrollMotion";
 import {
   useServicesBulletMotion,
   useServicesMotionHover,
-  useServicesScrollSectionProgress,
 } from "@/components/services/ServicesScrollMotion";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -33,8 +33,8 @@ function HighlightItem({
   toneClass: string;
 }) {
   const reducedMotion = useReducedMotion();
-  const progress = useServicesScrollSectionProgress();
-  const fallback = useMotionValue(1);
+  const progress = useExperienceCardScrollProgress();
+  const fallback = useMotionValue(0);
   const source = progress ?? fallback;
   const { x, opacity } = useServicesBulletMotion(source, bulletIndex);
 

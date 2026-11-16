@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
-import { ServicesContactCta } from "@/components/services/ServicesContactCta";
+import {
+  ContactCta,
+  servicesContactActions,
+} from "@/components/home/ContactCta";
 import { ServicesHeader } from "@/components/services/ServicesHeader";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
+import { servicesSectionClass } from "@/components/services/servicesSurface";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   servicesContactCta,
   servicesPageMetaDescription,
 } from "@/lib/services";
 import { buildPageMetadata, buildServicesPageJsonLd } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Services | Yeremia Chris Saragi",
@@ -22,14 +27,19 @@ export default function ServicesPage() {
   return (
     <main>
       <JsonLd data={buildServicesPageJsonLd()} />
-      <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
+      <Container className="flex min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
         <ServicesHeader />
         <ServicesOfferings />
         <ServicesProcess />
-        <ServicesContactCta
-          className="mb-4"
+        <ContactCta
+          id="services-contact"
+          withContainer={false}
+          className={cn(servicesSectionClass, "mt-2 mb-4 md:mt-4")}
           panelClassName="ring-1 ring-border/40"
+          eyebrow="Services"
           title={servicesContactCta.title}
+          description=""
+          actions={servicesContactActions()}
         />
       </Container>
     </main>

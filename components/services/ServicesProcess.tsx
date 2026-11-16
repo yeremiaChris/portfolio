@@ -1,5 +1,5 @@
-import { ServicesProcessMotion } from "@/components/services/ServicesProcessMotion";
+import { ServicesProcessSection } from "@/components/services/ServicesProcessSection";
 
 export function ServicesProcess() {
-  return <ServicesProcessMotion />;
+  return <ServicesProcessSection />;
 }

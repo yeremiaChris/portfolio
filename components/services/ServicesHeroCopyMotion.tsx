@@ -4,6 +4,7 @@ import { MessageCircle } from "lucide-react";
 import { m, useReducedMotion } from "motion/react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
+import { SERVICES_STATIC_LAYOUT } from "@/components/services/servicesSurface";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { servicesHeroLineTransition } from "@/lib/services-motion";
 import { servicesHero, servicesHeroLines } from "@/lib/services";
@@ -24,7 +25,7 @@ function getServerSnapshot() {
 
 export function ServicesHeroCopyMotion() {
   const reducedMotion = useReducedMotion();
-  const reduced = reducedMotion === true;
+  const reduced = reducedMotion === true || SERVICES_STATIC_LAYOUT;
   const mounted = useSyncExternalStore(
     subscribeClientEmpty,
     getClientSnapshot,
@@ -43,45 +44,51 @@ export function ServicesHeroCopyMotion() {
     return () => cancelAnimationFrame(frame);
   }, [mounted, reduced]);
 
-  const showLines = !mounted || reduced || revealed;
+  const showLines = reduced || !mounted || revealed;
+
+  const CtaWrap = reduced ? "div" : m.div;
 
   return (
     <div className="min-w-0">
-      <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-[2.65rem] lg:leading-tight">
+      <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-5xl lg:leading-tight">
         <span className="sr-only">{servicesHero.title}</span>
         <span aria-hidden className="flex flex-col">
           {servicesHeroLines.map((line, index) => (
             <span
               key={line}
-              className="block overflow-hidden py-[0.04em] leading-[1.2]"
+              className="block overflow-hidden py-[0.04em] leading-[1.15]"
             >
-              <m.span
-                className="block"
-                style={{ opacity: 1 }}
-                animate={{ y: showLines ? 0 : "108%" }}
-                transition={
-                  reduced || !mounted
-                    ? { duration: 0 }
-                    : servicesHeroLineTransition(index)
-                }
-              >
-                {line}
-              </m.span>
+              {reduced ? (
+                <span className="block">{line}</span>
+              ) : (
+                <m.span
+                  className="block"
+                  style={{ opacity: 1 }}
+                  animate={{ y: showLines ? 0 : "108%" }}
+                  transition={
+                    !mounted
+                      ? { duration: 0 }
+                      : servicesHeroLineTransition(index)
+                  }
+                >
+                  {line}
+                </m.span>
+              )}
             </span>
           ))}
         </span>
       </h1>
-      <m.div
+      <CtaWrap
         className="mt-5 flex flex-wrap items-center gap-2 md:mt-6"
-        style={{ opacity: 1 }}
-        animate={{
-          y: showLines ? 0 : 14,
-        }}
-        transition={
-          reduced || !mounted
-            ? { duration: 0 }
-            : { duration: 0.55, delay: 0.42, ease: [0.16, 1, 0.3, 1] }
-        }
+        {...(reduced
+          ? {}
+          : {
+              style: { opacity: 1 },
+              animate: { y: showLines ? 0 : 14 },
+              transition: !mounted
+                ? { duration: 0 }
+                : { duration: 0.55, delay: 0.42, ease: [0.16, 1, 0.3, 1] },
+            })}
       >
         <a
           href={site.links.whatsapp}
@@ -95,7 +102,7 @@ export function ServicesHeroCopyMotion() {
           <MessageCircle className="size-4 shrink-0" aria-hidden />
           {servicesHero.whatsappCtaLabel}
         </a>
-      </m.div>
+      </CtaWrap>
     </div>
   );
 }

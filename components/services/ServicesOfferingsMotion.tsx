@@ -4,6 +4,10 @@ import { m, useReducedMotion } from "motion/react";
 
 import { ServiceOfferingCardMotion } from "@/components/services/ServiceOfferingCardMotion";
 import {
+  SERVICES_STATIC_LAYOUT,
+  servicesSectionClass,
+} from "@/components/services/servicesSurface";
+import {
   servicesCardRevealOffsetPx,
   servicesCardRevealTransition,
   servicesMotionViewport,
@@ -12,26 +16,28 @@ import { servicesOfferings } from "@/lib/services";
 
 export function ServicesOfferingsMotion() {
   const reducedMotion = useReducedMotion();
-  const reduced = reducedMotion === true;
+  const reduced = reducedMotion === true || SERVICES_STATIC_LAYOUT;
 
   return (
-    <section aria-label="Services" className="mb-8 w-full md:mb-10">
-      <div className="grid grid-cols-1 gap-3.5 md:grid-cols-2 md:gap-5">
-        {servicesOfferings.map((offering, index) => (
-          <m.div
-            key={offering.id}
-            initial={
-              reduced ? false : { y: servicesCardRevealOffsetPx, opacity: 0.72 }
-            }
-            whileInView={reduced ? undefined : { y: 0, opacity: 1 }}
-            viewport={reduced ? undefined : servicesMotionViewport}
-            transition={
-              reduced ? { duration: 0 } : servicesCardRevealTransition(index)
-            }
-          >
-            <ServiceOfferingCardMotion offering={offering} />
-          </m.div>
-        ))}
+    <section aria-label="Services" className={servicesSectionClass}>
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+        {servicesOfferings.map((offering, index) =>
+          reduced ? (
+            <div key={offering.id}>
+              <ServiceOfferingCardMotion offering={offering} />
+            </div>
+          ) : (
+            <m.div
+              key={offering.id}
+              initial={{ y: servicesCardRevealOffsetPx, opacity: 0.72 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={servicesMotionViewport}
+              transition={servicesCardRevealTransition(index)}
+            >
+              <ServiceOfferingCardMotion offering={offering} />
+            </m.div>
+          ),
+        )}
       </div>
     </section>
   );

@@ -820,6 +820,7 @@ html[data-intro="playing"] [data-intro-bar] {
 .service-offering-shell {
   position: relative;
   isolation: isolate;
+  border-radius: 1.5rem;
 }
 
 .service-offering-shell::before {

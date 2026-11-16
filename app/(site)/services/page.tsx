@@ -5,7 +5,7 @@ import {
   ContactCta,
   servicesContactActions,
 } from "@/components/home/ContactCta";
-import { ServicesHeader } from "@/components/services/ServicesHeader";
+import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
 import { servicesSectionClass } from "@/components/services/servicesSurface";
@@ -28,7 +28,7 @@ export default function ServicesPage() {
     <main>
       <JsonLd data={buildServicesPageJsonLd()} />
       <Container className="flex min-w-0 flex-col overflow-x-hidden py-6 md:py-8">
-        <ServicesHeader />
+        <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
         <ContactCta

@@ -262,11 +262,6 @@ html[data-intro="playing"] [data-intro-bar] {
     transition: none !important;
   }
 
-  .service-offering-shell::before {
-    opacity: 0 !important;
-    transition: none !important;
-  }
-
   .project-card:hover .project-card-media-image,
   .project-card:focus-within:has(:focus-visible) .project-card-media-image,
   .project-card:hover .project-card-arrow,
@@ -814,51 +809,6 @@ html[data-intro="playing"] [data-intro-bar] {
     border-color: inherit;
     background-color: inherit;
     box-shadow: none;
-  }
-}
-
-.service-offering-shell {
-  position: relative;
-  isolation: isolate;
-  border-radius: 1.5rem;
-}
-
-.service-offering-shell::before {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  inset: -14px;
-  z-index: -1;
-  border-radius: calc(1rem + 14px);
-  opacity: 0;
-  background: radial-gradient(
-    240px 240px at var(--spotlight-x, 50%) var(--spotlight-y, 40%),
-    rgb(76 215 246 / 0.3),
-    rgb(76 215 246 / 0.1) 45%,
-    transparent 72%
-  );
-  transition: opacity 200ms cubic-bezier(0.2, 0, 0, 1);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @media (hover: hover) {
-    .service-offering-shell--active:hover::before,
-    .service-offering-shell--active:focus-within:has(:focus-visible)::before {
-      opacity: 1;
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .service-offering-shell::before {
-    opacity: 0 !important;
-    transition: none !important;
-  }
-}
-
-@media (hover: none) {
-  .service-offering-shell::before {
-    opacity: 0 !important;
   }
 }
 

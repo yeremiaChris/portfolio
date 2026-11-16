@@ -92,14 +92,6 @@ export function getServiceOfferingProjectHref(
   return `/projects#${offering.projectAnchorId}`;
 }
 
-export function getServiceOfferingProjectTitle(
-  offering: ServiceOffering,
-): string | undefined {
-  if (!offering.projectAnchorId) return undefined;
-  return projects.find((project) => project.id === offering.projectAnchorId)
-    ?.title;
-}
-
 export function getServiceOfferingProjectShortName(
   offering: ServiceOffering,
 ): string | undefined {

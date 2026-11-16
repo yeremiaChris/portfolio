@@ -1,8 +1,14 @@
 import Link from "next/link";
 import { Globe, LayoutDashboard } from "lucide-react";
 
-import { aboutBentoChipClass } from "@/components/about/aboutSurface";
-import { servicesOfferingCardClass } from "@/components/services/servicesSurface";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   getServiceOfferingProjectHref,
   getServiceOfferingProjectShortName,
@@ -26,18 +32,22 @@ export function ServiceOfferingCard({ offering }: ServiceOfferingCardProps) {
   const Icon = OFFERING_ICONS[offering.id];
 
   return (
-    <article className={cn(servicesOfferingCardClass)}>
-      <div className="space-y-3.5">
+    <Card
+      className={cn(
+        "border-border/50 bg-muted/90 ring-border/30 hover:border-brand-accent/40 flex h-full flex-col justify-between rounded-3xl border shadow-sm ring-1 transition-[border-color,box-shadow] duration-200 [--card-spacing:--spacing(5)] hover:shadow-[0_0_0_1px_rgba(76,215,246,0.14)] motion-reduce:transition-none md:[--card-spacing:--spacing(6)]",
+      )}
+    >
+      <CardHeader className="flex flex-1 flex-col gap-3.5">
         <div className="bg-brand-accent/10 text-brand-accent border-brand-accent/35 inline-flex size-10 items-center justify-center rounded-lg border">
           <Icon className="size-5" aria-hidden />
         </div>
         <div className="space-y-2">
-          <h3 className="font-heading text-foreground text-xl font-semibold tracking-tight">
-            {offering.title}
-          </h3>
-          <p className="text-muted-foreground text-[15px] leading-relaxed">
+          <CardTitle className="font-heading text-foreground text-xl font-semibold tracking-tight">
+            <h3>{offering.title}</h3>
+          </CardTitle>
+          <CardDescription className="text-[15px] leading-relaxed">
             {offering.description}
-          </p>
+          </CardDescription>
         </div>
         <ul className="text-foreground space-y-2 text-[14px] leading-relaxed">
           {offering.bullets.map((bullet) => (
@@ -50,30 +60,38 @@ export function ServiceOfferingCard({ offering }: ServiceOfferingCardProps) {
             </li>
           ))}
         </ul>
-      </div>
+      </CardHeader>
 
-      <div className="border-border/40 mt-5 flex flex-col gap-2.5 border-t pt-3.5">
+      <CardFooter className="border-border/40 mt-auto flex flex-col items-start gap-2.5 border-t bg-transparent pt-3.5">
         <p className="text-brand-accent text-[12px] font-medium tracking-wide">
           {offering.stack}
         </p>
         {projectHref && projectShortName ? (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-muted-foreground text-[10px] font-medium tracking-[0.14em] uppercase">
+            <Badge
+              variant="secondary"
+              className="text-muted-foreground label-caps bg-transparent px-0 text-[10px] tracking-[0.14em]"
+            >
               Recent work
-            </span>
-            <Link
-              href={projectHref}
-              aria-label={`${projectShortName} project`}
+            </Badge>
+            <Badge
+              variant="outline"
+              render={
+                <Link
+                  href={projectHref}
+                  aria-label={`${projectShortName} project`}
+                />
+              }
               className={cn(
-                aboutBentoChipClass,
-                "text-brand-accent hover:border-brand-accent/45 hover:text-brand-accent/90 transition-colors duration-200 motion-reduce:transition-none",
+                "text-brand-accent hover:border-brand-accent/45 hover:text-brand-accent/90 rounded-full px-2.5 py-1 text-[12px] font-medium sm:px-3 sm:text-[13px]",
+                "motion-reduce:transition-none",
               )}
             >
               {projectShortName}
-            </Link>
+            </Badge>
           </div>
         ) : null}
-      </div>
-    </article>
+      </CardFooter>
+    </Card>
   );
 }

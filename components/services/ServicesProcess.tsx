@@ -31,7 +31,7 @@ export function ServicesProcess() {
         {servicesHowItWorksHeading}
       </SectionHeading>
 
-      <Reveal when="inView" preset="calm">
+      <Reveal when="inView" preset="expressive">
         <Card className="border-border/50 bg-muted/90 ring-border/30 overflow-hidden rounded-2xl border shadow-sm ring-1 md:rounded-3xl">
           <CardContent className="p-0">
             <ol className="divide-border/40 grid grid-cols-1 divide-y md:grid-cols-3 md:divide-x md:divide-y-0">

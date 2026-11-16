@@ -32,7 +32,7 @@ export default function ServicesPage() {
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <Reveal when="inView" preset="calm">
+        <Reveal when="inView" preset="expressive">
           <ContactCta
             id="services-contact"
             withContainer={false}

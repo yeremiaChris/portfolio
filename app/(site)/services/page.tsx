@@ -5,7 +5,7 @@ import {
   ContactCta,
   servicesContactActions,
 } from "@/components/home/ContactCta";
-import { ServicesContactReveal } from "@/components/services/ServicesContactReveal";
+import { Reveal } from "@/components/motion/Reveal";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
@@ -32,7 +32,11 @@ export default function ServicesPage() {
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <ServicesContactReveal className={cn(servicesSectionClass, "mb-0")}>
+        <Reveal
+          when="inView"
+          preset="calm"
+          className={cn(servicesSectionClass, "mb-0")}
+        >
           <ContactCta
             id="services-contact"
             withContainer={false}
@@ -42,7 +46,7 @@ export default function ServicesPage() {
             description=""
             actions={servicesContactActions()}
           />
-        </ServicesContactReveal>
+        </Reveal>
       </Container>
     </main>
   );

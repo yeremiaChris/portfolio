@@ -5,10 +5,6 @@ import { useEffect, useRef } from "react";
 
 import { scrollDocumentToY } from "@/lib/programmatic-scroll";
 
-/**
- * Next.js client navigations keep Lenis internal scroll across route changes.
- * Reset to top on pathname change; preserve back/forward and hash targets.
- */
 export function RouteScrollToTop() {
   const pathname = usePathname();
   const skipForBackForward = useRef(false);

@@ -30,14 +30,57 @@ import { cn } from "@/lib/utils";
 type BlogPostCardProps = {
   post: BlogPostSummary;
   scrollMotion?: boolean;
-  columnIndex?: number;
 };
 
-function BlogPostCardBody({ post }: { post: BlogPostSummary }) {
+export function BlogPostCard({
+  post,
+  scrollMotion = false,
+}: BlogPostCardProps) {
+  const reducedMotion = useReducedMotion();
+  const motionHover = useBlogMotionHover();
+  const animateEnter = scrollMotion && !reducedMotion;
+
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { y, opacity } = useBlogCardEnterMotion(targetRef);
+  const [hovered, setHovered] = useState(false);
+  const spotlightX = useMotionValue(-120);
+  const spotlightY = useMotionValue(-120);
+  const spotlightOpacity = useMotionValue(0);
+  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${spotlightX}px ${spotlightY}px, color-mix(in oklab, var(--color-primary) 20%, transparent), color-mix(in oklab, var(--color-primary) 4%, transparent) 38%, transparent 58%)`;
+
   const href = `/blog/${post.slug}`;
   const topicChips = getTopicsForPost(post).slice(0, 2);
 
-  return (
+  const pointerHandlers =
+    motionHover && animateEnter
+      ? {
+          onPointerEnter: (event: React.PointerEvent<HTMLDivElement>) => {
+            setHovered(true);
+            spotlightOpacity.set(1);
+            const rect = event.currentTarget.getBoundingClientRect();
+            spotlightX.set(event.clientX - rect.left);
+            spotlightY.set(event.clientY - rect.top);
+          },
+          onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => {
+            const rect = event.currentTarget.getBoundingClientRect();
+            spotlightX.set(event.clientX - rect.left);
+            spotlightY.set(event.clientY - rect.top);
+          },
+          onPointerLeave: () => {
+            setHovered(false);
+            spotlightOpacity.set(0);
+          },
+        }
+      : undefined;
+
+  const shellClass = cn(
+    "group bg-muted ring-border/40 relative flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-xl border border-transparent py-0",
+    !motionHover &&
+      "hover:bg-muted/80 transition-colors motion-reduce:transition-none",
+    animateEnter && motionHover && "ring-0",
+  );
+
+  const body = (
     <>
       <CardHeader className="gap-3 p-4 pb-0">
         <div className="flex items-center justify-between gap-2">
@@ -101,135 +144,47 @@ function BlogPostCardBody({ post }: { post: BlogPostSummary }) {
       </CardFooter>
     </>
   );
-}
 
-function BlogPostCardShell({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <Card
-      className={cn(
-        "group bg-muted ring-border/40 relative flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-xl border border-transparent py-0",
-        className,
-      )}
-      {...props}
-    >
-      {children}
+  const cardInner = (
+    <Card className={shellClass}>
+      {motionHover && animateEnter ? (
+        <m.div
+          className="pointer-events-none absolute inset-0 z-[1] rounded-xl border border-transparent"
+          style={{ backgroundImage: spotlight, opacity: spotlightOpacity }}
+          initial={false}
+          animate={{
+            borderColor: hovered
+              ? "color-mix(in oklab, var(--color-primary) 45%, transparent)"
+              : "color-mix(in oklab, var(--color-primary) 0%, transparent)",
+            backgroundColor: hovered
+              ? "rgb(255 255 255 / 0.02)"
+              : "transparent",
+          }}
+          transition={blogCardHoverTransition}
+          aria-hidden
+        />
+      ) : null}
+      <div className="relative z-[2] flex h-full flex-col">{body}</div>
     </Card>
   );
-}
 
-function BlogPostCardScroll({
-  post,
-  columnIndex,
-}: {
-  post: BlogPostSummary;
-  columnIndex: number;
-}) {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const { y, opacity } = useBlogCardEnterMotion(targetRef, columnIndex);
-  const motionHover = useBlogMotionHover();
-  const [hovered, setHovered] = useState(false);
-  const spotlightX = useMotionValue(-120);
-  const spotlightY = useMotionValue(-120);
-  const spotlightOpacity = useMotionValue(0);
-  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${spotlightX}px ${spotlightY}px, rgb(76 215 246 / 0.2), rgb(76 215 246 / 0.04) 38%, transparent 58%)`;
-
-  const pointerHandlers = motionHover
-    ? {
-        onPointerEnter: (event: React.PointerEvent<HTMLDivElement>) => {
-          setHovered(true);
-          spotlightOpacity.set(1);
-          const rect = event.currentTarget.getBoundingClientRect();
-          spotlightX.set(event.clientX - rect.left);
-          spotlightY.set(event.clientY - rect.top);
-        },
-        onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => {
-          const rect = event.currentTarget.getBoundingClientRect();
-          spotlightX.set(event.clientX - rect.left);
-          spotlightY.set(event.clientY - rect.top);
-        },
-        onPointerLeave: () => {
-          setHovered(false);
-          spotlightOpacity.set(0);
-        },
-      }
-    : undefined;
-
-  return (
-    <m.div
-      ref={targetRef}
-      className="relative h-full min-w-0"
-      style={{ y, opacity }}
-      initial={false}
-      {...pointerHandlers}
-    >
-      <BlogPostCardShell
-        className={cn(
-          "ring-0",
-          !motionHover &&
-            "hover:bg-muted/80 transition-colors motion-reduce:transition-none",
-        )}
+  if (animateEnter) {
+    return (
+      <m.div
+        ref={targetRef}
+        className="relative h-full min-w-0"
+        style={{ y, opacity }}
+        initial={false}
+        {...pointerHandlers}
       >
-        {motionHover ? (
-          <>
-            <m.div
-              className="pointer-events-none absolute inset-0 z-0 rounded-xl"
-              style={{ background: spotlight, opacity: spotlightOpacity }}
-              aria-hidden
-            />
-            <m.div
-              className="pointer-events-none absolute inset-0 z-[1] rounded-xl border"
-              initial={false}
-              animate={{
-                borderColor: hovered
-                  ? "rgb(76 215 246 / 0.45)"
-                  : "rgb(76 215 246 / 0)",
-              }}
-              transition={blogCardHoverTransition}
-              aria-hidden
-            />
-            <m.div
-              className="pointer-events-none absolute inset-0 z-[1] rounded-xl"
-              initial={false}
-              animate={{
-                backgroundColor: hovered
-                  ? "rgb(255 255 255 / 0.02)"
-                  : "transparent",
-              }}
-              transition={blogCardHoverTransition}
-              aria-hidden
-            />
-          </>
-        ) : null}
-        <div className="relative z-[2] flex h-full flex-col">
-          <BlogPostCardBody post={post} />
-        </div>
-      </BlogPostCardShell>
-    </m.div>
-  );
-}
-
-function BlogPostCardStatic({ post }: { post: BlogPostSummary }) {
-  return (
-    <BlogPostCardShell className="hover:bg-muted/80 transition-colors motion-reduce:transition-none">
-      <BlogPostCardBody post={post} />
-    </BlogPostCardShell>
-  );
-}
-
-export function BlogPostCard({
-  post,
-  scrollMotion = false,
-  columnIndex = 0,
-}: BlogPostCardProps) {
-  const reducedMotion = useReducedMotion();
-
-  if (scrollMotion && !reducedMotion) {
-    return <BlogPostCardScroll post={post} columnIndex={columnIndex} />;
+        {cardInner}
+      </m.div>
+    );
   }
 
-  return <BlogPostCardStatic post={post} />;
+  return (
+    <div ref={targetRef} className="h-full min-w-0">
+      {cardInner}
+    </div>
+  );
 }

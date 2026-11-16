@@ -7,7 +7,6 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import {
   BlogPostArticle,
   BlogPostReadingProvider,
-  BlogPostTitleSection,
   blogPostMdxComponents,
 } from "@/components/blog/BlogPostReadingMotion";
 import { BlogPostTitleMeta } from "@/components/blog/BlogPostTitleMeta";
@@ -100,7 +99,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       />
       <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col gap-8 overflow-x-clip py-6 md:py-8">
         <BlogPostReadingProvider headings={headings}>
-          <BlogPostTitleSection>
+          <div className="flex flex-col gap-4">
             <Link
               href="/blog"
               className="text-muted-foreground hover:text-primary -my-2.5 inline-flex min-h-10 w-fit items-center gap-1.5 text-[12px] font-medium transition-colors sm:my-0 sm:min-h-0"
@@ -141,7 +140,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
               ) : null}
             </div>
-          </BlogPostTitleSection>
+          </div>
 
           <ReadingResume slug={post.slug} headings={headings} />
 

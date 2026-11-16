@@ -5,10 +5,7 @@ import { FileSearch } from "lucide-react";
 import { AnimatePresence, LayoutGroup, m } from "motion/react";
 
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
-import {
-  blogGridLayoutTransition,
-  useBlogGridColumnCount,
-} from "@/components/blog/BlogScrollMotion";
+import { blogGridLayoutTransition } from "@/components/blog/BlogScrollMotion";
 import { Reveal } from "@/components/motion/Reveal";
 import { BlogSearchInput } from "@/components/blog/BlogSearchInput";
 import { BlogTopicChips } from "@/components/blog/BlogTopicChips";
@@ -34,7 +31,6 @@ export function BlogIndexExplore({
   basePath = "/blog",
 }: BlogIndexExploreProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const columnCount = useBlogGridColumnCount();
 
   const filtered = useMemo(
     () =>
@@ -121,7 +117,7 @@ export function BlogIndexExplore({
               className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3"
             >
               <AnimatePresence initial={false} mode="popLayout">
-                {remaining.map((post, index) => (
+                {remaining.map((post) => (
                   <m.div
                     key={post.slug}
                     layout
@@ -131,11 +127,7 @@ export function BlogIndexExplore({
                     transition={blogGridLayoutTransition}
                     className="min-w-0"
                   >
-                    <BlogPostCard
-                      post={post}
-                      scrollMotion
-                      columnIndex={index % columnCount}
-                    />
+                    <BlogPostCard post={post} scrollMotion />
                   </m.div>
                 ))}
               </AnimatePresence>

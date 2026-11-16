@@ -1,4 +1,4 @@
-import { BlogHeaderReadingProgress } from "@/components/blog/BlogPostReadingMotion";
+import { BlogHeaderReadingProgress } from "@/components/blog/BlogHeaderReadingProgress";
 import { HeaderBar } from "@/components/HeaderBar";
 
 export function Header() {

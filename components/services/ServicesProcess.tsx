@@ -1,7 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import { aboutStepNumberClass } from "@/components/about/aboutSurface";
-import { ServicesFadeUp } from "@/components/services/ServicesFadeUp";
+import {
+  ServicesScrollClip,
+  ServicesStepPill,
+  useServicesMotionHover,
+} from "@/components/services/servicesReveal";
 import {
   servicesSectionClass,
   servicesSectionHeadingGap,
@@ -17,37 +24,53 @@ import {
 import { cn } from "@/lib/utils";
 
 export function ServicesProcess() {
+  const motionHover = useServicesMotionHover();
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+
   return (
     <section
       aria-labelledby="services-process-heading"
       className={servicesSectionClass}
     >
-      <ServicesFadeUp className={servicesSectionHeadingGap}>
+      <ServicesScrollClip className={servicesSectionHeadingGap}>
         <SectionHeading id="services-process-heading">
           {servicesHowItWorksHeading}
         </SectionHeading>
-      </ServicesFadeUp>
+      </ServicesScrollClip>
 
-      <ServicesFadeUp>
+      <ServicesScrollClip>
         <Card className="border-border/50 bg-muted/90 ring-border/30 overflow-hidden rounded-2xl border shadow-sm ring-1 md:rounded-3xl">
           <CardContent className="p-0">
             <ol className="grid list-none grid-cols-1 gap-8 px-4 py-6 sm:px-5 sm:py-7 md:grid-cols-3 md:gap-6 md:px-6 md:py-8 lg:gap-8 lg:px-8 lg:py-9">
               {servicesHowItWorksSteps.map((step, index) => (
                 <li
                   key={step}
-                  className="flex min-h-0 flex-col gap-3 md:gap-3.5"
+                  className="relative flex min-h-0 flex-col gap-3 md:gap-3.5"
+                  onPointerEnter={
+                    motionHover ? () => setHoveredStep(index) : undefined
+                  }
+                  onPointerLeave={
+                    motionHover ? () => setHoveredStep(null) : undefined
+                  }
                 >
                   <h3 className="sr-only">
                     Step {index + 1}: {step}
                   </h3>
-                  <span
-                    className={cn(
-                      aboutStepNumberClass,
-                      "w-fit px-2 py-0.5 text-xs leading-none",
-                    )}
-                  >
-                    {index + 1}
-                  </span>
+                  <div className="relative w-fit">
+                    <ServicesStepPill
+                      visible={motionHover && hoveredStep === index}
+                    />
+                    <span
+                      className={cn(
+                        aboutStepNumberClass,
+                        "relative z-10 w-fit px-2 py-0.5 text-xs leading-none",
+                        !motionHover &&
+                          "hover:border-brand-accent/45 transition-colors duration-200",
+                      )}
+                    >
+                      {index + 1}
+                    </span>
+                  </div>
                   <p className="font-heading text-foreground text-[15px] leading-relaxed font-semibold tracking-tight sm:text-base">
                     {step}
                   </p>
@@ -71,7 +94,7 @@ export function ServicesProcess() {
             </p>
           </CardFooter>
         </Card>
-      </ServicesFadeUp>
+      </ServicesScrollClip>
     </section>
   );
 }

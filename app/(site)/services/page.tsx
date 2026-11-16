@@ -5,10 +5,10 @@ import {
   ContactCta,
   servicesContactActions,
 } from "@/components/home/ContactCta";
-import { ServicesFadeUp } from "@/components/services/ServicesFadeUp";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
+import { ServicesScrollClip } from "@/components/services/servicesReveal";
 import { servicesSectionClass } from "@/components/services/servicesSurface";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -32,7 +32,7 @@ export default function ServicesPage() {
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <ServicesFadeUp className={cn(servicesSectionClass, "mb-0")}>
+        <ServicesScrollClip className={cn(servicesSectionClass, "mb-0")}>
           <ContactCta
             id="services-contact"
             withContainer={false}
@@ -42,7 +42,7 @@ export default function ServicesPage() {
             description=""
             actions={servicesContactActions()}
           />
-        </ServicesFadeUp>
+        </ServicesScrollClip>
       </Container>
     </main>
   );

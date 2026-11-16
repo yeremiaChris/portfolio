@@ -8,14 +8,13 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
-import { m, useReducedMotion } from "motion/react";
+import { m } from "motion/react";
 
 import {
   motionPresetConfig,
   motionPresetRevealOffset,
-  motionPresetRevealOpacity,
   motionPresetRevealTransition,
-  motionPresetWhileInViewOptions,
+  motionRevealRestingTarget,
   motionStaggerChildDelay,
   staggerUsesPerItemInViewReveal,
   type MotionPreset,
@@ -39,7 +38,6 @@ export function Stagger({
   when = "inView",
   preset = "calm",
 }: StaggerProps) {
-  const reducedMotion = useReducedMotion();
   const perItemReveal = staggerUsesPerItemInViewReveal(preset, when);
 
   const items = Children.map(children, (child, index) => {
@@ -52,17 +50,8 @@ export function Stagger({
       preset,
       when,
       perItemReveal,
-      reducedMotion: reducedMotion ?? false,
     });
   });
-
-  if (reducedMotion) {
-    return (
-      <div data-stagger="" className={cn(className)}>
-        {items}
-      </div>
-    );
-  }
 
   if (perItemReveal) {
     return (
@@ -73,68 +62,30 @@ export function Stagger({
   }
 
   return (
-    <StaggerParentGated
-      className={className}
-      when={when}
-      preset={preset}
-      items={items}
-    />
-  );
-}
-
-function StaggerOnMount({
-  items,
-  className,
-  preset,
-  parentVariants,
-}: {
-  items: ReactNode;
-  className?: string;
-  preset: MotionPreset;
-  parentVariants: {
-    hidden: Record<string, never>;
-    visible: {
-      transition: {
-        staggerChildren: number;
-        delayChildren: number;
-      };
-    };
-  };
-}) {
-  const { ref, active } = useScrollRevealActive({
-    when: "mount",
-    preset,
-  });
-
-  return (
-    <m.div
-      ref={ref}
-      data-stagger=""
-      className={cn(className)}
-      initial="hidden"
-      animate={active ? "visible" : "hidden"}
-      variants={parentVariants}
-    >
+    <StaggerParentGated className={className} when={when} preset={preset}>
       {items}
-    </m.div>
+    </StaggerParentGated>
   );
 }
 
 function StaggerParentGated({
-  items,
+  children,
   className,
   when,
   preset,
 }: {
-  items: ReactNode;
+  children: ReactNode;
   className?: string;
   when: StaggerWhen;
   preset: MotionPreset;
 }) {
-  const viewport = motionPresetWhileInViewOptions(preset);
+  const { ref, active } = useScrollRevealActive({
+    when,
+    preset,
+  });
   const parentVariants = useMemo(
     () => ({
-      hidden: {},
+      rest: {},
       visible: {
         transition: {
           staggerChildren: motionPresetConfig[preset].staggerGap,
@@ -145,28 +96,18 @@ function StaggerParentGated({
     [preset],
   );
 
-  if (when === "inView") {
-    return (
-      <m.div
-        data-stagger=""
-        className={cn(className)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-        variants={parentVariants}
-      >
-        {items}
-      </m.div>
-    );
-  }
-
   return (
-    <StaggerOnMount
-      className={className}
-      preset={preset}
-      parentVariants={parentVariants}
-      items={items}
-    />
+    <m.div
+      ref={ref}
+      data-stagger=""
+      className={cn(className)}
+      initial={false}
+      style={{ opacity: 1 }}
+      variants={parentVariants}
+      animate={active ? "visible" : "rest"}
+    >
+      {children}
+    </m.div>
   );
 }
 
@@ -177,7 +118,6 @@ type StaggerItemProps = {
   preset?: MotionPreset;
   when?: StaggerWhen;
   perItemReveal?: boolean;
-  reducedMotion?: boolean;
 };
 
 export function StaggerItem({
@@ -187,54 +127,90 @@ export function StaggerItem({
   preset = "calm",
   when = "inView",
   perItemReveal = false,
-  reducedMotion = false,
 }: StaggerItemProps) {
   const delay = motionStaggerChildDelay(staggerIndex, preset);
   const offset = motionPresetRevealOffset(preset, when);
-  const viewport = motionPresetWhileInViewOptions(preset);
 
   const itemVariants = useMemo(
     () => ({
-      hidden: {
-        y: offset,
-        opacity: motionPresetRevealOpacity(preset, when),
-      },
+      rest: motionRevealRestingTarget(),
       visible: {
-        y: 0,
-        opacity: 1,
+        y: 0 as const,
+        opacity: 1 as const,
         transition: {
           ...motionPresetRevealTransition(preset, when),
           delay,
+          from: { y: offset, opacity: 1 as const },
         },
       },
     }),
     [delay, offset, preset, when],
   );
 
-  if (reducedMotion) {
-    return <div className={cn(className)}>{children}</div>;
-  }
-
   if (perItemReveal) {
     return (
-      <m.div
-        data-stagger-item=""
-        className={cn(className)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-        variants={itemVariants}
+      <StaggerItemInView
+        className={className}
+        when={when}
+        preset={preset}
+        itemVariants={itemVariants}
       >
         {children}
-      </m.div>
+      </StaggerItemInView>
     );
   }
 
   return (
     <m.div
-      data-stagger-item=""
       className={cn(className)}
+      initial={false}
+      style={{ opacity: 1 }}
       variants={itemVariants}
+    >
+      {children}
+    </m.div>
+  );
+}
+
+function StaggerItemInView({
+  children,
+  className,
+  when,
+  preset,
+  itemVariants,
+}: {
+  children: ReactNode;
+  className?: string;
+  when: StaggerWhen;
+  preset: MotionPreset;
+  itemVariants: {
+    rest: { y: 0; opacity: 1 };
+    visible: {
+      y: 0;
+      opacity: 1;
+      transition: ReturnType<typeof motionPresetRevealTransition> & {
+        delay: number;
+        from: { y: number; opacity: 1 };
+      };
+    };
+  };
+}) {
+  const { ref, active } = useScrollRevealActive({
+    when,
+    preset,
+  });
+
+  return (
+    <m.div
+      ref={ref}
+      className={cn(className)}
+      initial={false}
+      style={{ opacity: 1 }}
+      variants={{
+        rest: itemVariants.rest,
+        visible: itemVariants.visible,
+      }}
+      animate={active ? "visible" : "rest"}
     >
       {children}
     </m.div>

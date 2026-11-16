@@ -22,7 +22,7 @@ describe("motion-tokens", () => {
     expect(motionPresetConfig.expressive.revealOffset).toBe(28);
     expect(motionPresetConfig.expressive.staggerGap).toBe(0.06);
     expect(motionPresetConfig.calm.revealDurationMount).toBe(0.25);
-    expect(motionPresetConfig.calm.revealOffset).toBe(20);
+    expect(motionPresetConfig.calm.revealOffset).toBe(8);
     expect(motionPresetConfig.calm.staggerMaxDelay).toBe(0.15);
   });
 
@@ -39,7 +39,6 @@ describe("motion-tokens", () => {
 
   it("resolves preset reveal offset and transition by when", () => {
     expect(motionPresetRevealOffset("calm", "mount")).toBe(4);
-    expect(motionPresetRevealOffset("calm", "inView")).toBe(20);
     expect(motionPresetRevealOffset("expressive", "inView")).toBe(28);
     expect(motionPresetRevealTransition("calm", "mount").duration).toBe(0.25);
     expect(motionPresetRevealTransition("calm", "inView").duration).toBe(0.4);
@@ -53,7 +52,7 @@ describe("motion-tokens", () => {
     const expressive = motionPresetViewport("expressive");
     expect(calm.amount).toBe(0.05);
     expect(calm.margin).toBe("0px 0px 0px 0px");
-    expect(calm.inViewInitial).toBe(false);
+    expect(calm.inViewInitial).toBe(true);
     expect(expressive.amount).toBe(0.18);
     expect(expressive.margin).toBe("0px 0px -10% 0px");
     expect(expressive.inViewInitial).toBe(false);

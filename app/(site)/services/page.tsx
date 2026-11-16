@@ -19,7 +19,7 @@ export default function ServicesPage() {
   return (
     <main>
       <JsonLd data={buildServicesPageJsonLd()} />
-      <Container className="flex min-w-0 flex-col overflow-x-hidden py-6 md:py-8 lg:py-10">
+      <Container className="flex min-w-0 flex-col overflow-x-clip py-6 md:py-8 lg:py-10">
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />

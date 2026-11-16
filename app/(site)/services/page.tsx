@@ -5,7 +5,6 @@ import {
   ContactCta,
   servicesContactActions,
 } from "@/components/home/ContactCta";
-import { Reveal } from "@/components/motion/Reveal";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
@@ -28,22 +27,20 @@ export default function ServicesPage() {
   return (
     <main>
       <JsonLd data={buildServicesPageJsonLd()} />
-      <Container className="flex min-w-0 flex-col overflow-x-hidden py-4 md:py-5">
+      <Container className="flex min-w-0 flex-col overflow-x-hidden py-6 md:py-8 lg:py-10">
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <Reveal when="inView" preset="expressive">
-          <ContactCta
-            id="services-contact"
-            withContainer={false}
-            compact
-            className={cn(servicesSectionClass, "mb-3")}
-            eyebrow=""
-            title={servicesContactCta.title}
-            description=""
-            actions={servicesContactActions()}
-          />
-        </Reveal>
+        <ContactCta
+          id="services-contact"
+          withContainer={false}
+          compact
+          className={cn(servicesSectionClass, "mb-0")}
+          eyebrow=""
+          title={servicesContactCta.title}
+          description=""
+          actions={servicesContactActions()}
+        />
       </Container>
     </main>
   );

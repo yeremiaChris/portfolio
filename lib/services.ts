@@ -10,21 +10,13 @@ export type ServiceOffering = {
 
 export const servicesHero = {
   title: "I build fast, reliable websites and web systems for businesses.",
+  supportingLine:
+    "Websites, landing pages, and practical web systems — scoped for how you work.",
   whatsappCtaLabel: "Chat on WhatsApp",
 } as const;
 
 export const servicesPageMetaDescription =
   "Websites, landing pages, and web systems for businesses — dashboards, admin panels, and internal tools. Free consultation with an estimate within 24 hours.";
-
-export const servicesHeroLines = [
-  "I build fast, reliable",
-  "websites and web systems",
-  "for businesses.",
-] as const;
-
-export function servicesHeroLinesJoin(): string {
-  return servicesHeroLines.join(" ");
-}
 
 export const servicesOfferings: readonly ServiceOffering[] = [
   {

@@ -2,12 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import {
   servicesHero,
-  servicesHeroLines,
   servicesPageMetaDescription,
   servicesHowItWorksSteps,
   servicesOfferings,
   servicesPricingLine,
-  servicesHeroLinesJoin,
 } from "./services";
 
 describe("servicesHero", () => {
@@ -17,9 +15,9 @@ describe("servicesHero", () => {
     );
   });
 
-  it("keeps line splits aligned with the full headline", () => {
-    expect(servicesHeroLinesJoin()).toBe(servicesHero.title);
-    expect(servicesHeroLines.join(" ")).toBe(servicesHero.title);
+  it("includes a short supporting line under the headline", () => {
+    expect(servicesHero.supportingLine.length).toBeGreaterThan(20);
+    expect(servicesHero.supportingLine).not.toBe(servicesHero.title);
   });
 
   it("uses a dedicated meta description without prices", () => {
@@ -38,6 +36,8 @@ describe("servicesOfferings", () => {
     expect(byId.websites.stack).toBe("Next.js · TypeScript · Tailwind");
     expect(byId["web-systems"].stack).toBe("React/Next.js");
     expect(byId["web-systems"].stack).not.toContain("Supabase");
+    expect(byId.websites.bullets).toHaveLength(3);
+    expect(byId["web-systems"].bullets).toHaveLength(3);
   });
 });
 

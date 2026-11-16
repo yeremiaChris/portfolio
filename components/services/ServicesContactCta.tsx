@@ -23,7 +23,7 @@ function ServicesContactPanel() {
   const progress = useServicesScrollSectionProgress();
   const fallback = useMotionValue(1);
   const source = progress ?? fallback;
-  const whatsappScale = useTransform(source, [0.5, 1], [0.94, 1]);
+  const whatsappScale = useTransform(source, [0.45, 1], [0.97, 1]);
 
   const headingId = "services-contact-heading";
 

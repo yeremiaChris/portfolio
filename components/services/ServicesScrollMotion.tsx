@@ -20,10 +20,12 @@ import { usePointerFine } from "@/components/projects/usePointerFine";
 import { projectsFeaturedSpring } from "@/lib/projects-motion";
 import { cn } from "@/lib/utils";
 
-const servicesScrollOffset: ["start 0.95", "start 0.28"] = [
-  "start 0.95",
-  "start 0.28",
+const servicesScrollOffset: ["start end", "start 0.86"] = [
+  "start end",
+  "start 0.86",
 ];
+
+const servicesProgressSettleAt = 0.62;
 
 const ServicesScrollProgressContext = createContext<MotionValue<number> | null>(
   null,
@@ -36,7 +38,14 @@ function useServicesScrollProgress(
     target: targetRef,
     offset: servicesScrollOffset,
   });
-  return useSpring(scrollYProgress, projectsFeaturedSpring);
+  const spring = useSpring(scrollYProgress, projectsFeaturedSpring);
+  return useTransform(spring, (value) => {
+    const clamped = Math.min(1, Math.max(0, value));
+    if (clamped >= servicesProgressSettleAt) {
+      return 1;
+    }
+    return clamped / servicesProgressSettleAt;
+  });
 }
 
 export function useServicesStepHighlight(
@@ -78,8 +87,8 @@ export function useServicesBulletMotion(
     return (v - start) / (end - start);
   });
 
-  const x = useTransform(local, [0, 1], [-24, 0]);
-  const opacity = useTransform(local, [0, 1], [0.12, 1]);
+  const x = useTransform(local, [0, 1], [-12, 0]);
+  const opacity = useTransform(local, [0, 1], [0.25, 1]);
 
   return { x, opacity };
 }
@@ -89,7 +98,6 @@ type ServicesScrollRevealProps = {
   className?: string;
   parallaxY?: number;
   shareProgress?: boolean;
-  fade?: boolean;
 };
 
 export function ServicesScrollReveal({
@@ -97,14 +105,13 @@ export function ServicesScrollReveal({
   className,
   parallaxY = 1,
   shareProgress = false,
-  fade = true,
 }: ServicesScrollRevealProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const progress = useServicesScrollProgress(targetRef);
-  const y = useTransform(progress, [0, 1], [80 * parallaxY, 0]);
-  const scale = useTransform(progress, [0, 1], [0.92, 1]);
-  const opacity = useTransform(progress, [0, 1], fade ? [0.2, 1] : [1, 1]);
+  const y = useTransform(progress, [0, 1], [40 * parallaxY, 0]);
+  const scale = useTransform(progress, [0, 1], [0.96, 1]);
+  const opacity = useTransform(progress, [0, 1], [0.4, 1]);
 
   if (reducedMotion) {
     return (

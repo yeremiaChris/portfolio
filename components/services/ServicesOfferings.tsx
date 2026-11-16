@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { ServicesFadeUp } from "@/components/services/ServicesFadeUp";
 import {
   servicesSectionClass,
   servicesSectionHeadingGap,
@@ -68,24 +68,23 @@ export function ServicesOfferings() {
       aria-labelledby="services-offerings-heading"
       className={servicesSectionClass}
     >
-      <SectionHeading
-        id="services-offerings-heading"
-        className={servicesSectionHeadingGap}
-      >
-        {servicesOfferingsHeading}
-      </SectionHeading>
+      <ServicesFadeUp className={servicesSectionHeadingGap}>
+        <SectionHeading id="services-offerings-heading">
+          {servicesOfferingsHeading}
+        </SectionHeading>
+      </ServicesFadeUp>
 
-      <Stagger
-        preset="expressive"
-        when="inView"
-        className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2 lg:gap-6"
-      >
+      <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2 lg:gap-6">
         {servicesOfferings.map((offering, index) => (
-          <StaggerItem key={offering.id} className="h-full min-h-0">
+          <ServicesFadeUp
+            key={offering.id}
+            delay={index * 0.1}
+            className="h-full min-h-0"
+          >
             <OfferingCard offering={offering} index={index} />
-          </StaggerItem>
+          </ServicesFadeUp>
         ))}
-      </Stagger>
+      </div>
     </section>
   );
 }

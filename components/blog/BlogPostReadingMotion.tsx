@@ -6,11 +6,11 @@ import {
   useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type ComponentProps,
   type ReactNode,
   type RefObject,
 } from "react";
-import { createPortal } from "react-dom";
 import {
   m,
   useReducedMotion,
@@ -21,7 +21,6 @@ import {
 } from "motion/react";
 
 import { getTocItems, shouldShowToc } from "@/components/blog/BlogToc";
-import { useHydrated } from "@/components/motion/useHydrated";
 import type { BlogHeading } from "@/lib/blog";
 import { projectsFeaturedSpring } from "@/lib/projects-motion";
 import { cn } from "@/lib/utils";
@@ -41,38 +40,53 @@ export function useBlogPostTocActive() {
   return useContext(BlogPostReadingContext);
 }
 
-function useNavBottomPx() {
-  const [navBottom, setNavBottom] = useState(64);
+type BlogReadingProgressMotion = {
+  scaleX: MotionValue<number>;
+  opacity: MotionValue<number>;
+};
 
-  useEffect(() => {
-    const measure = () => {
-      const header = document.querySelector("header");
-      if (!header) {
-        return;
-      }
-      setNavBottom(header.getBoundingClientRect().bottom);
-    };
+let blogReadingProgressBar: BlogReadingProgressMotion | null = null;
+const blogReadingProgressListeners = new Set<() => void>();
 
-    measure();
-    const header = document.querySelector("header");
-    const observer =
-      header && typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(measure)
-        : null;
-    observer?.observe(header as Element);
-    window.addEventListener("resize", measure);
-    window.addEventListener("scroll", measure, { passive: true });
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener("resize", measure);
-      window.removeEventListener("scroll", measure);
-    };
-  }, []);
-
-  return navBottom;
+function publishBlogReadingProgress() {
+  blogReadingProgressListeners.forEach((listener) => listener());
 }
 
-function BlogReadingProgress({
+function subscribeBlogReadingProgress(listener: () => void) {
+  blogReadingProgressListeners.add(listener);
+  return () => blogReadingProgressListeners.delete(listener);
+}
+
+function getBlogReadingProgressSnapshot() {
+  return blogReadingProgressBar;
+}
+
+function useBlogReadingProgressBar() {
+  return useSyncExternalStore(
+    subscribeBlogReadingProgress,
+    getBlogReadingProgressSnapshot,
+    () => null,
+  );
+}
+
+export function BlogHeaderReadingProgress() {
+  const bar = useBlogReadingProgressBar();
+
+  if (!bar) {
+    return null;
+  }
+
+  return (
+    <m.div
+      aria-hidden
+      className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] origin-left bg-[#4cd7f6] shadow-[0_0_12px_rgb(76_215_246_/_0.28)]"
+      style={{ scaleX: bar.scaleX, opacity: bar.opacity }}
+      initial={false}
+    />
+  );
+}
+
+function BlogReadingProgressControl({
   articleRef,
   titleRegionRef,
 }: {
@@ -80,18 +94,15 @@ function BlogReadingProgress({
   titleRegionRef: RefObject<HTMLElement | null>;
 }) {
   const reducedMotion = useReducedMotion();
-  const navBottom = useNavBottomPx();
-  const hydrated = useHydrated();
 
   const { scrollYProgress: articleProgress } = useScroll({
     target: articleRef,
     offset: ["start start", "end end"],
   });
 
-  const titleOffsetEnd = Math.max(0, navBottom - 8);
   const { scrollYProgress: titleReveal } = useScroll({
     target: titleRegionRef,
-    offset: [`end ${navBottom}px`, `end ${titleOffsetEnd}px`],
+    offset: ["end 64px", "end 56px"],
   });
 
   const scaleXSpring = useSpring(articleProgress, projectsFeaturedSpring);
@@ -100,23 +111,16 @@ function BlogReadingProgress({
     : scaleXSpring;
   const opacity = useTransform(titleReveal, [0, 1], [0, 1]);
 
-  if (!hydrated) {
-    return null;
-  }
+  useEffect(() => {
+    blogReadingProgressBar = { scaleX, opacity };
+    publishBlogReadingProgress();
+    return () => {
+      blogReadingProgressBar = null;
+      publishBlogReadingProgress();
+    };
+  }, [opacity, scaleX]);
 
-  return createPortal(
-    <m.div
-      aria-hidden
-      className="pointer-events-none fixed inset-x-0 z-[49] h-[2px] w-full origin-left bg-[#4cd7f6] shadow-[0_0_12px_rgb(76_215_246_/_0.28)]"
-      style={{
-        top: navBottom,
-        scaleX,
-        opacity,
-      }}
-      initial={false}
-    />,
-    document.body,
-  );
+  return null;
 }
 
 export function BlogPostTitleSection({ children }: { children: ReactNode }) {
@@ -200,7 +204,7 @@ export function BlogPostArticle({
 
   return (
     <div className="min-w-0 lg:col-span-8">
-      <BlogReadingProgress
+      <BlogReadingProgressControl
         articleRef={articleRef}
         titleRegionRef={titleRegionRef}
       />

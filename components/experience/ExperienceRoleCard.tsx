@@ -1,5 +1,18 @@
-import { CircleCheck } from "lucide-react";
+"use client";
 
+import { CircleCheck } from "lucide-react";
+import {
+  m,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "motion/react";
+
+import {
+  useExperienceBulletMotion,
+  useExperienceRoleCardScroll,
+} from "@/components/experience/ExperienceScrollMotion";
+import { useServicesMotionHover } from "@/components/services/ServicesScrollMotion";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -15,13 +28,65 @@ import {
 } from "@/lib/experience";
 import { cn } from "@/lib/utils";
 
+function HighlightItem({
+  item,
+  bulletIndex,
+  toneClass,
+}: {
+  item: string;
+  bulletIndex: number;
+  toneClass: string;
+}) {
+  const reducedMotion = useReducedMotion();
+  const scroll = useExperienceRoleCardScroll();
+  const fallbackEnter = useMotionValue(0);
+  const fallbackFocus = useMotionValue(0);
+  const enterProgress = scroll?.enterProgress ?? fallbackEnter;
+  const focus = scroll?.focus ?? fallbackFocus;
+  const { x, opacity } = useExperienceBulletMotion(enterProgress, bulletIndex);
+  const iconColor = useTransform(
+    focus,
+    [0, 0.55, 1],
+    [
+      "rgba(148, 163, 184, 0.85)",
+      "rgba(76, 215, 246, 0.65)",
+      "rgba(76, 215, 246, 1)",
+    ],
+  );
+
+  if (reducedMotion) {
+    return (
+      <li className="flex items-start gap-2">
+        <CircleCheck
+          className={cn("mt-0.5 size-4.5 shrink-0", toneClass)}
+          aria-hidden
+        />
+        <span>{item}</span>
+      </li>
+    );
+  }
+
+  return (
+    <m.li className="flex items-start gap-2" style={{ x, opacity }}>
+      <m.span className="mt-0.5 shrink-0" style={{ color: iconColor }}>
+        <CircleCheck className="size-4.5" aria-hidden />
+      </m.span>
+      <span>{item}</span>
+    </m.li>
+  );
+}
+
 export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
   const toneClass = experienceRoleToneClass[role.tone];
+  const motionHover = useServicesMotionHover();
 
   return (
     <Card
       id={role.id}
-      className="bg-muted ring-border/20 hover:bg-muted/80 scroll-mt-24 rounded-3xl py-6 transition-colors md:py-8"
+      className={cn(
+        "bg-muted ring-border/20 scroll-mt-24 rounded-3xl border-0 py-6 shadow-none ring-1 md:py-8",
+        !motionHover && "hover:bg-muted/80 transition-colors",
+      )}
     >
       <CardHeader className="gap-4">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
@@ -81,14 +146,13 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
             What I owned
           </p>
           <ul className="text-muted-foreground space-y-3 text-[14px] leading-relaxed">
-            {role.highlights.map((item) => (
-              <li key={item} className="flex items-start gap-2">
-                <CircleCheck
-                  className={cn("mt-0.5 size-4.5 shrink-0", toneClass)}
-                  aria-hidden
-                />
-                <span>{item}</span>
-              </li>
+            {role.highlights.map((item, bulletIndex) => (
+              <HighlightItem
+                key={item}
+                item={item}
+                bulletIndex={bulletIndex}
+                toneClass={toneClass}
+              />
             ))}
           </ul>
         </div>

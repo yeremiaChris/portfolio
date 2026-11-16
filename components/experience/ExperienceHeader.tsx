@@ -1,6 +1,5 @@
 import { Download } from "lucide-react";
 
-import { Reveal } from "@/components/motion/Reveal";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { experienceIntro } from "@/lib/experience";
@@ -10,11 +9,7 @@ import { cn } from "@/lib/utils";
 export function ExperienceHeader() {
   return (
     <section className="flex w-full flex-col gap-4 pt-2 pb-6 md:pt-4 md:pb-8">
-      <Reveal
-        when="mount"
-        preset="calm"
-        className="flex flex-col justify-between gap-6 md:flex-row md:items-end"
-      >
+      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div className="max-w-2xl">
           <div className="mb-2 flex flex-wrap items-center gap-3">
             <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
@@ -58,7 +53,7 @@ export function ExperienceHeader() {
             CV.pdf
           </a>
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }

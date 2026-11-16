@@ -1,16 +1,13 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { m } from "motion/react";
 import { useState } from "react";
 
 import {
-  ServicesCopyStagger,
-  servicesCopyItem,
   ServicesOfferingEdge,
-  ServicesScrollClip,
+  ServicesScrollReveal,
   useServicesMotionHover,
-} from "@/components/services/servicesReveal";
+} from "@/components/services/ServicesScrollMotion";
 import {
   servicesSectionClass,
   servicesSectionHeadingGap,
@@ -30,11 +27,13 @@ const offeringCardBaseClass =
 const offeringCardHoverClass =
   "transition-[border-color,box-shadow] duration-200 hover:border-brand-accent/45 hover:shadow-[0_0_0_1px_rgba(76,215,246,0.14)] motion-reduce:transition-none";
 
+const offeringParallax = [1, 1.22] as const;
+
 function formatOfferingIndex(index: number): string {
   return String(index + 1).padStart(2, "0");
 }
 
-function OfferingCardMotion({
+function OfferingCard({
   offering,
   index,
   hovered,
@@ -59,55 +58,33 @@ function OfferingCardMotion({
       <ServicesOfferingEdge visible={hovered && motionHover} />
       <Card className="border-0 bg-transparent shadow-none ring-0">
         <CardContent className="flex h-full flex-col gap-3 p-5 md:gap-3.5 md:p-6">
-          <ServicesCopyStagger className="flex h-full flex-col gap-3 md:gap-3.5">
-            <m.span
-              variants={servicesCopyItem}
-              initial={false}
-              className="text-brand-accent font-mono text-xs font-semibold tracking-widest"
-            >
-              {formatOfferingIndex(index)}
-            </m.span>
-            <m.h3
-              variants={servicesCopyItem}
-              initial={false}
-              className="font-heading text-foreground text-lg font-semibold tracking-tight md:text-xl"
-            >
-              {offering.title}
-            </m.h3>
-            <m.p
-              variants={servicesCopyItem}
-              initial={false}
-              className="text-muted-foreground text-[14px] leading-relaxed md:text-[15px]"
-            >
-              {offering.description}
-            </m.p>
-            <m.p
-              variants={servicesCopyItem}
-              initial={false}
-              className="text-muted-foreground border-border/50 border-t pt-3 text-[11px] font-medium tracking-wide md:text-[12px]"
-            >
-              {offering.stack}
-            </m.p>
-            <m.ul
-              variants={servicesCopyItem}
-              initial={false}
-              className="mt-1 flex flex-col gap-2"
-            >
-              {offering.bullets.map((bullet) => (
-                <li
-                  key={bullet}
-                  className="text-foreground flex items-start gap-2 text-[13px] leading-snug font-medium md:text-[14px]"
-                >
-                  <Check
-                    className="text-brand-accent mt-0.5 size-4 shrink-0"
-                    strokeWidth={2}
-                    aria-hidden
-                  />
-                  <span>{bullet}</span>
-                </li>
-              ))}
-            </m.ul>
-          </ServicesCopyStagger>
+          <span className="text-brand-accent font-mono text-xs font-semibold tracking-widest">
+            {formatOfferingIndex(index)}
+          </span>
+          <h3 className="font-heading text-foreground text-lg font-semibold tracking-tight md:text-xl">
+            {offering.title}
+          </h3>
+          <p className="text-muted-foreground text-[14px] leading-relaxed md:text-[15px]">
+            {offering.description}
+          </p>
+          <p className="text-muted-foreground border-border/50 border-t pt-3 text-[11px] font-medium tracking-wide md:text-[12px]">
+            {offering.stack}
+          </p>
+          <ul className="mt-1 flex flex-col gap-2">
+            {offering.bullets.map((bullet) => (
+              <li
+                key={bullet}
+                className="text-foreground flex items-start gap-2 text-[13px] leading-snug font-medium md:text-[14px]"
+              >
+                <Check
+                  className="text-brand-accent mt-0.5 size-4 shrink-0"
+                  strokeWidth={2}
+                  aria-hidden
+                />
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
         </CardContent>
       </Card>
     </div>
@@ -123,27 +100,27 @@ export function ServicesOfferings() {
       aria-labelledby="services-offerings-heading"
       className={servicesSectionClass}
     >
-      <ServicesScrollClip className={servicesSectionHeadingGap}>
+      <ServicesScrollReveal className={servicesSectionHeadingGap}>
         <SectionHeading id="services-offerings-heading">
           {servicesOfferingsHeading}
         </SectionHeading>
-      </ServicesScrollClip>
+      </ServicesScrollReveal>
 
       <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2 lg:gap-6">
         {servicesOfferings.map((offering, index) => (
-          <ServicesScrollClip
+          <ServicesScrollReveal
             key={offering.id}
             className="h-full min-h-0"
-            revealFromStart={index === 0}
+            parallaxY={offeringParallax[index] ?? 1}
           >
-            <OfferingCardMotion
+            <OfferingCard
               offering={offering}
               index={index}
               motionHover={motionHover}
               hovered={hoveredId === offering.id}
               onHover={(active) => setHoveredId(active ? offering.id : null)}
             />
-          </ServicesScrollClip>
+          </ServicesScrollReveal>
         ))}
       </div>
     </section>

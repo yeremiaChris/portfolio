@@ -6,7 +6,7 @@ import { m, useReducedMotion } from "motion/react";
 import {
   servicesHeroMountContainer,
   servicesHeroMountItem,
-} from "@/components/services/servicesReveal";
+} from "@/components/services/ServicesScrollMotion";
 import { servicesSectionClass } from "@/components/services/servicesSurface";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { servicesHero } from "@/lib/services";

@@ -1,6 +1,12 @@
 "use client";
 
-import { useRef, type ReactNode, type RefObject } from "react";
+import {
+  createContext,
+  useContext,
+  useRef,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import {
   m,
   useReducedMotion,
@@ -17,29 +23,14 @@ import {
 } from "@/lib/projects-motion";
 import { cn } from "@/lib/utils";
 
-const servicesInViewViewport = { once: true, amount: 0.35 } as const;
+const servicesScrollOffset: ["start end", "center center"] = [
+  "start end",
+  "center center",
+];
 
-const servicesCopyContainer = {
-  rest: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.07,
-      delayChildren: 0.04,
-    },
-  },
-};
-
-export const servicesCopyItem = {
-  rest: { opacity: 1, y: 0 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      ...projectsStaggerTransition,
-      from: { opacity: 1, y: 14 },
-    },
-  },
-};
+const ServicesScrollProgressContext = createContext<MotionValue<number> | null>(
+  null,
+);
 
 export const servicesHeroMountContainer = {
   hidden: {},
@@ -60,100 +51,86 @@ export const servicesHeroMountItem = {
   },
 };
 
-function useServicesClipPath(
+function useServicesScrollProgress(
   targetRef: RefObject<HTMLElement | null>,
-  revealFromStart: boolean,
-  reducedMotion: boolean,
-): MotionValue<string> | null {
+): MotionValue<number> {
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: revealFromStart
-      ? ["start 0.98", "start 0.62"]
-      : ["start 0.92", "start 0.38"],
+    offset: servicesScrollOffset,
   });
-  const clipProgress = useSpring(scrollYProgress, projectsFeaturedSpring);
+  return useSpring(scrollYProgress, projectsFeaturedSpring);
+}
 
-  return useTransform(clipProgress, (value) => {
-    if (reducedMotion) {
-      return "inset(0% 0% 0% 0%)";
+export function useServicesStepHighlight(
+  progress: MotionValue<number>,
+  index: number,
+  total: number,
+) {
+  const segment = 1 / total;
+  const start = Math.max(0, index * segment - segment * 0.12);
+  const end = Math.min(1, (index + 1) * segment + segment * 0.08);
+
+  return useTransform(progress, (value) => {
+    const v = Math.min(1, Math.max(0, value));
+    if (v <= start) {
+      return 0;
     }
-    const open = Math.min(1, Math.max(0, value));
-    return `inset(0% ${(1 - open) * 100}% 0% 0%)`;
+    if (v >= end) {
+      return 1;
+    }
+    return (v - start) / (end - start);
   });
 }
 
-type ServicesScrollClipProps = {
+type ServicesScrollRevealProps = {
   children: ReactNode;
   className?: string;
-  revealFromStart?: boolean;
-  contentClassName?: string;
+  parallaxY?: number;
+  shareProgress?: boolean;
 };
 
-export function ServicesScrollClip({
+export function ServicesScrollReveal({
   children,
   className,
-  revealFromStart = false,
-  contentClassName,
-}: ServicesScrollClipProps) {
-  const frameRef = useRef<HTMLDivElement>(null);
+  parallaxY = 1,
+  shareProgress = false,
+}: ServicesScrollRevealProps) {
+  const targetRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const clipPath = useServicesClipPath(
-    frameRef,
-    revealFromStart,
-    Boolean(reducedMotion),
-  );
+  const progress = useServicesScrollProgress(targetRef);
+  const y = useTransform(progress, [0, 1], [40 * parallaxY, 0]);
+  const scale = useTransform(progress, [0, 1], [0.96, 1]);
+  const opacity = useTransform(progress, [0, 1], [0.4, 1]);
 
   if (reducedMotion) {
     return (
-      <div ref={frameRef} className={cn(className)}>
+      <div ref={targetRef} className={cn(className)}>
         {children}
       </div>
     );
   }
 
-  return (
-    <div
-      ref={frameRef}
-      className={cn("relative min-w-0 overflow-x-clip", className)}
-    >
-      <m.div
-        className={cn("min-h-0", contentClassName)}
-        style={clipPath ? { clipPath } : undefined}
-        initial={false}
-      >
+  const body = (
+    <div ref={targetRef} className={cn("min-w-0", className)}>
+      <m.div style={{ y, scale, opacity }} initial={false}>
         {children}
       </m.div>
     </div>
   );
-}
 
-type ServicesCopyStaggerProps = {
-  children: ReactNode;
-  className?: string;
-};
-
-export function ServicesCopyStagger({
-  children,
-  className,
-}: ServicesCopyStaggerProps) {
-  const reducedMotion = useReducedMotion();
-
-  if (reducedMotion) {
-    return <div className={className}>{children}</div>;
+  if (!shareProgress) {
+    return body;
   }
 
   return (
-    <m.div
-      className={className}
-      initial={false}
-      variants={servicesCopyContainer}
-      animate="rest"
-      whileInView="visible"
-      viewport={servicesInViewViewport}
-    >
-      {children}
-    </m.div>
+    <ServicesScrollProgressContext.Provider value={progress}>
+      {body}
+    </ServicesScrollProgressContext.Provider>
   );
+}
+
+export function useServicesScrollSectionProgress() {
+  return useContext(ServicesScrollProgressContext);
 }
 
 export function ServicesOfferingEdge({ visible }: { visible: boolean }) {

@@ -5,6 +5,7 @@ import {
   ContactCta,
   servicesContactActions,
 } from "@/components/home/ContactCta";
+import { ServicesContactReveal } from "@/components/services/ServicesContactReveal";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
@@ -31,16 +32,17 @@ export default function ServicesPage() {
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <ContactCta
-          id="services-contact"
-          withContainer={false}
-          compact
-          className={cn(servicesSectionClass, "mb-0")}
-          eyebrow=""
-          title={servicesContactCta.title}
-          description=""
-          actions={servicesContactActions()}
-        />
+        <ServicesContactReveal className={cn(servicesSectionClass, "mb-0")}>
+          <ContactCta
+            id="services-contact"
+            withContainer={false}
+            compact
+            eyebrow=""
+            title={servicesContactCta.title}
+            description=""
+            actions={servicesContactActions()}
+          />
+        </ServicesContactReveal>
       </Container>
     </main>
   );

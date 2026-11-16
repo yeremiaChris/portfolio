@@ -234,6 +234,7 @@ html[data-intro="playing"] [data-intro-bar] {
 
   [data-reveal],
   [data-stagger],
+  [data-stagger-item],
   [data-page-transition] {
     opacity: 1 !important;
     transform: none !important;
@@ -286,11 +287,6 @@ html[data-intro="playing"] [data-intro-bar] {
   .hero-lcp-intro {
     min-height: calc(2 * 1.7 * 1.25rem);
   }
-}
-
-[data-reveal],
-[data-stagger] {
-  opacity: 1 !important;
 }
 
 .border-gradient {
@@ -1104,6 +1100,7 @@ html[data-intro="playing"] [data-intro-bar] {
 @media (scripting: none) {
   [data-reveal],
   [data-stagger],
+  [data-stagger-item],
   [data-page-transition] {
     opacity: 1 !important;
     transform: none !important;

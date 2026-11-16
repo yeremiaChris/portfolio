@@ -58,7 +58,7 @@ export const motionPresetConfig = {
   calm: {
     revealDuration: 0.4,
     revealDurationMount: 0.25,
-    revealOffset: 8,
+    revealOffset: 20,
     revealOffsetMount: 4,
     staggerGap: 0.025,
     staggerMaxDelay: 0.15,
@@ -66,7 +66,7 @@ export const motionPresetConfig = {
       once: true,
       amount: 0.05,
       margin: "0px 0px 0px 0px",
-      inViewInitial: true,
+      inViewInitial: false,
     },
   },
 } as const;
@@ -148,33 +148,17 @@ export function motionStaggerChildDelay(
   return Math.min(index * staggerGap, staggerMaxDelay);
 }
 
-export type MotionRevealRestTarget = {
-  y: 0;
-  opacity: 1;
-};
-
-export function motionRevealRestingTarget(): MotionRevealRestTarget {
-  return { y: 0, opacity: 1 };
+export function motionPresetRevealOpacity(
+  preset: MotionPreset,
+  when: MotionRevealWhen,
+): number {
+  if (when === "mount") {
+    return 1;
+  }
+  return preset === "calm" ? 0.76 : 0.55;
 }
 
-export function motionRevealAnimateTarget(
-  active: boolean,
-  offset: number,
-  transition: ReturnType<typeof motionPresetRevealTransition>,
-): MotionRevealRestTarget & {
-  transition?: ReturnType<typeof motionPresetRevealTransition> & {
-    from: { y: number; opacity: 1 };
-  };
-} {
-  const resting = motionRevealRestingTarget();
-  if (!active) {
-    return resting;
-  }
-  return {
-    ...resting,
-    transition: {
-      ...transition,
-      from: { y: offset, opacity: 1 },
-    },
-  };
+export function motionPresetWhileInViewOptions(preset: MotionPreset) {
+  const { once, amount, margin } = motionPresetViewport(preset);
+  return { once, amount, margin } as const;
 }

@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { projects } from "./projects";
 import {
-  getServiceOfferingProjectHref,
-  getServiceOfferingProjectShortName,
   servicesHero,
   servicesHeroLines,
   servicesPageMetaDescription,
@@ -11,14 +8,7 @@ import {
   servicesOfferings,
   servicesPricingLine,
   servicesHeroLinesJoin,
-  type ServiceOffering,
 } from "./services";
-
-const projectIds = new Set(projects.map((project) => project.id));
-
-function offeringAnchorId(offering: ServiceOffering): string | undefined {
-  return offering.projectAnchorId;
-}
 
 describe("servicesHero", () => {
   it("uses the approved hero headline", () => {
@@ -39,29 +29,15 @@ describe("servicesHero", () => {
   });
 });
 
-describe("servicesOfferings project links", () => {
-  it("links each card only to existing project anchors", () => {
-    for (const offering of servicesOfferings) {
-      const href = getServiceOfferingProjectHref(offering);
-      if (!offering.projectAnchorId) {
-        expect(href).toBeUndefined();
-        continue;
-      }
-      expect(projectIds.has(offering.projectAnchorId)).toBe(true);
-      expect(href).toBe(`/projects#${offering.projectAnchorId}`);
-    }
-  });
-
-  it("maps websites to PrimaKu and web systems to Mazecare", () => {
+describe("servicesOfferings", () => {
+  it("lists two offerings with approved stack lines", () => {
+    expect(servicesOfferings).toHaveLength(2);
     const byId = Object.fromEntries(
       servicesOfferings.map((offering) => [offering.id, offering]),
     );
-    expect(offeringAnchorId(byId.websites)).toBe("primaku");
-    expect(offeringAnchorId(byId["web-systems"])).toBe("mazecare");
-    expect(getServiceOfferingProjectShortName(byId.websites)).toBe("PrimaKu");
-    expect(getServiceOfferingProjectShortName(byId["web-systems"])).toBe(
-      "Mazecare",
-    );
+    expect(byId.websites.stack).toBe("Next.js · TypeScript · Tailwind");
+    expect(byId["web-systems"].stack).toBe("React/Next.js");
+    expect(byId["web-systems"].stack).not.toContain("Supabase");
   });
 });
 

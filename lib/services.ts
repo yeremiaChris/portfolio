@@ -1,5 +1,3 @@
-import { projects } from "@/lib/projects";
-
 export type ServiceOfferingId = "websites" | "web-systems";
 
 export type ServiceOffering = {
@@ -8,7 +6,6 @@ export type ServiceOffering = {
   description: string;
   bullets: readonly string[];
   stack: string;
-  projectAnchorId?: string;
 };
 
 export const servicesHero = {
@@ -24,11 +21,6 @@ export const servicesHeroLines = [
   "websites and web systems",
   "for businesses.",
 ] as const;
-
-const SERVICE_PROJECT_SHORT_NAMES: Record<string, string> = {
-  primaku: "PrimaKu",
-  mazecare: "Mazecare",
-};
 
 export function servicesHeroLinesJoin(): string {
   return servicesHeroLines.join(" ");
@@ -46,7 +38,6 @@ export const servicesOfferings: readonly ServiceOffering[] = [
       "Deployed on Vercel",
     ],
     stack: "Next.js · TypeScript · Tailwind",
-    projectAnchorId: "primaku",
   },
   {
     id: "web-systems",
@@ -54,8 +45,7 @@ export const servicesOfferings: readonly ServiceOffering[] = [
     description:
       "Dashboards, admin panels, and internal tools that make daily work simpler.",
     bullets: ["Clean, data-dense UI", "Role-based access", "Built to grow"],
-    stack: "React/Next.js · Supabase",
-    projectAnchorId: "mazecare",
+    stack: "React/Next.js",
   },
 ] as const;
 
@@ -82,21 +72,3 @@ export const servicesLabTeaser = {
 export const servicesContactCta = {
   title: "Have a project in mind? Let's talk.",
 } as const;
-
-export function getServiceOfferingProjectHref(
-  offering: ServiceOffering,
-): `/projects#${string}` | undefined {
-  if (!offering.projectAnchorId) return undefined;
-  const exists = projects.some(
-    (project) => project.id === offering.projectAnchorId,
-  );
-  if (!exists) return undefined;
-  return `/projects#${offering.projectAnchorId}`;
-}
-
-export function getServiceOfferingProjectShortName(
-  offering: ServiceOffering,
-): string | undefined {
-  if (!offering.projectAnchorId) return undefined;
-  return SERVICE_PROJECT_SHORT_NAMES[offering.projectAnchorId];
-}

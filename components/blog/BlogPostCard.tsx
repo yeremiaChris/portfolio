@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { m, useReducedMotion } from "motion/react";
+import {
+  m,
+  useMotionTemplate,
+  useMotionValue,
+  useReducedMotion,
+} from "motion/react";
 import { useRef, useState } from "react";
 
 import {
   blogCardHoverTransition,
-  useBlogActiveCard,
   useBlogCardEnterMotion,
-  useBlogCardFocusMotion,
-  useBlogCardListOpacity,
   useBlogMotionHover,
 } from "@/components/blog/BlogScrollMotion";
 import { Badge } from "@/components/ui/badge";
@@ -28,64 +30,12 @@ import { cn } from "@/lib/utils";
 type BlogPostCardProps = {
   post: BlogPostSummary;
   scrollMotion?: boolean;
+  columnIndex?: number;
 };
 
-function BlogPostCardBody({
-  post,
-  motionHover,
-  hovered,
-}: {
-  post: BlogPostSummary;
-  motionHover: boolean;
-  hovered: boolean;
-}) {
+function BlogPostCardBody({ post }: { post: BlogPostSummary }) {
   const href = `/blog/${post.slug}`;
   const topicChips = getTopicsForPost(post).slice(0, 2);
-
-  const titleLink = motionHover ? (
-    <Link href={href} className="focus-ring outline-none">
-      <m.span
-        className="text-foreground inline"
-        initial={false}
-        animate={{ color: hovered ? "#4cd7f6" : "var(--foreground)" }}
-        transition={blogCardHoverTransition}
-      >
-        {post.title}
-      </m.span>
-    </Link>
-  ) : (
-    <Link
-      href={href}
-      className="focus-ring group-hover:text-primary transition-colors outline-none motion-reduce:transition-none"
-    >
-      {post.title}
-    </Link>
-  );
-
-  const readLink = motionHover ? (
-    <Link
-      href={href}
-      className="press focus-ring text-primary inline-flex items-center gap-0.5 text-[12px] outline-none"
-    >
-      Read article
-      <m.span
-        className="inline-flex"
-        initial={false}
-        animate={{ x: hovered ? 3 : 0 }}
-        transition={blogCardHoverTransition}
-      >
-        <ArrowRight className="size-3.5" aria-hidden />
-      </m.span>
-    </Link>
-  ) : (
-    <Link
-      href={href}
-      className="press focus-ring text-primary inline-flex items-center gap-0.5 text-[12px] transition-transform duration-200 outline-none group-hover:translate-x-0.5 motion-reduce:transform-none"
-    >
-      Read article
-      <ArrowRight className="size-3.5" aria-hidden />
-    </Link>
-  );
 
   return (
     <>
@@ -120,8 +70,13 @@ function BlogPostCardBody({
           </span>
         </div>
 
-        <CardTitle className="font-heading text-base leading-snug font-semibold tracking-tight sm:text-lg">
-          {titleLink}
+        <CardTitle className="font-heading text-foreground text-base leading-snug font-semibold tracking-tight sm:text-lg">
+          <Link
+            href={href}
+            className="focus-ring group-hover:text-primary transition-colors outline-none motion-reduce:transition-none"
+          >
+            {post.title}
+          </Link>
         </CardTitle>
 
         <CardDescription className="text-muted-foreground line-clamp-3 text-[13px] leading-relaxed">
@@ -136,7 +91,13 @@ function BlogPostCardBody({
         >
           {formatBlogDate(post.date)}
         </time>
-        {readLink}
+        <Link
+          href={href}
+          className="press focus-ring text-primary inline-flex items-center gap-0.5 text-[12px] transition-transform duration-200 outline-none group-hover:translate-x-0.5 motion-reduce:transform-none"
+        >
+          Read article
+          <ArrowRight className="size-3.5" aria-hidden />
+        </Link>
       </CardFooter>
     </>
   );
@@ -150,7 +111,7 @@ function BlogPostCardShell({
   return (
     <Card
       className={cn(
-        "group bg-muted ring-border/40 relative flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-xl py-0",
+        "group bg-muted ring-border/40 relative flex h-full min-w-0 flex-col justify-between overflow-hidden rounded-xl border border-transparent py-0",
         className,
       )}
       {...props}
@@ -160,19 +121,40 @@ function BlogPostCardShell({
   );
 }
 
-function BlogPostCardScroll({ post }: { post: BlogPostSummary }) {
+function BlogPostCardScroll({
+  post,
+  columnIndex,
+}: {
+  post: BlogPostSummary;
+  columnIndex: number;
+}) {
   const targetRef = useRef<HTMLDivElement>(null);
-  const { y, opacity: enterOpacity } = useBlogCardEnterMotion(targetRef);
-  const focus = useBlogCardFocusMotion(targetRef);
-  const isActive = useBlogActiveCard(post.slug, focus);
-  const opacity = useBlogCardListOpacity(enterOpacity, isActive);
+  const { y, opacity } = useBlogCardEnterMotion(targetRef, columnIndex);
   const motionHover = useBlogMotionHover();
   const [hovered, setHovered] = useState(false);
+  const spotlightX = useMotionValue(-120);
+  const spotlightY = useMotionValue(-120);
+  const spotlightOpacity = useMotionValue(0);
+  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${spotlightX}px ${spotlightY}px, rgb(76 215 246 / 0.2), rgb(76 215 246 / 0.04) 38%, transparent 58%)`;
 
   const pointerHandlers = motionHover
     ? {
-        onPointerEnter: () => setHovered(true),
-        onPointerLeave: () => setHovered(false),
+        onPointerEnter: (event: React.PointerEvent<HTMLDivElement>) => {
+          setHovered(true);
+          spotlightOpacity.set(1);
+          const rect = event.currentTarget.getBoundingClientRect();
+          spotlightX.set(event.clientX - rect.left);
+          spotlightY.set(event.clientY - rect.top);
+        },
+        onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => {
+          const rect = event.currentTarget.getBoundingClientRect();
+          spotlightX.set(event.clientX - rect.left);
+          spotlightY.set(event.clientY - rect.top);
+        },
+        onPointerLeave: () => {
+          setHovered(false);
+          spotlightOpacity.set(0);
+        },
       }
     : undefined;
 
@@ -184,51 +166,48 @@ function BlogPostCardScroll({ post }: { post: BlogPostSummary }) {
       initial={false}
       {...pointerHandlers}
     >
-      <m.div
-        className="h-full rounded-xl"
-        initial={false}
-        animate={{
-          boxShadow:
-            motionHover && hovered
-              ? "0 0 28px rgb(76 215 246 / 0.2)"
-              : isActive
-                ? "0 0 24px rgb(76 215 246 / 0.14)"
-                : "0 0 0 rgb(0 0 0 / 0)",
-        }}
-        transition={motionHover ? blogCardHoverTransition : { duration: 0 }}
+      <BlogPostCardShell
+        className={cn(
+          "ring-0",
+          !motionHover &&
+            "hover:bg-muted/80 transition-colors motion-reduce:transition-none",
+        )}
       >
-        <BlogPostCardShell
-          className={cn(
-            "ring-0 transition-[border-color,background-color] duration-300 ease-out motion-reduce:transition-none",
-            isActive && "border border-[#4cd7f6]/40",
-            !isActive && "border border-transparent",
-            motionHover && hovered && "bg-muted/80",
-            !motionHover && "hover:bg-muted/80",
-          )}
-        >
-          <m.div
-            className="pointer-events-none absolute inset-0 rounded-xl border"
-            initial={false}
-            animate={{
-              borderColor:
-                motionHover && hovered
-                  ? "rgb(76 215 246 / 0.45)"
-                  : isActive
-                    ? "rgb(76 215 246 / 0.45)"
-                    : "transparent",
-            }}
-            transition={motionHover ? blogCardHoverTransition : undefined}
-            aria-hidden
-          />
-          <div className="relative z-[1] flex h-full flex-col">
-            <BlogPostCardBody
-              post={post}
-              motionHover={motionHover}
-              hovered={hovered}
+        {motionHover ? (
+          <>
+            <m.div
+              className="pointer-events-none absolute inset-0 z-0 rounded-xl"
+              style={{ background: spotlight, opacity: spotlightOpacity }}
+              aria-hidden
             />
-          </div>
-        </BlogPostCardShell>
-      </m.div>
+            <m.div
+              className="pointer-events-none absolute inset-0 z-[1] rounded-xl border"
+              initial={false}
+              animate={{
+                borderColor: hovered
+                  ? "rgb(76 215 246 / 0.45)"
+                  : "rgb(76 215 246 / 0)",
+              }}
+              transition={blogCardHoverTransition}
+              aria-hidden
+            />
+            <m.div
+              className="pointer-events-none absolute inset-0 z-[1] rounded-xl"
+              initial={false}
+              animate={{
+                backgroundColor: hovered
+                  ? "rgb(255 255 255 / 0.02)"
+                  : "transparent",
+              }}
+              transition={blogCardHoverTransition}
+              aria-hidden
+            />
+          </>
+        ) : null}
+        <div className="relative z-[2] flex h-full flex-col">
+          <BlogPostCardBody post={post} />
+        </div>
+      </BlogPostCardShell>
     </m.div>
   );
 }
@@ -236,7 +215,7 @@ function BlogPostCardScroll({ post }: { post: BlogPostSummary }) {
 function BlogPostCardStatic({ post }: { post: BlogPostSummary }) {
   return (
     <BlogPostCardShell className="hover:bg-muted/80 transition-colors motion-reduce:transition-none">
-      <BlogPostCardBody post={post} motionHover={false} hovered={false} />
+      <BlogPostCardBody post={post} />
     </BlogPostCardShell>
   );
 }
@@ -244,11 +223,12 @@ function BlogPostCardStatic({ post }: { post: BlogPostSummary }) {
 export function BlogPostCard({
   post,
   scrollMotion = false,
+  columnIndex = 0,
 }: BlogPostCardProps) {
   const reducedMotion = useReducedMotion();
 
   if (scrollMotion && !reducedMotion) {
-    return <BlogPostCardScroll post={post} />;
+    return <BlogPostCardScroll post={post} columnIndex={columnIndex} />;
   }
 
   return <BlogPostCardStatic post={post} />;

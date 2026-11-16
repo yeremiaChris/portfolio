@@ -10,15 +10,18 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
+import { createPortal } from "react-dom";
 import {
   m,
   useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
+  type MotionValue,
 } from "motion/react";
 
 import { getTocItems, shouldShowToc } from "@/components/blog/BlogToc";
+import { useHydrated } from "@/components/motion/useHydrated";
 import type { BlogHeading } from "@/lib/blog";
 import { projectsFeaturedSpring } from "@/lib/projects-motion";
 import { cn } from "@/lib/utils";
@@ -28,6 +31,7 @@ const tocScrollOffset = 120;
 type BlogPostReadingContextValue = {
   activeHeadingId: string | null;
   tocEnabled: boolean;
+  titleRegionRef: RefObject<HTMLDivElement | null>;
 };
 
 const BlogPostReadingContext =
@@ -37,32 +41,91 @@ export function useBlogPostTocActive() {
   return useContext(BlogPostReadingContext);
 }
 
+function useNavBottomPx() {
+  const [navBottom, setNavBottom] = useState(64);
+
+  useEffect(() => {
+    const measure = () => {
+      const header = document.querySelector("header");
+      if (!header) {
+        return;
+      }
+      setNavBottom(header.getBoundingClientRect().bottom);
+    };
+
+    measure();
+    const header = document.querySelector("header");
+    const observer =
+      header && typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(measure)
+        : null;
+    observer?.observe(header as Element);
+    window.addEventListener("resize", measure);
+    window.addEventListener("scroll", measure, { passive: true });
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", measure);
+    };
+  }, []);
+
+  return navBottom;
+}
+
 function BlogReadingProgress({
-  targetRef,
+  articleRef,
+  titleRegionRef,
 }: {
-  targetRef: RefObject<HTMLElement | null>;
+  articleRef: RefObject<HTMLElement | null>;
+  titleRegionRef: RefObject<HTMLElement | null>;
 }) {
   const reducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
+  const navBottom = useNavBottomPx();
+  const hydrated = useHydrated();
+
+  const { scrollYProgress: articleProgress } = useScroll({
+    target: articleRef,
     offset: ["start start", "end end"],
   });
-  const scaleX = useSpring(scrollYProgress, projectsFeaturedSpring);
 
-  if (reducedMotion) {
+  const titleOffsetEnd = Math.max(0, navBottom - 8);
+  const { scrollYProgress: titleReveal } = useScroll({
+    target: titleRegionRef,
+    offset: [`end ${navBottom}px`, `end ${titleOffsetEnd}px`],
+  });
+
+  const scaleXSpring = useSpring(articleProgress, projectsFeaturedSpring);
+  const scaleX: MotionValue<number> = reducedMotion
+    ? articleProgress
+    : scaleXSpring;
+  const opacity = useTransform(titleReveal, [0, 1], [0, 1]);
+
+  if (!hydrated) {
     return null;
   }
 
-  return (
+  return createPortal(
     <m.div
       aria-hidden
-      className="pointer-events-none fixed right-0 left-0 z-40 h-0.5 w-full origin-left bg-[#4cd7f6] shadow-[0_0_10px_rgb(76_215_246_/_0.45)]"
+      className="pointer-events-none fixed inset-x-0 z-[49] h-[2px] w-full origin-left bg-[#4cd7f6] shadow-[0_0_12px_rgb(76_215_246_/_0.28)]"
       style={{
-        top: "var(--nav-height)",
+        top: navBottom,
         scaleX,
+        opacity,
       }}
       initial={false}
-    />
+    />,
+    document.body,
+  );
+}
+
+export function BlogPostTitleSection({ children }: { children: ReactNode }) {
+  const context = useContext(BlogPostReadingContext);
+
+  return (
+    <div ref={context?.titleRegionRef} className="flex flex-col gap-4">
+      {children}
+    </div>
   );
 }
 
@@ -113,9 +176,12 @@ export function BlogPostReadingProvider({
   children: ReactNode;
 }) {
   const { activeHeadingId, tocEnabled } = useTocActiveHeading(headings);
+  const titleRegionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <BlogPostReadingContext.Provider value={{ activeHeadingId, tocEnabled }}>
+    <BlogPostReadingContext.Provider
+      value={{ activeHeadingId, tocEnabled, titleRegionRef }}
+    >
       {children}
     </BlogPostReadingContext.Provider>
   );
@@ -129,10 +195,15 @@ export function BlogPostArticle({
   className?: string;
 }) {
   const articleRef = useRef<HTMLElement>(null);
+  const context = useContext(BlogPostReadingContext);
+  const titleRegionRef = context?.titleRegionRef ?? { current: null };
 
   return (
     <div className="min-w-0 lg:col-span-8">
-      <BlogReadingProgress targetRef={articleRef} />
+      <BlogReadingProgress
+        articleRef={articleRef}
+        titleRegionRef={titleRegionRef}
+      />
       <article
         ref={articleRef}
         className={cn(

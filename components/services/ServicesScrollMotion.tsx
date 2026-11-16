@@ -51,6 +51,31 @@ function useServicesScrollProgress(
   return useSpring(scrollYProgress, projectsFeaturedSpring);
 }
 
+export function useServicesProcessStepMotion(
+  progress: MotionValue<number>,
+  index: number,
+  total: number,
+) {
+  const start = 0.06 + (index / total) * 0.52;
+  const end = Math.min(1, start + 0.24);
+
+  const step = useTransform(progress, (value) => {
+    const v = Math.min(1, Math.max(0, value));
+    if (v <= start) {
+      return 0;
+    }
+    if (v >= end) {
+      return 1;
+    }
+    return (v - start) / (end - start);
+  });
+
+  const y = useTransform(step, [0, 1], [56, 0]);
+  const opacity = useTransform(step, [0, 1], [0.3, 1]);
+
+  return { y, opacity };
+}
+
 export function useServicesStepHighlight(
   progress: MotionValue<number>,
   index: number,
@@ -186,54 +211,115 @@ export function ServicesStepPill({ visible }: { visible: boolean }) {
     <m.span
       layoutId="services-process-step-pill"
       aria-hidden
-      className="bg-brand-accent/12 pointer-events-none absolute top-0 left-0 z-0 h-8 min-w-[2.25rem] rounded-full"
+      className="bg-brand-accent/12 pointer-events-none absolute -inset-x-1.5 -inset-y-0.5 z-0 rounded-xl"
       transition={projectsFeaturedSpring}
     />
   );
 }
 
-type ServicesProcessTrackProps = {
+type ServicesProcessRailProps = {
   progress: MotionValue<number>;
   layout: "horizontal" | "vertical";
+  stepCount: number;
   className?: string;
 };
 
-export function ServicesProcessTrack({
+function ProcessRailDot({
+  index,
+  total,
   progress,
   layout,
-  className,
-}: ServicesProcessTrackProps) {
+}: {
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+  layout: "horizontal" | "vertical";
+}) {
   const reducedMotion = useReducedMotion();
+  const highlight = useServicesStepHighlight(progress, index, total);
+  const dotOpacity = useTransform(highlight, [0, 1], [0.35, 1]);
+  const dotScale = useTransform(highlight, [0, 1], [0.85, 1]);
+
+  const positionStyle =
+    layout === "horizontal"
+      ? { left: `${((index + 0.5) / total) * 100}%` }
+      : { top: `${((index + 0.5) / total) * 100}%` };
 
   if (reducedMotion) {
-    return null;
-  }
-
-  if (layout === "horizontal") {
     return (
-      <div
-        className={cn("pointer-events-none relative h-px w-full", className)}
+      <span
+        className="bg-brand-accent absolute z-10 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-[0_0_10px_rgb(76_215_246_/_0.55)]"
+        style={positionStyle}
         aria-hidden
-      >
-        <span className="bg-border/45 absolute inset-0 block h-px" />
-        <m.span
-          className="bg-brand-accent absolute inset-y-0 left-0 h-px w-full origin-left shadow-[0_0_12px_rgb(76_215_246_/_0.45)]"
-          style={{ scaleX: progress }}
-        />
-      </div>
+      />
     );
   }
 
   return (
+    <m.span
+      className="bg-brand-accent absolute z-10 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-[0_0_10px_rgb(76_215_246_/_0.55)]"
+      style={{ ...positionStyle, opacity: dotOpacity, scale: dotScale }}
+      aria-hidden
+    />
+  );
+}
+
+export function ServicesProcessRail({
+  progress,
+  layout,
+  stepCount,
+  className,
+}: ServicesProcessRailProps) {
+  const reducedMotion = useReducedMotion();
+
+  const isHorizontal = layout === "horizontal";
+
+  return (
     <div
-      className={cn("pointer-events-none relative w-px", className)}
+      className={cn(
+        "pointer-events-none relative",
+        isHorizontal ? "h-px min-h-px w-full" : "h-full w-px min-w-px",
+        className,
+      )}
       aria-hidden
     >
-      <span className="bg-border/45 absolute inset-0 block w-px" />
-      <m.span
-        className="bg-brand-accent absolute inset-x-0 top-0 h-full w-px origin-top shadow-[0_0_12px_rgb(76_215_246_/_0.45)]"
-        style={{ scaleY: progress }}
+      <span
+        className={cn(
+          "bg-border/45 absolute",
+          isHorizontal
+            ? "inset-x-0 top-1/2 h-px -translate-y-1/2"
+            : "inset-y-0 left-1/2 w-px -translate-x-1/2",
+        )}
       />
+      {reducedMotion ? (
+        <span
+          className={cn(
+            "bg-brand-accent absolute shadow-[0_0_12px_rgb(76_215_246_/_0.45)]",
+            isHorizontal
+              ? "inset-x-0 top-1/2 h-px w-full origin-left -translate-y-1/2 scale-x-100"
+              : "inset-y-0 left-1/2 h-full w-px origin-top -translate-x-1/2 scale-y-100",
+          )}
+        />
+      ) : (
+        <m.span
+          className={cn(
+            "bg-brand-accent absolute shadow-[0_0_12px_rgb(76_215_246_/_0.45)]",
+            isHorizontal
+              ? "inset-x-0 top-1/2 h-px w-full origin-left -translate-y-1/2"
+              : "inset-y-0 left-1/2 h-full w-px origin-top -translate-x-1/2",
+          )}
+          style={isHorizontal ? { scaleX: progress } : { scaleY: progress }}
+        />
+      )}
+      {Array.from({ length: stepCount }, (_, index) => (
+        <ProcessRailDot
+          key={index}
+          index={index}
+          total={stepCount}
+          progress={progress}
+          layout={layout}
+        />
+      ))}
     </div>
   );
 }

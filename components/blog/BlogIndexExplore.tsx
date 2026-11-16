@@ -3,9 +3,9 @@
 import { useMemo, useState } from "react";
 import { FileSearch } from "lucide-react";
 
+import { BlogActiveCardProvider } from "@/components/blog/BlogScrollMotion";
 import { BlogPostCard } from "@/components/blog/BlogPostCard";
 import { Reveal } from "@/components/motion/Reveal";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { BlogSearchInput } from "@/components/blog/BlogSearchInput";
 import { BlogTopicChips } from "@/components/blog/BlogTopicChips";
 import { FeaturedPost } from "@/components/blog/FeaturedPost";
@@ -110,16 +110,13 @@ export function BlogIndexExplore({
             The featured post above is the only match for this filter.
           </p>
         ) : (
-          <Stagger
-            preset="calm"
-            className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3"
-          >
-            {remaining.map((post) => (
-              <StaggerItem key={post.slug}>
-                <BlogPostCard post={post} />
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <BlogActiveCardProvider>
+            <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+              {remaining.map((post) => (
+                <BlogPostCard key={post.slug} post={post} scrollMotion />
+              ))}
+            </div>
+          </BlogActiveCardProvider>
         )}
       </section>
     </div>

@@ -29,6 +29,7 @@ export type ContactCtaProps = {
   withContainer?: boolean;
   className?: string;
   panelClassName?: string;
+  compact?: boolean;
 };
 
 const ACTION_ICONS = {
@@ -73,41 +74,64 @@ export function ContactCta({
   withContainer = true,
   className,
   panelClassName,
+  compact = false,
 }: ContactCtaProps) {
   const headingId = `${id}-heading`;
 
   const panel = (
     <div
       className={cn(
-        "border-gradient bg-muted relative flex flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl p-8 shadow-xl md:flex-row md:items-center md:gap-10 md:p-12",
+        "border-gradient bg-muted relative flex w-full flex-col items-start justify-between overflow-hidden",
+        compact
+          ? "border-border/50 gap-4 rounded-2xl border p-5 shadow-sm md:flex-row md:items-center md:gap-6 md:p-6"
+          : "gap-8 rounded-3xl p-8 shadow-xl md:flex-row md:items-center md:gap-10 md:p-12",
         panelClassName,
       )}
     >
-      <div
-        className="bg-primary/10 pointer-events-none absolute -right-20 -bottom-20 size-80 rounded-full blur-3xl"
-        aria-hidden
-      />
+      {compact ? null : (
+        <div
+          className="bg-primary/10 pointer-events-none absolute -right-20 -bottom-20 size-80 rounded-full blur-3xl"
+          aria-hidden
+        />
+      )}
 
-      <div className="relative z-10 flex max-w-2xl flex-col">
-        <Badge
-          variant="secondary"
-          className="text-primary label-caps mb-3 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
-        >
-          <span className="bg-primary size-2 shrink-0 rounded-full" />
-          {eyebrow}
-        </Badge>
+      <div
+        className={cn(
+          "relative z-10 flex min-w-0 flex-col",
+          compact ? "flex-1" : "max-w-2xl",
+        )}
+      >
+        {eyebrow ? (
+          <Badge
+            variant="secondary"
+            className="text-primary label-caps mb-3 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
+          >
+            <span className="bg-primary size-2 shrink-0 rounded-full" />
+            {eyebrow}
+          </Badge>
+        ) : null}
         <h2
           id={headingId}
-          className="font-heading text-foreground text-2xl font-semibold tracking-tight sm:text-3xl"
+          className={cn(
+            "font-heading text-foreground font-semibold tracking-tight",
+            compact ? "text-lg sm:text-xl" : "text-2xl sm:text-3xl",
+          )}
         >
           {title}
         </h2>
-        <p className="text-muted-foreground mt-3 text-[15px] leading-6">
-          {description}
-        </p>
+        {description ? (
+          <p className="text-muted-foreground mt-3 text-[15px] leading-6">
+            {description}
+          </p>
+        ) : null}
       </div>
 
-      <div className="relative z-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
+      <div
+        className={cn(
+          "relative z-10 flex w-full flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center",
+          compact ? "md:w-auto md:shrink-0" : "gap-3 sm:w-auto",
+        )}
+      >
         {actions.map((action) => (
           <ContactActionLink
             key={`${action.href}-${action.label}`}
@@ -231,6 +255,25 @@ export function projectsContactActions(): ContactCtaAction[] {
       icon: "whatsapp",
       variant: "secondary",
       external: true,
+    },
+  ];
+}
+
+export function servicesContactActions(): ContactCtaAction[] {
+  return [
+    {
+      href: site.links.whatsapp,
+      label: "WhatsApp",
+      icon: "whatsapp",
+      variant: "default",
+      primary: true,
+      external: true,
+    },
+    {
+      href: site.links.email,
+      label: site.links.emailLabel,
+      icon: "mail",
+      variant: "secondary",
     },
   ];
 }

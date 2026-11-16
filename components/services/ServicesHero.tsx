@@ -1,10 +1,7 @@
-import { MessageCircle } from "lucide-react";
-
 import { ServicesHeroVisual } from "@/components/services/ServicesHeroVisual";
+import { ServicesWhatsAppCta } from "@/components/services/ServicesWhatsAppCta";
 import { servicesSectionClass } from "@/components/services/servicesSurface";
-import { buttonVariants } from "@/components/ui/button-variants";
 import { servicesHero, servicesHeroLines } from "@/lib/services";
-import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export function ServicesHero() {
@@ -27,18 +24,7 @@ export function ServicesHero() {
             </span>
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-2 md:mt-4">
-            <a
-              href={site.links.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                buttonVariants({ variant: "default", size: "default" }),
-                "h-10 gap-2 px-4 text-[13px] font-semibold shadow-[0_0_14px_rgba(76,215,246,0.2)]",
-              )}
-            >
-              <MessageCircle className="size-4 shrink-0" aria-hidden />
-              {servicesHero.whatsappCtaLabel}
-            </a>
+            <ServicesWhatsAppCta />
           </div>
         </div>
         <div className="flex w-full justify-center lg:col-span-5 lg:justify-end">

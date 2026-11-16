@@ -1,7 +1,8 @@
+"use client";
+
 import { Code2, LayoutGrid, Network, type LucideIcon } from "lucide-react";
 
-import { Reveal } from "@/components/motion/Reveal";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { ServicesScrollReveal } from "@/components/services/ServicesScrollMotion";
 import {
   Card,
   CardDescription,
@@ -23,34 +24,7 @@ const DISCIPLINE_ICONS: Record<ExperienceDiscipline["icon"], LucideIcon> = {
   code: Code2,
 };
 
-export function ExperienceDisciplines() {
-  return (
-    <section
-      aria-labelledby="disciplines-heading"
-      className="mb-12 w-full md:mb-16"
-    >
-      <Reveal className="mb-6">
-        <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
-          {experienceDisciplinesIntro.eyebrow}
-        </p>
-        <h2
-          id="disciplines-heading"
-          className="font-heading text-foreground mt-1 text-2xl font-semibold tracking-tight sm:text-3xl"
-        >
-          {experienceDisciplinesIntro.title}
-        </h2>
-      </Reveal>
-
-      <Stagger className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
-        {experienceDisciplines.map((item) => (
-          <StaggerItem key={item.id}>
-            <DisciplineCard item={item} />
-          </StaggerItem>
-        ))}
-      </Stagger>
-    </section>
-  );
-}
+const disciplineParallax = [1, 1.15, 1.3] as const;
 
 function DisciplineCard({ item }: { item: ExperienceDiscipline }) {
   const Icon = DISCIPLINE_ICONS[item.icon];
@@ -80,5 +54,38 @@ function DisciplineCard({ item }: { item: ExperienceDiscipline }) {
         <p className={cn("text-[12px]", toneClass)}>{item.footer}</p>
       </CardFooter>
     </Card>
+  );
+}
+
+export function ExperienceDisciplines() {
+  return (
+    <section
+      aria-labelledby="disciplines-heading"
+      className="mb-12 w-full min-w-0 md:mb-16"
+    >
+      <div className="mb-6">
+        <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
+          {experienceDisciplinesIntro.eyebrow}
+        </p>
+        <h2
+          id="disciplines-heading"
+          className="font-heading text-foreground mt-1 text-2xl font-semibold tracking-tight sm:text-3xl"
+        >
+          {experienceDisciplinesIntro.title}
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+        {experienceDisciplines.map((item, index) => (
+          <ServicesScrollReveal
+            key={item.id}
+            className="h-full min-h-0"
+            parallaxY={disciplineParallax[index] ?? 1}
+          >
+            <DisciplineCard item={item} />
+          </ServicesScrollReveal>
+        ))}
+      </div>
+    </section>
   );
 }

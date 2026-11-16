@@ -8,6 +8,7 @@ import {
   type RefObject,
 } from "react";
 import {
+  AnimatePresence,
   m,
   useReducedMotion,
   useScroll,
@@ -29,6 +30,17 @@ const servicesBottomScrollOffset: ["start end", "end end"] = [
   "start end",
   "end end",
 ];
+
+const servicesOfferingEdgeLayoutTransition = {
+  type: "tween" as const,
+  duration: 0.32,
+  ease: [0.22, 1, 0.36, 1] as const,
+};
+
+const servicesOfferingEdgeOpacityTransition = {
+  duration: 0.3,
+  ease: [0, 0, 0.2, 1] as const,
+};
 
 type ServicesScrollRange = "standard" | "bottom";
 
@@ -185,17 +197,27 @@ export function ServicesOfferingEdge({ visible }: { visible: boolean }) {
   const reducedMotion = useReducedMotion();
   const pointerFine = usePointerFine();
 
-  if (!visible || reducedMotion || !pointerFine) {
+  if (reducedMotion || !pointerFine) {
     return null;
   }
 
   return (
-    <m.span
-      layoutId="services-offering-edge"
-      aria-hidden
-      className="bg-brand-accent pointer-events-none absolute top-3 bottom-3 left-0 z-10 w-[3px] rounded-full shadow-[0_0_14px_rgb(76_215_246_/_0.75)]"
-      transition={projectsFeaturedSpring}
-    />
+    <AnimatePresence initial={false}>
+      {visible ? (
+        <m.span
+          layoutId="services-offering-edge"
+          aria-hidden
+          className="bg-brand-accent pointer-events-none absolute top-3 bottom-3 left-0 z-10 w-[3px] rounded-full shadow-[0_0_14px_rgb(76_215_246_/_0.75)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            layout: servicesOfferingEdgeLayoutTransition,
+            opacity: servicesOfferingEdgeOpacityTransition,
+          }}
+        />
+      ) : null}
+    </AnimatePresence>
   );
 }
 

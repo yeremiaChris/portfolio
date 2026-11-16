@@ -4,6 +4,11 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
+import {
+  BlogPostArticle,
+  BlogPostReadingProvider,
+  blogPostMdxComponents,
+} from "@/components/blog/BlogPostReadingMotion";
 import { BlogPostTitleMeta } from "@/components/blog/BlogPostTitleMeta";
 import { BlogToc } from "@/components/blog/BlogToc";
 import { BlogTocMobile } from "@/components/blog/BlogTocMobile";
@@ -92,79 +97,86 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           image: post.image,
         })}
       />
-      <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col gap-8 py-6 md:py-8">
-        <div className="flex flex-col gap-4">
-          <Link
-            href="/blog"
-            className="text-muted-foreground hover:text-primary -my-2.5 inline-flex min-h-10 w-fit items-center gap-1.5 text-[12px] font-medium transition-colors sm:my-0 sm:min-h-0"
-          >
-            <ArrowLeft className="text-primary size-3.5" aria-hidden />
-            Back to blog
-          </Link>
+      <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col gap-8 overflow-x-clip py-6 md:py-8">
+        <BlogPostReadingProvider headings={headings}>
+          <div className="flex flex-col gap-4">
+            <Link
+              href="/blog"
+              className="text-muted-foreground hover:text-primary -my-2.5 inline-flex min-h-10 w-fit items-center gap-1.5 text-[12px] font-medium transition-colors sm:my-0 sm:min-h-0"
+            >
+              <ArrowLeft className="text-primary size-3.5" aria-hidden />
+              Back to blog
+            </Link>
 
-          <div className="flex flex-col gap-3">
-            <BlogPostTitleMeta
-              meta={
-                <>
-                  {seriesToc ? (
-                    <>
-                      <span className="text-primary">
-                        Part {post.part} of {seriesToc.parts.length}
-                      </span>
-                      <span aria-hidden>·</span>
-                    </>
-                  ) : null}
-                  <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
-                  <span aria-hidden>·</span>
-                  <span>{post.readingTime}</span>
-                </>
-              }
-              title={post.title}
-            />
-            <p className="text-muted-foreground max-w-2xl text-[15px] leading-[1.7]">
-              {post.description}
-            </p>
-            {post.tags.length > 0 ? (
-              <div className="flex flex-wrap gap-1.5">
-                {post.tags.map((tag) => (
-                  <BlogTagBadge key={tag} tag={tag} />
-                ))}
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        <ReadingResume slug={post.slug} headings={headings} />
-
-        {seriesToc ? <SeriesTocMobile {...seriesToc} /> : null}
-
-        <BlogTocMobile headings={headings} />
-
-        <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-          <article className="prose prose-invert prose-headings:scroll-mt-24 prose-headings:font-heading prose-p:leading-[1.7] prose-li:leading-[1.7] prose-a:text-primary prose-code:font-mono prose-pre:border prose-pre:border-border/60 prose-pre:bg-muted max-w-none min-w-0 lg:col-span-8">
-            <MDXRemote source={post.content} options={mdxOptions} />
-            {seriesToc ? (
-              <div className="not-prose border-border/40 mt-10 flex flex-col gap-4 border-t pt-6">
-                <SeriesMarkRead slug={post.slug} />
-                <SeriesNav
-                  prev={seriesParts[seriesNav.index - 1] ?? null}
-                  next={seriesParts[seriesNav.index + 1] ?? null}
-                />
-              </div>
-            ) : null}
-          </article>
-
-          <aside className="min-w-0 lg:col-span-4">
-            <div className="flex flex-col gap-4 lg:sticky lg:top-24">
-              {seriesToc ? (
-                <div className="hidden lg:block">
-                  <SeriesToc {...seriesToc} />
+            <div className="flex flex-col gap-3">
+              <BlogPostTitleMeta
+                meta={
+                  <>
+                    {seriesToc ? (
+                      <>
+                        <span className="text-primary">
+                          Part {post.part} of {seriesToc.parts.length}
+                        </span>
+                        <span aria-hidden>·</span>
+                      </>
+                    ) : null}
+                    <time dateTime={post.date}>
+                      {formatBlogDate(post.date)}
+                    </time>
+                    <span aria-hidden>·</span>
+                    <span>{post.readingTime}</span>
+                  </>
+                }
+                title={post.title}
+              />
+              <p className="text-muted-foreground max-w-2xl text-[15px] leading-[1.7]">
+                {post.description}
+              </p>
+              {post.tags.length > 0 ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {post.tags.map((tag) => (
+                    <BlogTagBadge key={tag} tag={tag} />
+                  ))}
                 </div>
               ) : null}
-              <BlogToc headings={headings} />
             </div>
-          </aside>
-        </div>
+          </div>
+
+          <ReadingResume slug={post.slug} headings={headings} />
+
+          {seriesToc ? <SeriesTocMobile {...seriesToc} /> : null}
+
+          <BlogTocMobile headings={headings} />
+          <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
+            <BlogPostArticle>
+              <MDXRemote
+                source={post.content}
+                options={mdxOptions}
+                components={blogPostMdxComponents}
+              />
+              {seriesToc ? (
+                <div className="not-prose border-border/40 mt-10 flex flex-col gap-4 border-t pt-6">
+                  <SeriesMarkRead slug={post.slug} />
+                  <SeriesNav
+                    prev={seriesParts[seriesNav.index - 1] ?? null}
+                    next={seriesParts[seriesNav.index + 1] ?? null}
+                  />
+                </div>
+              ) : null}
+            </BlogPostArticle>
+
+            <aside className="min-w-0 lg:col-span-4">
+              <div className="flex flex-col gap-4 lg:sticky lg:top-24">
+                {seriesToc ? (
+                  <div className="hidden lg:block">
+                    <SeriesToc {...seriesToc} />
+                  </div>
+                ) : null}
+                <BlogToc headings={headings} />
+              </div>
+            </aside>
+          </div>
+        </BlogPostReadingProvider>
 
         <RelatedPosts posts={relatedPosts} />
       </Container>

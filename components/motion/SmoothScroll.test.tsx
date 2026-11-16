@@ -28,6 +28,7 @@ describe("SmoothScroll", () => {
 
   beforeEach(() => {
     setLenisInstance(null);
+    window.scrollTo = vi.fn();
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({
       matches: false,
       media: query,

@@ -21,7 +21,7 @@ export const metadata: Metadata = buildPageMetadata({
 export default function ExperiencePage() {
   return (
     <main>
-      <Container className="flex min-h-[calc(100vh-4rem)] flex-col py-6 md:py-8">
+      <Container className="flex min-h-[calc(100vh-4rem)] min-w-0 flex-col overflow-x-clip py-6 md:py-8">
         <ExperienceHeader />
         <ExperienceTimeline />
         <ExperienceDisciplines />

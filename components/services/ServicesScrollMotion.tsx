@@ -17,39 +17,17 @@ import {
 } from "motion/react";
 
 import { usePointerFine } from "@/components/projects/usePointerFine";
-import {
-  projectsFeaturedSpring,
-  projectsStaggerTransition,
-} from "@/lib/projects-motion";
+import { projectsFeaturedSpring } from "@/lib/projects-motion";
 import { cn } from "@/lib/utils";
 
-const servicesScrollOffset: ["start end", "center center"] = [
-  "start end",
-  "center center",
+const servicesScrollOffset: ["start 0.95", "start 0.28"] = [
+  "start 0.95",
+  "start 0.28",
 ];
 
 const ServicesScrollProgressContext = createContext<MotionValue<number> | null>(
   null,
 );
-
-export const servicesHeroMountContainer = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.07,
-      delayChildren: 0.08,
-    },
-  },
-};
-
-export const servicesHeroMountItem = {
-  hidden: { opacity: 1, y: 14 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: projectsStaggerTransition,
-  },
-};
 
 function useServicesScrollProgress(
   targetRef: RefObject<HTMLElement | null>,
@@ -67,8 +45,8 @@ export function useServicesStepHighlight(
   total: number,
 ) {
   const segment = 1 / total;
-  const start = Math.max(0, index * segment - segment * 0.12);
-  const end = Math.min(1, (index + 1) * segment + segment * 0.08);
+  const start = Math.max(0, index * segment - segment * 0.08);
+  const end = Math.min(1, (index + 1) * segment + segment * 0.04);
 
   return useTransform(progress, (value) => {
     const v = Math.min(1, Math.max(0, value));
@@ -82,11 +60,36 @@ export function useServicesStepHighlight(
   });
 }
 
+export function useServicesBulletMotion(
+  progress: MotionValue<number>,
+  bulletIndex: number,
+) {
+  const start = 0.38 + bulletIndex * 0.11;
+  const end = start + 0.13;
+
+  const local = useTransform(progress, (value) => {
+    const v = Math.min(1, Math.max(0, value));
+    if (v <= start) {
+      return 0;
+    }
+    if (v >= end) {
+      return 1;
+    }
+    return (v - start) / (end - start);
+  });
+
+  const x = useTransform(local, [0, 1], [-24, 0]);
+  const opacity = useTransform(local, [0, 1], [0.12, 1]);
+
+  return { x, opacity };
+}
+
 type ServicesScrollRevealProps = {
   children: ReactNode;
   className?: string;
   parallaxY?: number;
   shareProgress?: boolean;
+  fade?: boolean;
 };
 
 export function ServicesScrollReveal({
@@ -94,13 +97,14 @@ export function ServicesScrollReveal({
   className,
   parallaxY = 1,
   shareProgress = false,
+  fade = true,
 }: ServicesScrollRevealProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const progress = useServicesScrollProgress(targetRef);
-  const y = useTransform(progress, [0, 1], [40 * parallaxY, 0]);
-  const scale = useTransform(progress, [0, 1], [0.96, 1]);
-  const opacity = useTransform(progress, [0, 1], [0.4, 1]);
+  const y = useTransform(progress, [0, 1], [80 * parallaxY, 0]);
+  const scale = useTransform(progress, [0, 1], [0.92, 1]);
+  const opacity = useTransform(progress, [0, 1], fade ? [0.2, 1] : [1, 1]);
 
   if (reducedMotion) {
     return (
@@ -131,6 +135,13 @@ export function ServicesScrollReveal({
 
 export function useServicesScrollSectionProgress() {
   return useContext(ServicesScrollProgressContext);
+}
+
+export function useServicesMotionHover() {
+  const pointerFine = usePointerFine();
+  const reducedMotion = useReducedMotion();
+
+  return pointerFine && !reducedMotion;
 }
 
 export function ServicesOfferingEdge({ visible }: { visible: boolean }) {
@@ -169,9 +180,48 @@ export function ServicesStepPill({ visible }: { visible: boolean }) {
   );
 }
 
-export function useServicesMotionHover() {
-  const pointerFine = usePointerFine();
+type ServicesProcessTrackProps = {
+  progress: MotionValue<number>;
+  layout: "horizontal" | "vertical";
+  className?: string;
+};
+
+export function ServicesProcessTrack({
+  progress,
+  layout,
+  className,
+}: ServicesProcessTrackProps) {
   const reducedMotion = useReducedMotion();
 
-  return pointerFine && !reducedMotion;
+  if (reducedMotion) {
+    return null;
+  }
+
+  if (layout === "horizontal") {
+    return (
+      <div
+        className={cn("pointer-events-none relative h-px w-full", className)}
+        aria-hidden
+      >
+        <span className="bg-border/45 absolute inset-0 block h-px" />
+        <m.span
+          className="bg-brand-accent absolute inset-y-0 left-0 h-px w-full origin-left shadow-[0_0_12px_rgb(76_215_246_/_0.45)]"
+          style={{ scaleX: progress }}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={cn("pointer-events-none relative w-px", className)}
+      aria-hidden
+    >
+      <span className="bg-border/45 absolute inset-0 block w-px" />
+      <m.span
+        className="bg-brand-accent absolute inset-x-0 top-0 h-full w-px origin-top shadow-[0_0_12px_rgb(76_215_246_/_0.45)]"
+        style={{ scaleY: progress }}
+      />
+    </div>
+  );
 }

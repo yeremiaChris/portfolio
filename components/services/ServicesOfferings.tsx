@@ -1,12 +1,15 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { m, useMotionValue, useReducedMotion } from "motion/react";
 import { useState } from "react";
 
 import {
   ServicesOfferingEdge,
   ServicesScrollReveal,
+  useServicesBulletMotion,
   useServicesMotionHover,
+  useServicesScrollSectionProgress,
 } from "@/components/services/ServicesScrollMotion";
 import {
   servicesSectionClass,
@@ -27,10 +30,51 @@ const offeringCardBaseClass =
 const offeringCardHoverClass =
   "transition-[border-color,box-shadow] duration-200 hover:border-brand-accent/45 hover:shadow-[0_0_0_1px_rgba(76,215,246,0.14)] motion-reduce:transition-none";
 
-const offeringParallax = [1, 1.22] as const;
+const offeringParallax = [1, 1.48] as const;
 
 function formatOfferingIndex(index: number): string {
   return String(index + 1).padStart(2, "0");
+}
+
+function OfferingBullet({
+  bullet,
+  bulletIndex,
+}: {
+  bullet: string;
+  bulletIndex: number;
+}) {
+  const reducedMotion = useReducedMotion();
+  const progress = useServicesScrollSectionProgress();
+  const fallback = useMotionValue(1);
+  const source = progress ?? fallback;
+  const { x, opacity } = useServicesBulletMotion(source, bulletIndex);
+
+  if (reducedMotion) {
+    return (
+      <li className="text-foreground flex items-start gap-2 text-[13px] leading-snug font-medium md:text-[14px]">
+        <Check
+          className="text-brand-accent mt-0.5 size-4 shrink-0"
+          strokeWidth={2}
+          aria-hidden
+        />
+        <span>{bullet}</span>
+      </li>
+    );
+  }
+
+  return (
+    <m.li
+      className="text-foreground flex items-start gap-2 text-[13px] leading-snug font-medium md:text-[14px]"
+      style={{ x, opacity }}
+    >
+      <Check
+        className="text-brand-accent mt-0.5 size-4 shrink-0"
+        strokeWidth={2}
+        aria-hidden
+      />
+      <span>{bullet}</span>
+    </m.li>
+  );
 }
 
 function OfferingCard({
@@ -71,18 +115,12 @@ function OfferingCard({
             {offering.stack}
           </p>
           <ul className="mt-1 flex flex-col gap-2">
-            {offering.bullets.map((bullet) => (
-              <li
+            {offering.bullets.map((bullet, bulletIndex) => (
+              <OfferingBullet
                 key={bullet}
-                className="text-foreground flex items-start gap-2 text-[13px] leading-snug font-medium md:text-[14px]"
-              >
-                <Check
-                  className="text-brand-accent mt-0.5 size-4 shrink-0"
-                  strokeWidth={2}
-                  aria-hidden
-                />
-                <span>{bullet}</span>
-              </li>
+                bullet={bullet}
+                bulletIndex={bulletIndex}
+              />
             ))}
           </ul>
         </CardContent>
@@ -100,11 +138,11 @@ export function ServicesOfferings() {
       aria-labelledby="services-offerings-heading"
       className={servicesSectionClass}
     >
-      <ServicesScrollReveal className={servicesSectionHeadingGap}>
+      <div className={servicesSectionHeadingGap}>
         <SectionHeading id="services-offerings-heading">
           {servicesOfferingsHeading}
         </SectionHeading>
-      </ServicesScrollReveal>
+      </div>
 
       <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2 lg:gap-6">
         {servicesOfferings.map((offering, index) => (
@@ -112,6 +150,7 @@ export function ServicesOfferings() {
             key={offering.id}
             className="h-full min-h-0"
             parallaxY={offeringParallax[index] ?? 1}
+            shareProgress
           >
             <OfferingCard
               offering={offering}

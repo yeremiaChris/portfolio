@@ -1,22 +1,13 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
-import {
-  ContactCta,
-  servicesContactActions,
-} from "@/components/home/ContactCta";
+import { ServicesContactCta } from "@/components/services/ServicesContactCta";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
-import { ServicesScrollReveal } from "@/components/services/ServicesScrollMotion";
-import { servicesSectionClass } from "@/components/services/servicesSurface";
 import { JsonLd } from "@/components/seo/JsonLd";
-import {
-  servicesContactCta,
-  servicesPageMetaDescription,
-} from "@/lib/services";
+import { servicesPageMetaDescription } from "@/lib/services";
 import { buildPageMetadata, buildServicesPageJsonLd } from "@/lib/seo";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Services | Yeremia Chris Saragi",
@@ -32,17 +23,7 @@ export default function ServicesPage() {
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <ServicesScrollReveal className={cn(servicesSectionClass, "mb-0")}>
-          <ContactCta
-            id="services-contact"
-            withContainer={false}
-            compact
-            eyebrow=""
-            title={servicesContactCta.title}
-            description=""
-            actions={servicesContactActions()}
-          />
-        </ServicesScrollReveal>
+        <ServicesContactCta />
       </Container>
     </main>
   );

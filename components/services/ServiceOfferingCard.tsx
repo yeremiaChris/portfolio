@@ -24,9 +24,13 @@ const OFFERING_ICONS: Record<ServiceOfferingId, typeof Globe> = {
 
 type ServiceOfferingCardProps = {
   offering: ServiceOffering;
+  className?: string;
 };
 
-export function ServiceOfferingCard({ offering }: ServiceOfferingCardProps) {
+export function ServiceOfferingCard({
+  offering,
+  className,
+}: ServiceOfferingCardProps) {
   const projectHref = getServiceOfferingProjectHref(offering);
   const projectShortName = getServiceOfferingProjectShortName(offering);
   const Icon = OFFERING_ICONS[offering.id];
@@ -35,6 +39,7 @@ export function ServiceOfferingCard({ offering }: ServiceOfferingCardProps) {
     <Card
       className={cn(
         "border-border/50 bg-muted/90 ring-border/30 hover:border-brand-accent/40 flex h-full flex-col justify-between rounded-3xl border shadow-sm ring-1 transition-[border-color,box-shadow] duration-200 [--card-spacing:--spacing(5)] hover:shadow-[0_0_0_1px_rgba(76,215,246,0.14)] motion-reduce:transition-none md:[--card-spacing:--spacing(6)]",
+        className,
       )}
     >
       <CardHeader className="flex flex-1 flex-col gap-3.5">

@@ -14,7 +14,7 @@ export function ServicesHeroVisual({ className }: ServicesHeroVisualProps) {
       aria-hidden
     >
       <div className="relative h-full w-full">
-        <div className="border-border/55 absolute inset-0 overflow-hidden rounded-2xl border bg-[#0c1018] shadow-[0_24px_48px_rgb(0_0_0_/_0.35),inset_0_1px_0_rgb(255_255_255_/_0.06)]">
+        <div className="border-border/55 ring-border/30 absolute inset-0 overflow-hidden rounded-2xl border bg-[#0c1018] shadow-[0_24px_48px_rgb(0_0_0_/_0.35),inset_0_1px_0_rgb(255_255_255_/_0.06)] ring-1">
           <div className="flex items-center gap-1.5 border-b border-white/[0.06] px-3 py-2.5">
             <span className="size-2 rounded-full bg-[#ff5f57]/90" />
             <span className="size-2 rounded-full bg-[#febc2e]/90" />

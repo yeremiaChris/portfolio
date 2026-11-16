@@ -8,7 +8,10 @@ import {
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
-import { servicesSectionClass } from "@/components/services/servicesSurface";
+import {
+  servicesPageContent,
+  servicesSectionClass,
+} from "@/components/services/servicesSurface";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   servicesContactCta,
@@ -31,16 +34,18 @@ export default function ServicesPage() {
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <ContactCta
-          id="services-contact"
-          withContainer={false}
-          className={cn(servicesSectionClass, "mt-2 mb-4 md:mt-4")}
-          panelClassName="ring-1 ring-border/40"
-          eyebrow="Services"
-          title={servicesContactCta.title}
-          description=""
-          actions={servicesContactActions()}
-        />
+        <div className={cn(servicesPageContent, servicesSectionClass, "mb-4")}>
+          <ContactCta
+            id="services-contact"
+            withContainer={false}
+            className="mb-0 w-full"
+            panelClassName="ring-1 ring-border/40"
+            eyebrow="Services"
+            title={servicesContactCta.title}
+            description=""
+            actions={servicesContactActions()}
+          />
+        </div>
       </Container>
     </main>
   );

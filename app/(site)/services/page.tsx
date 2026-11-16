@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
-import {
-  ContactCta,
-  servicesContactActions,
-} from "@/components/home/ContactCta";
+import { servicesContactActions } from "@/components/home/ContactCta";
+import { ServicesContactCta } from "@/components/services/ServicesContactCta";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesOfferings } from "@/components/services/ServicesOfferings";
 import { ServicesProcess } from "@/components/services/ServicesProcess";
@@ -31,7 +29,7 @@ export default function ServicesPage() {
         <ServicesHero />
         <ServicesOfferings />
         <ServicesProcess />
-        <ContactCta
+        <ServicesContactCta
           id="services-contact"
           withContainer={false}
           compact

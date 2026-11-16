@@ -59,6 +59,8 @@ export const servicesOfferings: readonly ServiceOffering[] = [
   },
 ] as const;
 
+export const servicesOfferingsHeading = "Services" as const;
+
 export const servicesHowItWorksHeading = "How it works" as const;
 
 export const servicesHowItWorksSteps = [

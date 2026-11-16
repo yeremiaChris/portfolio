@@ -1,16 +1,91 @@
-import { ServiceOfferingCard } from "@/components/services/ServiceOfferingCard";
+import Link from "next/link";
+import { Globe, LayoutDashboard } from "lucide-react";
+
 import {
-  servicesEyebrowBadgeClass,
   servicesSectionClass,
+  servicesSectionHeadingClass,
 } from "@/components/services/servicesSurface";
 import { Badge } from "@/components/ui/badge";
-import { servicesOfferings } from "@/lib/services";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  getServiceOfferingProjectHref,
+  getServiceOfferingProjectShortName,
+  servicesOfferings,
+  servicesOfferingsHeading,
+  type ServiceOffering,
+  type ServiceOfferingId,
+} from "@/lib/services";
 import { cn } from "@/lib/utils";
 
-const OFFERING_COL_SPAN = {
-  websites: "lg:col-span-5",
-  "web-systems": "lg:col-span-7",
-} as const;
+const OFFERING_ICONS: Record<ServiceOfferingId, typeof Globe> = {
+  websites: Globe,
+  "web-systems": LayoutDashboard,
+};
+
+function OfferingCell({ offering }: { offering: ServiceOffering }) {
+  const projectHref = getServiceOfferingProjectHref(offering);
+  const projectShortName = getServiceOfferingProjectShortName(offering);
+  const Icon = OFFERING_ICONS[offering.id];
+
+  return (
+    <article className="flex min-h-full min-w-0 flex-col p-5 md:p-6">
+      <div className="flex flex-1 flex-col gap-3.5">
+        <div className="bg-brand-accent/10 text-brand-accent border-brand-accent/35 inline-flex size-10 items-center justify-center rounded-lg border">
+          <Icon className="size-5" aria-hidden />
+        </div>
+        <div className="space-y-2">
+          <h3 className="font-heading text-foreground text-xl font-semibold tracking-tight">
+            {offering.title}
+          </h3>
+          <p className="text-muted-foreground text-[15px] leading-relaxed">
+            {offering.description}
+          </p>
+        </div>
+        <ul className="text-foreground space-y-2 text-[14px] leading-relaxed">
+          {offering.bullets.map((bullet) => (
+            <li key={bullet} className="flex gap-2">
+              <span
+                className="bg-brand-accent mt-2 size-1.5 shrink-0 rounded-full"
+                aria-hidden
+              />
+              <span>{bullet}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="border-border/40 mt-5 flex flex-col gap-2.5 border-t pt-3.5">
+        <p className="text-brand-accent text-[12px] font-medium tracking-wide">
+          {offering.stack}
+        </p>
+        {projectHref && projectShortName ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge
+              variant="secondary"
+              className="text-muted-foreground label-caps bg-transparent px-0 text-[10px] tracking-[0.14em]"
+            >
+              Recent work
+            </Badge>
+            <Badge
+              variant="outline"
+              render={
+                <Link
+                  href={projectHref}
+                  aria-label={`${projectShortName} project`}
+                />
+              }
+              className={cn(
+                "text-brand-accent hover:border-brand-accent/45 hover:text-brand-accent/90 rounded-full px-2.5 py-1 text-[12px] font-medium sm:px-3 sm:text-[13px]",
+                "motion-reduce:transition-none",
+              )}
+            >
+              {projectShortName}
+            </Badge>
+          </div>
+        ) : null}
+      </div>
+    </article>
+  );
+}
 
 export function ServicesOfferings() {
   return (
@@ -18,34 +93,22 @@ export function ServicesOfferings() {
       aria-labelledby="services-offerings-heading"
       className={servicesSectionClass}
     >
-      <header
+      <h2
         id="services-offerings-heading"
-        className="mx-auto mb-6 max-w-2xl text-center md:mb-8"
+        className={servicesSectionHeadingClass}
       >
-        <Badge
-          variant="secondary"
-          className={cn(servicesEyebrowBadgeClass, "mx-auto")}
-        >
-          <span
-            className="bg-brand-accent size-2 shrink-0 rounded-full"
-            aria-hidden
-          />
-          Services
-        </Badge>
-      </header>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-5">
-        {servicesOfferings.map((offering) => (
-          <div
-            key={offering.id}
-            className={cn(
-              "flex h-full min-h-0",
-              OFFERING_COL_SPAN[offering.id],
-            )}
-          >
-            <ServiceOfferingCard offering={offering} className="w-full" />
+        {servicesOfferingsHeading}
+      </h2>
+
+      <Card className="border-border/50 bg-muted/90 ring-border/30 hover:border-brand-accent/40 overflow-hidden rounded-2xl border shadow-sm ring-1 transition-[border-color,box-shadow] duration-200 hover:shadow-[0_0_0_1px_rgba(76,215,246,0.14)] motion-reduce:transition-none md:rounded-3xl">
+        <CardContent className="p-0">
+          <div className="divide-border/40 grid grid-cols-1 divide-y md:grid-cols-2 md:divide-x md:divide-y-0">
+            {servicesOfferings.map((offering) => (
+              <OfferingCell key={offering.id} offering={offering} />
+            ))}
           </div>
-        ))}
-      </div>
+        </CardContent>
+      </Card>
     </section>
   );
 }

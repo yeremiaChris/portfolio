@@ -89,13 +89,15 @@ export function ContactCta({
       />
 
       <div className="relative z-10 flex max-w-2xl flex-col">
-        <Badge
-          variant="secondary"
-          className="text-primary label-caps mb-3 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
-        >
-          <span className="bg-primary size-2 shrink-0 rounded-full" />
-          {eyebrow}
-        </Badge>
+        {eyebrow ? (
+          <Badge
+            variant="secondary"
+            className="text-primary label-caps mb-3 w-fit gap-2 bg-transparent px-0 text-[10px] tracking-widest"
+          >
+            <span className="bg-primary size-2 shrink-0 rounded-full" />
+            {eyebrow}
+          </Badge>
+        ) : null}
         <h2
           id={headingId}
           className="font-heading text-foreground text-2xl font-semibold tracking-tight sm:text-3xl"

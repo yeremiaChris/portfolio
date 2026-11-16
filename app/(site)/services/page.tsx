@@ -36,7 +36,7 @@ export default function ServicesPage() {
           withContainer={false}
           className={cn(servicesSectionClass, "mb-4")}
           panelClassName="ring-1 ring-border/40"
-          eyebrow="Services"
+          eyebrow=""
           title={servicesContactCta.title}
           description=""
           actions={servicesContactActions()}

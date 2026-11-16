@@ -1,11 +1,7 @@
 import { MessageCircle } from "lucide-react";
 
 import { ServicesHeroVisual } from "@/components/services/ServicesHeroVisual";
-import {
-  servicesEyebrowBadgeClass,
-  servicesSectionClass,
-} from "@/components/services/servicesSurface";
-import { Badge } from "@/components/ui/badge";
+import { servicesSectionClass } from "@/components/services/servicesSurface";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { servicesHero, servicesHeroLines } from "@/lib/services";
 import { site } from "@/lib/site";
@@ -22,16 +18,6 @@ export function ServicesHero() {
       />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center lg:gap-10">
         <div className="min-w-0 lg:col-span-7 lg:max-w-2xl">
-          <Badge
-            variant="secondary"
-            className={cn(servicesEyebrowBadgeClass, "mb-3")}
-          >
-            <span
-              className="bg-brand-accent size-2 shrink-0 rounded-full"
-              aria-hidden
-            />
-            Services
-          </Badge>
           <h1 className="font-heading text-foreground text-3xl sm:text-4xl lg:text-5xl lg:leading-tight">
             <span className="sr-only">{servicesHero.title}</span>
             <span aria-hidden className="flex flex-col">

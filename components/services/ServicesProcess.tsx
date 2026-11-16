@@ -53,11 +53,11 @@ export function ServicesProcess() {
             ))}
           </ol>
         </CardContent>
-        <CardFooter className="border-border/50 bg-muted/60 flex flex-col gap-2 border-t sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <CardFooter className="border-border/50 bg-muted/60 flex flex-col items-start gap-2 border-t text-left sm:flex-row sm:items-center sm:justify-between sm:gap-4 md:text-left">
           <p className="text-foreground text-[14px] font-medium sm:text-[15px]">
             {servicesPricingLine}
           </p>
-          <p className="text-muted-foreground text-[12px] leading-relaxed sm:text-right sm:text-[13px]">
+          <p className="text-muted-foreground text-left text-[12px] leading-relaxed sm:text-[13px] md:text-right">
             {servicesLabTeaser.beforeLink}
             <Link
               href={servicesLabTeaser.linkHref}

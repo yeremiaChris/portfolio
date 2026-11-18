@@ -1,4 +1,4 @@
-import { useState, type ComponentProps } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { CheckIcon, CopyIcon, RefreshCwIcon } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
@@ -22,28 +22,21 @@ const ASSISTANT_MARKDOWN_ELEMENTS = [
   "code",
 ] as const;
 
-function isExternalHref(href: string | undefined): boolean {
-  if (!href) return false;
-  return /^https?:\/\//i.test(href);
-}
-
 const assistantMarkdownComponents: Components = {
-  a: ({ href, children }) => {
-    const anchorProps: ComponentProps<"a"> = {
-      href,
-      className: "text-primary underline underline-offset-2",
-      children,
-    };
-    if (isExternalHref(href)) {
-      anchorProps.target = "_blank";
-      anchorProps.rel = "noopener noreferrer";
-    }
-    return <a {...anchorProps} />;
-  },
+  a: ({ href, children }) => (
+    <a
+      href={href}
+      className="text-primary underline underline-offset-2"
+      {...(/^https?:\/\//i.test(href ?? "")
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+    >
+      {children}
+    </a>
+  ),
   code: ({ children }) => (
     <code className="font-mono text-[0.92em]">{children}</code>
   ),
-  li: ({ children }) => <li className="my-0.5">{children}</li>,
   ol: ({ children }) => (
     <ol className="my-1.5 list-decimal space-y-0.5 pl-5">{children}</ol>
   ),
@@ -154,7 +147,12 @@ export function ChatMessage({
         ) : null}
 
         {!isError && content ? (
-          <div className="text-foreground text-[15px] leading-relaxed [&_p+p]:mt-2">
+          <div
+            className={cn(
+              "text-foreground text-[15px] leading-relaxed [&_p+p]:mt-2",
+              isStreaming && "[&_p]:inline",
+            )}
+          >
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               skipHtml

@@ -48,13 +48,14 @@ export function AskYeremiaChat({
   const lastAssistant = messages.findLast(
     (message) => message.role === "assistant",
   );
-  const liveAnnouncement =
-    messages.findLast(
-      (message) =>
-        message.role === "assistant" &&
-        (message.status === "done" || message.status === "stopped") &&
-        message.content.length > 0,
-    )?.content ?? "";
+  const liveAnnouncement = isStreaming
+    ? ""
+    : (messages.findLast(
+        (message) =>
+          message.role === "assistant" &&
+          (message.status === "done" || message.status === "stopped") &&
+          message.content.length > 0,
+      )?.content ?? "");
 
   function ask(question: string) {
     const trimmed = question.trim();
@@ -108,7 +109,7 @@ export function AskYeremiaChat({
     >
       <header className="border-border/40 flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
         <Reveal when="mount" preset="calm">
-          <p className="text-foreground/75 text-brand-accent text-xs font-medium tracking-wide uppercase">
+          <p className="text-foreground/75 text-xs font-medium tracking-wide uppercase">
             {askYeremia.topBarEyebrow}
           </p>
         </Reveal>

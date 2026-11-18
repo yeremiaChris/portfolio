@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 import Link from "next/link";
 import { CheckIcon, CopyIcon, RefreshCwIcon } from "lucide-react";
+import ReactMarkdown, { type Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -8,6 +10,51 @@ import type { MessageStatus, Source } from "@/lib/lab-chat";
 import { askYeremia } from "@/lib/lab";
 import { getModel } from "@/lib/lab-models";
 import { cn } from "@/lib/utils";
+
+const ASSISTANT_MARKDOWN_ELEMENTS = [
+  "p",
+  "strong",
+  "em",
+  "a",
+  "ul",
+  "ol",
+  "li",
+  "code",
+] as const;
+
+function isExternalHref(href: string | undefined): boolean {
+  if (!href) return false;
+  return /^https?:\/\//i.test(href);
+}
+
+const assistantMarkdownComponents: Components = {
+  a: ({ href, children }) => {
+    const anchorProps: ComponentProps<"a"> = {
+      href,
+      className: "text-primary underline underline-offset-2",
+      children,
+    };
+    if (isExternalHref(href)) {
+      anchorProps.target = "_blank";
+      anchorProps.rel = "noopener noreferrer";
+    }
+    return <a {...anchorProps} />;
+  },
+  code: ({ children }) => (
+    <code className="font-mono text-[0.92em]">{children}</code>
+  ),
+  li: ({ children }) => <li className="my-0.5">{children}</li>,
+  ol: ({ children }) => (
+    <ol className="my-1.5 list-decimal space-y-0.5 pl-5">{children}</ol>
+  ),
+  p: ({ children }) => <p className="whitespace-pre-wrap">{children}</p>,
+  strong: ({ children }) => (
+    <strong className="font-semibold">{children}</strong>
+  ),
+  ul: ({ children }) => (
+    <ul className="my-1.5 list-disc space-y-0.5 pl-5">{children}</ul>
+  ),
+};
 
 interface ChatMessageProps {
   role: "user" | "assistant";
@@ -107,15 +154,23 @@ export function ChatMessage({
         ) : null}
 
         {!isError && content ? (
-          <p className="text-foreground text-[15px] leading-relaxed whitespace-pre-wrap">
-            {content}
+          <div className="text-foreground text-[15px] leading-relaxed [&_p+p]:mt-2">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              skipHtml
+              unwrapDisallowed
+              allowedElements={[...ASSISTANT_MARKDOWN_ELEMENTS]}
+              components={assistantMarkdownComponents}
+            >
+              {content}
+            </ReactMarkdown>
             {isStreaming ? (
               <span
                 className="bg-foreground ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.1em] align-baseline motion-safe:animate-pulse motion-reduce:animate-none motion-reduce:opacity-80"
                 aria-hidden
               />
             ) : null}
-          </p>
+          </div>
         ) : null}
 
         {isStopped ? (

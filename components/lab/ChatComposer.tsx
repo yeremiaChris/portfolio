@@ -17,7 +17,6 @@ interface ChatComposerProps {
   modelId: string;
   onModelChange: (modelId: string) => void;
   models: ChatModel[];
-  className?: string;
 }
 
 export function ChatComposer({
@@ -29,7 +28,6 @@ export function ChatComposer({
   modelId,
   onModelChange,
   models,
-  className,
 }: ChatComposerProps) {
   const trimmed = value.trim();
   const charLimit = askYeremia.charLimit;
@@ -57,10 +55,7 @@ export function ChatComposer({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={cn("flex w-full flex-col gap-2", className)}
-    >
+    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-2">
       <div
         className={cn(
           "bg-muted border-border/60 rounded-3xl border shadow-[0_8px_30px_rgba(0,0,0,0.18)] transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none",

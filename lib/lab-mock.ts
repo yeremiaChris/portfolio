@@ -80,5 +80,3 @@ export function createMockTransport(
     },
   };
 }
-
-export const mockTransport: ChatTransport = createMockTransport();

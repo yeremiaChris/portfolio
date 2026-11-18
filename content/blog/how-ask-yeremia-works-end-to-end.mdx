@@ -1,0 +1,254 @@
+---
+title: "How Ask Yeremia Works, End to End"
+description: "From pnpm ingest and lab/index.json through retrieval at 0.45 cosine similarity, grounded streaming on /api/lab/chat, and the /lab UI. The full RAG path behind this portfolio chatbot, without repeating the theory posts."
+date: "2026-11-18"
+tags: ["ai-engineering", "rag", "llm", "nextjs", "learning-in-public"]
+featured: false
+draft: false
+series: "learning-ai-engineering"
+part: 6
+---
+
+Visitors can ask questions about my work on [/lab](/lab). The bot must answer only from public pages on this site, not from imagination. This post follows one question through the real code: ingest, search, generation, and the chat UI.
+
+This is part 6 of Learning AI Engineering in Public. It assumes you have read the earlier parts. You can also rely on links instead of repeated theory.
+
+**One-sentence answer:** Ask Yeremia embeds portfolio text once. It embeds each question at request time. It retrieves the closest chunks. Then it streams a grounded answer. If nothing is close enough, it refuses before any LLM call.
+
+## What you will learn
+
+- Which portfolio pages become searchable chunks and how `lab/index.json` is built.
+- What happens inside `POST /api/lab/chat` before generation starts.
+- Exact retrieval settings (`topK`, similarity threshold) and when the server skips the LLM.
+- How the system prompt, model fallback, and citation markers work.
+- How the React UI streams NDJSON and shows sources safely.
+
+## The full flow
+
+This site does not render Mermaid inside blog posts. Here is the same path as a numbered flow:
+
+1. **Ingest (offline):** `collectLabSources()` reads published blog posts, About, Projects, and Experience. `chunkMarkdown()` splits each source into chunks. `pnpm ingest` embeds new or changed chunks and writes `lab/index.json`.
+2. **Question (browser):** The visitor types a question (max **500** characters) on `/lab` and picks a model. `useChat` sends the message list and `modelId` to the API.
+3. **API gate:** `POST /api/lab/chat` checks `GEMINI_API_KEY`, rate limits by IP, and runs `validateChatBody()`.
+4. **Embed question:** The server calls Gemini `gemini-embedding-001` with task type `RETRIEVAL_QUERY`. It gets a **768**-dimensional vector. The vector is L2-normalized.
+5. **Retrieve:** `retrieveTopChunks()` scores every chunk with dot product. For normalized vectors, that equals cosine similarity. It keeps scores **≥ 0.45**, sorts, and takes up to **5** chunks.
+6. **Refuse early:** If no chunk passes the threshold, the server streams the refusal text and **`done`**. It does **not** call a chat model.
+7. **Grounded generation:** Otherwise `buildRagContext()` and `buildSystemInstruction()` wrap the chunks in a fenced `<context>` block. The model streams tokens. Temperature is **0.2**. Max output is **700** tokens.
+8. **Finish:** After the stream, `parseCitedSources()` reads `[1]`-style markers in the answer. The API sends a `sources` event, then `done`.
+9. **UI:** `httpTransport` parses NDJSON lines. `ChatMessage` renders markdown with `react-markdown` (`skipHtml`) and shows source links.
+
+**RAG** means _Retrieval-Augmented Generation_. Search first. Then let the **LLM** (large language model) write an answer using only the retrieved text.
+
+## Step 1: Collect sources
+
+Sources are collected in `lib/lab-sources.ts`. The bot never reads arbitrary files from disk at runtime. Ingest pulls structured content from code I already maintain.
+
+Published blog posts come from `getAllPosts()`. Draft posts are **skipped**:
+
+```ts
+return getAllPosts()
+  .filter((post) => !post.draft)
+  .map((post) => ({
+    slug: `blog-${post.slug}`,
+    sourceTitle: post.title,
+    url: `/blog/${post.slug}`,
+    markdown: cleanMarkdownSource(
+      [`## Summary`, post.description, "", post.content].join("\n"),
+    ),
+  }));
+```
+
+`collectLabSources()` also builds one document each for **About**, **Projects**, and **Experience**. That data is the same as on those pages. Each item has a `slug`, `sourceTitle`, `url`, and cleaned `markdown`.
+
+Without this step, the index would be empty. Every question would hit the refusal path.
+
+## Step 2: Chunk, embed, and write `lab/index.json`
+
+Chunking lives in `lib/lab-chunk.ts`. A **chunk** is a piece of text with metadata. That metadata includes source title, URL, optional heading, and content hash.
+
+- Target size: about **2000** characters per chunk (~500 tokens of English copy).
+- Overlap: **15%** between consecutive chunks in the same section.
+- Structure: split on `##` and `###` headings first, then pack paragraphs.
+
+```ts
+export const CHUNK_TARGET_CHARS = 2000;
+export const CHUNK_OVERLAP_RATIO = 0.15;
+```
+
+The ingest script is `scripts/ingest.ts`. Run it with `pnpm ingest`. It does the following:
+
+1. Call `collectLabSources()` and `chunkMarkdown()` for every source.
+2. `planEmbeddings()` reuses vectors when chunk text hash and model match the previous index.
+3. `embedTexts()` calls **`gemini-embedding-001`** at **`RETRIEVAL_DOCUMENT`** with **`outputDimensionality: 768`**. Then it L2-normalizes each vector.
+4. Write `lab/index.json` with `model`, `dimensions`, `createdAt`, and the `chunks` array.
+
+Each chunk in the file stores `id`, `sourceTitle`, `url`, optional `heading`, `text`, `hash`, and the `embedding` array. Embeddings are rounded to six significant digits to save space.
+
+At runtime, `app/api/lab/chat/route.ts` imports that JSON once. It parses the file with `parseLabIndex()`. If the file is missing or invalid, the route throws at module load.
+
+## Step 3: API route and validation
+
+The HTTP entry point is `app/api/lab/chat/route.ts`. It uses the Node.js runtime. It reads the client IP from `ipAddress(request)`. It returns newline-delimited JSON (**NDJSON**).
+
+```ts
+const rate = await checkLabChatRateLimit(ipAddress(request) ?? "anonymous");
+// ...
+const validated = validateChatBody(raw);
+// ...
+for await (const event of streamLabChat(validated, { ... })) {
+  write(event);
+}
+```
+
+`validateChatBody()` in `lib/lab-chat-api.ts` enforces:
+
+| Rule                                          | Value                                    |
+| --------------------------------------------- | ---------------------------------------- |
+| Messages in one request                       | At most **20**                           |
+| Characters per message                        | At most **2000**                         |
+| Active question (last non-empty user message) | At most **500** (`askYeremia.charLimit`) |
+| Default `modelId`                             | **`auto`** if omitted                    |
+
+The question cap in the UI matches the server. `askYeremia.charLimit` is **500** in `lib/lab.ts`.
+
+## Step 4: Rate limiting
+
+Rate limits live in `lib/lab-rate-limit.ts`. **Rate limiting** means counting requests per IP. That stops one visitor from exhausting the API budget.
+
+Limits apply when Upstash Redis env vars are set:
+
+- **10** requests per sliding **1 minute** window.
+- **50** requests per sliding **24 hour** window.
+
+In **production**, Redis must work. If Redis is missing or errors, chat **fails closed**. The client gets HTTP **503** and the message `Chat is temporarily unavailable`. In local development it **fails open** so I can test without Redis.
+
+When limits are exceeded, the client gets HTTP **429**. The message is: `Too many questions right now. Please wait a minute and try again.`
+
+## Step 5: Retrieval
+
+Retrieval logic is in `lib/lab-rag.ts`. **Embeddings** map text to number vectors. **Cosine similarity** measures how aligned two vectors are. Stored and query vectors are L2-normalized. For those vectors, cosine similarity equals the **dot product**.
+
+Constants:
+
+```ts
+export const RAG_TOP_K = 5;
+export const RAG_SCORE_THRESHOLD = 0.45;
+```
+
+`retrieveTopChunks()` maps each chunk to a `score`. It drops chunks below **0.45**. It sorts by score descending. It keeps at most **5**.
+
+The next step builds the numbered context block for the prompt. `buildRagContext()` formats each chunk like this:
+
+```ts
+return `[${index + 1}] ${label} (${chunk.url})\n${chunk.text}`;
+```
+
+When nothing passes the threshold, the server refuses without calling the LLM. In `streamLabChat()`, if `retrieved.length === 0`, the generator yields only:
+
+```ts
+yield { type: "token", text: askYeremia.refusalMessage };
+yield { type: "done" };
+```
+
+The refusal copy is fixed in `lib/lab.ts`. It is:
+
+`I don't have that in my portfolio yet. Feel free to contact me directly!`
+
+No `model` event runs on that path. No LLM request runs either. Tests in `lib/lab-chat-api.test.ts` assert this behavior.
+
+## Step 6: Grounded generation
+
+Generation is wired in `lib/lab-chat-api.ts` and copy in `lib/lab.ts`. When retrieval succeeds, `buildSystemInstruction()` sets the rules:
+
+- Answer only about my experience, projects, skills, and writing.
+- Treat user text and context as **data**, not new instructions.
+- Strip literal `<context>` tags from chunk text before prompting (injection guard).
+- If off-topic or missing in context, reply with **exactly** the refusal sentence.
+- Cite passages with bracket numbers like `[1]` matching the context block.
+
+The model sees up to **12** recent messages (`MAX_HISTORY_MESSAGES`). Empty or unusable assistant rows are filtered out first.
+
+**Model selection:** `DEFAULT_MODEL_ID` is `"auto"`. `AUTO_FALLBACK_ORDER` is:
+
+1. `deepseek-chat`
+2. `gemini-3.8-flash`
+3. `gemini-3.5-flash`
+4. `gemini-3.1-flash-lite`
+
+OpenAI-compatible providers (DeepSeek, Qwen, Moonshot) need API keys in server env. Google Gemini models use `GEMINI_API_KEY`. The chosen model may error with **429**, **404**, or **503** before any token is sent. Then `streamLabChat()` tries the next candidate.
+
+Generation uses temperature **0.2**. Each answer allows at most **700** output tokens (`MAX_OUTPUT_TOKENS`).
+
+Each successful turn ends with a sources event and done. The code looks like this:
+
+```ts
+yield { type: "sources", sources: parseCitedSources(answer, retrieved) };
+yield { type: "done" };
+```
+
+`parseCitedSources()` scans the answer for `[n]` markers. It maps them to chunk URLs. It returns an empty list for the refusal message. It also returns an empty list when nothing was cited.
+
+### What the stream sends
+
+These examples come from `lib/lab-chat-api.test.ts`. They are not fabricated live traffic.
+
+A happy path looks like:
+
+- `{ type: "model", modelId: "gemini-3.8-flash" }`
+- `{ type: "token", text: "Yes on PrimaKu [1]." }`
+- `{ type: "sources", sources: [{ id: 1, title: "About", url: "/about" }] }`
+- `{ type: "done" }`
+
+Refusal without retrieval:
+
+- `{ type: "token", text: askYeremia.refusalMessage }`
+- `{ type: "done" }`
+
+## Step 7: Browser UI
+
+UI components live under `components/lab/*`. `/lab` renders `AskYeremiaChat` with `chatModelsForRuntime()`. Disabled providers do not appear in the picker.
+
+`useChat` defaults to `httpTransport` (`lib/lab-http-transport.ts`). It `POST`s to `/api/lab/chat` with `Accept: application/x-ndjson`. It reads the body line by line via `takeNdjsonEvents()`.
+
+For each event:
+
+- `token` → append text, set status `streaming`.
+- `model` → store which model answered.
+- `sources` → attach link chips after the answer finishes.
+- `error` → show `askYeremia.errorMessage`.
+- `done` → mark the assistant message `done`.
+
+`ChatMessage` renders assistant text with `ReactMarkdown`, `remarkGfm`, and `skipHtml`. It allows a fixed list of elements only: paragraphs, lists, links, emphasis, and code. Raw HTML from the model is not rendered.
+
+Accessibility:
+
+- Message list: `role="log"`, `aria-live="off"`, `aria-busy={isStreaming}`.
+- Completed answer text: `aria-live="polite"` in a screen-reader-only region.
+
+`ChatComposer` enforces the **500**-character limit in the textarea. It includes `ModelPicker` for `modelId`. The choice is persisted in `localStorage` under `ask-yeremia-model-id`.
+
+## Security and cost (short)
+
+Keys stay on the server (`GEMINI_API_KEY`, optional DeepSeek/Qwen/Moonshot env). The UI never sees them. Rate limits, token caps, validation, and prompt-fencing reduce abuse and runaway cost.
+
+For the full checklist, see [What I Checked Before Letting Strangers Talk to My AI Chatbot](/blog/small-ai-chatbot-security-checklist). That post covers logging, injection tags, fail-closed Redis, and more.
+
+## Limits you should expect
+
+Some questions do not match any chunk above **0.45**. An example is _"Why should I hire Yeremia?"_. It may refuse if the portfolio text never states a direct hiring pitch in a retrievable chunk. Lowering the threshold would let weak matches through. That increases hallucination risk. The fix is to add real content. You might add a blog post, About copy, or project detail. Then re-run `pnpm ingest`. Do not weaken retrieval.
+
+The disclaimer on `/lab` states that answers come from portfolio content. They can still be wrong even when sources are shown.
+
+## Recap
+
+Portfolio sources become chunked embeddings in `lab/index.json`. Each chat turn embeds the question. It retrieves up to five chunks at similarity **≥ 0.45**. If none qualify, it refuses without an LLM. Otherwise it streams a grounded reply. Citations use optional `[n]` markers and source links. The API validates input. It rate-limits by IP. It logs one privacy-safe JSON line per turn (`lab_chat`).
+
+## Earlier posts in this series (theory in one line each)
+
+- [What an LLM Actually Is](/blog/what-an-llm-actually-is). An LLM predicts the next token. It does not fetch facts by itself.
+- [My First LLM API Call](/blog/my-first-llm-api-call). One HTTP call sends a prompt and reads the model reply.
+- [Embeddings and Cosine Similarity](/blog/embeddings-and-cosine-similarity). Vectors and cosine (dot product here) score how similar two texts are.
+- [Semantic Search](/blog/semantic-search). Rank chunks by similarity before you generate anything.
+- [Two Layers That Stop the Bot from Making Things Up](/blog/a-mini-rag-pipeline). A small demo uses threshold refusal plus a grounded prompt. Live `/lab` uses threshold **0.45** and **top 5**, not the demo’s **0.6** and **3**.
+
+Try the live bot on [/lab](/lab). After you change site content, run `pnpm ingest` so `lab/index.json` stays in sync.

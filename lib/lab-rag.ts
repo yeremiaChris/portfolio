@@ -73,12 +73,14 @@ export function parseCitedSources(
   return [...cited]
     .sort((a, b) => a - b)
     .map((id) => {
-      const chunk = chunks[id - 1]!;
+      const chunk = chunks[id - 1];
+      if (!chunk) return null;
       const heading = chunk.heading?.trim();
       return {
         id,
         title: heading ? `${chunk.sourceTitle}: ${heading}` : chunk.sourceTitle,
         url: chunk.url,
       };
-    });
+    })
+    .filter((source): source is Source => source !== null);
 }

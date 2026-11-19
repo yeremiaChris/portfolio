@@ -1,116 +1,159 @@
 ---
-title: "Do We Still Need Frontend Tests in 2026? A Real Next.js Case Study"
-description: "AI ships code faster — and regressions too. A practical Testing Trophy for a Next.js App Router blog: Vitest for lib logic, Playwright for list → detail → 404."
+title: "Do We Still Need Frontend Tests in 2026?"
+description: "AI can write UI code quickly. Tests help you trust those changes. This post uses this site's real Vitest suite and plans the next Playwright step."
 date: "2026-09-15"
 tags: ["nextjs", "testing", "vitest", "playwright"]
 featured: true
 ---
 
-With AI tools writing components and pages in minutes, a quiet question keeps showing up:
+AI tools can draft React and Next.js code in minutes. That speed is useful. It also raises a fair question:
 
-> “Do I still need unit tests and E2E for my frontend?”
+> Do I still need frontend tests?
 
-**One-sentence answer:** Yes — but test for confidence, not coverage. Prefer Vitest for pure logic and Playwright for real App Router journeys.
+**Short answer:** Yes. Test for **confidence**, not **coverage**. **Coverage** means how much of your code a test run touches. A high number does not mean users are safe. **Regression** means an old bug comes back after a change. AI edits make regressions more likely, not less.
 
-This isn’t theory. It’s the approach I’d take on the blog you can click through on this site — and the suite I’m wiring next.
+This post uses the blog on this portfolio site. The facts below match the repo today, not a wish list.
 
-## What actually changed
+## What you will learn
 
-Two shifts matter more than tool branding:
+- Why fast AI coding makes a small test suite more important
+- What the **Testing Trophy** is and how it fits Next.js
+- What **Vitest** already covers here (~300 tests)
+- When one **snapshot test** is OK, and when it is not
+- What **E2E** tests are, and what Playwright will cover next
+- What still needs a human eye
 
-1. **AI accelerates both shipping and breakage.** Generated code looks fine until a slug, draft filter, or heading id drifts. Tests are the cheap regression net.
-2. **The old pyramid fits Next.js poorly.** Server Components, streaming, and client islands mean “unit test every component” wastes time. The **Testing Trophy** fits better: strong static analysis, unit tests for pure logic, selective component tests, and a small E2E set for flows users care about.
+## The real problem
 
-This portfolio already leans on that static rung: TypeScript, ESLint, Prettier, and CI. Tests should add behavior safety on top — not duplicate the typechecker.
+Shipping faster does not remove risk. It can hide risk.
 
-## Real case: this site’s blog
+A model may rename a slug, skip a draft filter, or break a table-of-contents link. The page can look fine in preview. Users still hit a 404 or a wrong date.
 
-The feature set is intentionally small:
+Tests are the guardrail. They let you merge AI-written patches when behavior still matches what you expect.
 
-| Piece                       | Route / module                          |
-| --------------------------- | --------------------------------------- |
-| Listing + featured post     | `/blog`                                 |
-| Post detail + TOC           | `/blog/[slug]`                          |
-| MDX pipeline + frontmatter  | `content/blog/*.mdx`, `lib/blog.ts`     |
-| Reading time                | `reading-time` via post meta            |
-| Draft / published filtering | `getAllPosts` / `getPost`               |
-| Heading ids for TOC         | `getPostHeadings` (matches rehype-slug) |
-| RSS                         | `/feed.xml` via `buildBlogRssFeed`      |
+## Testing Trophy (not the old pyramid)
 
-No category filters. No share-button widgets. No pagination. That’s fine — it keeps the test surface honest.
+The **Testing Trophy** is a testing mix from Kent C. Dodds. Think of a trophy shape. The wide middle is many cheap checks. The top is a few expensive journey tests.
 
-## What to test (and why)
+| Layer                   | What it is                                                | On this site                               |
+| ----------------------- | --------------------------------------------------------- | ------------------------------------------ |
+| Static analysis         | Types and lint rules catch typos early                    | TypeScript, ESLint, Prettier in CI         |
+| Unit tests              | Fast tests for pure logic                                 | Vitest on `lib/blog.ts` and other helpers  |
+| Integration / component | A few tests where UI has real behavior                    | Only when we add interactive UI tests      |
+| E2E                     | **E2E** means end-to-end. A real browser opens real URLs. | Planned with Playwright, not installed yet |
 
-### 1. Unit tests (Vitest) — pure logic in `lib/blog.ts`
+**Server Components** (**RSC**) are React components that run on the server. They ship little or no client JavaScript. Blog list and post pages here use that pattern. Testing every RSC file in isolation is slow and brittle. The trophy pushes logic into Vitest and user journeys into E2E.
 
-High value because these functions are pure-ish and user-visible when wrong:
+## What this repository has today
 
-- **`getAllPosts` / `getPost`** — draft posts stay out of production; known slugs resolve; unknown slugs return `null`
-- **`getPostHeadings`** — skips fenced code; strips simple markdown; ids stay stable for TOC anchors
-- **`formatBlogDate`** — bad dates don’t explode the UI
-- **`buildBlogRssFeed`** — titles/descriptions escape XML; items link to `/blog/[slug]`
+Honest snapshot of the test setup:
 
-**Why unit tests?** Wrong reading of drafts, broken TOC anchors, or malformed RSS is embarrassing and easy to catch without a browser.
+- **Vitest** is installed. `pnpm test` runs **300** tests across **55** files.
+- **Playwright** is **not** in `package.json` yet. There is no `e2e/` folder. List, detail, and 404 browser checks are the **next** step.
+- There is **one** snapshot test: `lib/blog-series-headings.test.ts` writes `lib/__snapshots__/blog-series-headings.test.ts.snap`.
 
-I would **not** unit-test the MDX renderer itself — trust `next-mdx-remote` and assert through a page-level E2E instead.
+A **snapshot test** saves expected output to a file. The next run compares new output to that file. Here it locks heading **ids** for multi-part blog series so saved reading positions still work. That is a small, stable contract. Snapshotting every card or page layout would break on every design tweak. We skip that.
 
-### 2. Component tests (Vitest + Testing Library) — only if interactive
+This site already runs static checks in CI. Tests add **behavior** checks on top. They do not replace the type checker.
 
-Most blog UI here is presentational (`BlogPostCard`, `FeaturedPost`). Skip those.
+## The blog feature under test
 
-Worth a component test only when behavior isn’t “render props”:
+The blog is small on purpose. That keeps the test story clear.
 
-- Mobile TOC open/close (if you want keyboard/a11y guarantees)
-- Interactive homepage lab widgets (`TokenEngine`, `FsmLab`) — separate from the blog, same rule: test clicks and state, not chrome
+| Piece                           | Where it lives                            |
+| ------------------------------- | ----------------------------------------- |
+| Index and featured post         | `/blog`                                   |
+| Post page and table of contents | `/blog/[slug]`                            |
+| MDX posts                       | `content/blog/*.mdx`                      |
+| Load and filter posts           | `lib/blog.ts`                             |
+| Heading ids for TOC             | `getPostHeadings` (matches `rehype-slug`) |
+| RSS feed                        | `buildBlogRssFeed` for `/feed.xml`        |
 
-### 3. E2E (Playwright) — the highest leverage for App Router
+## Vitest: what we test and why
 
-A thin smoke suite covers what unit tests miss:
+`lib/blog.test.ts` is the main example. It checks user-visible rules without a browser.
 
-1. `/blog` loads and lists at least one post title
-2. Clicking a post navigates to `/blog/[slug]`
-3. Detail page shows the title and article content
-4. Unknown slug (and unknown site route) render the custom 404
-5. Optional: `/feed.xml` returns RSS with an expected title
+Heading ids must skip fenced code and match slug rules:
 
-**Why E2E here?** Listing and detail are Server Components with filesystem-backed MDX. Routing, `notFound()`, and rendered HTML are exactly what Playwright is for.
+```ts
+// lib/blog.test.ts (excerpt)
+expect(getPostHeadings(content)).toEqual([
+  { depth: 2, text: "Hello World", id: "hello-world" },
+  { depth: 3, text: "Nested code and link", id: "nested-code-and-link" },
+]);
+```
 
-## What I intentionally skip
+Draft posts must not leak in production:
 
-- Snapshotting every card and layout
-- Asserting CSS class strings
-- Chasing 80–90% coverage
-- Re-testing third-party markdown/syntax highlighting internals
+```ts
+// lib/blog.test.ts (excerpt)
+vi.stubEnv("NODE_ENV", "production");
+expect(getPost(DRAFT_SLUG)).toBeNull();
+expect(getAllPosts().some((post) => post.slug === DRAFT_SLUG)).toBe(false);
+```
 
-Those add maintenance without catching the bugs that hurt a portfolio: bad slugs, draft leaks, dead TOC links, empty blog index.
+High-value targets in `lib/blog.ts`:
 
-## Recommended stack in 2026
+- **`getAllPosts` / `getPost`**: slugs resolve; unknown slugs return `null`; drafts respect `NODE_ENV`
+- **`getPostHeadings`**: TOC anchors stay stable
+- **`formatBlogDate`**: bad dates do not crash the UI
+- **`buildBlogRssFeed`**: XML escapes text; items link to `/blog/[slug]`
 
-| Layer                  | Tool                           | For this blog                           |
-| ---------------------- | ------------------------------ | --------------------------------------- |
-| Static analysis        | TypeScript + ESLint            | Already in CI                           |
-| Unit / light component | **Vitest** (+ Testing Library) | `lib/blog` helpers, rare interactive UI |
-| E2E                    | **Playwright**                 | List → detail → 404 (+ RSS optional)    |
+We do **not** unit-test the full MDX render pipeline. We trust `next-mdx-remote` and plan to assert HTML through E2E later.
 
-Jest still works, especially with existing suites. For a greenfield Next.js app, Vitest’s speed and ESM/TypeScript DX are the clearer default. Playwright is the E2E path Next.js documents first.
+## What we skip on purpose
 
-## Key lessons
+- Snapshot every component or page
+- Assert CSS class strings
+- Chase a coverage percentage goal
+- Re-test third-party markdown or syntax highlighters
 
-| Type of test      | Value on this blog | Recommendation             |
-| ----------------- | ------------------ | -------------------------- |
-| Unit (pure logic) | Very high          | Start here                 |
-| Component         | Medium / selective | Only interactive leaves    |
-| E2E (Playwright)  | Highest for RSC    | Few flows, keep them green |
-| Snapshot          | Low                | Skip by default            |
+Those tests cost time and still miss slug and draft bugs.
 
-## Final thoughts
+Most blog UI (`BlogPostCard`, `FeaturedPost`) is presentational. Component tests wait until something has clicks, keyboard behavior, or state worth locking.
 
-Frontend testing still matters in 2026 — **more** when AI helps you ship faster.
+## Planned E2E with Playwright (not done yet)
 
-The win isn’t more tests. It’s a small set aimed at:
+**Playwright** is a browser test runner. When we add it, specs will live in `e2e/*.spec.ts`, not next to `app/` routes.
 
-1. Pure logic → Vitest
-2. Real journeys → Playwright
-3. Everything else → intentional skip
+A thin smoke suite should cover:
 
-That’s the approach that stays maintainable on a real App Router blog — including this one.
+1. `/blog` loads and shows at least one post title
+2. Open a post and land on `/blog/[slug]`
+3. The detail page shows the title and article body
+4. An unknown slug shows the custom 404
+5. Optional: `/feed.xml` returns RSS with a known title
+
+Why E2E here? List and detail pages are Server Components backed by files on disk. Routing, `notFound()`, and rendered HTML are what a browser test sees best. Unit tests already guard `lib/blog.ts`. E2E guards the wire between app, MDX, and layout.
+
+## Working with AI on tests
+
+When you ask an AI to add tests, be specific about **behavior**:
+
+- "Fail if a draft slug appears when `NODE_ENV` is `production`."
+- "Keep heading id `hello-world` for this markdown sample."
+
+Avoid "test the component" with no user story. That often produces brittle tests on implementation details.
+
+AI can draft Vitest cases quickly. You still review assertions. Wrong expectations encode wrong product rules.
+
+## What humans should still check
+
+Tests do not replace design judgment.
+
+- Visual design: spacing, type, motion
+- UX feel: scroll, focus, loading states
+- Copy tone and clarity
+- Accessibility spot checks: keyboard, labels, contrast on key flows
+
+Use CI for logic. Use your eyes for polish.
+
+## Recap
+
+- AI speeds up code. Tests speed up **trust**.
+- Prefer the Testing Trophy: static checks, Vitest on logic, few E2E journeys.
+- This repo: **300** Vitest tests, **one** targeted snapshot, **no** Playwright yet.
+- Next step: Playwright for blog list, post detail, and 404.
+- Tell AI what behavior to protect. Keep human review for design and feel.
+
+Frontend testing in 2026 is not about more files. It is about a small set that catches the failures users would actually notice.

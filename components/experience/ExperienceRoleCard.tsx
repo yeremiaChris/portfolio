@@ -104,6 +104,11 @@ export function ExperienceRoleCard({ role }: { role: ExperienceRole }) {
                 ) : null}
                 {role.status}
               </Badge>
+              {role.location ? (
+                <span className="text-muted-foreground label-caps text-[11px] tracking-wider">
+                  {role.location}
+                </span>
+              ) : null}
               <span className="text-muted-foreground label-caps text-[11px] tracking-wider">
                 {role.locationPeriod}
               </span>

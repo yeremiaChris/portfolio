@@ -22,4 +22,11 @@ describe("experienceRoles employment status", () => {
     const mazecare = experienceRoles.find((role) => role.id === "mazecare");
     expect(mazecare?.status).not.toBe("PRESENT");
   });
+
+  it("exposes job location for PrimaKu and Mazecare", () => {
+    const primaku = experienceRoles.find((role) => role.id === "primaku");
+    const mazecare = experienceRoles.find((role) => role.id === "mazecare");
+    expect(primaku?.location).toBe("Jakarta, Indonesia · Remote");
+    expect(mazecare?.location).toBe("Hong Kong · Remote");
+  });
 });

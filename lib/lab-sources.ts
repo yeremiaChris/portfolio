@@ -137,6 +137,7 @@ function collectExperienceSource(): LabSourceDocument {
     "",
     ...experienceRoles.flatMap((role) => [
       `### ${role.title} at ${role.company}`,
+      ...(role.location ? [role.location] : []),
       role.locationPeriod,
       role.summary,
       ...role.highlights.map((item) => `- ${item}`),

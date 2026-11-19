@@ -6,6 +6,7 @@ export type ExperienceRole = {
   id: string;
   status: string;
   current?: boolean;
+  location?: string;
   locationPeriod: string;
   title: string;
   company: string;
@@ -35,7 +36,8 @@ export const experienceRoles: ExperienceRole[] = [
     id: "primaku",
     status: "PRESENT",
     current: true,
-    locationPeriod: "Remote · Full-time · Dec 2022 — Present",
+    location: "Jakarta, Indonesia · Remote",
+    locationPeriod: "Full-time · Dec 2022 — Present",
     title: "Frontend Engineer",
     company: "PrimaKu",
     companyLegal: "(PT Cipta Medika Informasi)",
@@ -54,7 +56,8 @@ export const experienceRoles: ExperienceRole[] = [
   {
     id: "mazecare",
     status: "COMPLETED",
-    locationPeriod: "Remote · Full-time · Jun 2025 — Jul 2026",
+    location: "Hong Kong · Remote",
+    locationPeriod: "Full-time · Jun 2025 — Jul 2026",
     title: "Frontend Engineer",
     company: "Mazecare",
     companyLegal: "",

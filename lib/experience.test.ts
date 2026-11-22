@@ -14,7 +14,7 @@ describe("experienceRoles employment status", () => {
     const mazecare = experienceRoles.find((role) => role.id === "mazecare");
     expect(mazecare?.status).toBe("COMPLETED");
     expect(mazecare?.current).toBeUndefined();
-    expect(mazecare?.locationPeriod).toMatch(/Jun 2025 — Jul 2026/);
+    expect(mazecare?.locationPeriod).toMatch(/Jun 2025 – Jul 2026/);
     expect(mazecare?.locationPeriod).not.toMatch(/Present/i);
   });
 
